@@ -1,6 +1,8 @@
 # Sample Mid-Size Organization
 ## Chain of Restaurants with Digital Channel
 
+Compliance profile: `strict`
+
 This example demonstrates how Context OS applies to a non-software-native organization.
 
 The organization is a mid-size restaurant chain with:

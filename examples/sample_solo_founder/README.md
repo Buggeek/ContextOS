@@ -1,6 +1,8 @@
 # Sample Solo Founder
 ## One-Person SaaS / Digital Product
 
+Compliance profile: `minimal`
+
 This example demonstrates Context OS applied to a solo founder
 building a small digital product.
 

@@ -1,8 +1,33 @@
 # P.1 Product Map
-Version: 0.1.0  
+## Version: 0.1.0
+Last Updated: 2026-02-19  
 Owner: Product & Operations  
 
 ---
+
+## Purpose
+
+Make the product surfaces, capabilities, and user journeys explicit so that changes can be executed without breaking physical and digital operations.
+
+---
+
+## Scope
+
+In scope:
+- Customer ordering and post-order communication
+- Restaurant fulfillment and operational tooling
+- Menu, pricing, inventory, and payment capabilities
+
+Out of scope:
+- Long-term roadmap sequencing (see future P.3 Roadmap)
+
+---
+
+## Success Criteria
+
+- All teams agree on the canonical product surfaces and user roles
+- Core journeys can be traced to systems and data entities
+- Dependencies for changes can be declared upfront (DoR/DoD enforceable)
 
 ## Product Surfaces
 
@@ -63,3 +88,8 @@ Owner: Product & Operations
 
 - A.1 System Map
 - A.4 Data Entities
+
+---
+
+## Change Log
+- 2026-02-19 — v0.1.0 — Initial creation

@@ -1,0 +1,68 @@
+# A.4 Data Entities
+## Version: 0.1.0
+Last Updated: 2026-02-19  
+Owner: ContextOS Maintainers  
+
+---
+
+## Purpose
+
+Define the core “entities” ContextOS operates on so taxonomy, templates, examples, and validators stay aligned.
+
+---
+
+## Entity Registry
+
+| Entity | Description | Source of Truth (Service/DB) | Key Fields | PII? (Y/N) | Notes |
+|--------|-------------|------------------------------|------------|------------|------|
+| DocumentType | A taxonomy-defined artifact type | docs/2.x_taxonomy | prefix, name, required_fields | N | Governs naming + structure
+| Template | A reusable SSOT doc scaffold | templates/ | type, version, sections | N | Must map to DocumentType
+| SSOTDocument | An implementation artifact in SSOT | SSOT/ and examples/**/SSOT | owner, version, links | N | Governed by compliance profile
+| ComplianceProfile | Validation mode for SSOT | docs/2.x_taxonomy | minimal/strict | N | Controls validator strictness
+| ValidatorRule | A check applied to a target scope | tools/validators | rule_id, scope, severity | N | Must be explicit and minimal
+| ChangeRequest | A proposed change to framework/SSOT | PRs | diff, rationale, evidence | N | Requires governance
+
+---
+
+## Relationships (High-Level)
+
+- DocumentType → has Template(s)
+- SSOTDocument → conforms to DocumentType (under a ComplianceProfile)
+- ValidatorRule → validates SSOTDocument (and link/hygiene across repo)
+- ChangeRequest → modifies DocumentType/Template/SSOTDocument under governance
+
+---
+
+## Ownership Boundaries
+
+- Maintainers own taxonomy, templates, validators, and examples.
+- Contributors may propose changes via PRs, but cannot bypass governance.
+
+---
+
+## Data Constraints
+
+- Versioning must be explicit in SSOT docs.
+- Cross-references must be resolvable (no broken links).
+- Compliance profile must be declared to avoid ambiguous enforcement.
+
+---
+
+## Known Gaps / Unknowns
+
+- How strict version bump rules should be for framework docs vs SSOT docs
+- How to represent non-Markdown artifacts (diagrams) while keeping governance auditable
+
+---
+
+## Linked Artifacts
+
+- A.1 System Map
+- P.1 Product Map
+- tools/validators (validator specs)
+
+---
+
+## Change Log
+
+- 2026-02-19 — v0.1.0 — Initial creation

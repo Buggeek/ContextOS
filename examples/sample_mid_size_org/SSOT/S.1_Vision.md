@@ -1,5 +1,6 @@
 # S.1 Vision
-Version: 0.1.0  
+## Version: 0.1.0
+Last Updated: 2026-02-19  
 Owner: Executive Team  
 
 ---
@@ -8,6 +9,18 @@ Owner: Executive Team
 
 Deliver a consistent, efficient, and scalable restaurant experience
 across physical and digital channels.
+
+---
+
+## Scope
+
+In scope:
+- Corporate-level omnichannel operations
+- Menu, pricing, ordering, payment, inventory, fulfillment, and customer communication
+
+Out of scope:
+- HR and hiring operations
+- Store-level staffing and scheduling optimization (future)
 
 ---
 
@@ -57,6 +70,15 @@ Growth depends on:
 
 ---
 
+## Success Metrics
+
+- Order error rate (in-store vs digital)
+- Time-to-propagate menu/pricing changes across all channels
+- Inventory accuracy per location
+- Support/incident volume related to ordering and fulfillment
+
+---
+
 ## Constraints
 
 - Regulatory (food safety, payments)
@@ -78,3 +100,8 @@ Growth depends on:
 - P.1 Product Map
 - A.1 System Map
 - A.4 Data Entities
+
+---
+
+## Change Log
+- 2026-02-19 — v0.1.0 — Initial creation
