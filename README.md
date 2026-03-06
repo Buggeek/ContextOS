@@ -1,167 +1,228 @@
 # Context OS
-## An Agentic Operating System for Intelligent Organizations
 
-Context OS is a contextual infrastructure layer for organizations operating in an AI-augmented world.
+**Context OS is a contextual operating system for intelligence.**
 
-It structures business, product, architecture, and operations into a coherent, versioned, and governable system.
+Not a tool.  
+Not a framework for writing specs.  
+Not a productivity hack.
 
-Context is not documentation.
-
-Context is the operating environment of intelligence.
-
----
-
-## Why Context OS Exists
-
-Modern organizations operate on implicit knowledge:
-
-- Architecture lives in a few minds.
-- Decisions are scattered.
-- Product intent is reinterpreted.
-- Dependencies are discovered late.
-- AI tools amplify ambiguity.
-
-AI does not create chaos.
-
-AI amplifies structural ambiguity.
-
-Before automating execution, organizations must formalize understanding.
-
-Context OS exists to solve contextual fragmentation.
+Context OS is an attempt to formalize a layer that always existed in organizations, but was never designed explicitly:  
+**the context in which intelligence operates.**
 
 ---
 
-## What Context OS Is
+## Why Context OS exists
 
-Context OS is:
+For a long time, intelligence was treated as an individual trait.
 
-- A documentation-first framework
-- A structural stabilization system
-- A contextual infrastructure layer
-- A foundation for safe agentic workflows
-- A governance-aware operating model
+Talent.  
+Experience.  
+Good judgment.
 
-It is NOT:
+But when working with teams, organizations, and now AI agents, a pattern becomes impossible to ignore:
 
-- A coding IDE
-- A project management tool
-- A no-code builder
-- A hype AI agent launcher
-- A replacement for GitHub or Jira
+> The same intelligent actors behave very differently depending on the context they operate in.
 
-It complements existing tools by structuring context.
+People, teams, and agents don’t “think” in isolation.  
+They think **inside an environment of constraints, narratives, rules, and implicit knowledge**.
+
+When that environment is unclear, fragmented, or implicit, intelligence degrades.  
+When it is well designed, intelligence compounds.
+
+Context OS starts from a simple premise:
+
+> **Context is not documentation.  
+> Context is infrastructure.**
 
 ---
 
-## Core Concepts
+## Intelligence scales with context, not talent
 
-Context OS is built around:
+Organizations often rely on intuition, heroics, and institutional memory to function.
 
-- Structured Context
-- Single Source of Truth (SSOT)
-- Minimum Operational Map (MOM)
-- Layered Architecture
-- Traceability by Design
-- Human-Supervised Autonomy
-- Progressive Maturity
+This works at small scale.  
+It breaks as complexity grows.
 
-It separates:
+AI doesn’t create this problem — it **reveals it**.
 
-Ingestion → Structure → Model → Index → Orchestrate → Govern
+AI systems don’t compensate for missing context the way humans do.  
+They amplify whatever is already there: clarity or ambiguity.
 
-Automation is enabled only after structural coherence is achieved.
+This is why many organizations experience more confusion after introducing AI, not less.
+
+Context OS addresses this root issue.
+
+---
+
+## Context as an operating system
+
+An operating system doesn’t do the work for you.
+
+It defines:
+- what can run,
+- how components communicate,
+- what is valid,
+- and what is out of bounds.
+
+Context works the same way for intelligence.
+
+Context OS treats organizations as **distributed cognitive systems**, where humans and agents make decisions based on shared (or missing) context.
+
+Design the context well, and intelligence aligns.  
+Ignore it, and intelligence fragments.
 
 ---
 
 ## The Minimum Operational Map (MOM)
 
-MOM is the smallest structured representation required for coherent execution.
+Context OS is intentionally minimal.
 
-It includes:
+It introduces the concept of a **Minimum Operational Map** — the smallest set of contextual artifacts required for coherent operation:
 
 - Vision
 - Product Map
 - System Map
-- Core Entities
-- Governance Rules
+- Core Data Entities
+- Definition of Ready
+- Definition of Done
 
-Without MOM, orchestration is unsafe.
+If something doesn’t exist in the MOM, it does not exist operationally.
 
-With MOM, intelligence compounds.
-
----
-
-## Adoption Philosophy
-
-Context OS does not replace your stack.
-
-It layers over it.
-
-Adoption happens in phases:
-
-1. Structural Stabilization
-2. Structured Execution
-3. Assisted Normalization
-4. Controlled Orchestration
-5. Continuous Context Monitoring
-
-Structure first.
-Assistance second.
-Autonomy third.
+This is not bureaucracy.  
+It’s cognitive alignment.
 
 ---
 
-## Who Context OS Is For
+## Governance in an agentic world
 
-- Technical founders
-- Engineering leaders
-- Product strategists
-- AI system builders
-- Organizations introducing agents into workflows
-- Startups preparing for scale
-- Teams struggling with contextual fragmentation
+When agents enter the picture, a critical shift happens.
 
-If your architecture lives in people's heads,
-Context OS is for you.
+Reasoning quality is no longer the main risk.  
+**Verification is.**
 
----
+Agents can reason well and still act incorrectly if context is incomplete or implicit.
 
-## Open Core Philosophy
+This leads to a key principle of Context OS:
 
-The core framework is open source.
+> **Governance must be evidence-based, not trust-based.**
 
-Includes:
+Agents don’t “claim” correctness.  
+They demonstrate it.
 
-- Foundational philosophy
-- Architecture
-- Taxonomy
-- MOM guide
-- Adoption Playbook
-
-Advanced tooling and managed infrastructure may evolve separately.
-
-Context must remain open.
-Acceleration may be monetized.
+This is enforced through:
+- explicit boundaries,
+- proof-based execution,
+- diff-based changes,
+- and human review gates where necessary.
 
 ---
 
-## Long-Term Vision
+## How Context OS relates to other approaches
 
-Context OS aims to become:
+Context OS does not compete with existing specification frameworks.  
+It operates at a different level.
 
-The contextual substrate for agent-augmented organizations.
+### Spec-Driven Development
+Spec-driven approaches improve execution by clarifying intent before implementation.
 
-Where:
+Context OS assumes this is valuable — but incomplete.
 
-- Strategy is traceable.
-- Architecture is visible.
-- Execution is aligned.
-- Agents operate safely.
-- Intelligence compounds over time.
+Specs need a **contextual environment** to make sense.
 
-Context is becoming infrastructure.
+### OpenSpec
+OpenSpec standardizes how specifications are written.
 
-Context OS builds that infrastructure.
+Context OS can *use* OpenSpec, but does not replace it.
+
+OpenSpec defines artifacts.  
+Context OS defines the system they live in.
+
+### Context.space
+Context.space recognizes the importance of context at a conceptual level.
+
+Context OS extends this into:
+- operational governance,
+- agent execution,
+- and evidence-based validation.
+
+---
+
+## What Context OS is (and is not)
+
+Context OS **is**:
+- a conceptual operating system,
+- a governance model for agentic systems,
+- and a way to design intelligence environments.
+
+Context OS **is not**:
+- a SaaS product,
+- a task manager,
+- or a replacement for engineering discipline.
+
+It is the layer above tools, specs, and agents.
+
+---
+
+## Open by design
+
+Context OS is open source by intention.
+
+Context should be inspectable.  
+Governance should be auditable.  
+Intelligence should be composable.
+
+This repository contains:
+- foundational concepts,
+- document taxonomies,
+- operational templates,
+- and example implementations.
+
+---
+
+## Repo Structure (Framework vs SSOT)
+
+This repository contains **two distinct layers**:
+
+- **Framework (this repo’s design)**: the conceptual and operational model in `/docs/`.
+- **Implementation (an organization’s context)**: an `SSOT/` tree built using `/templates/`.
+
+If you are adopting Context OS for an organization, you should create an `SSOT/` folder in your own repo (or a dedicated repo) and treat it as the governable system of record.
+
+---
+
+## The arc so far
+
+Context OS is built around three core insights:
+
+1. **Context is the operating system of intelligence.**
+2. **AI amplifies the context it operates in.**
+3. **Agents must be governed by evidence, not trust.**
+
+Everything in this repository flows from those principles.
+
+---
+
+## Where this goes next
+
+Context OS is still early.
+
+Future work includes:
+- context validation rules,
+- document linting,
+- agent-safe workflows,
+- and organizational adoption patterns.
+
+But none of that matters if the foundation is wrong.
+
+This project starts at the root.
+
+---
+
+If you are exploring AI, agents, or complex organizations and feel that “something fundamental is missing,”  
+this repository is an invitation to design that missing layer.
+
+Context is no longer optional.  
+It’s infrastructure.
 
 ---
 
@@ -170,7 +231,7 @@ Context OS builds that infrastructure.
 1. Read the foundational documents in `/docs/0.x_foundations/`
 2. Review the architecture in `/docs/1.x_architecture/`
 3. Understand taxonomy in `/docs/2.x_taxonomy/`
-4. Build your Minimum Operational Map using `/docs/3.x_mom/`
+4. Build your Minimum Operational Map using `/docs/3.x_operation/`
 5. Follow the Adoption Playbook in `/docs/4.x_adoption/`
 
 Start simple.
