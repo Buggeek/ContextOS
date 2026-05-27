@@ -1,7 +1,7 @@
 # G.2 Definition of Done (DoD)
 ## Version: 0.1.0
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 
 ---
 

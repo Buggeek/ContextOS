@@ -17,9 +17,10 @@ It is a **dogfooding SSOT**: it intentionally goes beyond the Minimum Operationa
 
 ## Execution Artifacts (Dogfooding)
 
-- P.1 Product Roadmap — versioned releases (v0.1 → v1.0) toward the Organizational Context Runtime
+- P.2 Product Roadmap — versioned releases (v0.1 → v1.0) toward the Organizational Context Runtime
 - P.5 Epic — Structural Integrity
 - E.1 User Story — US-001 Canonicalize Operational Docs Path
+- `epics/` — Epic backlog derived from the roadmap (see [`epics/README.md`](epics/README.md))
 
 These artifacts demonstrate Context OS governing its own structural changes.
 
@@ -27,3 +28,9 @@ These artifacts demonstrate Context OS governing its own structural changes.
 > [`../docs/5.x_strategy/5.3_COS_Runtime_Strategy.md`](../docs/5.x_strategy/5.3_COS_Runtime_Strategy.md)
 > and [`../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../docs/5.x_strategy/5.4_COS_Product_Roadmap.md).
 > The SSOT roadmap stays concise and execution-oriented.
+
+> **SSOT taxonomy note.** In this dogfooding SSOT, `P.2` is used for **Product Roadmap**.
+> The framework taxonomy ([`../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md`](../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md))
+> reserves `P.2` for Feature Catalog and `P.3` for Roadmap; Context OS does not yet
+> need a Feature Catalog, so the Product layer is collapsed to `P.1 Product Map`,
+> `P.2 Product Roadmap`, `P.5 Epic_[Name]`. A future taxonomy update may reconcile this.

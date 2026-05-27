@@ -1,13 +1,13 @@
 # P.1 Product Map
 ## Version: 0.1.0
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 
 ---
 
 ## Purpose
 
-Define the product surfaces and user journeys of the ContextOS project as a usable framework repository.
+Define the product surfaces and user journeys of the Context OS project as a usable framework repository.
 
 ---
 

@@ -2,14 +2,14 @@
 ## ID: EPIC-001
 Version: 0.1.0  
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 Status: In Progress  
 
 ---
 
 ## 1. Objective
 
-Ensure the ContextOS framework repository is structurally coherent and self-consistent so adoption and governance are reliable.
+Ensure the Context OS framework repository is structurally coherent and self-consistent so adoption and governance are reliable.
 
 - Linked Vision: S.1
 - Linked Product Map: P.1

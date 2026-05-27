@@ -1,7 +1,7 @@
-# ContextOS Agent Rules
+# Context OS Agent Rules
 
 ## Purpose
-This document defines how automated agents (and humans using agent tooling) can contribute safely to ContextOS.
+This document defines how automated agents (and humans using agent tooling) can contribute safely to Context OS.
 
 Goals:
 - Keep changes small, reviewable, and reversible.

@@ -1,13 +1,13 @@
 # A.4 Data Entities
 ## Version: 0.1.0
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 
 ---
 
 ## Purpose
 
-Define the core “entities” ContextOS operates on so taxonomy, templates, examples, and validators stay aligned.
+Define the core “entities” Context OS operates on so taxonomy, templates, examples, and validators stay aligned.
 
 ---
 

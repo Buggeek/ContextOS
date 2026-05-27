@@ -2,7 +2,7 @@
 ## ID: US-001
 Version: 0.1.0  
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 Linked Epic: EPIC-001  
 Status: In Progress  
 

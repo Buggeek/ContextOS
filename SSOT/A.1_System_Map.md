@@ -1,19 +1,19 @@
 # A.1 System Map
 ## Version: 0.1.0
 Last Updated: 2026-02-19  
-Owner: ContextOS Maintainers  
+Owner: Context OS Maintainers  
 
 ---
 
 ## Purpose
 
-Make the ContextOS repository “system” visible: its modules, boundaries, and how they evolve under governance.
+Make the Context OS repository “system” visible: its modules, boundaries, and how they evolve under governance.
 
 ---
 
 ## System Overview
 
-ContextOS is a documentation-first repository with templates, examples, operational rules, and (eventually) validator tooling.
+Context OS is a documentation-first repository with templates, examples, operational rules, and (eventually) validator tooling.
 
 The primary output is a coherent SSOT structure that humans and agents can use to execute with shared context.
 
@@ -34,7 +34,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | examples | Module | Reference SSOT implementations | Maintainers | Must declare compliance profiles
 | ops | Module | Governance + agent rules for contributions | Maintainers | Evidence-based workflow
 | tools/validators | Module | Validator specs (and future implementation) | Maintainers | Scope-controlled
-| SSOT | Module | Dogfooding SSOT for the ContextOS project | Maintainers | Minimal MOM only
+| SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
 
