@@ -1,4 +1,4 @@
-# Verification / Review Agent — Role Definition
+# Verification Agent — Role Definition
 
 ## Role Purpose
 

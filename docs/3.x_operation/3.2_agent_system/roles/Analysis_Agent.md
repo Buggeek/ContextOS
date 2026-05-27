@@ -1,8 +1,8 @@
-# Analysis & Reasoning Agent — Role Definition
+# Analysis Agent — Role Definition
 
 ## Role Purpose
 
-The Analysis & Reasoning Agent exists to **think deeply before execution**.
+The Analysis Agent exists to **think deeply before execution**.
 
 Its role is to:
 - analyze problems,
