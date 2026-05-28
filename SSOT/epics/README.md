@@ -56,8 +56,18 @@ Each epic file must include:
 | [EPIC-002](EPIC-002_Governance_Foundation.md) | Governance Foundation | Planned |
 | [EPIC-003](EPIC-003_Framework_Dogfooding.md) | Framework Dogfooding | Planned |
 
-### v0.3+ — Future Epics
+### v0.3 — Runtime Foundation (Planned)
 
-EPIC-004 through EPIC-032 are listed in
+| ID | Name | Status |
+|---|---|---|
+| [EPIC-004](EPIC-004_Discovery_Engine.md) | Discovery Engine | Planned |
+| [EPIC-005](EPIC-005_Knowledge_Engine.md) | Knowledge Engine | Planned |
+| [EPIC-006](EPIC-006_Context_Builder.md) | Context Builder | Planned |
+| [EPIC-007](EPIC-007_Validator_Engine.md) | Validator Engine | Planned |
+| [EPIC-008](EPIC-008_Runtime_CLI.md) | Runtime CLI | Planned |
+
+### v0.4+ — Future Epics
+
+EPIC-009 onward are listed in
 [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)
 and will be expanded into individual files when their version becomes active.
