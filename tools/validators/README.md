@@ -42,6 +42,45 @@ python3 tools/validators/contextos_validator.py \
 
 ---
 
+## Architecture
+
+The validator is split into a reusable Runtime component and a thin CLI
+wrapper:
+
+```text
+tools/validators/
+├── engine/
+│   ├── validator_engine.py
+│   ├── rule_registry.py
+│   ├── report_builder.py
+│   ├── findings.py
+│   └── selectors.py
+├── rules/
+│   ├── structure.py
+│   ├── naming.py
+│   ├── links.py
+│   ├── taxonomy.py
+│   ├── mom.py
+│   ├── ownership.py
+│   ├── governance.py
+│   ├── authority.py
+│   ├── hypothesis.py
+│   └── drift.py
+├── contextos_validator.py
+└── test_contextos_validator.py
+```
+
+Future Runtime callers can use the engine directly:
+
+```python
+from engine.validator_engine import ValidatorEngine
+
+engine = ValidatorEngine(".")
+report = engine.run(mode="gate")
+```
+
+---
+
 ## Modes
 
 | Mode | Use |

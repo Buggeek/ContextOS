@@ -82,6 +82,19 @@ class ValidatorTestCase(unittest.TestCase):
         self.assertIn("generated_at", report)
         self.assertIsInstance(report["findings"], list)
 
+    def test_validator_engine_public_api(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            engine = validator.ValidatorEngine(root)
+            report = engine.run(
+                mode="full",
+                rules="structure.required_roots,mom.required_artifacts,governance.agent_rules_present,authority.model_present",
+            )
+
+        self.assertEqual(report["schema"], validator.SCHEMA)
+        self.assertEqual(report["summary"]["exit_code"], 0)
+        self.assertEqual(report["summary"]["rules_run"], 4)
+
     def test_broken_relative_link_blocks(self) -> None:
         with self.make_repo() as temp:
             root = Path(temp)
