@@ -1,15 +1,30 @@
 # EPIC-007 — Validator Engine
 
 - **Epic ID:** EPIC-007
-- **Version:** v0.3 — Runtime Foundation
-- **Status:** Planned
+- **Version:** v0.3/v0.7 — Context Readiness and Context Health & Learning
+- **Status:** Active
 - **Owner:** Runtime Owner
+
+---
+
+## Product Journey Position
+
+Validator is a foundational rail for multiple releases.
+
+- v0.3 Context Readiness uses the shipped ValidatorEngine and
+  `contextos validate` surface to produce structural and governance signals.
+- v0.4/v0.5 use the Validator as the bootstrap and construction gate.
+- v0.7 expands Validator output into routine Context Health and drift
+  remediation workflows.
+
+The v0 engine and reusable runtime component have shipped. Remaining contract
+hardening is release-sliced instead of blocking the v0.3 readiness outcome.
 
 ---
 
 ## Objective
 
-Build the **Validator Engine v0** that implements the
+Build the **Validator Engine** that progressively implements the
 [`Validator Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md):
 a deterministic, read-only engine that protects contextual integrity by
 evaluating a versioned rule set against SSOT, the runtime manifest, and
@@ -27,6 +42,21 @@ Runtime component lacks a trustworthy gate.
 ---
 
 ## Scope
+
+Completed v0.3 foundation slice:
+
+- Markdown/document structure validation.
+- Naming convention validation.
+- Internal reference/path validation.
+- SSOT artifact required-field validation.
+- Runtime doctrine term validation.
+- Legacy path detection with allowlist support.
+- JSON and human-readable report output.
+- Non-zero exit code on blocking failures.
+- Reusable `ValidatorEngine` runtime API.
+- `contextos validate` integration through EPIC-008.
+
+Future hardening slices:
 
 - Implementation of the rule categories declared in §Rule Categories of the
   Validator Contract: `structure`, `naming`, `links`, `taxonomy`, `mom`,
@@ -51,6 +81,8 @@ Runtime component lacks a trustworthy gate.
 ## Expected Outcomes
 
 - The Validator is the **gate** that other Runtime components consult.
+- v0.3: local validation can run through both the ValidatorEngine API and
+  `contextos validate`.
 - `contextos validate` produces a deterministic Context Health Report on
   any repository under a Runtime manifest.
 - The Validator is invoked at Bootstrap Step 8 and after every L3+

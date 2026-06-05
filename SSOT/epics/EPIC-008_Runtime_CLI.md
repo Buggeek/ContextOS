@@ -1,9 +1,27 @@
 # EPIC-008 — Runtime CLI
 
 - **Epic ID:** EPIC-008
-- **Version:** v0.3 — Runtime Foundation
-- **Status:** Planned
+- **Version:** v0.3+ — Runtime CLI across the product journey
+- **Status:** Active
 - **Owner:** Runtime Owner
+
+---
+
+## Product Journey Position
+
+The CLI is the stable runtime entry surface across the product journey.
+
+- v0.3 has shipped `contextos --help`, `contextos --version`, and
+  `contextos validate`.
+- v0.3 Context Readiness should next expose assessment through the CLI without
+  duplicating ValidatorEngine logic.
+- v0.4 adds guided bootstrap surfaces.
+- v0.5 adds construction surfaces.
+- v0.6+ adds activation, health, mission, and reasoning surfaces only when
+  their product release requires them.
+
+The CLI must remain a wrapper around runtime components, not a place where
+component logic is reimplemented.
 
 ---
 
@@ -26,6 +44,18 @@ and Runtime components.
 
 ## Scope
 
+Completed v0.3 validate slice:
+
+- `contextos --help`.
+- `contextos --version`.
+- `contextos validate` wrapping ValidatorEngine directly.
+- Validator-compatible flags: `--root`, `--mode`, `--format`, `--rules`,
+  `--json-out`.
+- Exit code preservation for ValidatorEngine.
+
+Upcoming release slices:
+
+- Context Readiness assessment surface.
 - `contextos init` (scaffolding + manifest).
 - `contextos sources add|list|remove`.
 - `contextos governance set-roster`.
@@ -43,17 +73,20 @@ and Runtime components.
 ## Out of Scope
 
 - Long-running daemon mode.
-- IDE/Copilot surface activation (deferred to v0.7+).
+- IDE/Copilot surface activation before the v0.6 Context Activation slice.
 - TUI / interactive shells.
 - Web UI for Context Health Report.
+- Runtime component logic inside the CLI.
 
 ---
 
 ## Expected Outcomes
 
-- Every Bootstrap step from
-  [`4.4`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) is invokable
-  via the CLI.
+- v0.3: validation is invokable via the CLI and preserves ValidatorEngine
+  behavior.
+- v0.4/v0.5: Bootstrap and construction steps from
+  [`4.4`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) become
+  invokable via the CLI as their release slices ship.
 - Output is consistently structured: `result` or `error` under `--format
   json`.
 - The CLI is the single integration point for other Runtime components.
@@ -71,7 +104,9 @@ and Runtime components.
 
 ## Success Criteria
 
-- All commands enumerated above implemented with their declared exit codes.
+- Completed v0.3 validate slice is tested and JSON-pure.
+- Release-specific commands are implemented with their declared exit codes
+  when their slice becomes active.
 - `contextos validate` exit codes match the Validator Engine's outputs.
 - `--format json` returns schema-valid output for every command.
 - Help text for every command and subcommand is present and consistent.
@@ -82,7 +117,7 @@ and Runtime components.
 
 ## Definition of Ready (DoR)
 
-- CLI Contract is current and frozen for v0.3.
+- CLI Contract is current for the active release slice.
 - Exit code map matches Validator Contract.
 - Authority levels per command are reflected in confirmation prompts.
 
@@ -90,7 +125,7 @@ and Runtime components.
 
 ## Definition of Done (DoD)
 
-- All v0.3 commands shipped, tested, and documented.
+- Active release commands shipped, tested, and documented.
 - JSON output schema validated in CI.
 - `cli.run` event emitted on every invocation with `authority` populated.
 - Installation walkthrough (`4.5`) updated to reference CLI behavior

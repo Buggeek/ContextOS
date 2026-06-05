@@ -1,15 +1,30 @@
 # EPIC-005 — Knowledge Engine
 
 - **Epic ID:** EPIC-005
-- **Version:** v0.3 — Runtime Foundation
+- **Version:** v0.7/v0.8 — Context Health & Learning and Organizational Memory
 - **Status:** Planned
 - **Owner:** Runtime Owner
 
 ---
 
+## Product Journey Position
+
+Knowledge Engine work is intentionally deferred until Context OS has a clear
+structured-context path.
+
+- v0.3 Context Readiness does not require unstructured interpretation.
+- v0.5 Context Construction must first establish structured Discovery and
+  Builder outputs.
+- v0.7 Context Health & Learning introduces knowledge inputs where they help
+  explain drift and remediation.
+- v0.8 Organizational Memory expands this into durable knowledge and
+  interpretation.
+
+---
+
 ## Objective
 
-Build the **Knowledge Engine v0**: the Runtime component that ingests
+Build the **Knowledge Engine**: the Runtime component that ingests
 unstructured organizational documents, indexes them as **Raw Knowledge**, and
 produces structured **Interpretations** that feed the Context Builder.
 
@@ -26,12 +41,21 @@ the Builder must rely solely on structured Discovery and SSOT.
 
 ## Scope
 
+v0.7 Context Health & Learning slice:
+
+- Knowledge inputs that explain drift, stale context, and remediation
+  opportunities.
+- Provenance trail back to source documents.
+- Clear separation between observed, inferred, and verified context.
+
+v0.8 Organizational Memory expansion:
+
 - Raw Knowledge ingestion (`contextos knowledge ingest`, surface declared
   as a CLI extension under EPIC-008 forward-looking).
 - Document deduplication and stable identifiers.
 - Interpretation pass producing typed drafts (entity candidates, role
   candidates, hypothesis candidates) with `belief_state = inferred`.
-- Provenance trail back to source documents.
+- Durable memory traversal support.
 
 ---
 
@@ -39,8 +63,9 @@ the Builder must rely solely on structured Discovery and SSOT.
 
 - General-purpose RAG agent.
 - Conversational document Q&A.
-- Long-term embeddings storage strategy (deferred to v0.5+).
+- Long-term embeddings storage strategy beyond the first memory slice.
 - Multilingual normalization beyond English baseline.
+- Any v0.3 readiness dependency.
 
 ---
 

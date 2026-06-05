@@ -1,15 +1,31 @@
 # EPIC-006 — Context Builder
 
 - **Epic ID:** EPIC-006
-- **Version:** v0.3 — Runtime Foundation
+- **Version:** v0.4/v0.5 — Guided Bootstrap and Context Construction
 - **Status:** Planned
 - **Owner:** Runtime Owner
 
 ---
 
+## Product Journey Position
+
+Builder work is split between guidance and construction.
+
+- v0.3 Context Readiness may use Builder-owned mapping rules only to turn
+  findings into recommended next actions.
+- v0.4 Guided Bootstrap uses Builder slices for scaffolds and reviewable
+  draft artifacts.
+- v0.5 Context Construction implements the governed construction path from
+  structured Discovery output to MOM/SSOT drafts.
+
+The Builder must not become the first v0.3 value moment; users need assessment
+before generated artifacts.
+
+---
+
 ## Objective
 
-Build the **Context Builder v0**: the Runtime component that composes MOM
+Build the **Context Builder**: the Runtime component that composes MOM
 drafts and promotes them into SSOT, fusing Discovery output, Knowledge
 interpretations, and existing SSOT under the governance protocol.
 
@@ -26,28 +42,46 @@ repeatable, not auditable, and does not scale.
 
 ## Scope
 
+v0.3 Context Readiness slice:
+
+- Recommendation mapping from readiness findings to next bootstrap,
+  remediation, or construction actions.
+- No repository mutation.
+
+v0.4 Guided Bootstrap slice:
+
+- Draft/scaffold generation for required Context OS artifacts.
+- Hypothesis vs Verified tagging applied to generated drafts.
+- Validator gate checks before any promotion path is offered.
+
+v0.5 Context Construction expansion:
+
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
   artifact classes (System Map, Data Entities, Product Map, Vision draft).
-- Hypothesis vs Verified tagging applied to every produced artifact.
 - Change Proposal emission per the Governance Protocol §4.
 
 ---
 
 ## Out of Scope
 
-- Full Context Graph runtime (deferred to v0.6+).
+- Full Context Graph runtime (deferred to Organizational Memory / later
+  Runtime releases).
 - Knowledge interpretation logic (EPIC-005).
 - Validator (EPIC-007); Builder consumes the Validator but does not
   implement rules.
 - Long-term draft storage UI.
+- Any v0.3 automatic write or promotion behavior.
 
 ---
 
 ## Expected Outcomes
 
-- A fresh repository can run `init → sources add → scan → build-mom →
+- v0.3: readiness findings can be translated into clear next actions.
+- v0.4: a fresh repository can move from readiness to guided bootstrap
+  drafts.
+- v0.5: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state
   metadata.
