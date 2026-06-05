@@ -1,0 +1,106 @@
+from __future__ import annotations
+
+import argparse
+import json
+import sys
+from pathlib import Path
+
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+VALIDATORS_ROOT = REPO_ROOT / "tools" / "validators"
+if str(VALIDATORS_ROOT) not in sys.path:
+    sys.path.insert(0, str(VALIDATORS_ROOT))
+
+from engine.report_builder import render_human, write_json_report  # noqa: E402
+from engine.selectors import parse_rule_selector  # noqa: E402
+from engine.validator_engine import VALID_MODES, ValidatorEngine  # noqa: E402
+
+
+VERSION = "0.3.0-cli-v0"
+FORMAT_CHOICES = ("text", "human", "json")
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="contextos",
+        description="Context OS Runtime CLI v0.",
+    )
+    parser.add_argument("--version", action="version", version=f"contextos {VERSION}")
+
+    subparsers = parser.add_subparsers(dest="command", metavar="<command>")
+    validate = subparsers.add_parser(
+        "validate",
+        help="Run the Context OS Validator.",
+        description="Run the Context OS Validator.",
+    )
+    validate.add_argument("--root", default=".", help="Repository root to validate.")
+    validate.add_argument("--mode", default="full", choices=VALID_MODES, help="Validation mode.")
+    validate.add_argument("--format", default="text", choices=FORMAT_CHOICES, help="Output format.")
+    validate.add_argument("--rules", default=None, help="Comma-separated rule selectors.")
+    validate.add_argument("--json-out", default=None, help="Write the machine report JSON to this path.")
+    validate.set_defaults(handler=run_validate)
+    return parser
+
+
+def error_payload(code: int, category: str, message: str, evidence: dict | None = None) -> dict:
+    error = {
+        "code": code,
+        "category": category,
+        "message": message,
+    }
+    if evidence is not None:
+        error["evidence"] = evidence
+    return {"error": error}
+
+
+def emit_error(payload: dict, output_format: str) -> None:
+    if output_format == "json":
+        print(json.dumps(payload, indent=2, sort_keys=True))
+        return
+    error = payload["error"]
+    print(f"{error['category']}: {error['message']}", file=sys.stderr)
+
+
+def run_validate(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    _selected_rules, selector_error = parse_rule_selector(args.rules)
+    if selector_error:
+        payload = error_payload(9, "rules", selector_error, {"rules": args.rules})
+        emit_error(payload, args.format)
+        return 9
+
+    report = ValidatorEngine(root).run(
+        mode=args.mode,
+        rules=args.rules,
+    )
+    if args.json_out:
+        write_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_human(report, args.json_out), end="")
+    return report["summary"]["exit_code"]
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    args = parser.parse_args(sys.argv[1:] if argv is None else argv)
+    if not hasattr(args, "handler"):
+        parser.print_help()
+        return 0
+    return args.handler(args)
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
