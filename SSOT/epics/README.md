@@ -73,6 +73,8 @@ superseded by a governance update.
 v0.3 does not require all five epics to be completed. The release takes the
 smallest slices required to produce a Context Readiness Assessment:
 
+- The canonical assessment contract is
+  [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md).
 - Validator and CLI foundations already shipped.
 - Discovery contributes a local repository inventory slice.
 - Builder contributes recommendation mapping only.

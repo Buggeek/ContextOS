@@ -13,7 +13,7 @@ The CLI is the stable runtime entry surface across the product journey.
 
 - v0.3 has shipped `contextos --help`, `contextos --version`, and
   `contextos validate`.
-- v0.3 Context Readiness should next expose assessment through the CLI without
+- v0.3 Context Readiness exposes `contextos assess` through the CLI without
   duplicating ValidatorEngine logic.
 - v0.4 adds guided bootstrap surfaces.
 - v0.5 adds construction surfaces.
@@ -56,6 +56,9 @@ Completed v0.3 validate slice:
 Upcoming release slices:
 
 - Context Readiness assessment surface.
+- `contextos assess --root <path> --format text|human|json --json-out <path>`
+  per the
+  [`Context Readiness Assessment Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md).
 - `contextos init` (scaffolding + manifest).
 - `contextos sources add|list|remove`.
 - `contextos governance set-roster`.
@@ -84,6 +87,8 @@ Upcoming release slices:
 
 - v0.3: validation is invokable via the CLI and preserves ValidatorEngine
   behavior.
+- v0.3: assessment is invokable via the CLI and produces
+  `contextos.readiness.report/1` without writing to the repository.
 - v0.4/v0.5: Bootstrap and construction steps from
   [`4.4`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) become
   invokable via the CLI as their release slices ship.
@@ -96,6 +101,7 @@ Upcoming release slices:
 ## Dependencies
 
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md)
 - [`../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md`](../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md)
 - Validator Engine (EPIC-007) for `validate` / `health`.
@@ -105,6 +111,10 @@ Upcoming release slices:
 ## Success Criteria
 
 - Completed v0.3 validate slice is tested and JSON-pure.
+- `contextos assess --format json` is JSON-pure and conforms to
+  `contextos.readiness.report/1`.
+- Low readiness returns exit code 0 when the report is generated; fatal input
+  failures return exit code 8 and misconfiguration returns exit code 9.
 - Release-specific commands are implemented with their declared exit codes
   when their slice becomes active.
 - `contextos validate` exit codes match the Validator Engine's outputs.
@@ -118,6 +128,8 @@ Upcoming release slices:
 ## Definition of Ready (DoR)
 
 - CLI Contract is current for the active release slice.
+- Context Readiness Assessment Contract is current for the active release
+  slice.
 - Exit code map matches Validator Contract.
 - Authority levels per command are reflected in confirmation prompts.
 
@@ -125,7 +137,8 @@ Upcoming release slices:
 
 ## Definition of Done (DoD)
 
-- Active release commands shipped, tested, and documented.
+- Active release commands shipped, tested, and documented, including
+  `contextos assess` for v0.3.
 - JSON output schema validated in CI.
 - `cli.run` event emitted on every invocation with `authority` populated.
 - Installation walkthrough (`4.5`) updated to reference CLI behavior
@@ -136,6 +149,7 @@ Upcoming release slices:
 ## Related Artifacts
 
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md)
 - [`../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md`](../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md)
 - [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)

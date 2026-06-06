@@ -47,6 +47,10 @@ v0.3 Context Readiness slice:
 - Read-only structured output that can feed a Context Readiness Assessment.
 - Gap signals for missing context, governance, ownership, and source evidence.
 - No writes and no external authentication.
+- Inventory fields required by the
+  [`Context Readiness Assessment Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md):
+  artifact counts, present artifacts, missing artifacts, and evidence
+  references.
 
 v0.5 Context Construction expansion:
 
@@ -75,7 +79,8 @@ v0.5 Context Construction expansion:
 ## Expected Outcomes
 
 - v0.3: a reproducible local inventory that helps a user understand current
-  repository context and readiness gaps.
+  repository context and readiness gaps across `inventory` and
+  `source_evidence` readiness dimensions.
 - v0.5: a reproducible scan of a target organization producing a valid
   Discovery Bundle in <60s for a small org (≤50 sources).
 - Discovery Bundle schema is stable enough for the Context Builder to
@@ -89,6 +94,7 @@ v0.5 Context Construction expansion:
 ## Dependencies
 
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md)
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) §Step 3
 - EPIC-008 (CLI skeleton) is a soft precondition.
@@ -98,7 +104,7 @@ v0.5 Context Construction expansion:
 ## Success Criteria
 
 - v0.3 readiness inventory is read-only, deterministic on unchanged input,
-  and consumable by the Context Readiness Assessment.
+  and consumable by `contextos.readiness.report/1`.
 - Three reference connectors implemented and covered by tests.
 - `contextos scan` returns exit code 0 on success, exit code 4 on connector
   failure, and writes a Discovery Bundle to a deterministic path.
@@ -112,7 +118,8 @@ v0.5 Context Construction expansion:
 
 ## Definition of Ready (DoR)
 
-- v0.3 readiness inventory fields are agreed before implementation.
+- v0.3 readiness inventory fields are defined by the Context Readiness
+  Assessment Contract before implementation.
 - Connector Manifest schema is frozen.
 - Discovery Bundle schema is frozen.
 - Reference connectors and target sources are agreed.
@@ -123,7 +130,7 @@ v0.5 Context Construction expansion:
 ## Definition of Done (DoD)
 
 - v0.3 slice: local inventory feeds a Context Readiness Assessment and is
-  covered by tests.
+  covered by tests for artifact counts, missing artifacts, and evidence refs.
 - All three reference connectors merged, tested, and documented.
 - `contextos scan` integrated with the event bus per the Runtime Event Model.
 - Bundle output included in the Bootstrap walkthrough.
@@ -137,4 +144,5 @@ v0.5 Context Construction expansion:
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md)
 - [`../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md`](../../docs/4.x_adoption/4.5_COS_Runtime_Installation.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)

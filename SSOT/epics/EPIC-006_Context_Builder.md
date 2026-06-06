@@ -47,6 +47,9 @@ v0.3 Context Readiness slice:
 - Recommendation mapping from readiness findings to next bootstrap,
   remediation, or construction actions.
 - No repository mutation.
+- Recommendation ids, priorities, categories, and target journey steps follow
+  the
+  [`Context Readiness Assessment Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md).
 
 v0.4 Guided Bootstrap slice:
 
@@ -78,7 +81,8 @@ v0.5 Context Construction expansion:
 
 ## Expected Outcomes
 
-- v0.3: readiness findings can be translated into clear next actions.
+- v0.3: readiness findings can be translated into clear next actions using
+  the canonical recommendation taxonomy.
 - v0.4: a fresh repository can move from readiness to guided bootstrap
   drafts.
 - v0.5: a repository can run `init -> sources add -> scan -> build-mom ->
@@ -97,6 +101,7 @@ v0.5 Context Construction expansion:
 - EPIC-007 (Validator Engine) — Builder calls Validator in `gate` mode at
   promotion time.
 - EPIC-008 (Runtime CLI)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.3_Context_Graph_Schema.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.3_Context_Graph_Schema.md)
 - [`../../docs/3.x_operation/3.7_COS_Governance_Protocol.md`](../../docs/3.x_operation/3.7_COS_Governance_Protocol.md)
 
@@ -104,6 +109,8 @@ v0.5 Context Construction expansion:
 
 ## Success Criteria
 
+- v0.3 readiness recommendations use stable ids of the form
+  `readiness.<category>.<action>`.
 - `build-mom` produces MOM drafts that conform to existing templates under
   `templates/`.
 - `build-ssot` emits Change Proposals for every artifact write above L2.
@@ -117,6 +124,8 @@ v0.5 Context Construction expansion:
 
 ## Definition of Ready (DoR)
 
+- v0.3 recommendation taxonomy is current in the Context Readiness Assessment
+  Contract.
 - Mapping rules from Discovery + Knowledge to MOM classes are documented.
 - Hypothesis vs Verified tagging convention is published in `3.5 POM`.
 - CLI surface for `build-mom` and `build-ssot` matches the CLI Contract.
@@ -126,6 +135,8 @@ v0.5 Context Construction expansion:
 
 ## Definition of Done (DoD)
 
+- v0.3 slice: readiness recommendations are generated without writing files
+  and are covered by tests.
 - End-to-end bootstrap demonstrated on both example organizations.
 - Every produced artifact is owned, taxonomy-compliant, and traceable.
 - Change Proposals recorded for every promotion.
@@ -139,4 +150,5 @@ v0.5 Context Construction expansion:
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) §Steps 6–7
 - [`../../docs/3.x_operation/3.5_COS_Product_Operating_Model.md`](../../docs/3.x_operation/3.5_COS_Product_Operating_Model.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.2_CLI_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)

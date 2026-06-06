@@ -84,7 +84,11 @@ Status: Active
 Primary Goal:
 
 Transform an existing repository into an understandable Context OS readiness
-state.
+state using the canonical Context Readiness Assessment.
+
+Canonical Contract:
+
+[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 
 ---
 
@@ -107,7 +111,7 @@ state.
 
 | Release | Primary epic slices |
 |---|---|
-| v0.3 Context Readiness | EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
+| v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
 | v0.4 Guided Bootstrap | EPIC-008 bootstrap CLI, EPIC-006 scaffolding/drafts, EPIC-007 pre-bootstrap/gate validation |
 | v0.5 Context Construction | EPIC-004 Discovery Bundle, EPIC-006 Builder promotion path, EPIC-007 gate integration |
 | v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
@@ -171,7 +175,8 @@ Runtime CLI
 Status: Active
 
 Primary release slice: v0.3 Context Readiness. The validate surface has
-shipped; later slices add assessment, bootstrap, construction, activation,
+shipped; v0.3 now adds the `contextos assess` surface for the Context
+Readiness Assessment. Later slices add bootstrap, construction, activation,
 and mission-oriented commands as their releases require them.
 
 ---

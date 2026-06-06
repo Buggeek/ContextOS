@@ -13,6 +13,8 @@ Validator is a foundational rail for multiple releases.
 
 - v0.3 Context Readiness uses the shipped ValidatorEngine and
   `contextos validate` surface to produce structural and governance signals.
+- The Context Readiness Assessment consumes ValidatorEngine summaries and top
+  findings; it does not duplicate validator rule logic.
 - v0.4/v0.5 use the Validator as the bootstrap and construction gate.
 - v0.7 expands Validator output into routine Context Health and drift
   remediation workflows.
@@ -55,6 +57,8 @@ Completed v0.3 foundation slice:
 - Non-zero exit code on blocking failures.
 - Reusable `ValidatorEngine` runtime API.
 - `contextos validate` integration through EPIC-008.
+- Readiness input support: assessment may consume validator summary, finding
+  severities, rule ids, evidence refs, and suggested fixes.
 
 Future hardening slices:
 
@@ -93,6 +97,7 @@ Future hardening slices:
 ## Dependencies
 
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md`](../../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md)
 - [`../../docs/3.x_operation/3.7_COS_Governance_Protocol.md`](../../docs/3.x_operation/3.7_COS_Governance_Protocol.md)
 - EPIC-008 (CLI surface).
@@ -105,6 +110,9 @@ Future hardening slices:
 - Validator produces stable report ids and stable finding ids across runs.
 - `contextos validate --mode gate` blocks promotion in the Builder when
   any `error` finding exists.
+- Context Readiness uses ValidatorEngine output to score `structure`,
+  `governance`, `ownership`, and `runtime` signals without treating warnings
+  as fatal.
 - Validator runs to completion on both example organizations with zero
   fatal findings.
 - Validator never writes to the repository.
@@ -133,6 +141,7 @@ Future hardening slices:
 ## Related Artifacts
 
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md)
+- [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md)
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) §Step 8
 - [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)
