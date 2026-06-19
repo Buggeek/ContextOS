@@ -46,6 +46,7 @@ class RepositoryInventoryTestCase(unittest.TestCase):
         write(root / "ops" / "AGENT_RULES.md", markdown("Agent Rules"))
         write(root / "templates" / "governance" / "G.1_Definition_of_Ready.template.md", markdown("G.1 Template"))
         write(root / "examples" / "sample" / "README.md", markdown("Example"))
+        write(root / "tools" / ".DS_Store", "junk\n")
         write(root / "tools" / "validators" / "contextos_validator.py", "print('validator')\n")
         write(root / "tools" / "cli" / "contextos_cli.py", "print('cli')\n")
         return temp
@@ -96,6 +97,9 @@ class RepositoryInventoryTestCase(unittest.TestCase):
         self.assertIn("maturity-roadmap", roadmap_kinds)
         self.assertIn("epic-backlog", roadmap_kinds)
         self.assertIn("product-map", roadmap_kinds)
+
+        artifact_paths = {item["path"] for item in detected["artifacts"]}
+        self.assertNotIn("tools/.DS_Store", artifact_paths)
 
     def test_cli_json_output_is_pure(self) -> None:
         with self.make_repo() as temp:

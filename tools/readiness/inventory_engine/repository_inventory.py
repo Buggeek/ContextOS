@@ -7,6 +7,7 @@ from inventory_engine.report_builder import build_report
 
 
 EXCLUDED_DIRS = {".git", ".mypy_cache", ".pytest_cache", "__pycache__"}
+EXCLUDED_FILENAMES = {".DS_Store", "Thumbs.db", "desktop.ini"}
 SCAN_ROOTS = ("README.md", "docs", "SSOT", "ops", "templates", "examples", "tools", "contextos", ".contextos")
 
 DOC_TAXONOMY_CLASSES = {
@@ -43,7 +44,7 @@ def iter_inventory_files(root: Path) -> list[Path]:
         for path in candidate.rglob("*"):
             if any(part in EXCLUDED_DIRS for part in path.parts):
                 continue
-            if path.is_file():
+            if path.is_file() and path.name not in EXCLUDED_FILENAMES:
                 files.append(path)
     return sorted(files, key=lambda path: relative_path(root, path))
 

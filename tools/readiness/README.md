@@ -3,11 +3,8 @@
 This folder contains small runtime components that support Release v0.3
 Context Readiness.
 
-The first implemented slice is **Repository Inventory**. It is intentionally
-narrow:
+The first implemented slices are intentionally narrow:
 
-- no readiness scoring
-- no readiness levels
 - no recommendations
 - no `contextos assess`
 - no Builder, Knowledge Engine, Graph, or agents
@@ -52,3 +49,31 @@ The `detected` object contains:
 
 This report is designed to be embedded later inside
 `contextos.readiness.report/1`.
+
+## Readiness Scoring
+
+Public API:
+
+```python
+from readiness_engine.readiness_scoring import ReadinessScoringEngine
+
+report = ReadinessScoringEngine(".").run()
+```
+
+Machine report schema:
+
+```text
+contextos.readiness.report/1
+```
+
+The Slice 2 report contains:
+
+- overall readiness score
+- R0-R5 readiness level
+- dimension scores for `inventory`, `structure`, `governance`,
+  `operational_map`, `runtime`, and `source_evidence`
+- signals, gaps, and evidence references for each dimension
+- embedded inventory summary
+- embedded validator summary
+
+Recommendations and the `contextos assess` CLI are deliberately deferred.
