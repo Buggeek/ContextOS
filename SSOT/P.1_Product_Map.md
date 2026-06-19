@@ -7,7 +7,8 @@ Owner: Context OS Maintainers
 
 ## Purpose
 
-Define the product surfaces and user journeys of the Context OS project as a usable framework repository.
+Define the product surfaces and user journeys of the Context OS project as a
+usable Organizational Context Runtime repository.
 
 ---
 
@@ -17,16 +18,19 @@ Define the product surfaces and user journeys of the Context OS project as a usa
 - Templates (`templates/`)
 - Examples (`examples/`)
 - Ops rules (`ops/`)
-- Validators spec + tooling (`tools/validators/`)
+- Runtime contracts (`docs/1.x_architecture/1.5_runtime_contracts/`)
+- Validator Engine tooling (`tools/validators/`)
+- Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
 
 ## Core User Journeys (High-Level)
 
-1. New adopter reads foundations → understands MOM → creates their SSOT
+1. New adopter reads foundations -> understands MOM -> creates their SSOT
 2. Adopter uses templates to build MOM artifacts
-3. Contributor proposes a framework change → validated by governance rules
-4. Maintainers review diffs → merge changes with evidence
+3. Contributor proposes a framework change -> validated by governance rules
+4. Maintainers review diffs -> merge changes with evidence
+5. Operator runs Runtime tooling -> receives validation or readiness feedback
 
 ---
 
@@ -36,7 +40,7 @@ Define the product surfaces and user journeys of the Context OS project as a usa
 - Provide stable taxonomy + naming conventions
 - Provide templates that map to taxonomy
 - Provide examples demonstrating minimal vs strict compliance
-- Provide validator specifications (and later automation)
+- Provide validator, CLI, and readiness contracts with scoped runtime tooling
 
 ---
 
@@ -75,7 +79,7 @@ Define the product surfaces and user journeys of the Context OS project as a usa
 ## Linked Epics
 
 - P.5 Epic — Structural integrity (links, headings, repo navigation)
-- P.5 Epic — Validator specification → validator tooling
+- P.5 Epic — Validator Engine and runtime tooling
 
 ---
 

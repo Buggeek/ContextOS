@@ -19,6 +19,9 @@ structured-context path.
   explain drift and remediation.
 - v0.8 Organizational Memory expands this into durable knowledge and
   interpretation.
+- Cocora knowledge-layer concepts converge into this epic. Memor.IA memory
+  concepts converge into Context Memory, which the Knowledge Engine supports
+  but does not replace.
 
 ---
 
@@ -27,6 +30,9 @@ structured-context path.
 Build the **Knowledge Engine**: the Runtime component that ingests
 unstructured organizational documents, indexes them as **Raw Knowledge**, and
 produces structured **Interpretations** that feed the Context Builder.
+
+The Knowledge Engine interprets meaning; Context Memory retains governed
+beliefs, decisions, and historical context over time.
 
 ---
 
@@ -123,6 +129,8 @@ v0.8 Organizational Memory expansion:
 ## Related Artifacts
 
 - [`../../docs/0.x_foundations/0.5_COS_Context_Construction_Loops.md`](../../docs/0.x_foundations/0.5_COS_Context_Construction_Loops.md)
+- [`../../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md`](../../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md)
+- [`../../docs/1.x_architecture/1.0_COS_Architecture.md`](../../docs/1.x_architecture/1.0_COS_Architecture.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.5_Runtime_Event_Model.md)
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md)
 - [`../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md`](../../docs/5.x_strategy/5.4_COS_Product_Roadmap.md)

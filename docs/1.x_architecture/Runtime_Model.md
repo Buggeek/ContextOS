@@ -1,5 +1,12 @@
 # 1.1 — Context OS Runtime Model
 
+> Status: historical operational-flow artifact. The canonical architecture is
+> [`1.0 Context OS Architecture`](1.0_COS_Architecture.md), and the canonical
+> Runtime component view is
+> [`1.4 Context Runtime Architecture`](1.4_COS_Context_Runtime_Architecture.md).
+> This document is retained for traceability of the original repository
+> runtime flow.
+
 ## Purpose
 
 This document explains how **Context OS operates when installed inside a real project repository**. While the core framework defines the philosophy, architecture, and operational components of Context OS, the **Runtime Model** describes how those elements activate and interact with a live codebase.
@@ -328,9 +335,12 @@ The runtime ensures that context **actually governs execution**.
 
 ---
 
-# Future Activation Layer
+# Runtime CLI and Activation Layer
 
-Future versions of Context OS may introduce a CLI-based activation layer.
+Context OS now has a Runtime CLI entry surface and a canonical Activation
+Layer. The CLI begins with validation and expands through the product journey
+as readiness, bootstrap, construction, activation, learning, and reasoning
+slices mature.
 
 Example commands:
 
@@ -342,7 +352,8 @@ contextos build-ssot
 contextos validate
 ```
 
-This layer would allow Context OS to be installed and activated inside any repository with minimal configuration.
+This layer allows Context OS capabilities to become invokable inside a
+repository while preserving governance and validation gates.
 
 ---
 
@@ -360,4 +371,5 @@ The system activates through a sequence of steps:
 6. Activate the Agentic Operating Model
 7. Execute changes under governance
 
-This structure allows Context OS to function as a **contextual operating system for complex projects**.
+This structure allows Context OS to function as an **Organizational Context
+Runtime** for complex projects and human-agent systems.

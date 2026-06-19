@@ -1,6 +1,6 @@
 # Context OS
 
-**Context OS is a contextual operating system for intelligence.**
+**Context OS is an Organizational Context Runtime for human-agent systems.**
 
 Not a tool.  
 Not a framework for writing specs.  
@@ -8,6 +8,9 @@ Not a productivity hack.
 
 Context OS is an attempt to formalize a layer that always existed in organizations, but was never designed explicitly:  
 **the context in which intelligence operates.**
+
+It does this by making context assessable, bootstrapable, constructable,
+activatable, learnable, and usable for governed reasoning.
 
 ---
 
@@ -150,8 +153,10 @@ Context OS extends this into:
 ## What Context OS is (and is not)
 
 Context OS **is**:
-- a conceptual operating system,
+- an Organizational Context Runtime,
+- a contextual operating system for intelligence,
 - a governance model for agentic systems,
+- a memory and activation layer for human-agent work,
 - and a way to design intelligence environments.
 
 Context OS **is not**:
@@ -175,6 +180,8 @@ This repository contains:
 - foundational concepts,
 - document taxonomies,
 - operational templates,
+- runtime contracts,
+- validator and CLI tooling,
 - and example implementations.
 
 ---
@@ -207,10 +214,12 @@ Everything in this repository flows from those principles.
 Context OS is still early.
 
 Future work includes:
-- context validation rules,
-- document linting,
-- agent-safe workflows,
-- and organizational adoption patterns.
+- Context Readiness Assessment implementation,
+- guided bootstrap,
+- context construction,
+- activation surfaces,
+- context memory,
+- and governed human-agent workflows.
 
 But none of that matters if the foundation is wrong.
 

@@ -13,9 +13,13 @@ Make the Context OS repository “system” visible: its modules, boundaries, an
 
 ## System Overview
 
-Context OS is a documentation-first repository with templates, examples, operational rules, and (eventually) validator tooling.
+Context OS is a repository-first Organizational Context Runtime with
+framework documents, SSOT artifacts, runtime contracts, validator tooling,
+CLI tooling, templates, examples, and operational rules.
 
-The primary output is a coherent SSOT structure that humans and agents can use to execute with shared context.
+The primary output is a coherent contextual operating layer that humans and
+agents can use to assess, bootstrap, construct, activate, learn from, and
+reason over shared context.
 
 ---
 
@@ -33,7 +37,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | templates | Module | SSOT artifact templates aligned to taxonomy | Maintainers | Practical adoption layer
 | examples | Module | Reference SSOT implementations | Maintainers | Must declare compliance profiles
 | ops | Module | Governance + agent rules for contributions | Maintainers | Evidence-based workflow
-| tools/validators | Module | Validator specs (and future implementation) | Maintainers | Scope-controlled
+| tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surface: validate
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surface: help/version/validate
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -57,14 +63,17 @@ Modular monolith (documentation modules + tooling modules in one repository).
 ## Critical System Flows
 
 1. Framework change proposal → PR → review → merge
-2. Template update → example alignment → validator spec update (if needed)
-3. Taxonomy change → template mapping update → example adjustments
+2. Template update -> example alignment -> validator contract update (if needed)
+3. Taxonomy change -> template mapping update -> example adjustments
+4. Runtime contract update -> epic alignment -> implementation mission
+5. Validator/CLI change -> local tests -> gate validation -> commit
 
 ---
 
 ## Known Gaps / Drift
 
-- Validator implementation not yet present
+- Context Readiness Assessment is defined but not yet implemented
+- Runtime CLI currently exposes validation only
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---

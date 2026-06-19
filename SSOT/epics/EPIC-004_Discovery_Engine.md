@@ -15,6 +15,8 @@ Discovery is sliced across the product journey.
   answer "what context exists here?"
 - v0.5 Context Construction expands Discovery into a structured Discovery
   Bundle consumed by the Builder.
+- Knowledge Mapper concepts converge into this epic: source inventory, system
+  mapping, ownership mapping, and relationship identification.
 
 External connectors, conflict events, and broad source registry behavior are
 not required for the v0.3 readiness outcome.

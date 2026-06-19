@@ -43,8 +43,11 @@ trust for external adopters.
 ## Out of Scope
 
 - Runtime CLI to automate SSOT generation (EPIC-008).
-- Validator automation (EPIC-007).
-- Multi-repo dogfooding (Lukspeed, Cocora) — separate initiative.
+- Validator automation before EPIC-007.
+- Multi-repo dogfooding beyond Context OS. Lukspeed may serve as an
+  operational laboratory for later product validation; Cocora concepts have
+  converged into the Knowledge Engine, Activation Layer, and Human-Agent
+  Runtime.
 
 ---
 

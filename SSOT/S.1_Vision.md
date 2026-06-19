@@ -7,7 +7,8 @@ Owner: Context OS Maintainers
 
 ## Purpose
 
-Build and evolve Context OS as an inspectable, governable contextual infrastructure layer for intelligent organizations.
+Build and evolve Context OS as an inspectable, governable Organizational
+Context Runtime for intelligent human-agent organizations.
 
 ---
 
@@ -18,7 +19,8 @@ In scope:
 - Architecture + operational model (MOM, governance, agent operating model)
 - Document taxonomy + templates
 - Examples that demonstrate adoption paths
-- Validator specifications (and later automation)
+- Runtime contracts and local runtime tooling
+- Validator, CLI, and Context Readiness capabilities
 
 Out of scope:
 - Shipping a SaaS product in this repository
@@ -28,7 +30,8 @@ Out of scope:
 
 ## Vision Statement
 
-Context OS becomes a clear, minimal, and auditable operating system for context—so humans and agents can execute with alignment.
+Context OS becomes a clear, minimal, and auditable runtime for context, memory,
+governance, and activation so humans and agents can execute with alignment.
 
 ---
 
@@ -37,7 +40,7 @@ Context OS becomes a clear, minimal, and auditable operating system for context�
 This repository treats **context as infrastructure**, not as documentation.
 
 The project succeeds when:
-- adopters can implement a coherent MOM quickly,
+- adopters can assess readiness and implement a coherent MOM quickly,
 - governance is evidence-based,
 - and the system remains minimal while scaling to complex organizations.
 
@@ -52,15 +55,16 @@ The project succeeds when:
 
 ## Time Horizon
 
-- 6–12 months: stabilize v1.0 taxonomy/templates + examples
-- 12–24 months: publish validator spec → initial validator tooling
-- 24+ months: mature governance patterns and adoption playbooks
+- 6–12 months: stabilize v0.3 Context Readiness and guided bootstrap path
+- 12–24 months: mature context construction, activation, and memory slices
+- 24+ months: mature governed human-agent runtime patterns and adoption playbooks
 
 ---
 
 ## Success Definition
 
 - Implementations are coherent and reproducible.
+- Readiness assessments are actionable and reproducible.
 - Changes to the framework are reviewable and auditable.
 - The MOM stays minimal while remaining operationally useful.
 

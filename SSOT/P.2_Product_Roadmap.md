@@ -10,11 +10,15 @@ Status: Active
 
 # Product Goal
 
-Build the world's first Organizational Context Runtime.
+Build Context OS as the canonical Organizational Context Runtime for
+human-agent systems.
 
 Context OS enables humans, agents, and systems to operate using a shared
 contextual model that continuously evolves, validates itself, and supports
 intelligent execution.
+
+Canonical architecture:
+[`../docs/1.x_architecture/1.0_COS_Architecture.md`](../docs/1.x_architecture/1.0_COS_Architecture.md).
 
 ---
 
