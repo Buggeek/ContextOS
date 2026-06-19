@@ -120,7 +120,7 @@ class ReadinessScoringTestCase(unittest.TestCase):
         self.assertEqual(report["schema"], SCHEMA)
         self.assertEqual(report["inventory"]["schema"], "contextos.inventory.report/1")
         self.assertEqual(report["validator"]["schema"], "contextos.validator.report/1")
-        self.assertEqual(report["summary"]["recommendation_count"], 0)
+        self.assertEqual(report["summary"]["recommendation_count"], len(report["recommendations"]))
         self.assertIn(report["summary"]["level"], {"R0", "R1", "R2", "R3", "R4", "R5"})
 
 

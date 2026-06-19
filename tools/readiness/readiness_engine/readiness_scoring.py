@@ -4,6 +4,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
+from readiness_engine.recommendations import generate_recommendations
 from readiness_engine.report_builder import build_dimension, build_report
 
 
@@ -229,7 +230,7 @@ def build_runtime_dimension(inventory_report: dict, validator_report: dict) -> d
     else:
         gaps.append("ValidatorEngine reported blocking failures.")
     component_score = score_presence(len(present), len(RUNTIME_COMPONENTS))
-    score = round((component_score * 0.9) + (10 if manifest_present else 0))
+    score = round((component_score * 0.85) + (15 if manifest_present else 0))
     evidence = [artifact["path"] for artifact in runtime_artifacts] + finding_refs(findings)
     return build_dimension("runtime", score, DIMENSION_WEIGHTS["runtime"], signals, gaps, limited_refs(evidence))
 
@@ -372,13 +373,17 @@ class ReadinessScoringEngine:
         }
         uncapped_score = weighted_score(dimensions)
         score, cap_reasons = apply_score_caps(uncapped_score, inventory, validator)
+        embedded_inventory = inventory_summary(inventory)
+        embedded_validator = validator_summary(validator)
+        recommendations = generate_recommendations(dimensions, embedded_inventory, validator, cap_reasons)
         return build_report(
             resolved_root,
             dimensions,
-            inventory_summary(inventory),
-            validator_summary(validator),
+            embedded_inventory,
+            embedded_validator,
             score,
             uncapped_score,
             cap_reasons,
+            recommendations,
             generated_at=generated_at,
         )

@@ -56,8 +56,10 @@ Public API:
 
 ```python
 from readiness_engine.readiness_scoring import ReadinessScoringEngine
+from readiness_engine.report_builder import render_human
 
 report = ReadinessScoringEngine(".").run()
+human = render_human(report)
 ```
 
 Machine report schema:
@@ -75,5 +77,7 @@ The Slice 2 report contains:
 - signals, gaps, and evidence references for each dimension
 - embedded inventory summary
 - embedded validator summary
+- recommendations using stable `readiness.<category>.<action>` IDs
+- a human-readable report renderer
 
-Recommendations and the `contextos assess` CLI are deliberately deferred.
+The `contextos assess` CLI is deliberately deferred.
