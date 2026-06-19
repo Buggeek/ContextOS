@@ -70,6 +70,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertIn("validate", stdout)
+        self.assertIn("assess", stdout)
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:
@@ -134,6 +135,46 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(code, 9)
         self.assertEqual(payload["error"]["code"], 9)
         self.assertEqual(payload["error"]["category"], "rules")
+        self.assertEqual(stderr, "")
+
+    def test_assess_default_renders_human_report(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["assess", "--root", temp])
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Readiness Report", stdout)
+        self.assertIn("Score:", stdout)
+        self.assertIn("## Dimension Scores", stdout)
+        self.assertIn("## Next Recommended Actions", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_assess_json_is_pure_readiness_report(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["assess", "--root", temp, "--format", "json"])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.readiness.report/1")
+        self.assertIn("dimensions", report)
+        self.assertIn("recommendations", report)
+        self.assertEqual(stderr, "")
+
+    def test_assess_json_out_writes_machine_report(self) -> None:
+        with self.make_repo() as temp:
+            output_path = Path(temp) / "readiness-report.json"
+            code, stdout, stderr = self.invoke([
+                "assess",
+                "--root",
+                temp,
+                "--json-out",
+                str(output_path),
+            ])
+
+            report = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Readiness Report", stdout)
+        self.assertEqual(report["schema"], "contextos.readiness.report/1")
         self.assertEqual(stderr, "")
 
 

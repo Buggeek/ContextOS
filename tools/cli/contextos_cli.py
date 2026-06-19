@@ -8,12 +8,18 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 VALIDATORS_ROOT = REPO_ROOT / "tools" / "validators"
-if str(VALIDATORS_ROOT) not in sys.path:
-    sys.path.insert(0, str(VALIDATORS_ROOT))
+READINESS_ROOT = REPO_ROOT / "tools" / "readiness"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT):
+    if str(runtime_path) not in sys.path:
+        sys.path.insert(0, str(runtime_path))
 
-from engine.report_builder import render_human, write_json_report  # noqa: E402
+from engine.report_builder import render_human as render_validator_human  # noqa: E402
+from engine.report_builder import write_json_report as write_validator_json_report  # noqa: E402
 from engine.selectors import parse_rule_selector  # noqa: E402
 from engine.validator_engine import VALID_MODES, ValidatorEngine  # noqa: E402
+from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
+from readiness_engine.report_builder import render_human as render_readiness_human  # noqa: E402
+from readiness_engine.report_builder import write_json_report as write_readiness_json_report  # noqa: E402
 
 
 VERSION = "0.3.0-cli-v0"
@@ -39,6 +45,16 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--rules", default=None, help="Comma-separated rule selectors.")
     validate.add_argument("--json-out", default=None, help="Write the machine report JSON to this path.")
     validate.set_defaults(handler=run_validate)
+
+    assess = subparsers.add_parser(
+        "assess",
+        help="Run the Context Readiness Assessment.",
+        description="Run the Context Readiness Assessment.",
+    )
+    assess.add_argument("--root", default=".", help="Repository root to assess.")
+    assess.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    assess.add_argument("--json-out", default=None, help="Write the machine readiness report JSON to this path.")
+    assess.set_defaults(handler=run_assess)
     return parser
 
 
@@ -84,13 +100,45 @@ def run_validate(args: argparse.Namespace) -> int:
         rules=args.rules,
     )
     if args.json_out:
-        write_json_report(args.json_out, report)
+        write_validator_json_report(args.json_out, report)
 
     if args.format == "json":
         print(json.dumps(report, indent=2, sort_keys=True))
     else:
-        print(render_human(report, args.json_out), end="")
+        print(render_validator_human(report, args.json_out), end="")
     return report["summary"]["exit_code"]
+
+
+def assessment_exit_code(report: dict) -> int:
+    validator_summary = report["validator"]["summary"]
+    if validator_summary["fatal"]:
+        return 8
+    if validator_summary["error"]:
+        return 7
+    return 0
+
+
+def run_assess(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    report = ReadinessScoringEngine(root).run()
+    if args.json_out:
+        write_readiness_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_readiness_human(report), end="")
+    return assessment_exit_code(report)
 
 
 def main(argv: list[str] | None = None) -> int:

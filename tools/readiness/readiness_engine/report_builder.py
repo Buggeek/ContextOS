@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime as _dt
+import json
 from pathlib import Path
 
 
@@ -190,3 +191,9 @@ def render_human(report: dict) -> str:
         ]
     )
     return "\n".join(lines) + "\n"
+
+
+def write_json_report(path: str, report: dict) -> None:
+    destination = Path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
