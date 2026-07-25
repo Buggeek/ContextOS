@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import datetime as _dt
+import json
 from pathlib import Path
 
 
@@ -109,8 +110,11 @@ def render_human(report: dict) -> str:
             f"- Exit code: {validator['exit_code']}",
             "",
             "## Read-Only Guarantee",
-            "- This plan did not write files.",
-            "- No manifests or scaffold artifacts were created.",
+            "- This plan did not modify the target repository.",
+            "- No manifests, directories, or scaffold artifacts were created.",
+            "",
+            "## Next Step",
+            "- Review required, blocked, and manual actions before any future apply approval.",
         ]
     )
     return "\n".join(lines) + "\n"
@@ -127,3 +131,9 @@ def append_actions(lines: list[str], actions: list[dict], status: str) -> None:
         lines.append(f"- `{action['id']}` -> `{target}`")
         lines.append(f"  Reason: {action['reason']}")
         lines.append(f"  Recommendation: {recs}")
+
+
+def write_json_report(path: str, report: dict) -> None:
+    destination = Path(path)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    destination.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")

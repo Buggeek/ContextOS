@@ -74,7 +74,7 @@ class BootstrapPlanTestCase(unittest.TestCase):
         self.assertIn("## Skipped Existing Targets", human)
         self.assertIn("## Blocked Actions", human)
         self.assertIn("## Validator Summary", human)
-        self.assertIn("This plan did not write files.", human)
+        self.assertIn("This plan did not modify the target repository.", human)
 
     def test_json_report_is_serializable(self) -> None:
         report = BootstrapPlanEngine(".").run()

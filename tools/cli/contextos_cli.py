@@ -9,10 +9,14 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 VALIDATORS_ROOT = REPO_ROOT / "tools" / "validators"
 READINESS_ROOT = REPO_ROOT / "tools" / "readiness"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT):
+BOOTSTRAP_ROOT = REPO_ROOT / "tools" / "bootstrap"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
+from bootstrap_engine.plan_engine import BootstrapPlanEngine  # noqa: E402
+from bootstrap_engine.report_builder import render_human as render_bootstrap_human  # noqa: E402
+from bootstrap_engine.report_builder import write_json_report as write_bootstrap_json_report  # noqa: E402
 from engine.report_builder import render_human as render_validator_human  # noqa: E402
 from engine.report_builder import write_json_report as write_validator_json_report  # noqa: E402
 from engine.selectors import parse_rule_selector  # noqa: E402
@@ -55,6 +59,16 @@ def build_parser() -> argparse.ArgumentParser:
     assess.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     assess.add_argument("--json-out", default=None, help="Write the machine readiness report JSON to this path.")
     assess.set_defaults(handler=run_assess)
+
+    init = subparsers.add_parser(
+        "init",
+        help="Plan guided Context OS bootstrap.",
+        description="Plan guided Context OS bootstrap without modifying the repository.",
+    )
+    init.add_argument("--root", default=".", help="Repository root to plan bootstrap for.")
+    init.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    init.add_argument("--json-out", default=None, help="Write the machine bootstrap plan JSON to this path.")
+    init.set_defaults(handler=run_init)
     return parser
 
 
@@ -139,6 +153,38 @@ def run_assess(args: argparse.Namespace) -> int:
     else:
         print(render_readiness_human(report), end="")
     return assessment_exit_code(report)
+
+
+def bootstrap_exit_code(report: dict) -> int:
+    validator = report["validator"]
+    if validator["fatal"]:
+        return 8
+    if validator["error"]:
+        return 7
+    return 0
+
+
+def run_init(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    report = BootstrapPlanEngine(root).run()
+    if args.json_out:
+        write_bootstrap_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_bootstrap_human(report), end="")
+    return bootstrap_exit_code(report)
 
 
 def main(argv: list[str] | None = None) -> int:

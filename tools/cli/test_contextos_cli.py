@@ -18,6 +18,13 @@ def write(path: Path, text: str) -> None:
     path.write_text(text, encoding="utf-8")
 
 
+def tree_snapshot(root: Path) -> set[tuple[str, str]]:
+    return {
+        ("dir" if path.is_dir() else "file", path.relative_to(root).as_posix())
+        for path in root.rglob("*")
+    }
+
+
 def ssot_doc(title: str) -> str:
     return f"""# {title}
 ## Version: 0.1.0
@@ -71,6 +78,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertIn("validate", stdout)
         self.assertIn("assess", stdout)
+        self.assertIn("init", stdout)
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:
@@ -175,6 +183,72 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(code, 0)
         self.assertIn("# Context OS Readiness Report", stdout)
         self.assertEqual(report["schema"], "contextos.readiness.report/1")
+        self.assertEqual(stderr, "")
+
+    def test_init_default_renders_human_bootstrap_plan_without_target_writes(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke(["init", "--root", temp])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Bootstrap Plan", stdout)
+        self.assertIn("Ready for bootstrap:", stdout)
+        self.assertIn("## Required Actions", stdout)
+        self.assertIn("## Skipped Existing Targets", stdout)
+        self.assertIn("## Blocked Actions", stdout)
+        self.assertIn("## Manual Actions", stdout)
+        self.assertIn("## Validator Summary", stdout)
+        self.assertIn("This plan did not modify the target repository.", stdout)
+        self.assertIn("future apply approval", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_init_json_is_pure_bootstrap_plan(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["init", "--root", temp, "--format", "json"])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.bootstrap.plan/1")
+        self.assertIn("actions", report)
+        self.assertFalse(report["constraints"]["writes_performed"])
+        self.assertEqual(stderr, "")
+
+    def test_init_json_out_writes_machine_plan(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            output_path = Path(output_temp) / "bootstrap-plan.json"
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--json-out",
+                str(output_path),
+            ])
+
+            report = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Bootstrap Plan", stdout)
+        self.assertEqual(report["schema"], "contextos.bootstrap.plan/1")
+        self.assertIn("actions", report)
+        self.assertEqual(stderr, "")
+
+    def test_init_example_repo_returns_validator_error_code_with_plan(self) -> None:
+        code, stdout, stderr = self.invoke([
+            "init",
+            "--root",
+            "examples/sample_solo_founder",
+            "--format",
+            "json",
+        ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 7)
+        self.assertEqual(report["schema"], "contextos.bootstrap.plan/1")
+        self.assertGreater(report["validator"]["error"], 0)
+        self.assertGreater(report["summary"]["blocked_action_count"], 0)
         self.assertEqual(stderr, "")
 
 
