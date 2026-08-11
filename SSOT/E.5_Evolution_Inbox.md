@@ -97,6 +97,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-046 | product | accepted | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | Builder draft creation exists as an engine but has no user-facing CLI surface. | Promote to a governed CLI/review mission only after canonical target authorization is decided. |
 | INBOX-047 | implementation | accepted | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | The first draft artifact is a non-canonical envelope without generated domain content. | Future Builder content generation must remain evidence-supported and separately authorized. |
 | INBOX-048 | governance | decision-needed | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | Creating a real draft in the canonical Context OS repository requires target-specific authority bound to exact preflight, draft item, and path. | Do not infer from implementation authority; require explicit human decision. |
+| INBOX-049 | product | accepted | V05-BUILDER-DRAFT-REVIEW-SURFACE-001 | Draft review exists as an engine/human renderer but has no CLI or user-facing workflow surface. | Consider after review-decision authority is defined. |
+| INBOX-050 | governance | accepted | V05-BUILDER-DRAFT-REVIEW-SURFACE-001 | A future review decision must persist separately from review rendering and must not imply approval or promotion. | Promote before any approval/promotion mission. |
+| INBOX-051 | UX | accepted | V05-BUILDER-DRAFT-REVIEW-SURFACE-001 | Future review surfaces should visually separate observed, inferred, suggested, drafted, unknown, and approved truth states. | Defer to CLI/web/IDE review surface design. |
 
 ---
 
@@ -115,3 +118,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Draft Workspace decision follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Workspace runtime follow-up items.
 - 2026-08-11 - v0.1.0 - Added create-only Builder draft write follow-up items.
+- 2026-08-11 - v0.1.0 - Added Draft Review Surface follow-up items.

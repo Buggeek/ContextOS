@@ -87,3 +87,16 @@ The writer may create only non-canonical draft envelopes inside `.contextos/draf
 It performs no review, approval, promotion, SSOT write, or canonical context
 mutation. Rollback removes only matching artifacts created by the exact write
 result.
+
+Slice V05-BUILDER-DRAFT-REVIEW-SURFACE-001 adds
+`BuilderDraftReviewEngine`, a read-only review surface that emits:
+
+```text
+contextos.builder.draft_review/1
+```
+
+It reviews draft artifacts created by a draft write result, exposes identity,
+provenance, evidence, support, unknowns, missing evidence, contradictions,
+validation, no-overwrite evidence, and authority still required, and renders a
+human-readable truth boundary. Review does not mutate, accept, approve, or
+promote the draft.

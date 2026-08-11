@@ -79,6 +79,10 @@ v0.5 Context Construction expansion:
   explicitly authorized draft artifacts inside `.contextos/drafts/`, preserving
   provenance, unknowns, missing evidence, contradictions, and non-canonical
   lifecycle state.
+- `contextos.builder.draft_review/1` read-only review object that exposes
+  identity, evidence, observed/inferred/suggested/draft boundaries,
+  uncertainty, validation, no-overwrite evidence, authority still required, and
+  promotion restrictions.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -120,6 +124,8 @@ v0.5 Context Construction expansion:
 - v0.5 create-only draft write slice: an exact eligible preflight plus explicit
   L2 `builder.draft.create` authority can create a non-canonical draft envelope
   in isolated/controlled targets only.
+- v0.5 draft review slice: humans can inspect created draft envelopes without
+  mutating, accepting, approving, or promoting them.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state

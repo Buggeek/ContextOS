@@ -165,6 +165,7 @@ def target_report(root: Path, workspace_abs: Path, workspace_rel: str, mission_i
         "artifact_class": item["artifact_class"],
         "operation_domain": item["operation_domain"],
         "intended_lifecycle_state": "draft",
+        "support": item.get("support", {}),
         "status": "eligible" if not failures else "ineligible",
         "failed_checks": failures,
         "checks": checks,
