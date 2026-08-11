@@ -104,8 +104,10 @@ Self-Hosting Execution:
 
 - Current closed mission:
   [`E.4 Mission SELFHOST-001`](E.4_Mission_SELFHOST-001_Governed_Execution_Loop.md)
-- Proposed next v0.4 mission:
+- Closed v0.4 approval-model mission:
   [`E.4 Mission V04-BOOTSTRAP-APPLY-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-001_Guided_Bootstrap_Apply_Approval_Model.md)
+- Closed v0.4 proposal-engine mission:
+  [`E.4 Mission V04-BOOTSTRAP-PROPOSAL-001`](E.4_Mission_V04-BOOTSTRAP-PROPOSAL-001_Read_Only_Bootstrap_Proposal_Engine.md)
 - Evolution Inbox:
   [`E.5 Evolution Inbox`](E.5_Evolution_Inbox.md)
 
@@ -237,3 +239,5 @@ governable, and reusable across humans, agents, and systems.
 
 - 2026-08-11 - v1.0 - Added self-hosting execution references for v0.4
   Guided Bootstrap.
+- 2026-08-11 - v1.0 - Added read-only Bootstrap Proposal Engine mission
+  reference.

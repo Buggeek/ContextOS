@@ -25,9 +25,11 @@ Public API:
 
 ```python
 from bootstrap_engine.plan_engine import BootstrapPlanEngine
+from bootstrap_engine.proposal_engine import BootstrapProposalEngine
 from bootstrap_engine.report_builder import render_human
 
 plan = BootstrapPlanEngine(".").run()
+proposal = BootstrapProposalEngine(".").run(plan)
 human = render_human(plan)
 ```
 
@@ -35,7 +37,12 @@ Machine report schema:
 
 ```text
 contextos.bootstrap.plan/1
+contextos.bootstrap.proposal/1
 ```
 
 The plan explains required, skipped, blocked, and manual future bootstrap
+actions. The proposal freezes one exact future apply candidate, including the
+plan hash, repository fingerprint, authority requirements, action
+classifications, rollback metadata, and drift invalidation conditions. Proposal
+generation is read-only and does not imply approval.
 actions. It is designed to be consumed by later v0.4 apply/CLI slices.

@@ -21,7 +21,7 @@ usable Organizational Context Runtime repository.
 - Runtime contracts (`docs/1.x_architecture/1.5_runtime_contracts/`)
 - Validator Engine tooling (`tools/validators/`)
 - Context Readiness tooling (`tools/readiness/`)
-- Guided Bootstrap planning tooling (`tools/bootstrap/`)
+- Guided Bootstrap planning/proposal tooling (`tools/bootstrap/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -48,6 +48,8 @@ usable Organizational Context Runtime repository.
 - Provide examples demonstrating minimal vs strict compliance
 - Provide validator, CLI, and readiness contracts with scoped runtime tooling
 - Provide read-only bootstrap planning as the first Guided Bootstrap surface
+- Provide read-only bootstrap proposal generation as the preserved bridge from
+  plan to future apply approval
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
 
@@ -100,4 +102,5 @@ usable Organizational Context Runtime repository.
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
+- 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-02-19 — v0.1.0 — Initial creation

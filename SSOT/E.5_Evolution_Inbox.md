@@ -59,10 +59,15 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-008 | product-risk | accepted | V04-BOOTSTRAP-APPLY-001 | Users may expect `contextos init` to write files. | Preserve read-only default and require an explicit proposal-approved apply surface. |
 | INBOX-009 | technical-debt | accepted | V04-BOOTSTRAP-APPLY-001 | Proposal canonical hashing and repository fingerprinting need deterministic implementation rules. | Define during Bootstrap Proposal Engine implementation. |
 | INBOX-010 | governance | deferred | V04-BOOTSTRAP-APPLY-001 | Replacement or overwrite actions are prohibited for v0.4 but may be needed later for repair workflows. | Revisit after create-only apply is proven. |
+| INBOX-011 | implementation | accepted | V04-BOOTSTRAP-PROPOSAL-001 | Proposal persistence and CLI exposure are not implemented. | Promote to a future read-only proposal CLI/report mission before approval/apply. |
+| INBOX-012 | technical-debt | accepted | V04-BOOTSTRAP-PROPOSAL-001 | Proposal identity currently depends on canonical JSON hashing and repository fingerprints; schema changes must preserve compatibility or version the proposal. | Treat breaking hash changes as proposal schema changes. |
+| INBOX-013 | governance | accepted | V04-BOOTSTRAP-PROPOSAL-001 | Future proposal approval should require a clean repository state or an explicit dirty-state waiver. | Decide in the approval/persistence mission before apply. |
+| INBOX-014 | implementation | deferred | V04-BOOTSTRAP-PROPOSAL-001 | Proposal engine has no human renderer yet. | Defer until CLI proposal review surface is planned. |
 
 ---
 
 ## Change Log
 
 - 2026-08-11 - v0.1.0 - Added Guided Bootstrap apply approval follow-up items.
+- 2026-08-11 - v0.1.0 - Added Bootstrap Proposal Engine follow-up items.
 - 2026-08-11 - v0.1.0 - Created Evolution Inbox for self-hosted execution.
