@@ -85,6 +85,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-034 | implementation | accepted | V05-BUILDER-DRAFT-PLAN-001 | Builder Draft Plan has no Runtime CLI surface, so users cannot request it directly yet. | Consider a read-only construction CLI only after the first Builder write boundary is decided. |
 | INBOX-035 | governance | accepted | V05-BUILDER-DRAFT-PLAN-001 | Write-capable Builder draft creation will require an explicit authority and no-overwrite model similar to Guided Bootstrap apply. | Promote before any `build-mom` or `build-ssot` write behavior. |
 | INBOX-036 | architecture | accepted | V05-BUILDER-DRAFT-PLAN-001 | Confidence/support levels are planning aids and need a stable taxonomy before cross-domain Builder expansion. | Defer until first non-technology context construction slice or Builder draft generation hardening. |
+| INBOX-037 | implementation | accepted | V05-BUILDER-DRAFT-AUTHORITY-001 | Builder draft writes need an implementation object equivalent to preflight/authorization before any file creation occurs. | Promote to the next v0.5 mission if write-capable draft behavior is authorized. |
+| INBOX-038 | governance | decision-needed | V05-BUILDER-DRAFT-AUTHORITY-001 | The exact draft surface for future Builder writes is not yet selected. | Human authority should choose branch/worktree/scratch/draft directory before implementation. |
+| INBOX-039 | implementation | accepted | V05-BUILDER-DRAFT-AUTHORITY-001 | Builder Draft Authority should eventually be enforced by tests and runtime preflight rather than documentation only. | Implement in the next Builder write-boundary mission. |
 
 ---
 
@@ -99,3 +102,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Context Construction planning follow-up items.
 - 2026-08-11 - v0.1.0 - Added Local Discovery Bundle follow-up items.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Planning follow-up items.
+- 2026-08-11 - v0.1.0 - Added Builder Draft Authority follow-up items.
