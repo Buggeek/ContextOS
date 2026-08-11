@@ -83,14 +83,15 @@ execution.
 
 # Current Version
 
-v0.4 — Guided Bootstrap
+v0.5 — Context Construction
 
 Status: Active
 
 Primary Goal:
 
-Transform Context Readiness findings into a governed bootstrap plan and,
-through later v0.4 slices, an approved minimum Context OS home.
+Transform readiness, inventory, validator, and bootstrap evidence into
+governed construction candidates and reviewable MOM/SSOT drafts without
+silently inventing organizational truth.
 
 Canonical Contract:
 
@@ -102,6 +103,8 @@ Guided Bootstrap Apply Contract:
 
 Self-Hosting Execution:
 
+- Current closed mission:
+  [`E.4 Mission V05-CONTEXT-CONSTRUCTION-PLAN-001`](E.4_Mission_V05-CONTEXT-CONSTRUCTION-PLAN-001_Context_Construction_Planning.md)
 - Current closed mission:
   [`E.4 Mission SELFHOST-001`](E.4_Mission_SELFHOST-001_Governed_Execution_Loop.md)
 - Closed v0.4 approval-model mission:
@@ -148,8 +151,8 @@ release intent; Mission Packets govern bounded execution.
 | Release | Primary epic slices |
 |---|---|
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
-| v0.4 Guided Bootstrap | EPIC-008 read-only `contextos init` planning, EPIC-006 scaffolding/drafts in later slices, EPIC-007 pre-bootstrap/gate validation |
-| v0.5 Context Construction | EPIC-004 Discovery Bundle, EPIC-006 Builder promotion path, EPIC-007 gate integration |
+| v0.4 Guided Bootstrap | EPIC-008 `contextos init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
+| v0.5 Context Construction | Construction planning, EPIC-004 Discovery Bundle, EPIC-006 Builder draft path, EPIC-007 gate integration |
 | v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
 | v0.8 Organizational Memory | EPIC-005 durable knowledge and interpretation, Context Graph memory traversal |
@@ -186,11 +189,11 @@ Organizational Memory.
 
 Context Builder
 
-Status: Planned
+Status: Active
 
 Primary release slice: v0.4 Guided Bootstrap and v0.5 Context Construction.
-The active v0.4 slice is bootstrap planning only; write-capable scaffolding is
-deferred to an explicit proposal-approved apply slice.
+The active v0.5 slice starts with construction planning only; draft generation
+and promotion remain deferred to explicit governed missions.
 
 ---
 
@@ -257,3 +260,5 @@ governable, and reusable across humans, agents, and systems.
   mission reference.
 - 2026-08-11 - v1.0 - Added read-only Bootstrap Approval Record mission
   reference.
+- 2026-08-11 - v1.0 - Re-anchored current release on v0.5 Context
+  Construction and linked the first construction planning mission.

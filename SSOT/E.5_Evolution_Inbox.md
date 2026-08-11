@@ -76,6 +76,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-025 | product-risk | deferred | V04-BOOTSTRAP-APPLY-CREATE-ONLY-001 | Repair, overwrite, replacement, and deletion workflows are intentionally excluded from v0.4 create-only apply. | Revisit after create-only apply is proven in real target use. |
 | INBOX-026 | governance | decision-needed | V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001 | v0.4 is release-ready without canonical Context OS apply, but maintainers may still choose to run canonical apply as a separate target-specific decision. | Do not block release; require exact target authorization if pursued. |
 | INBOX-027 | product | accepted | V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001 | v0.5 should start from construction tasks derived from readiness/bootstrap evidence rather than broad Knowledge Engine scope. | Promote to v0.5 planning mission. |
+| INBOX-028 | implementation | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | `contextos.construction.plan/1` needs a future Runtime CLI surface before non-developer users can request construction plans directly. | Consider after the planning engine is audited; do not add before the first Builder draft mission is shaped. |
+| INBOX-029 | architecture | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | Construction planning currently uses the standard MOM artifact set; future organizational operations will need domain-specific artifact mappings without changing the lifecycle model. | Defer until the first non-technology operating-domain construction slice. |
+| INBOX-030 | implementation | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | Full Discovery Bundle remains required before Builder draft generation can safely use source observations beyond existing inventory/readiness/bootstrap evidence. | Promote to the next v0.5 mission. |
 
 ---
 
@@ -87,3 +90,4 @@ quarantine and triage surface for context that may deserve future action.
   items.
 - 2026-08-11 - v0.1.0 - Added Bootstrap Approval Record follow-up items.
 - 2026-08-11 - v0.1.0 - Created Evolution Inbox for self-hosted execution.
+- 2026-08-11 - v0.1.0 - Added Context Construction planning follow-up items.
