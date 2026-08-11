@@ -88,6 +88,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-037 | implementation | accepted | V05-BUILDER-DRAFT-AUTHORITY-001 | Builder draft writes need an implementation object equivalent to preflight/authorization before any file creation occurs. | Promote to the next v0.5 mission if write-capable draft behavior is authorized. |
 | INBOX-038 | governance | decision-needed | V05-BUILDER-DRAFT-AUTHORITY-001 | The exact draft surface for future Builder writes is not yet selected. | Human authority should choose branch/worktree/scratch/draft directory before implementation. |
 | INBOX-039 | implementation | accepted | V05-BUILDER-DRAFT-AUTHORITY-001 | Builder Draft Authority should eventually be enforced by tests and runtime preflight rather than documentation only. | Implement in the next Builder write-boundary mission. |
+| INBOX-040 | implementation | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Local Draft Workspace support needs a runtime object that resolves `.contextos/drafts/` paths and enforces non-canonical scope. | Promote before first draft write implementation. |
+| INBOX-041 | governance | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Draft retention, cleanup, and expiration policy needs more precise defaults after drafts exist. | Defer until draft artifacts are produced and audited. |
+| INBOX-042 | architecture | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Future non-filesystem Draft Workspace adapters should preserve the same conceptual model across document, CRM, legal, finance, people, and data systems. | Defer until Activation or connector work. |
 
 ---
 
@@ -103,3 +106,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Local Discovery Bundle follow-up items.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Planning follow-up items.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Authority follow-up items.
+- 2026-08-11 - v0.1.0 - Added Draft Workspace decision follow-up items.

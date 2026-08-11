@@ -58,3 +58,7 @@ evidence must never silently become organizational truth
 
 Before any future Builder draft write behavior, implementation must satisfy the
 [`Builder Draft Authority Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.8_Builder_Draft_Authority_Contract.md).
+
+The canonical draft surface is a governed **Draft Workspace**. For the current
+local filesystem runtime, that workspace maps to `.contextos/drafts/`; this path
+is non-canonical and must not be treated as SSOT.

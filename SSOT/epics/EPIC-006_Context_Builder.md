@@ -69,6 +69,9 @@ v0.5 Context Construction expansion:
 - Builder Draft Authority Contract defining conditions before any draft write:
   L2 draft authority, human review, evidence sufficiency, target-scope,
   no-overwrite, drift, validation, rollback, and promotion prohibition.
+- Draft Workspace decision defining the universal non-canonical workspace for
+  generated/co-created draft context. The current local runtime maps this to
+  `.contextos/drafts/`.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -102,6 +105,8 @@ v0.5 Context Construction expansion:
   that explains draftability without creating or promoting context.
 - v0.5 Builder authority slice: write-capable draft generation has a
   decision-complete authority model before any Builder writes are implemented.
+- v0.5 Draft Workspace decision: unapproved generated drafts have a governed
+  non-canonical home before write-capable Builder behavior.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state
