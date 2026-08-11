@@ -104,6 +104,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001`](E.4_Mission_V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001_Create_Only_Builder_Draft_Write.md)
+- Closed v0.5 Draft Workspace runtime mission:
   [`E.4 Mission V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001`](E.4_Mission_V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001_Draft_Workspace_Runtime.md)
 - Closed v0.5 draft workspace decision mission:
   [`E.4 Mission V05-BUILDER-DRAFT-SURFACE-DECISION-001`](E.4_Mission_V05-BUILDER-DRAFT-SURFACE-DECISION-001_Draft_Workspace_Decision.md)
@@ -162,7 +164,7 @@ release intent; Mission Packets govern bounded execution.
 |---|---|
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
 | v0.4 Guided Bootstrap | EPIC-008 `contextos init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
-| v0.5 Context Construction | Construction planning, local Discovery Bundle, Builder Draft Plan, Builder Draft Authority, Draft Workspace runtime, EPIC-007 gate integration |
+| v0.5 Context Construction | Construction planning, local Discovery Bundle, Builder Draft Plan, Builder Draft Authority, Draft Workspace runtime, create-only draft writes, EPIC-007 gate integration |
 | v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
 | v0.8 Organizational Memory | EPIC-005 durable knowledge and interpretation, Context Graph memory traversal |
@@ -206,8 +208,9 @@ Status: Active
 Primary release slice: v0.4 Guided Bootstrap and v0.5 Context Construction.
 The active v0.5 slice now includes read-only Builder Draft Planning, the
 Builder Draft Authority Contract, the Draft Workspace decision, and the
-read-only Draft Workspace runtime preflight; draft generation and promotion
-remain deferred to explicit governed missions.
+read-only Draft Workspace runtime preflight, plus controlled create-only draft
+write behavior inside the Draft Workspace. Review, approval, CLI exposure, and
+promotion remain deferred to explicit governed missions.
 
 ---
 
@@ -282,3 +285,4 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the Builder Draft Authority mission and contract.
 - 2026-08-11 - v1.0 - Linked the Draft Workspace decision.
 - 2026-08-11 - v1.0 - Linked the Draft Workspace runtime mission.
+- 2026-08-11 - v1.0 - Linked the create-only Builder draft write mission.

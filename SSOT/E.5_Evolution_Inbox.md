@@ -94,6 +94,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-043 | implementation | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Future Builder draft creation should consume `contextos.builder.draft_workspace_preflight/1` rather than a raw Builder Draft Plan. | Promote when explicit write-capable Builder authority is granted. |
 | INBOX-044 | product | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Builder Draft Plan and Draft Workspace preflight remain developer-only surfaces without Runtime CLI exposure. | Consider after first write-capable draft behavior is proven. |
 | INBOX-045 | technical-debt | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Draft Workspace local mapping is fixed to `.contextos/drafts/`; future configurable workspace mappings need authority and adapter rules. | Defer until non-filesystem or multi-workspace runtime appears. |
+| INBOX-046 | product | accepted | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | Builder draft creation exists as an engine but has no user-facing CLI surface. | Promote to a governed CLI/review mission only after canonical target authorization is decided. |
+| INBOX-047 | implementation | accepted | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | The first draft artifact is a non-canonical envelope without generated domain content. | Future Builder content generation must remain evidence-supported and separately authorized. |
+| INBOX-048 | governance | decision-needed | V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 | Creating a real draft in the canonical Context OS repository requires target-specific authority bound to exact preflight, draft item, and path. | Do not infer from implementation authority; require explicit human decision. |
 
 ---
 
@@ -111,3 +114,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Authority follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Workspace decision follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Workspace runtime follow-up items.
+- 2026-08-11 - v0.1.0 - Added create-only Builder draft write follow-up items.

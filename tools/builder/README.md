@@ -73,3 +73,17 @@ contextos.builder.draft_workspace_preflight/1
 It resolves future draft targets under `.contextos/drafts/<mission_id>/artifacts/`,
 checks path isolation, no-overwrite, plan drift, and Validator gate status, and
 does not create directories, drafts, or canonical artifacts.
+
+Slice V05-BUILDER-DRAFT-CREATE-AUTHORIZED-001 adds
+`BuilderDraftCreateEngine`, a create-only writer that consumes an exact eligible
+Draft Workspace preflight plus explicit L2 `builder.draft.create` authorization.
+It emits:
+
+```text
+contextos.builder.draft_write_result/1
+```
+
+The writer may create only non-canonical draft envelopes inside `.contextos/drafts/`.
+It performs no review, approval, promotion, SSOT write, or canonical context
+mutation. Rollback removes only matching artifacts created by the exact write
+result.
