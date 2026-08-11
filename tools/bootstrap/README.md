@@ -23,6 +23,8 @@ Slice 2 exposes that plan through the Runtime CLI:
 ./contextos init --root . --approval-record /tmp/contextos-bootstrap-proposal.json --format json
 ./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner"
 ./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner" --format json
+./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json
+./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json --format json
 ```
 
 `contextos init` is still a read-only planning command. It does not create
@@ -48,6 +50,7 @@ contextos.bootstrap.plan/1
 contextos.bootstrap.proposal/1
 contextos.bootstrap.approval_record/1
 contextos.bootstrap.accepted_decision/1
+contextos.bootstrap.apply_preflight/1
 ```
 
 The plan explains required, skipped, blocked, and manual future bootstrap
@@ -66,3 +69,10 @@ identity and authority role. It embeds a `contextos.decision/1` Decision Record
 and approves the preserved proposal as future apply intent, but it still does
 not authorize or perform apply. It is designed to be consumed by later v0.4
 apply/CLI slices.
+
+The apply preflight consumes an accepted decision, verifies that the accepted
+decision, approval record, proposal, source plan binding, repository
+fingerprint, authority, no-overwrite guarantees, rollback expectations, and
+Validator gate still hold, and freezes the exact mutation set that a future
+apply may request. It may mark apply eligible, but it still does not authorize
+or perform apply.

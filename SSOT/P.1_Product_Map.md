@@ -43,6 +43,9 @@ usable Organizational Context Runtime repository.
    to human authority before apply exists
 10. Operator accepts the approval record with explicit human identity and role,
     producing a read-only accepted decision before apply exists
+11. Operator runs apply preflight to verify accepted intent, drift, validator
+    gates, no-overwrite guarantees, rollback expectations, and the exact future
+    mutation set before apply exists
 
 ---
 
@@ -58,6 +61,7 @@ usable Organizational Context Runtime repository.
   plan to future apply approval
 - Provide read-only bootstrap approval record drafts before any apply behavior
 - Provide explicit read-only bootstrap approval acceptance before apply behavior
+- Provide read-only apply preflight before any apply behavior
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
 

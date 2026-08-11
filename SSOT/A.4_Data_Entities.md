@@ -26,6 +26,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | BootstrapProposal | A preserved apply candidate produced from a read-only Bootstrap Plan | future contextos bootstrap apply surface / report output | id, source_plan_hash, repository_state, authority, actions, gates, status | N | Required before any Guided Bootstrap repository mutation
 | BootstrapApprovalRecord | A read-only approval record draft binding a Bootstrap Proposal to human authority and a Decision Record draft | tools/bootstrap approval output | id, proposal, authority, decision, drift, blockers | N | Does not approve or authorize apply
 | BootstrapAcceptedDecision | A read-only accepted human decision artifact for an exact Bootstrap Proposal identity | tools/bootstrap acceptance output | id, approval_record, proposal, authority, decision, validation, constraints | N | Approves preserved intent but does not authorize or perform apply
+| BootstrapApplyPreflight | A read-only final gate that verifies an accepted decision and freezes the executable mutation set | tools/bootstrap preflight output | id, accepted_decision, approval_record, proposal, authority, frozen_mutation_set, validation, eligibility | N | May mark apply eligible but does not authorize or perform apply
 
 ---
 
@@ -39,7 +40,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - EvolutionInboxItem → may become MissionPacket only after triage and authority
 - BootstrapProposal → may become BootstrapApprovalRecord after review
 - BootstrapApprovalRecord → may become BootstrapAcceptedDecision only through explicit human authority
-- BootstrapAcceptedDecision → may become ChangeRequest only during a future apply mission
+- BootstrapAcceptedDecision → may become BootstrapApplyPreflight before apply
+- BootstrapApplyPreflight → may become ChangeRequest only during a future apply mission
 - BootstrapApprovalRecord → may become DecisionRecord only after human authority
 
 ---

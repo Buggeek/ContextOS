@@ -68,8 +68,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-017 | governance | linked-to-mission | V04-BOOTSTRAP-APPROVAL-001 | Approval record draft exists, but accepted approval still requires an explicit human authority action. | Represented by V04-BOOTSTRAP-APPROVAL-ACCEPT-001. |
 | INBOX-018 | implementation | superseded | V04-BOOTSTRAP-APPROVAL-001 | Approval records are generated from proposal files but are not yet persisted as immutable Decision Records. | Accepted decision output now embeds `contextos.decision/1`; durable ledger storage remains future work. |
 | INBOX-019 | technical-debt | accepted | V04-BOOTSTRAP-APPROVAL-001 | Proposal drift comparison previously used path tree hash instead of full fingerprint hash. | Fixed in this mission; keep regression coverage. |
-| INBOX-020 | implementation | accepted | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Future apply must consume an accepted decision artifact and revalidate proposal identity, source plan hash, repository fingerprint, file hashes, and drift before any mutation. | Promote to the next v0.4 apply-preflight mission. |
+| INBOX-020 | implementation | linked-to-mission | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Future apply must consume an accepted decision artifact and revalidate proposal identity, source plan hash, repository fingerprint, file hashes, and drift before any mutation. | Represented by V04-BOOTSTRAP-APPLY-PREFLIGHT-001. |
 | INBOX-021 | governance | accepted | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Accepted decisions are portable JSON artifacts but not yet written to an Accountability Ledger. | Require ledger integration before automated Mission Runtime or multi-actor apply. |
+| INBOX-022 | implementation | accepted | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | Future apply should consume a fresh eligible preflight report, not an accepted decision directly. | Promote to the create-only apply mission. |
+| INBOX-023 | governance | accepted | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | A successful preflight establishes eligibility but still does not provide final human apply confirmation. | Require explicit apply confirmation in the future apply mission. |
 
 ---
 

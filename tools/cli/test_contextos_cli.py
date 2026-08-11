@@ -530,6 +530,143 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("explicit approving human identity", payload["error"]["evidence"]["error"])
         self.assertEqual(stderr, "")
 
+    def test_init_preflight_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            accepted_path = Path(output_temp) / "bootstrap-accepted.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--approval-record",
+                str(proposal_path),
+                "--json-out",
+                str(approval_path),
+                "--approver",
+                "Mission Owner",
+            ])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+                "--json-out",
+                str(accepted_path),
+            ])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--preflight",
+                str(accepted_path),
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.bootstrap.apply_preflight/1")
+        self.assertTrue(report["eligibility"]["eligible_for_apply"])
+        self.assertFalse(report["eligibility"]["apply_authorized"])
+        self.assertGreater(report["frozen_mutation_set"]["count"], 0)
+        self.assertEqual(stderr, "")
+
+    def test_init_preflight_default_renders_human_without_target_writes(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            accepted_path = Path(output_temp) / "bootstrap-accepted.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke(["init", "--root", temp, "--approval-record", str(proposal_path), "--approver", "Mission Owner", "--json-out", str(approval_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+                "--json-out",
+                str(accepted_path),
+            ])
+            code, stdout, stderr = self.invoke(["init", "--root", temp, "--preflight", str(accepted_path)])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Bootstrap Apply Preflight", stdout)
+        self.assertIn("Eligible for apply: yes", stdout)
+        self.assertIn("Apply authorized: no", stdout)
+        self.assertIn("Frozen Mutation Set", stdout)
+        self.assertIn("This preflight does not authorize or perform apply.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_init_preflight_json_out_writes_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            accepted_path = Path(output_temp) / "bootstrap-accepted.json"
+            preflight_path = Path(output_temp) / "bootstrap-preflight.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke(["init", "--root", temp, "--approval-record", str(proposal_path), "--approver", "Mission Owner", "--json-out", str(approval_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+                "--json-out",
+                str(accepted_path),
+            ])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--preflight",
+                str(accepted_path),
+                "--json-out",
+                str(preflight_path),
+            ])
+            report = json.loads(preflight_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Bootstrap Apply Preflight", stdout)
+        self.assertEqual(report["schema"], "contextos.bootstrap.apply_preflight/1")
+        self.assertIn("frozen_mutation_set", report)
+        self.assertEqual(stderr, "")
+
+    def test_init_preflight_bad_input_returns_misconfiguration(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--preflight",
+                str(Path(temp) / "missing-accepted.json"),
+                "--format",
+                "json",
+            ])
+
+        payload = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertEqual(stderr, "")
+
     def test_init_example_repo_returns_validator_error_code_with_plan(self) -> None:
         code, stdout, stderr = self.invoke([
             "init",

@@ -21,6 +21,9 @@ from bootstrap_engine.approval_engine import BootstrapApprovalRecordEngine, load
 from bootstrap_engine.approval_report_builder import render_human as render_approval_human  # noqa: E402
 from bootstrap_engine.approval_report_builder import write_json_report as write_approval_json_report  # noqa: E402
 from bootstrap_engine.plan_engine import BootstrapPlanEngine  # noqa: E402
+from bootstrap_engine.preflight_engine import BootstrapApplyPreflightEngine  # noqa: E402
+from bootstrap_engine.preflight_report_builder import render_human as render_preflight_human  # noqa: E402
+from bootstrap_engine.preflight_report_builder import write_json_report as write_preflight_json_report  # noqa: E402
 from bootstrap_engine.proposal_engine import BootstrapProposalEngine  # noqa: E402
 from bootstrap_engine.proposal_report_builder import render_human as render_proposal_human  # noqa: E402
 from bootstrap_engine.proposal_report_builder import write_json_report as write_proposal_json_report  # noqa: E402
@@ -80,6 +83,7 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("--proposal", action="store_true", help="Render a read-only bootstrap proposal instead of a plan.")
     init.add_argument("--approval-record", default=None, help="Render a read-only approval record draft from a proposal JSON file.")
     init.add_argument("--accept-approval", default=None, help="Accept a bootstrap approval record draft without applying changes.")
+    init.add_argument("--preflight", default=None, help="Run read-only apply preflight from an accepted decision JSON file.")
     init.add_argument("--mission-id", default=None, help="Mission id to bind to a bootstrap proposal.")
     init.add_argument("--requested-by", default="operator", help="Requester identity for a bootstrap proposal.")
     init.add_argument("--proposal-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Authority mode for a bootstrap proposal.")
@@ -194,6 +198,30 @@ def run_init(args: argparse.Namespace) -> int:
         )
         emit_error(payload, args.format)
         return 9
+
+    if args.preflight:
+        try:
+            accepted_decision = load_bootstrap_json(args.preflight)
+            report = BootstrapApplyPreflightEngine(root).run(
+                accepted_decision,
+                accepted_decision_ref=args.preflight,
+            )
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            payload = error_payload(
+                9,
+                "misconfiguration",
+                "Could not run bootstrap apply preflight.",
+                {"accepted_decision": args.preflight, "error": str(exc)},
+            )
+            emit_error(payload, args.format)
+            return 9
+        if args.json_out:
+            write_preflight_json_report(args.json_out, report)
+        if args.format == "json":
+            print(json.dumps(report, indent=2, sort_keys=True))
+        else:
+            print(render_preflight_human(report), end="")
+        return 0 if report["eligibility"]["eligible_for_apply"] else 7
 
     if args.accept_approval:
         try:
