@@ -95,6 +95,10 @@ v0.5 Context Construction expansion:
   that verifies exact Approval Decision identity, draft hash, canonical target
   state, Validator gate, authority, uncertainty, and no-overwrite/replacement
   stance before any future canonical promotion can be considered.
+- `contextos.builder.draft_promotion_result/1` governed create-only promotion
+  result that consumes an exact eligible Promotion Preflight plus explicit L3
+  `builder.draft.promote` confirmation and creates only missing canonical
+  targets after mandatory Validator validation.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -150,6 +154,9 @@ v0.5 Context Construction expansion:
   for a future promotion confirmation only when identity, provenance, target
   state, validator gate, and uncertainty checks pass; promotion remains
   unauthorized.
+- v0.5 draft promotion execution slice: a missing canonical target can be
+  created from an exact approved draft under explicit L3 promotion authority in
+  controlled targets only; existing canonical targets remain blocked.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state

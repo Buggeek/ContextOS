@@ -175,3 +175,26 @@ canonical path state, Validator gate evidence, no-overwrite or governed
 replacement-policy evidence, unresolved uncertainty, and rollback/recovery
 expectations. It performs no promotion, SSOT write, canonical context mutation,
 or draft mutation.
+
+Slice V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001 adds
+`BuilderDraftPromotionEngine`, a governed create-only promotion executor that
+emits:
+
+```text
+contextos.builder.draft_promotion_result/1
+```
+
+It consumes an exact eligible Promotion Preflight plus explicit L3
+`builder.draft.promote` confirmation. The first implementation executes only
+`create_canonical_candidate` actions where the target canonical path is still
+missing. Existing canonical targets and replacement candidates are blocked; no
+overwrite or replacement behavior is implemented.
+
+Promotion writes a validator-compliant canonical artifact envelope that
+preserves lineage to the draft, review decision, approval decision, promotion
+preflight, Builder Draft Plan, Discovery/Construction evidence, Mission, and
+human confirmation. Canonical status is recorded only after post-promotion
+Validator evidence succeeds.
+
+Rollback removes only artifacts created by the exact promotion result when the
+current hash still matches the recorded rollback hash.
