@@ -2,7 +2,7 @@
 
 - **Epic ID:** EPIC-004
 - **Version:** v0.3/v0.5 — Context Readiness and Context Construction
-- **Status:** Planned
+- **Status:** Active
 - **Owner:** Runtime Owner
 
 ---
@@ -56,6 +56,10 @@ v0.3 Context Readiness slice:
 
 v0.5 Context Construction expansion:
 
+- Local Discovery Bundle engine for a repository source, including artifacts,
+  paths, hashes/fingerprints, observed owner-like fields, safe local
+  relationships, provenance, limitations, and explicit observed/inferred/unknown
+  boundaries.
 - Connector Manifest schema and CLI surface
   (`contextos sources add|list|remove`).
 - Reference connectors for at least: local filesystem (a repository),
@@ -83,7 +87,10 @@ v0.5 Context Construction expansion:
 - v0.3: a reproducible local inventory that helps a user understand current
   repository context and readiness gaps across `inventory` and
   `source_evidence` readiness dimensions.
-- v0.5: a reproducible scan of a target organization producing a valid
+- v0.5 first slice: a reproducible local Discovery Bundle for a repository
+  source that is consumed by construction planning without writes or external
+  connectors.
+- v0.5 later slices: a reproducible scan of a target organization producing a valid
   Discovery Bundle in <60s for a small org (≤50 sources).
 - Discovery Bundle schema is stable enough for the Context Builder to
   consume without per-connector branching.

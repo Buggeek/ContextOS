@@ -55,8 +55,12 @@ class ContextConstructionPlanTestCase(unittest.TestCase):
         candidates = {candidate["target_path"]: candidate for candidate in report["context_artifact_candidates"]}
 
         self.assertEqual(report["schema"], SCHEMA)
+        self.assertEqual(report["discovery"]["schema"], "contextos.discovery.bundle/1")
+        self.assertGreater(report["discovery"]["artifact_count"], 100)
         self.assertEqual(candidates["SSOT/S.1_Vision.md"]["lifecycle_state"], "observed")
         self.assertEqual(candidates["SSOT/A.1_System_Map.md"]["belief_state"], "observed")
+        self.assertEqual(candidates["SSOT/A.1_System_Map.md"]["source_signals"]["discovery"], "observed")
+        self.assertTrue(any(ref.startswith("discovery.artifact.") for ref in candidates["SSOT/A.1_System_Map.md"]["evidence_refs"]))
         self.assertIn("automatic_promotion", candidates["SSOT/S.1_Vision.md"]["prohibited_transitions"])
 
     def test_minimal_repo_marks_missing_artifacts_as_suggested_not_canonical(self) -> None:

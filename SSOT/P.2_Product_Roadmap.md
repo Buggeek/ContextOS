@@ -104,8 +104,10 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V05-DISCOVERY-BUNDLE-LOCAL-001`](E.4_Mission_V05-DISCOVERY-BUNDLE-LOCAL-001_Local_Discovery_Bundle.md)
+- Closed v0.5 construction planning mission:
   [`E.4 Mission V05-CONTEXT-CONSTRUCTION-PLAN-001`](E.4_Mission_V05-CONTEXT-CONSTRUCTION-PLAN-001_Context_Construction_Planning.md)
-- Current closed mission:
+- Foundational closed mission:
   [`E.4 Mission SELFHOST-001`](E.4_Mission_SELFHOST-001_Governed_Execution_Loop.md)
 - Closed v0.4 approval-model mission:
   [`E.4 Mission V04-BOOTSTRAP-APPLY-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-001_Guided_Bootstrap_Apply_Approval_Model.md)
@@ -152,7 +154,7 @@ release intent; Mission Packets govern bounded execution.
 |---|---|
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
 | v0.4 Guided Bootstrap | EPIC-008 `contextos init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
-| v0.5 Context Construction | Construction planning, EPIC-004 Discovery Bundle, EPIC-006 Builder draft path, EPIC-007 gate integration |
+| v0.5 Context Construction | Construction planning, local Discovery Bundle, EPIC-006 Builder draft path, EPIC-007 gate integration |
 | v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
 | v0.8 Organizational Memory | EPIC-005 durable knowledge and interpretation, Context Graph memory traversal |
@@ -167,10 +169,12 @@ release intent; Mission Packets govern bounded execution.
 
 Discovery Engine
 
-Status: Planned
+Status: Active
 
 Primary release slice: v0.3 local readiness inventory, expanding in v0.5
-Context Construction.
+Context Construction. The active v0.5 slice is a read-only local Discovery
+Bundle consumed by construction planning; external connectors and `scan` CLI
+remain deferred.
 
 ---
 
@@ -262,3 +266,5 @@ governable, and reusable across humans, agents, and systems.
   reference.
 - 2026-08-11 - v1.0 - Re-anchored current release on v0.5 Context
   Construction and linked the first construction planning mission.
+- 2026-08-11 - v1.0 - Linked the local Discovery Bundle mission and updated
+  EPIC-004 status.

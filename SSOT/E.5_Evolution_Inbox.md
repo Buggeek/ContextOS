@@ -79,6 +79,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-028 | implementation | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | `contextos.construction.plan/1` needs a future Runtime CLI surface before non-developer users can request construction plans directly. | Consider after the planning engine is audited; do not add before the first Builder draft mission is shaped. |
 | INBOX-029 | architecture | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | Construction planning currently uses the standard MOM artifact set; future organizational operations will need domain-specific artifact mappings without changing the lifecycle model. | Defer until the first non-technology operating-domain construction slice. |
 | INBOX-030 | implementation | accepted | V05-CONTEXT-CONSTRUCTION-PLAN-001 | Full Discovery Bundle remains required before Builder draft generation can safely use source observations beyond existing inventory/readiness/bootstrap evidence. | Promote to the next v0.5 mission. |
+| INBOX-031 | implementation | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | `contextos scan` and source registry remain absent even though the local Discovery Bundle engine exists. | Defer until the engine is consumed by the first Builder draft mission or a user-facing construction CLI mission. |
+| INBOX-032 | architecture | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | Discovery currently captures literal local links and containment only; semantic relationships must wait for Knowledge/Graph maturity. | Preserve as a boundary for v0.5; revisit in Organizational Memory. |
+| INBOX-033 | implementation | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | Builder draft generation now has a stable local discovery input and should be shaped next without external connectors. | Promote to the next v0.5 mission. |
 
 ---
 
@@ -91,3 +94,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Bootstrap Approval Record follow-up items.
 - 2026-08-11 - v0.1.0 - Created Evolution Inbox for self-hosted execution.
 - 2026-08-11 - v0.1.0 - Added Context Construction planning follow-up items.
+- 2026-08-11 - v0.1.0 - Added Local Discovery Bundle follow-up items.

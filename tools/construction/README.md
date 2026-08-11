@@ -28,9 +28,9 @@ Machine report schema:
 contextos.construction.plan/1
 ```
 
-The plan turns existing Context Readiness, Repository Inventory, Validator, and
-Bootstrap Plan evidence into reviewable construction candidates. It preserves
-the canonical lifecycle:
+The plan turns existing Context Readiness, Repository Inventory, Validator,
+Bootstrap Plan, and Local Discovery Bundle evidence into reviewable
+construction candidates. It preserves the canonical lifecycle:
 
 ```text
 observed -> inferred -> suggested -> draft -> reviewed -> approved -> canonical/verified

@@ -11,11 +11,13 @@ CONSTRUCTION_ROOT = Path(__file__).resolve().parents[1]
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
 READINESS_ROOT = TOOLS_ROOT / "readiness"
 BOOTSTRAP_ROOT = TOOLS_ROOT / "bootstrap"
-for runtime_path in (READINESS_ROOT, BOOTSTRAP_ROOT):
+DISCOVERY_ROOT = TOOLS_ROOT / "discovery"
+for runtime_path in (READINESS_ROOT, BOOTSTRAP_ROOT, DISCOVERY_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
 from bootstrap_engine.plan_engine import BootstrapPlanEngine  # noqa: E402
+from discovery_engine.local_discovery import LocalDiscoveryBundleEngine  # noqa: E402
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
 
 
@@ -77,8 +79,18 @@ def inventory_artifact_by_path(readiness_report: dict) -> dict[str, dict]:
     }
 
 
-def evidence_refs_for(path: str, readiness_report: dict, bootstrap_plan: dict) -> list[str]:
+def discovery_artifact_by_path(discovery_bundle: dict) -> dict[str, dict]:
+    return {
+        artifact["path"]: artifact
+        for artifact in discovery_bundle.get("artifacts", [])
+    }
+
+
+def evidence_refs_for(path: str, readiness_report: dict, bootstrap_plan: dict, discovery_bundle: dict) -> list[str]:
     refs = [path]
+    discovery_artifact = discovery_artifact_by_path(discovery_bundle).get(path)
+    if discovery_artifact:
+        refs.append(discovery_artifact["id"])
     for action in bootstrap_plan.get("actions", []):
         if action.get("target_path") == path:
             refs.extend(action.get("evidence_refs", []))
@@ -108,9 +120,11 @@ def candidate_for(
     definition: dict,
     readiness_report: dict,
     bootstrap_plan: dict,
+    discovery_bundle: dict,
     present_artifacts: dict[str, dict],
 ) -> dict:
     present = target_path in present_artifacts
+    discovery_artifact = discovery_artifact_by_path(discovery_bundle).get(target_path)
     lifecycle_state = "observed" if present else "suggested"
     belief_state = "observed" if present else "suggested"
     return {
@@ -128,10 +142,12 @@ def candidate_for(
         ),
         "source_signals": {
             "inventory": "present" if present else "missing",
+            "discovery": "observed" if discovery_artifact else "missing",
+            "discovery_source_id": discovery_bundle["source"]["id"],
             "readiness_can_construct": readiness_report["summary"]["can_construct"],
             "bootstrap_ready": bootstrap_plan["summary"]["ready_for_bootstrap"],
         },
-        "evidence_refs": evidence_refs_for(target_path, readiness_report, bootstrap_plan),
+        "evidence_refs": evidence_refs_for(target_path, readiness_report, bootstrap_plan, discovery_bundle),
         "authority_required": authority_for(definition, lifecycle_state),
         "allowed_next_states": ["reviewed"] if present else ["draft"],
         "prohibited_transitions": [
@@ -224,16 +240,18 @@ class ContextConstructionPlanEngine:
         self,
         readiness_report: dict | None = None,
         bootstrap_plan: dict | None = None,
+        discovery_bundle: dict | None = None,
         generated_at: str | None = None,
     ) -> dict:
         resolved_root = self.root.resolve()
         readiness = readiness_report or ReadinessScoringEngine(resolved_root).run(generated_at=generated_at)
         bootstrap = bootstrap_plan or BootstrapPlanEngine(resolved_root).run(readiness_report=readiness, generated_at=generated_at)
+        discovery = discovery_bundle or LocalDiscoveryBundleEngine(resolved_root).run(generated_at=generated_at)
         present_artifacts = inventory_artifact_by_path(readiness)
         candidates = [
-            candidate_for(path, definition, readiness, bootstrap, present_artifacts)
+            candidate_for(path, definition, readiness, bootstrap, discovery, present_artifacts)
             for path, definition in STANDARD_CONTEXT_ARTIFACTS.items()
         ]
         actions = [action_for(candidate) for candidate in candidates]
         actions.extend(blocking_actions(readiness))
-        return build_report(resolved_root, readiness, bootstrap, candidates, actions, generated_at=generated_at)
+        return build_report(resolved_root, readiness, bootstrap, discovery, candidates, actions, generated_at=generated_at)
