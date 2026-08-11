@@ -100,3 +100,30 @@ provenance, evidence, support, unknowns, missing evidence, contradictions,
 validation, no-overwrite evidence, and authority still required, and renders a
 human-readable truth boundary. Review does not mutate, accept, approve, or
 promote the draft.
+
+Slice V05-BUILDER-DRAFT-REVIEW-DECISION-001 adds
+`BuilderDraftReviewDecisionEngine`, a governed human decision surface that
+emits:
+
+```text
+contextos.builder.draft_review_decision/1
+```
+
+It records an explicit L2 `builder.draft.review` outcome for an exact
+`contextos.builder.draft_review/1` object and draft content hash. The decision
+may be persisted as a JSON governance/evidence artifact, but it does not mutate
+the reviewed draft, approve it, promote it, or write canonical SSOT context.
+
+Allowed review-decision outcomes:
+
+- `reviewed_ready_for_next_governance_step`
+- `changes_requested`
+- `rejected`
+- `insufficient_evidence`
+- `superseded`
+
+The review decision preserves the boundary:
+
+```text
+Review Decision != Approval != Canonical Truth
+```
