@@ -91,6 +91,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-040 | implementation | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Local Draft Workspace support needs a runtime object that resolves `.contextos/drafts/` paths and enforces non-canonical scope. | Promote before first draft write implementation. |
 | INBOX-041 | governance | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Draft retention, cleanup, and expiration policy needs more precise defaults after drafts exist. | Defer until draft artifacts are produced and audited. |
 | INBOX-042 | architecture | accepted | V05-BUILDER-DRAFT-SURFACE-DECISION-001 | Future non-filesystem Draft Workspace adapters should preserve the same conceptual model across document, CRM, legal, finance, people, and data systems. | Defer until Activation or connector work. |
+| INBOX-043 | implementation | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Future Builder draft creation should consume `contextos.builder.draft_workspace_preflight/1` rather than a raw Builder Draft Plan. | Promote when explicit write-capable Builder authority is granted. |
+| INBOX-044 | product | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Builder Draft Plan and Draft Workspace preflight remain developer-only surfaces without Runtime CLI exposure. | Consider after first write-capable draft behavior is proven. |
+| INBOX-045 | technical-debt | accepted | V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 | Draft Workspace local mapping is fixed to `.contextos/drafts/`; future configurable workspace mappings need authority and adapter rules. | Defer until non-filesystem or multi-workspace runtime appears. |
 
 ---
 
@@ -107,3 +110,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Planning follow-up items.
 - 2026-08-11 - v0.1.0 - Added Builder Draft Authority follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Workspace decision follow-up items.
+- 2026-08-11 - v0.1.0 - Added Draft Workspace runtime follow-up items.

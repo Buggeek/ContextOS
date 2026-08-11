@@ -62,3 +62,14 @@ Before any future Builder draft write behavior, implementation must satisfy the
 The canonical draft surface is a governed **Draft Workspace**. For the current
 local filesystem runtime, that workspace maps to `.contextos/drafts/`; this path
 is non-canonical and must not be treated as SSOT.
+
+Slice V05-BUILDER-DRAFT-WORKSPACE-RUNTIME-001 adds
+`DraftWorkspaceRuntime`, a read-only preflight that emits:
+
+```text
+contextos.builder.draft_workspace_preflight/1
+```
+
+It resolves future draft targets under `.contextos/drafts/<mission_id>/artifacts/`,
+checks path isolation, no-overwrite, plan drift, and Validator gate status, and
+does not create directories, drafts, or canonical artifacts.
