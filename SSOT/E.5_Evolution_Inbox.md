@@ -70,8 +70,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-019 | technical-debt | accepted | V04-BOOTSTRAP-APPROVAL-001 | Proposal drift comparison previously used path tree hash instead of full fingerprint hash. | Fixed in this mission; keep regression coverage. |
 | INBOX-020 | implementation | linked-to-mission | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Future apply must consume an accepted decision artifact and revalidate proposal identity, source plan hash, repository fingerprint, file hashes, and drift before any mutation. | Represented by V04-BOOTSTRAP-APPLY-PREFLIGHT-001. |
 | INBOX-021 | governance | accepted | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Accepted decisions are portable JSON artifacts but not yet written to an Accountability Ledger. | Require ledger integration before automated Mission Runtime or multi-actor apply. |
-| INBOX-022 | implementation | accepted | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | Future apply should consume a fresh eligible preflight report, not an accepted decision directly. | Promote to the create-only apply mission. |
-| INBOX-023 | governance | accepted | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | A successful preflight establishes eligibility but still does not provide final human apply confirmation. | Require explicit apply confirmation in the future apply mission. |
+| INBOX-022 | implementation | linked-to-mission | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | Future apply should consume a fresh eligible preflight report, not an accepted decision directly. | Represented by V04-BOOTSTRAP-APPLY-CREATE-ONLY-001. |
+| INBOX-023 | governance | linked-to-mission | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | A successful preflight establishes eligibility but still does not provide final human apply confirmation. | Represented by V04-BOOTSTRAP-APPLY-CREATE-ONLY-001. |
+| INBOX-024 | governance | decision-needed | V04-BOOTSTRAP-APPLY-CREATE-ONLY-001 | A real apply against the canonical Context OS repository requires target-specific human authorization bound to exact proposal, accepted decision, and fresh preflight. | Decide after release verification; do not infer from implementation authority. |
+| INBOX-025 | product-risk | deferred | V04-BOOTSTRAP-APPLY-CREATE-ONLY-001 | Repair, overwrite, replacement, and deletion workflows are intentionally excluded from v0.4 create-only apply. | Revisit after create-only apply is proven in real target use. |
 
 ---
 

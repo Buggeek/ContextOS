@@ -25,9 +25,13 @@ Slice 2 exposes that plan through the Runtime CLI:
 ./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner" --format json
 ./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json
 ./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json --format json
+./contextos init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>"
+./contextos init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>" --format json
 ```
 
-`contextos init` is still a read-only planning command. It does not create
+`contextos init` is read-only unless `--apply` is supplied with explicit apply
+confirmation bound to a fresh eligible preflight. Bare `contextos init`,
+proposal, approval-record, acceptance, and preflight modes do not create
 manifests, directories, templates, or Context OS artifacts.
 
 Public API:
@@ -51,6 +55,7 @@ contextos.bootstrap.proposal/1
 contextos.bootstrap.approval_record/1
 contextos.bootstrap.accepted_decision/1
 contextos.bootstrap.apply_preflight/1
+contextos.bootstrap.apply_result/1
 ```
 
 The plan explains required, skipped, blocked, and manual future bootstrap
@@ -76,3 +81,10 @@ fingerprint, authority, no-overwrite guarantees, rollback expectations, and
 Validator gate still hold, and freezes the exact mutation set that a future
 apply may request. It may mark apply eligible, but it still does not authorize
 or perform apply.
+
+The apply result consumes the supplied preflight mutation set after explicit
+human confirmation. v0.4 apply is create-only: it may create missing
+directories, a deterministic runtime manifest, and files from approved
+templates. It refuses overwrite, replacement, deletion, prohibited actions, and
+manual actions. Post-apply validation is mandatory, and rollback evidence is
+recorded for artifacts created by the apply.

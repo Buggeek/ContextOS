@@ -46,6 +46,9 @@ usable Organizational Context Runtime repository.
 11. Operator runs apply preflight to verify accepted intent, drift, validator
     gates, no-overwrite guarantees, rollback expectations, and the exact future
     mutation set before apply exists
+12. Operator gives explicit apply confirmation bound to the preflight id and
+    hash, then Context OS performs create-only bootstrap apply with evidence,
+    validation, rollback metadata, and result state
 
 ---
 
@@ -62,6 +65,8 @@ usable Organizational Context Runtime repository.
 - Provide read-only bootstrap approval record drafts before any apply behavior
 - Provide explicit read-only bootstrap approval acceptance before apply behavior
 - Provide read-only apply preflight before any apply behavior
+- Provide governed create-only bootstrap apply with explicit preflight-bound
+  confirmation
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
 

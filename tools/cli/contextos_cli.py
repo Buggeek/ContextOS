@@ -17,6 +17,9 @@ for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT):
 from bootstrap_engine.acceptance_engine import BootstrapApprovalAcceptanceEngine  # noqa: E402
 from bootstrap_engine.acceptance_report_builder import render_human as render_acceptance_human  # noqa: E402
 from bootstrap_engine.acceptance_report_builder import write_json_report as write_acceptance_json_report  # noqa: E402
+from bootstrap_engine.apply_engine import BootstrapApplyEngine  # noqa: E402
+from bootstrap_engine.apply_report_builder import render_human as render_apply_human  # noqa: E402
+from bootstrap_engine.apply_report_builder import write_json_report as write_apply_json_report  # noqa: E402
 from bootstrap_engine.approval_engine import BootstrapApprovalRecordEngine, load_json as load_bootstrap_json  # noqa: E402
 from bootstrap_engine.approval_report_builder import render_human as render_approval_human  # noqa: E402
 from bootstrap_engine.approval_report_builder import write_json_report as write_approval_json_report  # noqa: E402
@@ -84,6 +87,12 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("--approval-record", default=None, help="Render a read-only approval record draft from a proposal JSON file.")
     init.add_argument("--accept-approval", default=None, help="Accept a bootstrap approval record draft without applying changes.")
     init.add_argument("--preflight", default=None, help="Run read-only apply preflight from an accepted decision JSON file.")
+    init.add_argument("--apply", default=None, help="Run governed create-only bootstrap apply from a preflight JSON file.")
+    init.add_argument("--confirm-apply", action="store_true", help="Explicitly confirm create-only bootstrap apply.")
+    init.add_argument("--confirmed-by", default=None, help="Explicit human identity confirming apply.")
+    init.add_argument("--confirmed-role", default=None, help="Human authority role confirming apply.")
+    init.add_argument("--confirmed-preflight-id", default=None, help="Preflight id explicitly bound to apply confirmation.")
+    init.add_argument("--confirmed-preflight-hash", default=None, help="Preflight identity hash explicitly bound to apply confirmation.")
     init.add_argument("--mission-id", default=None, help="Mission id to bind to a bootstrap proposal.")
     init.add_argument("--requested-by", default="operator", help="Requester identity for a bootstrap proposal.")
     init.add_argument("--proposal-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Authority mode for a bootstrap proposal.")
@@ -198,6 +207,35 @@ def run_init(args: argparse.Namespace) -> int:
         )
         emit_error(payload, args.format)
         return 9
+
+    if args.apply:
+        try:
+            preflight = load_bootstrap_json(args.apply)
+            result = BootstrapApplyEngine(root).run(
+                preflight,
+                preflight_ref=args.apply,
+                confirm_apply=args.confirm_apply,
+                confirmed_by=args.confirmed_by or "",
+                confirmed_role=args.confirmed_role or "",
+                confirmed_preflight_id=args.confirmed_preflight_id,
+                confirmed_preflight_hash=args.confirmed_preflight_hash,
+            )
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            payload = error_payload(
+                9,
+                "misconfiguration",
+                "Could not run bootstrap apply.",
+                {"preflight": args.apply, "error": str(exc)},
+            )
+            emit_error(payload, args.format)
+            return 9
+        if args.json_out:
+            write_apply_json_report(args.json_out, result)
+        if args.format == "json":
+            print(json.dumps(result, indent=2, sort_keys=True))
+        else:
+            print(render_apply_human(result), end="")
+        return 0 if result["result"]["success"] else 7
 
     if args.preflight:
         try:

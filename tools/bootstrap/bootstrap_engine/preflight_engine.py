@@ -199,6 +199,8 @@ class BootstrapApplyPreflightEngine:
                 "accepted_role": accepted_decision["authority"]["accepted_role"],
                 "role_satisfied": accepted_decision["authority"]["role_satisfied"],
                 "human_apply_confirmation_required": True,
+                "allowed_write_paths": proposal["authority"]["allowed_write_paths"],
+                "prohibited_write_paths": proposal["authority"]["prohibited_write_paths"],
             },
             "frozen_mutation_set": mutation,
             "validation": {

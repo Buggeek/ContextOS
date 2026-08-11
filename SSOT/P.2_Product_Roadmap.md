@@ -116,6 +116,8 @@ Self-Hosting Execution:
   [`E.4 Mission V04-BOOTSTRAP-APPROVAL-ACCEPT-001`](E.4_Mission_V04-BOOTSTRAP-APPROVAL-ACCEPT-001_Explicit_Bootstrap_Approval_Acceptance.md)
 - Closed v0.4 apply-preflight mission:
   [`E.4 Mission V04-BOOTSTRAP-APPLY-PREFLIGHT-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-PREFLIGHT-001_Bootstrap_Apply_Preflight.md)
+- Closed v0.4 create-only apply mission:
+  [`E.4 Mission V04-BOOTSTRAP-APPLY-CREATE-ONLY-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-CREATE-ONLY-001_Create_Only_Bootstrap_Apply.md)
 - Evolution Inbox:
   [`E.5 Evolution Inbox`](E.5_Evolution_Inbox.md)
 

@@ -569,7 +569,6 @@ class ContextOSCliTestCase(unittest.TestCase):
                 "--format",
                 "json",
             ])
-
         report = json.loads(stdout)
         self.assertEqual(code, 0)
         self.assertEqual(report["schema"], "contextos.bootstrap.apply_preflight/1")
@@ -665,6 +664,142 @@ class ContextOSCliTestCase(unittest.TestCase):
         payload = json.loads(stdout)
         self.assertEqual(code, 9)
         self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertEqual(stderr, "")
+
+    def write_preflight_artifact(self, temp: str, output_temp: str) -> tuple[Path, dict]:
+        proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+        approval_path = Path(output_temp) / "bootstrap-approval.json"
+        accepted_path = Path(output_temp) / "bootstrap-accepted.json"
+        preflight_path = Path(output_temp) / "bootstrap-preflight.json"
+        self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+        self.invoke(["init", "--root", temp, "--approval-record", str(proposal_path), "--approver", "Mission Owner", "--json-out", str(approval_path)])
+        self.invoke([
+            "init",
+            "--root",
+            temp,
+            "--accept-approval",
+            str(approval_path),
+            "--accepted-by",
+            "Jane Owner",
+            "--accepted-role",
+            "Mission Owner",
+            "--json-out",
+            str(accepted_path),
+        ])
+        self.invoke(["init", "--root", temp, "--preflight", str(accepted_path), "--json-out", str(preflight_path)])
+        return preflight_path, json.loads(preflight_path.read_text(encoding="utf-8"))
+
+    def test_init_apply_json_is_pure_machine_report_and_create_only(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            preflight_path, preflight = self.write_preflight_artifact(temp, output_temp)
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--apply",
+                str(preflight_path),
+                "--confirm-apply",
+                "--confirmed-by",
+                "Jane Owner",
+                "--confirmed-role",
+                "Mission Owner",
+                "--confirmed-preflight-id",
+                preflight["id"],
+                "--confirmed-preflight-hash",
+                preflight["identity_hash"],
+                "--format",
+                "json",
+            ])
+            manifest_exists = (root / ".contextos" / "manifest.yaml").exists()
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.bootstrap.apply_result/1")
+        self.assertEqual(report["result"]["state"], "applied_validated")
+        self.assertTrue(report["result"]["success"])
+        self.assertTrue(manifest_exists)
+        self.assertFalse(report["constraints"]["overwrites_performed"])
+        self.assertEqual(stderr, "")
+
+    def test_init_apply_default_renders_human(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            preflight_path, preflight = self.write_preflight_artifact(temp, output_temp)
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--apply",
+                str(preflight_path),
+                "--confirm-apply",
+                "--confirmed-by",
+                "Jane Owner",
+                "--confirmed-role",
+                "Mission Owner",
+                "--confirmed-preflight-id",
+                preflight["id"],
+                "--confirmed-preflight-hash",
+                preflight["identity_hash"],
+            ])
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Bootstrap Apply Result", stdout)
+        self.assertIn("State: applied_validated", stdout)
+        self.assertIn("Apply performed create-only actions.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_init_apply_requires_confirmation_without_target_writes(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            preflight_path, _preflight = self.write_preflight_artifact(temp, output_temp)
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--apply",
+                str(preflight_path),
+                "--format",
+                "json",
+            ])
+            after = tree_snapshot(root)
+
+        payload = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(before, after)
+        self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertIn("confirm-apply", payload["error"]["evidence"]["error"])
+        self.assertEqual(stderr, "")
+
+    def test_init_apply_reusing_same_preflight_returns_blocked_result(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            preflight_path, preflight = self.write_preflight_artifact(temp, output_temp)
+            argv = [
+                "init",
+                "--root",
+                temp,
+                "--apply",
+                str(preflight_path),
+                "--confirm-apply",
+                "--confirmed-by",
+                "Jane Owner",
+                "--confirmed-role",
+                "Mission Owner",
+                "--confirmed-preflight-id",
+                preflight["id"],
+                "--confirmed-preflight-hash",
+                preflight["identity_hash"],
+                "--format",
+                "json",
+            ]
+            first_code, _first_stdout, _first_stderr = self.invoke(argv)
+            second_code, second_stdout, stderr = self.invoke(argv)
+
+        report = json.loads(second_stdout)
+        self.assertEqual(first_code, 0)
+        self.assertEqual(second_code, 7)
+        self.assertFalse(report["result"]["success"])
+        self.assertIn("apply.check.no_overwrite_current_state", report["result"]["failed_pre_checks"])
         self.assertEqual(stderr, "")
 
     def test_init_example_repo_returns_validator_error_code_with_plan(self) -> None:
