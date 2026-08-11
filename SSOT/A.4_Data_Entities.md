@@ -21,6 +21,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | ComplianceProfile | Validation mode for SSOT | docs/2.x_taxonomy | minimal/strict | N | Controls validator strictness
 | ValidatorRule | A check applied to a target scope | tools/validators | rule_id, scope, severity | N | Must be explicit and minimal
 | ChangeRequest | A proposed change to framework/SSOT | PRs | diff, rationale, evidence | N | Requires governance
+| MissionPacket | A bounded accountable execution contract | SSOT/E.4_Mission_[ID].md | id, release, goal, slice, authority, constraints, acceptance_criteria, evidence, decision, learning | N | Canonical unit for self-hosted work before Mission Runtime exists
+| EvolutionInboxItem | A deferred idea, risk, debt item, opportunity, or hypothesis | SSOT/E.5_Evolution_Inbox.md | id, type, state, source, summary, disposition | N | Prevents active mission drift while preserving learning
 
 ---
 
@@ -30,6 +32,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - SSOTDocument → conforms to DocumentType (under a ComplianceProfile)
 - ValidatorRule → validates SSOTDocument (and link/hygiene across repo)
 - ChangeRequest → modifies DocumentType/Template/SSOTDocument under governance
+- MissionPacket → executes Release Goal through bounded Slice Plan
+- EvolutionInboxItem → may become MissionPacket only after triage and authority
 
 ---
 
@@ -52,6 +56,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 
 - How strict version bump rules should be for framework docs vs SSOT docs
 - How to represent non-Markdown artifacts (diagrams) while keeping governance auditable
+- When to promote MissionPacket and EvolutionInbox templates after artifact
+  shape stabilizes
 
 ---
 
@@ -66,3 +72,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 ## Change Log
 
 - 2026-02-19 — v0.1.0 — Initial creation
+- 2026-08-11 — v0.1.0 — Added MissionPacket and EvolutionInboxItem entities
+  for self-hosted execution.

@@ -2,6 +2,8 @@
 
 Version: 1.0
 
+Last Updated: 2026-08-11
+
 Owner: Context OS Core Team
 
 Status: Active
@@ -93,6 +95,18 @@ through later v0.4 slices, an approved minimum Context OS home.
 Canonical Contract:
 
 [`../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
+
+Self-Hosting Execution:
+
+- Current closed mission:
+  [`E.4 Mission SELFHOST-001`](E.4_Mission_SELFHOST-001_Governed_Execution_Loop.md)
+- Proposed next v0.4 mission:
+  [`E.4 Mission V04-BOOTSTRAP-APPLY-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-001_Guided_Bootstrap_Apply_Approval_Model.md)
+- Evolution Inbox:
+  [`E.5 Evolution Inbox`](E.5_Evolution_Inbox.md)
+
+The release is now executed through Mission Packets. Roadmap scope still governs
+release intent; Mission Packets govern bounded execution.
 
 ---
 
@@ -212,3 +226,10 @@ Context is infrastructure.
 
 The objective of Context OS is to make organizational context operational,
 governable, and reusable across humans, agents, and systems.
+
+---
+
+# Change Log
+
+- 2026-08-11 - v1.0 - Added self-hosting execution references for v0.4
+  Guided Bootstrap.
