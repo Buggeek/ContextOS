@@ -235,6 +235,67 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("actions", report)
         self.assertEqual(stderr, "")
 
+    def test_init_proposal_default_renders_human_without_target_writes(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke(["init", "--root", temp, "--proposal"])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Bootstrap Proposal", stdout)
+        self.assertIn("Proposal ID:", stdout)
+        self.assertIn("Approval implied: no", stdout)
+        self.assertIn("Apply authorized: no", stdout)
+        self.assertIn("This proposal did not modify the target repository.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_init_proposal_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--proposal",
+                "--format",
+                "json",
+                "--mission-id",
+                "TEST-MISSION-001",
+                "--requested-by",
+                "Test Owner",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.bootstrap.proposal/1")
+        self.assertEqual(report["mission_id"], "TEST-MISSION-001")
+        self.assertEqual(report["authority"]["requested_by"], "Test Owner")
+        self.assertFalse(report["constraints"]["writes_performed"])
+        self.assertFalse(report["constraints"]["approval_implied"])
+        self.assertFalse(report["constraints"]["apply_authorized"])
+        self.assertEqual(stderr, "")
+
+    def test_init_proposal_json_out_writes_machine_proposal(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            output_path = Path(output_temp) / "bootstrap-proposal.json"
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--proposal",
+                "--json-out",
+                str(output_path),
+            ])
+
+            report = json.loads(output_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Bootstrap Proposal", stdout)
+        self.assertEqual(report["schema"], "contextos.bootstrap.proposal/1")
+        self.assertIn("identity_hash", report)
+        self.assertEqual(stderr, "")
+
     def test_init_example_repo_returns_validator_error_code_with_plan(self) -> None:
         code, stdout, stderr = self.invoke([
             "init",

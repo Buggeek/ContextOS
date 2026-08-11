@@ -40,8 +40,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
 | tools/bootstrap | Module | Read-only Guided Bootstrap planning, proposal generation, and reports | Maintainers | v0.4 planning/proposal component
-| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan
-| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -95,4 +95,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 - 2026-08-11 — v0.1.1 — Aligned implemented Runtime surfaces and GENESIS direction
 - 2026-08-11 — v0.1.1 — Added read-only Bootstrap Proposal Engine to system map
+- 2026-08-11 — v0.1.1 — Added read-only Bootstrap Proposal Review Surface
+  to system map
 - 2026-02-19 — v0.1.0 — Initial creation

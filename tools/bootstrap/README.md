@@ -16,6 +16,9 @@ Slice 2 exposes that plan through the Runtime CLI:
 ./contextos init --root .
 ./contextos init --root . --format json
 ./contextos init --root . --json-out /tmp/contextos-bootstrap-plan.json
+./contextos init --root . --proposal
+./contextos init --root . --proposal --format json
+./contextos init --root . --proposal --json-out /tmp/contextos-bootstrap-proposal.json
 ```
 
 `contextos init` is still a read-only planning command. It does not create
@@ -44,5 +47,6 @@ The plan explains required, skipped, blocked, and manual future bootstrap
 actions. The proposal freezes one exact future apply candidate, including the
 plan hash, repository fingerprint, authority requirements, action
 classifications, rollback metadata, and drift invalidation conditions. Proposal
-generation is read-only and does not imply approval.
+generation is read-only and does not imply approval. The CLI proposal surface
+exists for review and preservation only; it does not apply changes.
 actions. It is designed to be consumed by later v0.4 apply/CLI slices.

@@ -37,6 +37,8 @@ usable Organizational Context Runtime repository.
    plan before any repository mutation
 7. Future operator requests Guided Bootstrap apply -> reviews a preserved
    Bootstrap Proposal before any approved repository mutation
+8. Operator preserves the proposal with JSON output before any future approval
+   or apply operation
 
 ---
 
@@ -103,4 +105,6 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
+- 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product
+  journey
 - 2026-02-19 — v0.1.0 — Initial creation

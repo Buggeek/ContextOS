@@ -15,6 +15,9 @@ for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT):
         sys.path.insert(0, str(runtime_path))
 
 from bootstrap_engine.plan_engine import BootstrapPlanEngine  # noqa: E402
+from bootstrap_engine.proposal_engine import BootstrapProposalEngine  # noqa: E402
+from bootstrap_engine.proposal_report_builder import render_human as render_proposal_human  # noqa: E402
+from bootstrap_engine.proposal_report_builder import write_json_report as write_proposal_json_report  # noqa: E402
 from bootstrap_engine.report_builder import render_human as render_bootstrap_human  # noqa: E402
 from bootstrap_engine.report_builder import write_json_report as write_bootstrap_json_report  # noqa: E402
 from engine.report_builder import render_human as render_validator_human  # noqa: E402
@@ -67,7 +70,11 @@ def build_parser() -> argparse.ArgumentParser:
     )
     init.add_argument("--root", default=".", help="Repository root to plan bootstrap for.")
     init.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
-    init.add_argument("--json-out", default=None, help="Write the machine bootstrap plan JSON to this path.")
+    init.add_argument("--json-out", default=None, help="Write the machine bootstrap plan/proposal JSON to this path.")
+    init.add_argument("--proposal", action="store_true", help="Render a read-only bootstrap proposal instead of a plan.")
+    init.add_argument("--mission-id", default=None, help="Mission id to bind to a bootstrap proposal.")
+    init.add_argument("--requested-by", default="operator", help="Requester identity for a bootstrap proposal.")
+    init.add_argument("--proposal-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Authority mode for a bootstrap proposal.")
     init.set_defaults(handler=run_init)
     return parser
 
@@ -177,6 +184,21 @@ def run_init(args: argparse.Namespace) -> int:
         return 9
 
     report = BootstrapPlanEngine(root).run()
+    if args.proposal:
+        proposal = BootstrapProposalEngine(root).run(
+            report,
+            mission_id=args.mission_id or "V04-BOOTSTRAP-PROPOSAL-CLI-001",
+            requested_by=args.requested_by,
+            mode=args.proposal_mode,
+        )
+        if args.json_out:
+            write_proposal_json_report(args.json_out, proposal)
+        if args.format == "json":
+            print(json.dumps(proposal, indent=2, sort_keys=True))
+        else:
+            print(render_proposal_human(proposal), end="")
+        return bootstrap_exit_code(report)
+
     if args.json_out:
         write_bootstrap_json_report(args.json_out, report)
 
