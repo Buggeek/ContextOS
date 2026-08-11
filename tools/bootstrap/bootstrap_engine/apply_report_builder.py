@@ -63,8 +63,14 @@ def render_human(result: dict) -> str:
             "- Apply performed create-only actions.",
             "- Apply did not overwrite, replace, or delete pre-existing content.",
             "- Prohibited and manual actions were not executed.",
+            "",
+            "## Next Step",
         ]
     )
+    if state["success"]:
+        lines.append("- Re-run `contextos assess` on the target repository and preserve this apply result as evidence.")
+    else:
+        lines.append("- Review failed checks or errors before generating a new preflight or attempting rollback.")
     if state["failed_pre_checks"]:
         lines.extend(["", "## Failed Pre-Apply Checks"])
         for failed in state["failed_pre_checks"]:

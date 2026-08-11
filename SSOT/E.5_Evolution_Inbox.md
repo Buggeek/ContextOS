@@ -74,6 +74,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-023 | governance | linked-to-mission | V04-BOOTSTRAP-APPLY-PREFLIGHT-001 | A successful preflight establishes eligibility but still does not provide final human apply confirmation. | Represented by V04-BOOTSTRAP-APPLY-CREATE-ONLY-001. |
 | INBOX-024 | governance | decision-needed | V04-BOOTSTRAP-APPLY-CREATE-ONLY-001 | A real apply against the canonical Context OS repository requires target-specific human authorization bound to exact proposal, accepted decision, and fresh preflight. | Decide after release verification; do not infer from implementation authority. |
 | INBOX-025 | product-risk | deferred | V04-BOOTSTRAP-APPLY-CREATE-ONLY-001 | Repair, overwrite, replacement, and deletion workflows are intentionally excluded from v0.4 create-only apply. | Revisit after create-only apply is proven in real target use. |
+| INBOX-026 | governance | decision-needed | V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001 | v0.4 is release-ready without canonical Context OS apply, but maintainers may still choose to run canonical apply as a separate target-specific decision. | Do not block release; require exact target authorization if pursued. |
+| INBOX-027 | product | accepted | V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001 | v0.5 should start from construction tasks derived from readiness/bootstrap evidence rather than broad Knowledge Engine scope. | Promote to v0.5 planning mission. |
 
 ---
 

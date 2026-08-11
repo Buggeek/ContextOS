@@ -156,8 +156,8 @@ def approval_blockers(proposal: dict, drift: dict, approver_candidates: list[str
         blockers.append(
             {
                 "id": "approval.blocker.prohibited_actions",
-                "severity": "error",
-                "message": "Proposal contains prohibited actions.",
+                "severity": "warn",
+                "message": "Proposal contains actions that must remain prohibited and excluded from apply.",
                 "evidence": {"actions": prohibited},
             }
         )

@@ -301,6 +301,11 @@ class BootstrapApplyEngine:
                 {"mutation_set_hash": preflight["frozen_mutation_set"]["hash"]},
             ),
             check(
+                "apply.check.apply_has_executable_mutations",
+                bool(actions),
+                {"mutation_action_count": len(actions)},
+            ),
+            check(
                 "apply.check.only_create_actions",
                 all(action["type"] in {"create_directory", "create_manifest", "create_from_template"} for action in actions),
                 {"action_ids": [action["id"] for action in actions]},

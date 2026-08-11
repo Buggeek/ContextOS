@@ -38,7 +38,7 @@ def render_human(record: dict) -> str:
         f"- Approved identity hash: `{record['drift']['approved_identity_hash']}`",
         f"- Current identity hash: `{record['drift']['current_identity_hash']}`",
         "",
-        "## Blockers",
+        "## Blockers and Warnings",
     ]
     if record["blockers"]:
         for blocker in record["blockers"]:
@@ -56,7 +56,7 @@ def render_human(record: dict) -> str:
             "## Read-Only Guarantee",
             "- This approval record draft did not modify the target repository.",
             "- This approval record draft does not approve the proposal.",
-            "- Future apply still requires human authority and an accepted decision record.",
+            "- Future apply still requires human authority, accepted decision, fresh preflight, and explicit apply confirmation.",
         ]
     )
     return "\n".join(lines) + "\n"

@@ -108,8 +108,9 @@ class BootstrapApprovalRecordTestCase(unittest.TestCase):
 
         record = BootstrapApprovalRecordEngine(".").run(changed)
 
-        blocker_ids = {blocker["id"] for blocker in record["blockers"]}
-        self.assertIn("approval.blocker.prohibited_actions", blocker_ids)
+        blockers = {blocker["id"]: blocker for blocker in record["blockers"]}
+        self.assertIn("approval.blocker.prohibited_actions", blockers)
+        self.assertEqual(blockers["approval.blocker.prohibited_actions"]["severity"], "warn")
 
     def test_json_report_is_serializable(self) -> None:
         proposal = self.proposal_for(Path("."))

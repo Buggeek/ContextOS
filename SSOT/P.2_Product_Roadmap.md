@@ -118,6 +118,8 @@ Self-Hosting Execution:
   [`E.4 Mission V04-BOOTSTRAP-APPLY-PREFLIGHT-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-PREFLIGHT-001_Bootstrap_Apply_Preflight.md)
 - Closed v0.4 create-only apply mission:
   [`E.4 Mission V04-BOOTSTRAP-APPLY-CREATE-ONLY-001`](E.4_Mission_V04-BOOTSTRAP-APPLY-CREATE-ONLY-001_Create_Only_Bootstrap_Apply.md)
+- Closed v0.4 release verification mission:
+  [`E.4 Mission V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001`](E.4_Mission_V04-GUIDED-BOOTSTRAP-RELEASE-VERIFY-001_Release_Verification.md)
 - Evolution Inbox:
   [`E.5 Evolution Inbox`](E.5_Evolution_Inbox.md)
 
