@@ -14,6 +14,9 @@ for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
+from bootstrap_engine.acceptance_engine import BootstrapApprovalAcceptanceEngine  # noqa: E402
+from bootstrap_engine.acceptance_report_builder import render_human as render_acceptance_human  # noqa: E402
+from bootstrap_engine.acceptance_report_builder import write_json_report as write_acceptance_json_report  # noqa: E402
 from bootstrap_engine.approval_engine import BootstrapApprovalRecordEngine, load_json as load_bootstrap_json  # noqa: E402
 from bootstrap_engine.approval_report_builder import render_human as render_approval_human  # noqa: E402
 from bootstrap_engine.approval_report_builder import write_json_report as write_approval_json_report  # noqa: E402
@@ -73,14 +76,17 @@ def build_parser() -> argparse.ArgumentParser:
     )
     init.add_argument("--root", default=".", help="Repository root to plan bootstrap for.")
     init.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
-    init.add_argument("--json-out", default=None, help="Write the machine bootstrap plan/proposal JSON to this path.")
+    init.add_argument("--json-out", default=None, help="Write the machine bootstrap report JSON to this path.")
     init.add_argument("--proposal", action="store_true", help="Render a read-only bootstrap proposal instead of a plan.")
     init.add_argument("--approval-record", default=None, help="Render a read-only approval record draft from a proposal JSON file.")
+    init.add_argument("--accept-approval", default=None, help="Accept a bootstrap approval record draft without applying changes.")
     init.add_argument("--mission-id", default=None, help="Mission id to bind to a bootstrap proposal.")
     init.add_argument("--requested-by", default="operator", help="Requester identity for a bootstrap proposal.")
     init.add_argument("--proposal-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Authority mode for a bootstrap proposal.")
     init.add_argument("--approver", action="append", default=[], help="Approver candidate for an approval record draft. May be repeated.")
-    init.add_argument("--rationale", default=None, help="Rationale to include in an approval record draft.")
+    init.add_argument("--accepted-by", default=None, help="Explicit human identity accepting an approval record draft.")
+    init.add_argument("--accepted-role", default=None, help="Human authority role accepting an approval record draft.")
+    init.add_argument("--rationale", default=None, help="Rationale to include in an approval record draft or accepted decision.")
     init.set_defaults(handler=run_init)
     return parser
 
@@ -188,6 +194,33 @@ def run_init(args: argparse.Namespace) -> int:
         )
         emit_error(payload, args.format)
         return 9
+
+    if args.accept_approval:
+        try:
+            record = load_bootstrap_json(args.accept_approval)
+            decision = BootstrapApprovalAcceptanceEngine(root).run(
+                record,
+                approval_record_ref=args.accept_approval,
+                accepted_by=args.accepted_by or "",
+                accepted_role=args.accepted_role or "",
+                rationale=args.rationale,
+            )
+        except (OSError, ValueError, json.JSONDecodeError) as exc:
+            payload = error_payload(
+                9,
+                "misconfiguration",
+                "Could not accept bootstrap approval record.",
+                {"approval_record": args.accept_approval, "error": str(exc)},
+            )
+            emit_error(payload, args.format)
+            return 9
+        if args.json_out:
+            write_acceptance_json_report(args.json_out, decision)
+        if args.format == "json":
+            print(json.dumps(decision, indent=2, sort_keys=True))
+        else:
+            print(render_acceptance_human(decision), end="")
+        return 0
 
     if args.approval_record:
         try:

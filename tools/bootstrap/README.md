@@ -21,6 +21,8 @@ Slice 2 exposes that plan through the Runtime CLI:
 ./contextos init --root . --proposal --json-out /tmp/contextos-bootstrap-proposal.json
 ./contextos init --root . --approval-record /tmp/contextos-bootstrap-proposal.json
 ./contextos init --root . --approval-record /tmp/contextos-bootstrap-proposal.json --format json
+./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner"
+./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner" --format json
 ```
 
 `contextos init` is still a read-only planning command. It does not create
@@ -31,6 +33,7 @@ Public API:
 ```python
 from bootstrap_engine.plan_engine import BootstrapPlanEngine
 from bootstrap_engine.proposal_engine import BootstrapProposalEngine
+from bootstrap_engine.acceptance_engine import BootstrapApprovalAcceptanceEngine
 from bootstrap_engine.report_builder import render_human
 
 plan = BootstrapPlanEngine(".").run()
@@ -44,6 +47,7 @@ Machine report schema:
 contextos.bootstrap.plan/1
 contextos.bootstrap.proposal/1
 contextos.bootstrap.approval_record/1
+contextos.bootstrap.accepted_decision/1
 ```
 
 The plan explains required, skipped, blocked, and manual future bootstrap
@@ -56,4 +60,9 @@ exists for review and preservation only; it does not apply changes.
 The approval record draft binds a preserved proposal to required authority,
 drift checks, blockers, and a Decision Record draft. It is still read-only and
 does not approve or authorize apply.
-actions. It is designed to be consumed by later v0.4 apply/CLI slices.
+
+The accepted decision binds a valid approval record draft to an explicit human
+identity and authority role. It embeds a `contextos.decision/1` Decision Record
+and approves the preserved proposal as future apply intent, but it still does
+not authorize or perform apply. It is designed to be consumed by later v0.4
+apply/CLI slices.

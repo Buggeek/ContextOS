@@ -39,9 +39,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | ops | Module | Governance + agent rules for contributions | Maintainers | Evidence-based workflow
 | tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
-| tools/bootstrap | Module | Read-only Guided Bootstrap planning, proposal generation, approval-record drafts, and reports | Maintainers | v0.4 plan/proposal/approval-draft component
-| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft
-| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft
+| tools/bootstrap | Module | Read-only Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance component
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -69,7 +69,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 3. Taxonomy change -> template mapping update -> example adjustments
 4. Runtime contract update -> epic alignment -> implementation mission
 5. Validator/CLI change -> local tests -> gate validation -> commit
-6. Readiness assessment -> bootstrap plan -> bootstrap proposal -> approval record draft -> governed future apply decision
+6. Readiness assessment -> bootstrap plan -> bootstrap proposal -> approval record draft -> accepted decision -> governed future apply decision
 
 ---
 

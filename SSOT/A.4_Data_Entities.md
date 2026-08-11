@@ -25,6 +25,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | EvolutionInboxItem | A deferred idea, risk, debt item, opportunity, or hypothesis | SSOT/E.5_Evolution_Inbox.md | id, type, state, source, summary, disposition | N | Prevents active mission drift while preserving learning
 | BootstrapProposal | A preserved apply candidate produced from a read-only Bootstrap Plan | future contextos bootstrap apply surface / report output | id, source_plan_hash, repository_state, authority, actions, gates, status | N | Required before any Guided Bootstrap repository mutation
 | BootstrapApprovalRecord | A read-only approval record draft binding a Bootstrap Proposal to human authority and a Decision Record draft | tools/bootstrap approval output | id, proposal, authority, decision, drift, blockers | N | Does not approve or authorize apply
+| BootstrapAcceptedDecision | A read-only accepted human decision artifact for an exact Bootstrap Proposal identity | tools/bootstrap acceptance output | id, approval_record, proposal, authority, decision, validation, constraints | N | Approves preserved intent but does not authorize or perform apply
 
 ---
 
@@ -36,7 +37,9 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - ChangeRequest → modifies DocumentType/Template/SSOTDocument under governance
 - MissionPacket → executes Release Goal through bounded Slice Plan
 - EvolutionInboxItem → may become MissionPacket only after triage and authority
-- BootstrapProposal → may become ChangeRequest only after review and approval
+- BootstrapProposal → may become BootstrapApprovalRecord after review
+- BootstrapApprovalRecord → may become BootstrapAcceptedDecision only through explicit human authority
+- BootstrapAcceptedDecision → may become ChangeRequest only during a future apply mission
 - BootstrapApprovalRecord → may become DecisionRecord only after human authority
 
 ---

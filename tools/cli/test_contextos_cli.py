@@ -392,6 +392,144 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(payload["error"]["category"], "misconfiguration")
         self.assertEqual(stderr, "")
 
+    def test_init_accept_approval_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--approval-record",
+                str(proposal_path),
+                "--json-out",
+                str(approval_path),
+                "--approver",
+                "Mission Owner",
+            ])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.bootstrap.accepted_decision/1")
+        self.assertTrue(report["decision"]["approved"])
+        self.assertFalse(report["decision"]["apply_authorized"])
+        self.assertFalse(report["decision"]["repository_mutation_authorized"])
+        self.assertEqual(stderr, "")
+
+    def test_init_accept_approval_default_renders_human_without_target_writes(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--approval-record",
+                str(proposal_path),
+                "--json-out",
+                str(approval_path),
+                "--approver",
+                "Mission Owner",
+            ])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+            ])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Bootstrap Accepted Decision", stdout)
+        self.assertIn("Accepted by: Jane Owner", stdout)
+        self.assertIn("Apply authorized: no", stdout)
+        self.assertIn("Repository mutation authorized: no", stdout)
+        self.assertIn("This accepted decision does not authorize apply by itself.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_init_accept_approval_json_out_writes_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            accepted_path = Path(output_temp) / "bootstrap-accepted.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--approval-record",
+                str(proposal_path),
+                "--json-out",
+                str(approval_path),
+                "--approver",
+                "Mission Owner",
+            ])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--accepted-by",
+                "Jane Owner",
+                "--accepted-role",
+                "Mission Owner",
+                "--json-out",
+                str(accepted_path),
+            ])
+            report = json.loads(accepted_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Bootstrap Accepted Decision", stdout)
+        self.assertEqual(report["schema"], "contextos.bootstrap.accepted_decision/1")
+        self.assertIn("decision_record", report["decision"])
+        self.assertEqual(stderr, "")
+
+    def test_init_accept_approval_requires_explicit_human_authority(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            proposal_path = Path(output_temp) / "bootstrap-proposal.json"
+            approval_path = Path(output_temp) / "bootstrap-approval.json"
+            self.invoke(["init", "--root", temp, "--proposal", "--json-out", str(proposal_path)])
+            self.invoke(["init", "--root", temp, "--approval-record", str(proposal_path), "--json-out", str(approval_path)])
+            code, stdout, stderr = self.invoke([
+                "init",
+                "--root",
+                temp,
+                "--accept-approval",
+                str(approval_path),
+                "--format",
+                "json",
+            ])
+
+        payload = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertIn("explicit approving human identity", payload["error"]["evidence"]["error"])
+        self.assertEqual(stderr, "")
+
     def test_init_example_repo_returns_validator_error_code_with_plan(self) -> None:
         code, stdout, stderr = self.invoke([
             "init",

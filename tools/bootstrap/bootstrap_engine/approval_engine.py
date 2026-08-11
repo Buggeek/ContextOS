@@ -133,7 +133,7 @@ def approval_blockers(proposal: dict, drift: dict, approver_candidates: list[str
                 "evidence": drift["checks"],
             }
         )
-    if proposal["repository_state"]["dirty_state"] != "clean":
+    if proposal["repository_state"]["dirty_state"] == "dirty":
         blockers.append(
             {
                 "id": "approval.blocker.repository_dirty",

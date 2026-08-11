@@ -41,6 +41,8 @@ usable Organizational Context Runtime repository.
    or apply operation
 9. Operator generates a read-only approval record draft that binds the proposal
    to human authority before apply exists
+10. Operator accepts the approval record with explicit human identity and role,
+    producing a read-only accepted decision before apply exists
 
 ---
 
@@ -55,6 +57,7 @@ usable Organizational Context Runtime repository.
 - Provide read-only bootstrap proposal generation as the preserved bridge from
   plan to future apply approval
 - Provide read-only bootstrap approval record drafts before any apply behavior
+- Provide explicit read-only bootstrap approval acceptance before apply behavior
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
 

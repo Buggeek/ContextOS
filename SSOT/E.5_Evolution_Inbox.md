@@ -65,9 +65,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-014 | implementation | superseded | V04-BOOTSTRAP-PROPOSAL-001 | Proposal engine has no human renderer yet. | Implemented by V04-BOOTSTRAP-PROPOSAL-REVIEW-001. |
 | INBOX-015 | governance | accepted | V04-BOOTSTRAP-PROPOSAL-REVIEW-001 | Approval needs a read-only Decision/Approval record that binds proposal id, identity hash, approvers, authority mode, and expiry before apply exists. | Promote to the next v0.4 mission. |
 | INBOX-016 | implementation | accepted | V04-BOOTSTRAP-PROPOSAL-REVIEW-001 | Proposal review has JSON-out preservation but no first-class approval-state transition command. | Define approval record before apply implementation. |
-| INBOX-017 | governance | accepted | V04-BOOTSTRAP-APPROVAL-001 | Approval record draft exists, but accepted approval still requires an explicit human authority action. | Promote to a future approval acceptance mission before apply. |
-| INBOX-018 | implementation | accepted | V04-BOOTSTRAP-APPROVAL-001 | Approval records are generated from proposal files but are not yet persisted as immutable Decision Records. | Define accepted-decision persistence before apply. |
+| INBOX-017 | governance | linked-to-mission | V04-BOOTSTRAP-APPROVAL-001 | Approval record draft exists, but accepted approval still requires an explicit human authority action. | Represented by V04-BOOTSTRAP-APPROVAL-ACCEPT-001. |
+| INBOX-018 | implementation | superseded | V04-BOOTSTRAP-APPROVAL-001 | Approval records are generated from proposal files but are not yet persisted as immutable Decision Records. | Accepted decision output now embeds `contextos.decision/1`; durable ledger storage remains future work. |
 | INBOX-019 | technical-debt | accepted | V04-BOOTSTRAP-APPROVAL-001 | Proposal drift comparison previously used path tree hash instead of full fingerprint hash. | Fixed in this mission; keep regression coverage. |
+| INBOX-020 | implementation | accepted | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Future apply must consume an accepted decision artifact and revalidate proposal identity, source plan hash, repository fingerprint, file hashes, and drift before any mutation. | Promote to the next v0.4 apply-preflight mission. |
+| INBOX-021 | governance | accepted | V04-BOOTSTRAP-APPROVAL-ACCEPT-001 | Accepted decisions are portable JSON artifacts but not yet written to an Accountability Ledger. | Require ledger integration before automated Mission Runtime or multi-actor apply. |
 
 ---
 
