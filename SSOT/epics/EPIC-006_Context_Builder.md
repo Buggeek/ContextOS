@@ -87,6 +87,10 @@ v0.5 Context Construction expansion:
   object that records an explicit L2 `builder.draft.review` outcome for an
   exact draft review and draft content hash without approving, promoting, or
   canonicalizing the draft.
+- `contextos.builder.draft_approval_decision/1` governed human
+  approval-decision object that records explicit L3 `builder.draft.approve`
+  approval for an exact eligible Review Decision without promoting, writing
+  SSOT, or canonicalizing the draft.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -134,6 +138,10 @@ v0.5 Context Construction expansion:
   human can record `reviewed_ready_for_next_governance_step`,
   `changes_requested`, `rejected`, `insufficient_evidence`, or `superseded`
   against the exact reviewed draft while preserving non-canonical status.
+- v0.5 draft approval decision slice: an explicitly identified and authorized
+  human can record `approved_for_promotion_proposal`, `approval_rejected`, or
+  `approval_deferred` against the exact eligible Review Decision while leaving
+  promotion and canonical context writes unauthorized.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state

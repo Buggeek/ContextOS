@@ -127,3 +127,28 @@ The review decision preserves the boundary:
 ```text
 Review Decision != Approval != Canonical Truth
 ```
+
+Slice V05-BUILDER-DRAFT-APPROVAL-DECISION-001 adds
+`BuilderDraftApprovalDecisionEngine`, a governed human approval surface that
+emits:
+
+```text
+contextos.builder.draft_approval_decision/1
+```
+
+It records explicit L3 `builder.draft.approve` approval for an exact eligible
+Review Decision and draft content hash. Approval may make a draft eligible as
+input to a future promotion proposal, but it does not perform promotion, write
+SSOT, mutate draft content, or create canonical organizational truth.
+
+Allowed approval-decision outcomes:
+
+- `approved_for_promotion_proposal`
+- `approval_rejected`
+- `approval_deferred`
+
+The approval decision preserves the boundary:
+
+```text
+Approval Decision != Promotion != Canonical Truth
+```

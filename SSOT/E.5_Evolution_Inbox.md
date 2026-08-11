@@ -102,6 +102,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-051 | UX | accepted | V05-BUILDER-DRAFT-REVIEW-SURFACE-001 | Future review surfaces should visually separate observed, inferred, suggested, drafted, unknown, and approved truth states. | Defer to CLI/web/IDE review surface design. |
 | INBOX-052 | product | accepted | V05-BUILDER-DRAFT-REVIEW-DECISION-001 | Review Decision exists as an engine/object but has no user-facing CLI or workflow surface. | Consider after the next lifecycle transition is defined. |
 | INBOX-053 | governance | accepted | V05-BUILDER-DRAFT-REVIEW-DECISION-001 | Approval and promotion must consume exact Review Decisions without regenerating draft intent or treating review as approval. | Promote before any draft approval or canonical SSOT mutation mission. |
+| INBOX-054 | product | accepted | V05-BUILDER-DRAFT-APPROVAL-DECISION-001 | Approval Decision exists as an engine/object but has no user-facing CLI or workflow surface. | Consider after promotion preflight is defined. |
+| INBOX-055 | governance | accepted | V05-BUILDER-DRAFT-APPROVAL-DECISION-001 | Promotion must consume exact Approval Decisions and still require separate authority, validation, and canonical write boundaries. | Promote before any SSOT or canonical context mutation mission. |
 
 ---
 
@@ -122,3 +124,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added create-only Builder draft write follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Review Surface follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Review Decision follow-up items.
+- 2026-08-11 - v0.1.0 - Added Draft Approval Decision follow-up items.
