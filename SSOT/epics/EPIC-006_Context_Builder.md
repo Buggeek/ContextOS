@@ -62,6 +62,10 @@ v0.5 Context Construction expansion:
 - `contextos.construction.plan/1` planning object that turns readiness,
   inventory, validator, and bootstrap evidence into governed construction
   candidates without writing files or promoting truth.
+- `contextos.builder.draft_plan/1` planning object that determines which
+  candidates can responsibly become future drafts, with provenance, support
+  level, unknowns, contradictions, authority requirements, and promotion
+  restrictions.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -91,6 +95,8 @@ v0.5 Context Construction expansion:
 - v0.5 first slice: a repository can produce a construction plan that
   preserves observed/inferred/suggested/draft/reviewed/approved/canonical
   boundaries before any Builder writes.
+- v0.5 Builder planning slice: a repository can produce a Builder Draft Plan
+  that explains draftability without creating or promoting context.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state

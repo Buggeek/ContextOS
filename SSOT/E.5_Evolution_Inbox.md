@@ -82,6 +82,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-031 | implementation | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | `contextos scan` and source registry remain absent even though the local Discovery Bundle engine exists. | Defer until the engine is consumed by the first Builder draft mission or a user-facing construction CLI mission. |
 | INBOX-032 | architecture | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | Discovery currently captures literal local links and containment only; semantic relationships must wait for Knowledge/Graph maturity. | Preserve as a boundary for v0.5; revisit in Organizational Memory. |
 | INBOX-033 | implementation | accepted | V05-DISCOVERY-BUNDLE-LOCAL-001 | Builder draft generation now has a stable local discovery input and should be shaped next without external connectors. | Promote to the next v0.5 mission. |
+| INBOX-034 | implementation | accepted | V05-BUILDER-DRAFT-PLAN-001 | Builder Draft Plan has no Runtime CLI surface, so users cannot request it directly yet. | Consider a read-only construction CLI only after the first Builder write boundary is decided. |
+| INBOX-035 | governance | accepted | V05-BUILDER-DRAFT-PLAN-001 | Write-capable Builder draft creation will require an explicit authority and no-overwrite model similar to Guided Bootstrap apply. | Promote before any `build-mom` or `build-ssot` write behavior. |
+| INBOX-036 | architecture | accepted | V05-BUILDER-DRAFT-PLAN-001 | Confidence/support levels are planning aids and need a stable taxonomy before cross-domain Builder expansion. | Defer until first non-technology context construction slice or Builder draft generation hardening. |
 
 ---
 
@@ -95,3 +98,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Created Evolution Inbox for self-hosted execution.
 - 2026-08-11 - v0.1.0 - Added Context Construction planning follow-up items.
 - 2026-08-11 - v0.1.0 - Added Local Discovery Bundle follow-up items.
+- 2026-08-11 - v0.1.0 - Added Builder Draft Planning follow-up items.
