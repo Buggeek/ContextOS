@@ -38,8 +38,10 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | examples | Module | Reference SSOT implementations | Maintainers | Must declare compliance profiles
 | ops | Module | Governance + agent rules for contributions | Maintainers | Evidence-based workflow
 | tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
-| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surface: validate
-| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surface: help/version/validate
+| tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
+| tools/bootstrap | Module | Read-only Guided Bootstrap planning engine and reports | Maintainers | v0.4 planning component
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -67,13 +69,15 @@ Modular monolith (documentation modules + tooling modules in one repository).
 3. Taxonomy change -> template mapping update -> example adjustments
 4. Runtime contract update -> epic alignment -> implementation mission
 5. Validator/CLI change -> local tests -> gate validation -> commit
+6. Readiness assessment -> bootstrap plan -> governed future apply decision
 
 ---
 
 ## Known Gaps / Drift
 
-- Context Readiness Assessment is defined but not yet implemented
-- Runtime CLI currently exposes validation only
+- No write-capable Guided Bootstrap apply surface exists yet
+- No Discovery Bundle, Knowledge Engine, Context Builder, Context Graph
+  runtime, Activation Layer, or agent runtime exists yet
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---
@@ -89,4 +93,5 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 ## Change Log
 
+- 2026-08-11 — v0.1.1 — Aligned implemented Runtime surfaces and GENESIS direction
 - 2026-02-19 — v0.1.0 — Initial creation

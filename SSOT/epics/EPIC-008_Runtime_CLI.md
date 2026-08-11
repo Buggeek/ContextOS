@@ -15,7 +15,9 @@ The CLI is the stable runtime entry surface across the product journey.
   `contextos validate`.
 - v0.3 Context Readiness exposes `contextos assess` through the CLI without
   duplicating ValidatorEngine logic.
-- v0.4 adds guided bootstrap surfaces.
+- v0.4 exposes `contextos init` as the canonical Guided Bootstrap entry point.
+  The active surface is read-only planning; write-capable bootstrap must be a
+  later explicit approval/apply slice.
 - v0.5 adds construction surfaces.
 - v0.6+ adds activation, health, mission, and reasoning surfaces only when
   their product release requires them.
@@ -59,7 +61,10 @@ Upcoming release slices:
 - `contextos assess --root <path> --format text|human|json --json-out <path>`
   per the
   [`Context Readiness Assessment Contract`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md).
-- `contextos init` (scaffolding + manifest).
+- `contextos init --root <path> --format text|human|json --json-out <path>`
+  as a read-only bootstrap planning surface that returns
+  `contextos.bootstrap.plan/1`.
+- Future write-capable bootstrap approval/apply surface.
 - `contextos sources add|list|remove`.
 - `contextos governance set-roster`.
 - `contextos scan` (Discovery surface).
@@ -89,7 +94,9 @@ Upcoming release slices:
   behavior.
 - v0.3: assessment is invokable via the CLI and produces
   `contextos.readiness.report/1` without writing to the repository.
-- v0.4/v0.5: Bootstrap and construction steps from
+- v0.4: Guided Bootstrap planning is invokable via `contextos init` and
+  produces `contextos.bootstrap.plan/1` without writing to the repository.
+- v0.5: Bootstrap apply/construction steps from
   [`4.4`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) become
   invokable via the CLI as their release slices ship.
 - Output is consistently structured: `result` or `error` under `--format
@@ -138,7 +145,8 @@ Upcoming release slices:
 ## Definition of Done (DoD)
 
 - Active release commands shipped, tested, and documented, including
-  `contextos assess` for v0.3.
+  `contextos assess` for v0.3 and read-only `contextos init` planning for
+  v0.4.
 - JSON output schema validated in CI.
 - `cli.run` event emitted on every invocation with `authority` populated.
 - Installation walkthrough (`4.5`) updated to reference CLI behavior

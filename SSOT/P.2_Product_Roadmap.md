@@ -81,14 +81,14 @@ execution.
 
 # Current Version
 
-v0.3 — Context Readiness
+v0.4 — Guided Bootstrap
 
 Status: Active
 
 Primary Goal:
 
-Transform an existing repository into an understandable Context OS readiness
-state using the canonical Context Readiness Assessment.
+Transform Context Readiness findings into a governed bootstrap plan and,
+through later v0.4 slices, an approved minimum Context OS home.
 
 Canonical Contract:
 
@@ -116,7 +116,7 @@ Canonical Contract:
 | Release | Primary epic slices |
 |---|---|
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
-| v0.4 Guided Bootstrap | EPIC-008 bootstrap CLI, EPIC-006 scaffolding/drafts, EPIC-007 pre-bootstrap/gate validation |
+| v0.4 Guided Bootstrap | EPIC-008 read-only `contextos init` planning, EPIC-006 scaffolding/drafts in later slices, EPIC-007 pre-bootstrap/gate validation |
 | v0.5 Context Construction | EPIC-004 Discovery Bundle, EPIC-006 Builder promotion path, EPIC-007 gate integration |
 | v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
@@ -157,6 +157,8 @@ Context Builder
 Status: Planned
 
 Primary release slice: v0.4 Guided Bootstrap and v0.5 Context Construction.
+The active v0.4 slice is bootstrap planning only; write-capable scaffolding is
+deferred to an explicit approval/apply slice.
 
 ---
 
@@ -178,10 +180,11 @@ Runtime CLI
 
 Status: Active
 
-Primary release slice: v0.3 Context Readiness. The validate surface has
-shipped; v0.3 now adds the `contextos assess` surface for the Context
-Readiness Assessment. Later slices add bootstrap, construction, activation,
-and mission-oriented commands as their releases require them.
+Primary release slice: v0.3 Context Readiness and v0.4 Guided Bootstrap. The
+validate and assess surfaces have shipped; v0.4 now exposes read-only
+`contextos init` bootstrap planning. Later slices add bootstrap apply,
+construction, activation, and mission-oriented commands as their releases
+require them.
 
 ---
 

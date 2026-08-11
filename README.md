@@ -2,6 +2,9 @@
 
 **Context OS is an Organizational Context Runtime for human-agent systems.**
 
+The canonical first-principles definition lives in
+[`docs/0.x_foundations/0.8_COS_GENESIS.md`](docs/0.x_foundations/0.8_COS_GENESIS.md).
+
 Not a tool.  
 Not a framework for writing specs.  
 Not a productivity hack.
@@ -238,6 +241,7 @@ It’s infrastructure.
 ## Getting Started
 
 1. Read the foundational documents in `/docs/0.x_foundations/`
+   - Start with `0.8_COS_GENESIS.md` for the canonical model
 2. Review the architecture in `/docs/1.x_architecture/`
 3. Understand taxonomy in `/docs/2.x_taxonomy/`
 4. Build your Minimum Operational Map using `/docs/3.x_operation/`

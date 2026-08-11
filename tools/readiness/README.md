@@ -3,10 +3,8 @@
 This folder contains small runtime components that support Release v0.3
 Context Readiness.
 
-The first implemented slices are intentionally narrow:
+The implemented v0.3 slices are intentionally narrow:
 
-- no recommendations
-- no `contextos assess`
 - no Builder, Knowledge Engine, Graph, or agents
 
 ## Repository Inventory
@@ -80,4 +78,12 @@ The Slice 2 report contains:
 - recommendations using stable `readiness.<category>.<action>` IDs
 - a human-readable report renderer
 
-The `contextos assess` CLI is deliberately deferred.
+CLI surface:
+
+```bash
+./contextos assess --root .
+./contextos assess --root . --format json
+./contextos assess --root . --json-out /tmp/contextos-readiness-report.json
+```
+
+`contextos assess` is read-only and emits `contextos.readiness.report/1`.

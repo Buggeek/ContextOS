@@ -20,6 +20,8 @@ usable Organizational Context Runtime repository.
 - Ops rules (`ops/`)
 - Runtime contracts (`docs/1.x_architecture/1.5_runtime_contracts/`)
 - Validator Engine tooling (`tools/validators/`)
+- Context Readiness tooling (`tools/readiness/`)
+- Guided Bootstrap planning tooling (`tools/bootstrap/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -31,6 +33,8 @@ usable Organizational Context Runtime repository.
 3. Contributor proposes a framework change -> validated by governance rules
 4. Maintainers review diffs -> merge changes with evidence
 5. Operator runs Runtime tooling -> receives validation or readiness feedback
+6. Operator runs Guided Bootstrap planning -> receives a read-only bootstrap
+   plan before any repository mutation
 
 ---
 
@@ -41,6 +45,7 @@ usable Organizational Context Runtime repository.
 - Provide templates that map to taxonomy
 - Provide examples demonstrating minimal vs strict compliance
 - Provide validator, CLI, and readiness contracts with scoped runtime tooling
+- Provide read-only bootstrap planning as the first Guided Bootstrap surface
 
 ---
 
@@ -65,6 +70,8 @@ usable Organizational Context Runtime repository.
 - Terminology drift across documents over time
 - Examples becoming outdated relative to taxonomy/templates
 - Validator scope creep (enforcing too much too early)
+- Bootstrap surface confusion if read-only planning and future apply are not
+  kept distinct
 
 ---
 
@@ -85,4 +92,5 @@ usable Organizational Context Runtime repository.
 
 ## Change Log
 
+- 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
 - 2026-02-19 — v0.1.0 — Initial creation
