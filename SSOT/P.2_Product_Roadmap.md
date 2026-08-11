@@ -104,6 +104,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001`](E.4_Mission_V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001_Draft_Promotion_Preflight.md)
+- Closed v0.5 draft approval decision mission:
   [`E.4 Mission V05-BUILDER-DRAFT-APPROVAL-DECISION-001`](E.4_Mission_V05-BUILDER-DRAFT-APPROVAL-DECISION-001_Draft_Approval_Decision.md)
 - Closed v0.5 draft review decision mission:
   [`E.4 Mission V05-BUILDER-DRAFT-REVIEW-DECISION-001`](E.4_Mission_V05-BUILDER-DRAFT-REVIEW-DECISION-001_Draft_Review_Decision.md)
@@ -217,8 +219,9 @@ Builder Draft Authority Contract, the Draft Workspace decision, and the
 read-only Draft Workspace runtime preflight, plus controlled create-only draft
 write behavior inside the Draft Workspace, a read-only draft review surface,
 governed human Review Decision object, and a governed human Approval Decision
-object. CLI exposure, promotion, and canonical SSOT mutation remain deferred to
-explicit governed missions.
+object, plus a read-only Promotion Preflight. CLI exposure, promotion
+execution, and canonical SSOT mutation remain deferred to explicit governed
+missions.
 
 ---
 
@@ -297,3 +300,4 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the Draft Review Surface mission.
 - 2026-08-11 - v1.0 - Linked the Draft Review Decision mission.
 - 2026-08-11 - v1.0 - Linked the Draft Approval Decision mission.
+- 2026-08-11 - v1.0 - Linked the Draft Promotion Preflight mission.

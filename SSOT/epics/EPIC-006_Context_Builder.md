@@ -91,6 +91,10 @@ v0.5 Context Construction expansion:
   approval-decision object that records explicit L3 `builder.draft.approve`
   approval for an exact eligible Review Decision without promoting, writing
   SSOT, or canonicalizing the draft.
+- `contextos.builder.draft_promotion_preflight/1` read-only promotion gate
+  that verifies exact Approval Decision identity, draft hash, canonical target
+  state, Validator gate, authority, uncertainty, and no-overwrite/replacement
+  stance before any future canonical promotion can be considered.
 - `contextos build-mom` implementation per the CLI Contract.
 - `contextos build-ssot` implementation per the CLI Contract.
 - Mapping rules from Discovery Bundle + Interpretation drafts to MOM
@@ -142,6 +146,10 @@ v0.5 Context Construction expansion:
   human can record `approved_for_promotion_proposal`, `approval_rejected`, or
   `approval_deferred` against the exact eligible Review Decision while leaving
   promotion and canonical context writes unauthorized.
+- v0.5 draft promotion preflight slice: an approved draft can become eligible
+  for a future promotion confirmation only when identity, provenance, target
+  state, validator gate, and uncertainty checks pass; promotion remains
+  unauthorized.
 - v0.5 later slices: a repository can run `init -> sources add -> scan -> build-mom ->
   build-ssot` end-to-end and produce a usable SSOT skeleton.
 - Every produced artifact carries the required ownership and belief-state

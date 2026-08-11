@@ -152,3 +152,26 @@ The approval decision preserves the boundary:
 ```text
 Approval Decision != Promotion != Canonical Truth
 ```
+
+Slice V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001 adds
+`BuilderDraftPromotionPreflightEngine`, a read-only gate that emits:
+
+```text
+contextos.builder.draft_promotion_preflight/1
+```
+
+It consumes an exact eligible Approval Decision and determines whether the
+approved draft is still safe, valid, authorized, and explainable enough to be
+considered for a future canonical promotion. A successful preflight may set
+`eligible_for_promotion: true`, but it always keeps:
+
+```text
+promotion_authorized: false
+canonical_mutation_authorized: false
+```
+
+The preflight freezes a canonical write-set candidate and records target
+canonical path state, Validator gate evidence, no-overwrite or governed
+replacement-policy evidence, unresolved uncertainty, and rollback/recovery
+expectations. It performs no promotion, SSOT write, canonical context mutation,
+or draft mutation.

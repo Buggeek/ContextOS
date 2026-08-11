@@ -104,6 +104,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-053 | governance | accepted | V05-BUILDER-DRAFT-REVIEW-DECISION-001 | Approval and promotion must consume exact Review Decisions without regenerating draft intent or treating review as approval. | Promote before any draft approval or canonical SSOT mutation mission. |
 | INBOX-054 | product | accepted | V05-BUILDER-DRAFT-APPROVAL-DECISION-001 | Approval Decision exists as an engine/object but has no user-facing CLI or workflow surface. | Consider after promotion preflight is defined. |
 | INBOX-055 | governance | accepted | V05-BUILDER-DRAFT-APPROVAL-DECISION-001 | Promotion must consume exact Approval Decisions and still require separate authority, validation, and canonical write boundaries. | Promote before any SSOT or canonical context mutation mission. |
+| INBOX-056 | governance | accepted | V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001 | Promotion Preflight can establish eligibility, but human promotion confirmation and canonical mutation authority remain separate. | Promote before any Builder canonical write mission. |
+| INBOX-057 | implementation | accepted | V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001 | Promotion Preflight, Approval Decision, Review Decision, and Draft Review remain engine-only surfaces without Runtime CLI workflow. | Consider a construction workflow CLI after promotion execution boundaries are decided. |
 
 ---
 
@@ -125,3 +127,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Draft Review Surface follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Review Decision follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Approval Decision follow-up items.
+- 2026-08-11 - v0.1.0 - Added Draft Promotion Preflight follow-up items.

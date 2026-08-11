@@ -115,7 +115,9 @@ class BuilderDraftApprovalDecisionEngine:
         root = self.root.resolve()
         timestamp = generated_at or generated_timestamp()
         draft_path = root / review_decision["draft"]["draft_path"]
+        canonical_target_path = root / review_decision["draft"]["target_context_artifact"]
         current_state = path_state(draft_path)
+        canonical_target_state = path_state(canonical_target_path)
         validator_report = ValidatorEngine(root).run(mode="gate")
         approval_model = ALLOWED_OUTCOMES[outcome]
         required_roles = review_decision.get("reviewer", {}).get("required_roles", [])
@@ -274,6 +276,8 @@ class BuilderDraftApprovalDecisionEngine:
                 "validator": {"schema": validator_report["schema"], "summary": validator_report["summary"]},
                 "repository_state": {
                     "draft_path_state": current_state,
+                    "canonical_target_path": review_decision["draft"]["target_context_artifact"],
+                    "canonical_target_state": canonical_target_state,
                     "review_decision_repository_state": review_decision["evidence"]["repository_state"],
                 },
             },
