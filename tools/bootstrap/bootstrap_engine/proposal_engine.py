@@ -342,8 +342,11 @@ class BootstrapProposalEngine:
         return proposal
 
     def check_drift(self, proposal: dict, bootstrap_plan: dict | None = None) -> dict:
+        current_plan = bootstrap_plan
+        if current_plan is None:
+            current_plan = BootstrapPlanEngine(self.root).run(generated_at=proposal["source_plan"]["generated_at"])
         current = self.run(
-            bootstrap_plan=bootstrap_plan,
+            bootstrap_plan=current_plan,
             mission_id=proposal["mission_id"],
             release=proposal["release"],
             goal=proposal["goal"],
@@ -355,7 +358,7 @@ class BootstrapProposalEngine:
         )
         checks = {
             "source_plan_hash_changed": proposal["source_plan"]["plan_hash"] != current["source_plan"]["plan_hash"],
-            "repository_state_hash_changed": proposal["repository_state"]["base_tree_hash"] != current["repository_state"]["base_tree_hash"],
+            "repository_state_hash_changed": proposal["repository_state"]["fingerprint_hash"] != current["repository_state"]["fingerprint_hash"],
             "action_set_changed": action_identity(proposal) != action_identity(current),
             "authority_scope_changed": authority_identity(proposal) != authority_identity(current),
             "proposal_identity_changed": proposal["identity_hash"] != current["identity_hash"],

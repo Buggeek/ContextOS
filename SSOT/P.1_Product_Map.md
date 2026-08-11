@@ -39,6 +39,8 @@ usable Organizational Context Runtime repository.
    Bootstrap Proposal before any approved repository mutation
 8. Operator preserves the proposal with JSON output before any future approval
    or apply operation
+9. Operator generates a read-only approval record draft that binds the proposal
+   to human authority before apply exists
 
 ---
 
@@ -52,6 +54,7 @@ usable Organizational Context Runtime repository.
 - Provide read-only bootstrap planning as the first Guided Bootstrap surface
 - Provide read-only bootstrap proposal generation as the preserved bridge from
   plan to future apply approval
+- Provide read-only bootstrap approval record drafts before any apply behavior
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
 
@@ -106,5 +109,7 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product
+  journey
+- 2026-08-11 — v0.1.1 — Added Bootstrap Approval Record Draft to product
   journey
 - 2026-02-19 — v0.1.0 — Initial creation

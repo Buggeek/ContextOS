@@ -81,6 +81,25 @@ class BootstrapProposalTestCase(unittest.TestCase):
         self.assertTrue(drift["checks"]["repository_state_hash_changed"])
         self.assertTrue(drift["checks"]["proposal_identity_changed"])
 
+    def test_saved_proposal_drift_check_reuses_source_plan_timestamp(self) -> None:
+        plan = BootstrapPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z")
+        proposal = BootstrapProposalEngine(".").run(plan, generated_at="2026-08-11T00:00:01Z")
+
+        drift = BootstrapProposalEngine(".").check_drift(proposal)
+
+        self.assertFalse(drift["checks"]["source_plan_hash_changed"])
+
+    def test_dirty_state_drift_invalidates_proposal(self) -> None:
+        plan = BootstrapPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z")
+        proposal = BootstrapProposalEngine(".").run(plan, generated_at="2026-08-11T00:00:01Z")
+        changed = copy.deepcopy(proposal)
+        changed["repository_state"]["fingerprint_hash"] = "stale-fingerprint"
+
+        drift = BootstrapProposalEngine(".").check_drift(changed, plan)
+
+        self.assertTrue(drift["invalidated"])
+        self.assertTrue(drift["checks"]["repository_state_hash_changed"])
+
     def test_actions_preserve_classification_authority_and_rollback(self) -> None:
         proposal = BootstrapProposalEngine(".").run(
             BootstrapPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z"),

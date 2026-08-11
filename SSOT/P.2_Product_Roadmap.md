@@ -110,6 +110,8 @@ Self-Hosting Execution:
   [`E.4 Mission V04-BOOTSTRAP-PROPOSAL-001`](E.4_Mission_V04-BOOTSTRAP-PROPOSAL-001_Read_Only_Bootstrap_Proposal_Engine.md)
 - Closed v0.4 proposal-review mission:
   [`E.4 Mission V04-BOOTSTRAP-PROPOSAL-REVIEW-001`](E.4_Mission_V04-BOOTSTRAP-PROPOSAL-REVIEW-001_Read_Only_Bootstrap_Proposal_Review_Surface.md)
+- Closed v0.4 approval-record mission:
+  [`E.4 Mission V04-BOOTSTRAP-APPROVAL-001`](E.4_Mission_V04-BOOTSTRAP-APPROVAL-001_Read_Only_Bootstrap_Approval_Record.md)
 - Evolution Inbox:
   [`E.5 Evolution Inbox`](E.5_Evolution_Inbox.md)
 
@@ -245,3 +247,5 @@ governable, and reusable across humans, agents, and systems.
   reference.
 - 2026-08-11 - v1.0 - Added read-only Bootstrap Proposal Review Surface
   mission reference.
+- 2026-08-11 - v1.0 - Added read-only Bootstrap Approval Record mission
+  reference.
