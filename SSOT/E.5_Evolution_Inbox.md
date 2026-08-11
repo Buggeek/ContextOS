@@ -54,9 +54,15 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-003 | product-risk | accepted | SELFHOST-001 | Mission Runtime and `contextos mission` are tempting but premature for v0.4. | Revisit during Activate or Human-Agent Runtime releases. |
 | INBOX-004 | governance | decision-needed | SELFHOST-001 | Mission closure could eventually require a first-class authority ledger entry for L3+ agent actions. | Decide before automating Mission Runtime. |
 | INBOX-005 | taxonomy | accepted | SELFHOST-001 | E.4 and E.5 were added before templates exist. | Keep explicit template deferral until mission artifact shape stabilizes. |
+| INBOX-006 | implementation | accepted | V04-BOOTSTRAP-APPLY-001 | A read-only Bootstrap Proposal generator is needed before any apply implementation. | Promote to the next v0.4 mission. |
+| INBOX-007 | governance | accepted | V04-BOOTSTRAP-APPLY-001 | Apply approval needs durable Decision Record and Ledger support, but Mission Runtime does not exist yet. | Use mission evidence and commit history temporarily; require ledger integration before automated Mission Runtime. |
+| INBOX-008 | product-risk | accepted | V04-BOOTSTRAP-APPLY-001 | Users may expect `contextos init` to write files. | Preserve read-only default and require an explicit proposal-approved apply surface. |
+| INBOX-009 | technical-debt | accepted | V04-BOOTSTRAP-APPLY-001 | Proposal canonical hashing and repository fingerprinting need deterministic implementation rules. | Define during Bootstrap Proposal Engine implementation. |
+| INBOX-010 | governance | deferred | V04-BOOTSTRAP-APPLY-001 | Replacement or overwrite actions are prohibited for v0.4 but may be needed later for repair workflows. | Revisit after create-only apply is proven. |
 
 ---
 
 ## Change Log
 
+- 2026-08-11 - v0.1.0 - Added Guided Bootstrap apply approval follow-up items.
 - 2026-08-11 - v0.1.0 - Created Evolution Inbox for self-hosted execution.

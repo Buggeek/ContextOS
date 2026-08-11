@@ -13,6 +13,7 @@ expected to build against.
 | [Mission Contract](1.5.4_Mission_Contract.md) | Mission Packet structure, lifecycle states, ownership | Orchestrator + Mission Lifecycle |
 | [Runtime Event Model](1.5.5_Runtime_Event_Model.md) | Event taxonomy, payload shapes, ordering, observability | Runtime event bus |
 | [Context Readiness Assessment Contract](1.5.6_Context_Readiness_Assessment_Contract.md) | v0.3 readiness dimensions, scoring, report schema, recommendations | EPIC-004 + EPIC-006 + EPIC-007 + EPIC-008 |
+| [Bootstrap Apply Approval Contract](1.5.7_Bootstrap_Apply_Approval_Contract.md) | Proposal identity, approval, validation, rollback, and evidence rules for future Guided Bootstrap apply | EPIC-006 + EPIC-007 + EPIC-008 |
 
 ## Rules
 

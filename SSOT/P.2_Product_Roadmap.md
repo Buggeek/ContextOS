@@ -96,6 +96,10 @@ Canonical Contract:
 
 [`../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
 
+Guided Bootstrap Apply Contract:
+
+[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.7_Bootstrap_Apply_Approval_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.7_Bootstrap_Apply_Approval_Contract.md)
+
 Self-Hosting Execution:
 
 - Current closed mission:
@@ -172,7 +176,7 @@ Status: Planned
 
 Primary release slice: v0.4 Guided Bootstrap and v0.5 Context Construction.
 The active v0.4 slice is bootstrap planning only; write-capable scaffolding is
-deferred to an explicit approval/apply slice.
+deferred to an explicit proposal-approved apply slice.
 
 ---
 

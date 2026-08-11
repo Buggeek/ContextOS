@@ -35,6 +35,8 @@ usable Organizational Context Runtime repository.
 5. Operator runs Runtime tooling -> receives validation or readiness feedback
 6. Operator runs Guided Bootstrap planning -> receives a read-only bootstrap
    plan before any repository mutation
+7. Future operator requests Guided Bootstrap apply -> reviews a preserved
+   Bootstrap Proposal before any approved repository mutation
 
 ---
 
@@ -46,6 +48,8 @@ usable Organizational Context Runtime repository.
 - Provide examples demonstrating minimal vs strict compliance
 - Provide validator, CLI, and readiness contracts with scoped runtime tooling
 - Provide read-only bootstrap planning as the first Guided Bootstrap surface
+- Define proposal-approved apply as the only future write-capable Guided
+  Bootstrap path
 
 ---
 
@@ -72,6 +76,8 @@ usable Organizational Context Runtime repository.
 - Validator scope creep (enforcing too much too early)
 - Bootstrap surface confusion if read-only planning and future apply are not
   kept distinct
+- Apply implementation risk if proposal identity, authority, validator gates,
+  and rollback are not preserved before mutation
 
 ---
 
@@ -93,4 +99,5 @@ usable Organizational Context Runtime repository.
 ## Change Log
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
+- 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-02-19 — v0.1.0 — Initial creation

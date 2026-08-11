@@ -23,6 +23,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | ChangeRequest | A proposed change to framework/SSOT | PRs | diff, rationale, evidence | N | Requires governance
 | MissionPacket | A bounded accountable execution contract | SSOT/E.4_Mission_[ID].md | id, release, goal, slice, authority, constraints, acceptance_criteria, evidence, decision, learning | N | Canonical unit for self-hosted work before Mission Runtime exists
 | EvolutionInboxItem | A deferred idea, risk, debt item, opportunity, or hypothesis | SSOT/E.5_Evolution_Inbox.md | id, type, state, source, summary, disposition | N | Prevents active mission drift while preserving learning
+| BootstrapProposal | A preserved apply candidate produced from a read-only Bootstrap Plan | future contextos bootstrap apply surface / report output | id, source_plan_hash, repository_state, authority, actions, gates, status | N | Required before any Guided Bootstrap repository mutation
 
 ---
 
@@ -34,6 +35,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - ChangeRequest → modifies DocumentType/Template/SSOTDocument under governance
 - MissionPacket → executes Release Goal through bounded Slice Plan
 - EvolutionInboxItem → may become MissionPacket only after triage and authority
+- BootstrapProposal → may become ChangeRequest only after review and approval
 
 ---
 
@@ -74,3 +76,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - 2026-02-19 — v0.1.0 — Initial creation
 - 2026-08-11 — v0.1.0 — Added MissionPacket and EvolutionInboxItem entities
   for self-hosted execution.
+- 2026-08-11 — v0.1.0 — Added BootstrapProposal entity for governed Guided
+  Bootstrap apply approval.
