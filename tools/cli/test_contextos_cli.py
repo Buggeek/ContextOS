@@ -79,6 +79,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("validate", stdout)
         self.assertIn("assess", stdout)
         self.assertIn("init", stdout)
+        self.assertIn("activate", stdout)
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:
@@ -184,6 +185,111 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("# Context OS Readiness Report", stdout)
         self.assertEqual(report["schema"], "contextos.readiness.report/1")
         self.assertEqual(stderr, "")
+
+    def test_activate_default_renders_human_package_without_target_writes(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a governed activation mission",
+                "--consumer",
+                "codex",
+                "--mission-id",
+                "V06-ACTIVATION-PACKAGE-CLI-001",
+            ])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Activation Package", stdout)
+        self.assertIn("Consumer: `codex`", stdout)
+        self.assertIn("This package is derived working context, not SSOT.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_activate_json_is_pure_activation_package(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a governed activation mission",
+                "--consumer",
+                "claude_code",
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.activation.package/1")
+        self.assertEqual(report["consumer"]["type"], "claude_code")
+        self.assertFalse(report["summary"]["working_context_is_ssot"])
+        self.assertEqual(stderr, "")
+
+    def test_activate_requires_goal_without_check_package(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["activate", "--root", temp, "--format", "json"])
+
+        payload = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertIn("--goal", payload["error"]["message"])
+        self.assertEqual(stderr, "")
+
+    def test_activate_json_out_and_check_package_detects_drift(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            output_path = Path(output_temp) / "activation-package.json"
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a governed activation mission",
+                "--consumer",
+                "codex",
+                "--json-out",
+                str(output_path),
+            ])
+            package = json.loads(output_path.read_text(encoding="utf-8"))
+            check_code, check_stdout, check_stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(output_path),
+                "--format",
+                "json",
+            ])
+            write(Path(temp) / "README.md", "# Test Repo\n\nChanged after package.\n")
+            drift_code, drift_stdout, drift_stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(output_path),
+                "--format",
+                "json",
+            ])
+
+        check_report = json.loads(check_stdout)
+        drift_report = json.loads(drift_stdout)
+        self.assertEqual(code, 0)
+        self.assertIn("# Context OS Activation Package", stdout)
+        self.assertEqual(package["schema"], "contextos.activation.package/1")
+        self.assertEqual(check_code, 0)
+        self.assertEqual(check_report["schema"], "contextos.activation.package_check/1")
+        self.assertTrue(check_report["result"]["valid"])
+        self.assertEqual(drift_code, 7)
+        self.assertTrue(drift_report["result"]["invalidated"])
+        self.assertFalse(drift_report["checks"]["source_hashes_match"])
+        self.assertEqual(stderr, "")
+        self.assertEqual(check_stderr, "")
+        self.assertEqual(drift_stderr, "")
 
     def test_init_default_renders_human_bootstrap_plan_without_target_writes(self) -> None:
         with self.make_repo() as temp:

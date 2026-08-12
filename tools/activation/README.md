@@ -51,3 +51,51 @@ This slice does not implement:
 - background synchronization,
 - automatic context mutation,
 - parallel SSOT copies.
+
+## Runtime CLI Surface
+
+Slice `V06-ACTIVATION-PACKAGE-CLI-001` exposes the package through:
+
+```bash
+./contextos activate \
+  --root . \
+  --goal "Plan the next mission" \
+  --consumer codex \
+  --mission-id V06-ACTIVATION-PACKAGE-CLI-001
+```
+
+Machine output:
+
+```bash
+./contextos activate --root . --goal "Plan the next mission" --format json
+```
+
+Persist the machine package:
+
+```bash
+./contextos activate \
+  --root . \
+  --goal "Plan the next mission" \
+  --json-out /tmp/contextos-activation-package.json
+```
+
+Check a package for drift/invalidation:
+
+```bash
+./contextos activate \
+  --root . \
+  --check-package /tmp/contextos-activation-package.json \
+  --format json
+```
+
+Package checks emit:
+
+```text
+contextos.activation.package_check/1
+```
+
+Exit codes:
+
+- `0` when the package is generated or checked successfully,
+- `7` when activation is blocked or an existing package is invalidated,
+- `9` for CLI/configuration errors.

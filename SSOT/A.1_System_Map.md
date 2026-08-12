@@ -41,8 +41,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
 | tools/activation | Module | Read-only Context Activation Package implementation and tests | Maintainers | v0.6 working-context package component
-| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply
-| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply, activate package, activate package check
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply/activate package/activate package check
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -72,6 +72,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 5. Validator/CLI change -> local tests -> gate validation -> commit
 6. Readiness assessment -> bootstrap plan -> bootstrap proposal -> approval record draft -> accepted decision -> apply preflight -> explicit apply confirmation -> create-only apply result
 7. Canonical context -> activation selection -> working context package -> consumer execution context
+8. Context activation package -> package check -> source drift / validator gate validity decision
 
 ---
 
@@ -102,4 +103,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   system map
 - 2026-08-11 — v0.1.1 — Added read-only Context Activation Package to system
   map
+- 2026-08-11 — v0.1.1 — Added Activation Package CLI and package check to
+  system map
 - 2026-02-19 — v0.1.0 — Initial creation

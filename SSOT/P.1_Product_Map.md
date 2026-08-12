@@ -53,6 +53,8 @@ usable Organizational Context Runtime repository.
 13. Actor requests mission-bound working context, and Context OS produces a
     read-only Activation Package that preserves canonical source hashes,
     provenance, permissions, and invalidation conditions
+14. Actor checks an Activation Package before use, and Context OS detects
+    source drift or Validator gate invalidation
 
 ---
 
@@ -75,6 +77,8 @@ usable Organizational Context Runtime repository.
   Bootstrap path
 - Provide read-only Activation Packages that make canonical context consumable
   without creating a parallel SSOT
+- Provide a read-only `contextos activate` surface for generating and checking
+  mission-bound working context packages
 
 ---
 
@@ -127,6 +131,7 @@ usable Organizational Context Runtime repository.
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
 - 2026-08-11 — v0.1.1 — Added Context Activation Package surface
+- 2026-08-11 — v0.1.1 — Added Activation Package CLI and package check surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

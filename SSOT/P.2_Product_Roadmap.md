@@ -103,6 +103,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V06-ACTIVATION-PACKAGE-CLI-001`](E.4_Mission_V06-ACTIVATION-PACKAGE-CLI-001_Activation_Package_CLI.md)
+- Closed v0.6 activation package mission:
   [`E.4 Mission V06-CONTEXT-ACTIVATION-PLAN-001`](E.4_Mission_V06-CONTEXT-ACTIVATION-PLAN-001_Context_Activation_Package.md)
 - Closed v0.5 release cut mission:
   [`E.4 Mission V05-RELEASE-CUT-001`](E.4_Mission_V05-RELEASE-CUT-001_Context_Construction_Release_Cut.md)
@@ -256,10 +258,9 @@ validate and assess surfaces have shipped; v0.4 now exposes read-only
 construction, activation, and mission-oriented commands as their releases
 require them.
 
-The first v0.6 activation slice is engine/API-first:
-`contextos.activation.package/1`. A Runtime CLI activation surface remains the
-next release mission rather than a prerequisite for the initial activation
-primitive.
+The first v0.6 activation slices provide `contextos.activation.package/1`,
+`contextos.activation.package_check/1`, and the read-only
+`contextos activate` CLI surface.
 
 ---
 
@@ -317,3 +318,4 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Closed v0.5 Context Construction release and re-anchored
   current release on v0.6 Context Activation.
 - 2026-08-11 - v1.0 - Linked the first Context Activation Package mission.
+- 2026-08-11 - v1.0 - Linked the Activation Package CLI mission.

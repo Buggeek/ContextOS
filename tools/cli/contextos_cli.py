@@ -10,10 +10,14 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 VALIDATORS_ROOT = REPO_ROOT / "tools" / "validators"
 READINESS_ROOT = REPO_ROOT / "tools" / "readiness"
 BOOTSTRAP_ROOT = REPO_ROOT / "tools" / "bootstrap"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT):
+ACTIVATION_ROOT = REPO_ROOT / "tools" / "activation"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
+from activation_engine.package_engine import ContextActivationPackageEngine  # noqa: E402
+from activation_engine.report_builder import render_human as render_activation_human  # noqa: E402
+from activation_engine.report_builder import write_json_report as write_activation_json_report  # noqa: E402
 from bootstrap_engine.acceptance_engine import BootstrapApprovalAcceptanceEngine  # noqa: E402
 from bootstrap_engine.acceptance_report_builder import render_human as render_acceptance_human  # noqa: E402
 from bootstrap_engine.acceptance_report_builder import write_json_report as write_acceptance_json_report  # noqa: E402
@@ -41,7 +45,7 @@ from readiness_engine.report_builder import render_human as render_readiness_hum
 from readiness_engine.report_builder import write_json_report as write_readiness_json_report  # noqa: E402
 
 
-VERSION = "0.3.0-cli-v0"
+VERSION = "0.6.0-cli-v0"
 FORMAT_CHOICES = ("text", "human", "json")
 
 
@@ -101,6 +105,21 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("--accepted-role", default=None, help="Human authority role accepting an approval record draft.")
     init.add_argument("--rationale", default=None, help="Rationale to include in an approval record draft or accepted decision.")
     init.set_defaults(handler=run_init)
+
+    activate = subparsers.add_parser(
+        "activate",
+        help="Create or check a read-only Context Activation Package.",
+        description="Create or check a read-only Context Activation Package.",
+    )
+    activate.add_argument("--root", default=".", help="Repository root to activate context from.")
+    activate.add_argument("--consumer", default="human", help="Consumer requesting working context, such as human, codex, claude_code, or ide_assistant.")
+    activate.add_argument("--goal", default=None, help="Goal statement to bind the activation package to.")
+    activate.add_argument("--mission-id", default=None, help="Mission id to bind the activation package to.")
+    activate.add_argument("--max-artifacts", type=int, default=12, help="Maximum canonical artifacts to include.")
+    activate.add_argument("--check-package", default=None, help="Check an existing activation package JSON for source drift and gate validity.")
+    activate.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    activate.add_argument("--json-out", default=None, help="Write the machine activation package JSON to this path.")
+    activate.set_defaults(handler=run_activate)
     return parser
 
 
@@ -338,6 +357,70 @@ def run_init(args: argparse.Namespace) -> int:
     else:
         print(render_bootstrap_human(report), end="")
     return bootstrap_exit_code(report)
+
+
+def activation_exit_code(report: dict) -> int:
+    if report.get("schema") == "contextos.activation.package_check/1":
+        return 0 if report["result"]["valid"] else 7
+    validator_summary = report["validator"]["summary"]
+    if validator_summary["fatal"]:
+        return 8
+    if validator_summary["error"]:
+        return 7
+    return 0
+
+
+def run_activate(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+    engine = ContextActivationPackageEngine(root)
+
+    try:
+        if args.check_package:
+            package = load_bootstrap_json(args.check_package)
+            report = engine.check_package(package)
+        else:
+            if not args.goal:
+                payload = error_payload(
+                    9,
+                    "misconfiguration",
+                    "Activation package requires --goal unless --check-package is used.",
+                    {"goal": args.goal},
+                )
+                emit_error(payload, args.format)
+                return 9
+            report = engine.run(
+                goal=args.goal,
+                consumer=args.consumer,
+                mission_id=args.mission_id,
+                max_artifacts=args.max_artifacts,
+            )
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Could not create or check activation package.",
+            {"error": str(exc)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    if args.json_out:
+        write_activation_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_activation_human(report), end="")
+    return activation_exit_code(report)
 
 
 def main(argv: list[str] | None = None) -> int:

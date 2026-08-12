@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from activation_engine.report_builder import build_report
+from activation_engine.report_builder import CHECK_SCHEMA, build_report, generated_timestamp
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
@@ -283,6 +283,82 @@ class ContextActivationPackageEngine:
         package["id"] = f"activation.package.{stable_hash(self._identity_payload(package))[:16]}"
         package["identity_hash"] = stable_hash(self._identity_payload(package))
         return build_report(root, package, generated_at=generated_at)
+
+    def check_package(self, package: dict, *, generated_at: str | None = None) -> dict:
+        if package.get("schema") != "contextos.activation.package/1":
+            raise ValueError("Activation package check requires contextos.activation.package/1 input.")
+        root = self.root.resolve()
+        validator_report = ValidatorEngine(root).run(mode="gate")
+        identity_valid = package.get("identity_hash") == stable_hash(self._identity_payload(package))
+        source_checks = []
+        for source in package.get("canonical_sources", []):
+            rel_path = source.get("path")
+            current_path = root / rel_path
+            exists = current_path.is_file()
+            current_hash = sha256_file(current_path) if exists else None
+            source_checks.append(
+                {
+                    "path": rel_path,
+                    "expected_hash": source.get("hash"),
+                    "current_hash": current_hash,
+                    "exists": exists,
+                    "matches": exists and current_hash == source.get("hash"),
+                }
+            )
+        validator_ok = validator_report["summary"]["error"] == 0 and validator_report["summary"]["fatal"] == 0
+        failed = []
+        if not identity_valid:
+            failed.append("activation_package_check.identity_hash_mismatch")
+        failed.extend(f"activation_package_check.source_hash_changed:{check['path']}" for check in source_checks if not check["matches"])
+        if not validator_ok:
+            failed.append("activation_package_check.validator_gate_blocked")
+        current_fingerprint = stable_hash(
+            {
+                "sources": [
+                    {
+                        "path": check["path"],
+                        "hash": check["current_hash"],
+                        "authority_tier": source.get("authority_tier"),
+                        "lifecycle_state": source.get("lifecycle_state"),
+                    }
+                    for check, source in zip(source_checks, package.get("canonical_sources", []))
+                ]
+            }
+        )
+        return {
+            "schema": CHECK_SCHEMA,
+            "generated_at": generated_at or generated_timestamp(),
+            "root": str(root),
+            "read_only": True,
+            "package": {
+                "id": package.get("id"),
+                "identity_hash": package.get("identity_hash"),
+                "goal": package.get("goal"),
+                "consumer": package.get("consumer"),
+                "source_fingerprint": package.get("source_fingerprint"),
+            },
+            "current_source_fingerprint": current_fingerprint,
+            "validator": {
+                "schema": validator_report["schema"],
+                "summary": validator_report["summary"],
+            },
+            "checks": {
+                "identity_valid": identity_valid,
+                "source_hashes_match": all(check["matches"] for check in source_checks),
+                "validator_gate_ok": validator_ok,
+                "source_checks": source_checks,
+            },
+            "result": {
+                "valid": not failed,
+                "invalidated": bool(failed),
+                "failed_checks": failed,
+            },
+            "constraints": {
+                "writes_performed": False,
+                "canonical_context_mutated": False,
+                "parallel_ssot_created": False,
+            },
+        }
 
     def _select_sources(self, root: Path, goal_tokens: set[str], max_artifacts: int) -> tuple[list[dict], list[dict]]:
         scored: list[tuple[int, str, str, str]] = []

@@ -6,6 +6,7 @@ from pathlib import Path
 
 
 SCHEMA = "contextos.activation.package/1"
+CHECK_SCHEMA = "contextos.activation.package_check/1"
 
 
 def generated_timestamp() -> str:
@@ -28,6 +29,8 @@ def build_report(
 
 
 def render_human(report: dict) -> str:
+    if report.get("schema") == CHECK_SCHEMA:
+        return render_check_human(report)
     summary = report["summary"]
     validator = report["validator"]
     lines = [
@@ -84,6 +87,39 @@ def render_human(report: dict) -> str:
     )
     for condition in report["invalidation"]["conditions"]:
         lines.append(f"- {condition}")
+    return "\n".join(lines) + "\n"
+
+
+def render_check_human(report: dict) -> str:
+    validator = report["validator"]["summary"]
+    lines = [
+        "# Context OS Activation Package Check",
+        "",
+        f"- Schema: `{report['schema']}`",
+        f"- Package: `{report['package']['id']}`",
+        f"- Root: `{report['root']}`",
+        f"- Read-only: {yes_no(report['read_only'])}",
+        f"- Valid: {yes_no(report['result']['valid'])}",
+        f"- Invalidated: {yes_no(report['result']['invalidated'])}",
+        f"- Identity valid: {yes_no(report['checks']['identity_valid'])}",
+        f"- Source hashes match: {yes_no(report['checks']['source_hashes_match'])}",
+        f"- Validator gate ok: {yes_no(report['checks']['validator_gate_ok'])}",
+        f"- Validator findings: info={validator['info']}, warn={validator['warn']}, error={validator['error']}, fatal={validator['fatal']}",
+        "",
+        "## Source Checks",
+    ]
+    for check in report["checks"]["source_checks"]:
+        lines.append(f"- `{check['path']}` match={yes_no(check['matches'])}")
+        lines.append(f"  Expected: `{check['expected_hash']}`")
+        lines.append(f"  Current: `{check['current_hash']}`")
+    if not report["checks"]["source_checks"]:
+        lines.append("- None.")
+    lines.extend(["", "## Failed Checks"])
+    if report["result"]["failed_checks"]:
+        for check in report["result"]["failed_checks"]:
+            lines.append(f"- `{check}`")
+    else:
+        lines.append("- None.")
     return "\n".join(lines) + "\n"
 
 
