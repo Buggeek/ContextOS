@@ -75,6 +75,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 8. Context activation package -> package check -> source drift / validator gate validity decision
 9. Valid activation package -> package-backed handoff -> consumer starts work from compact governed context
 10. Saved activation handoff -> handoff check -> handoff identity / source drift / package binding / validator gate validity decision
+11. Mission Context -> Governing Context orientation -> bounded Execution Context retrieval only when execution requires it
 
 ---
 
@@ -109,4 +110,5 @@ Modular monolith (documentation modules + tooling modules in one repository).
   system map
 - 2026-08-11 — v0.1.1 — Added package-backed Activation Handoff to system map
 - 2026-08-11 — v0.1.1 — Added Activation Handoff Check to system map
+- 2026-08-11 — v0.1.1 — Added Mission Context layer model to system map
 - 2026-02-19 — v0.1.0 — Initial creation

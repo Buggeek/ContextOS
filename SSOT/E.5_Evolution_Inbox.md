@@ -123,6 +123,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-072 | product | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Handoff-first execution should be measured against a future Mission that starts from a handoff id/reference plus a short instruction. | Promote to the next v0.6 mission. |
 | INBOX-073 | architecture | accepted | V06-ACTIVATION-HANDOFF-USE-001 | Handoff-first execution showed that governing context and execution context are distinct layers; implementation work required runtime/test files beyond the selected governing package. | Consider a bounded governing/execution context-layer mission before release verification if needed; preserve one coherent Mission context model. |
 | INBOX-074 | product | accepted | V06-ACTIVATION-HANDOFF-USE-001 | Saved handoff checks now exist, but v0.6 still lacks release-level verification across package, handoff, handoff check, and a real handoff-first Mission journey. | Promote after any required context-layer refinement. |
+| INBOX-075 | architecture | accepted | V06-ACTIVATION-CONTEXT-LAYERS-001 | Future activation may need ranked execution-context retrieval suggestions, but v0.6 should not add broad RAG, Graph runtime, Knowledge Engine ranking, or adapters. | Defer until release verification proves a real blocker; preserve bounded retrieval evidence first. |
+| INBOX-076 | product | accepted | V06-ACTIVATION-CONTEXT-LAYERS-001 | v0.6 now has package, check, handoff, handoff check, handoff-first execution, and Mission Context layers; release verification is the next product gate. | Promote to V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001. |
 
 ---
 
@@ -152,3 +154,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added package-first Mission execution follow-up items.
 - 2026-08-11 - v0.1.0 - Added package-backed Activation Handoff follow-up items.
 - 2026-08-11 - v0.1.0 - Added handoff-first Mission execution follow-up items.
+- 2026-08-11 - v0.1.0 - Added Mission Context layers follow-up items.

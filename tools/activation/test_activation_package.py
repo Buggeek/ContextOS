@@ -196,6 +196,15 @@ class ContextActivationPackageTestCase(unittest.TestCase):
         self.assertFalse(handoff["constraints"]["duplicates_full_canonical_content"])
         self.assertNotIn("content_excerpt", handoff["selected_context"][0])
         self.assertIn("revalidate before acting", handoff["working_instruction"])
+        self.assertEqual(handoff["mission_context"]["model"], "single_mission_context_with_governing_and_execution_layers")
+        self.assertTrue(handoff["mission_context"]["governing_context"]["selected_at_activation"])
+        self.assertTrue(handoff["mission_context"]["governing_context"]["sufficient_for_orientation"])
+        self.assertFalse(handoff["mission_context"]["execution_context"]["selected_at_activation"])
+        self.assertEqual(handoff["mission_context"]["execution_context"]["retrieved_sources"], [])
+        self.assertEqual(
+            set(handoff["mission_context"]["governing_context"]["source_refs"]),
+            {source["path"] for source in handoff["selected_context"]},
+        )
 
     def test_handoff_is_deterministic_with_fixed_time(self) -> None:
         with self.make_repo() as temp:
@@ -242,6 +251,8 @@ class ContextActivationPackageTestCase(unittest.TestCase):
         self.assertIn("# Context OS Activation Handoff", human)
         self.assertIn("Handoff ready: yes", human)
         self.assertIn("## Governing Context", human)
+        self.assertIn("## Mission Context Layers", human)
+        self.assertIn("Execution context selected at activation: no", human)
         self.assertIn("This handoff is derived from an Activation Package and is not SSOT.", human)
 
     def test_handoff_check_validates_identity_sources_and_package_ref(self) -> None:

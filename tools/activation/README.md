@@ -144,6 +144,17 @@ hash, selected canonical sources, exclusions, gaps, permissions, provenance,
 freshness, invalidation conditions, and Mission evidence obligations without
 duplicating full canonical content.
 
+It also carries a single Mission Context model:
+
+- **Governing Context** is selected at activation time and orients the consumer
+  to outcome, authority, constraints, source authority, gaps, and evidence.
+- **Execution Context** is not selected broadly at activation time. It is
+  retrieved only when the Mission objectively requires additional material such
+  as code, tests, interfaces, operational records, or domain assets.
+
+Each retrieved execution source should be recorded in Mission evidence with the
+reason, authority, usage, evidence role, and staleness condition.
+
 Exit codes:
 
 - `0` when the package is generated, checked successfully, a handoff is ready,
@@ -189,3 +200,6 @@ It answers:
 The handoff remains consumer-agnostic. Future adapters may render the same
 machine report for specific tools, but they must not weaken the package
 authority boundary or turn the handoff into a parallel SSOT.
+
+The handoff does not create a second Mission model. Governing and execution
+context remain layers of one package-backed Mission Context.

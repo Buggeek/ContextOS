@@ -415,6 +415,33 @@ class ContextActivationPackageEngine:
                 "condition may have changed."
             ),
             "selected_context": selected_context,
+            "mission_context": {
+                "model": "single_mission_context_with_governing_and_execution_layers",
+                "governing_context": {
+                    "purpose": "orient_consumer_to_outcome_authority_constraints_and_evidence",
+                    "source_refs": [item["path"] for item in selected_context],
+                    "selected_at_activation": True,
+                    "sufficient_for_orientation": True,
+                },
+                "execution_context": {
+                    "purpose": "bounded_on_demand_material_required_to_perform_the_mission",
+                    "selected_at_activation": False,
+                    "retrieval_policy": [
+                        "Retrieve only sources objectively required to execute the bound Mission.",
+                        "Record why each source was required.",
+                        "Record what authority permitted access.",
+                        "Record whether the source was used as evidence.",
+                        "Treat retrieved source changes as invalidating the relevant execution context.",
+                    ],
+                    "retrieved_sources": [],
+                    "staleness_policy": "execution_sources_stale_when_retrieved_source_hash_or_operational_state_changes",
+                },
+                "irrelevant_context": {
+                    "purpose": "context_not_required_for_orientation_or_execution",
+                    "excluded_count": len(package.get("exclusions", [])),
+                    "excluded_refs": [item["path"] for item in package.get("exclusions", [])[:20]],
+                },
+            },
             "exclusions": {
                 "count": len(package.get("exclusions", [])),
                 "items": [
@@ -702,6 +729,7 @@ class ContextActivationPackageEngine:
             "consumer": handoff["consumer"],
             "mission": handoff["mission"],
             "selected_context": handoff["selected_context"],
+            "mission_context": handoff.get("mission_context"),
             "authority": handoff["authority"],
             "constraints": handoff["constraints"],
             "invalidation": handoff["invalidation"],

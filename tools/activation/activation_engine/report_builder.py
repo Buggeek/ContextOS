@@ -168,6 +168,25 @@ def render_handoff_human(report: dict) -> str:
     if not report["selected_context"]:
         lines.append("- None.")
 
+    mission_context = report.get("mission_context", {})
+    if mission_context:
+        execution = mission_context["execution_context"]
+        lines.extend(
+            [
+                "",
+                "## Mission Context Layers",
+                f"- Model: `{mission_context['model']}`",
+                f"- Governing context selected at activation: {yes_no(mission_context['governing_context']['selected_at_activation'])}",
+                f"- Governing context sufficient for orientation: {yes_no(mission_context['governing_context']['sufficient_for_orientation'])}",
+                f"- Execution context selected at activation: {yes_no(execution['selected_at_activation'])}",
+                f"- Execution context retrieved sources: {len(execution['retrieved_sources'])}",
+                "",
+                "### Execution Retrieval Policy",
+            ]
+        )
+        for policy in execution["retrieval_policy"]:
+            lines.append(f"- {policy}")
+
     lines.extend(["", "## Gaps And Limits"])
     if report["known_gaps"]:
         for gap in report["known_gaps"]:
