@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from activation_engine.report_builder import CHECK_SCHEMA, build_report, generated_timestamp
+from activation_engine.report_builder import CHECK_SCHEMA, HANDOFF_SCHEMA, build_report, generated_timestamp
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
@@ -360,6 +360,132 @@ class ContextActivationPackageEngine:
             },
         }
 
+    def build_handoff(
+        self,
+        package: dict,
+        *,
+        package_ref: str | None = None,
+        generated_at: str | None = None,
+    ) -> dict:
+        if package.get("schema") != "contextos.activation.package/1":
+            raise ValueError("Activation handoff requires contextos.activation.package/1 input.")
+        root = self.root.resolve()
+        package_check = self.check_package(package, generated_at=generated_at)
+        selected_context = [
+            {
+                "path": item["path"],
+                "source_hash": item["source_hash"],
+                "authority_tier": item["authority_tier"],
+                "lifecycle_state": item["lifecycle_state"],
+                "activation_role": item["activation_role"],
+                "title": item.get("title"),
+                "owner": item.get("owner"),
+                "provenance": item.get("provenance", {}),
+            }
+            for item in package.get("working_context", {}).get("items", [])
+        ]
+        omitted_exclusions = max(0, len(package.get("exclusions", [])) - 20)
+        handoff = {
+            "schema": HANDOFF_SCHEMA,
+            "id": "",
+            "identity_hash": "",
+            "generated_at": generated_at or generated_timestamp(),
+            "root": str(root),
+            "read_only": True,
+            "mode": "handoff",
+            "source_package": {
+                "id": package.get("id"),
+                "identity_hash": package.get("identity_hash"),
+                "ref": package_ref,
+                "schema": package.get("schema"),
+                "source_fingerprint": package.get("source_fingerprint"),
+            },
+            "package_check": package_check,
+            "consumer": package.get("consumer", {}),
+            "mission": {
+                "mission_id": package.get("goal", {}).get("mission_id"),
+                "goal": package.get("goal", {}).get("statement"),
+                "binding": package.get("goal", {}).get("binding"),
+            },
+            "working_instruction": (
+                "Use this handoff as a compact pointer to the valid Activation Package. "
+                "Use the selected canonical sources as governing context, fetch exact source "
+                "content only when needed, preserve listed constraints and authority boundaries, "
+                "record evidence and learning, and revalidate before acting if any invalidation "
+                "condition may have changed."
+            ),
+            "selected_context": selected_context,
+            "exclusions": {
+                "count": len(package.get("exclusions", [])),
+                "items": [
+                    {
+                        "path": item["path"],
+                        "reason": item["reason"],
+                        "source_hash": item["source_hash"],
+                    }
+                    for item in package.get("exclusions", [])[:20]
+                ],
+                "truncated": omitted_exclusions > 0,
+                "omitted_count": omitted_exclusions,
+            },
+            "known_gaps": package.get("context_gaps", []),
+            "authority": {
+                "allowed_permissions": package.get("consumer", {}).get("permissions", []),
+                "prohibited_permissions": package.get("consumer", {}).get("prohibited_permissions", []),
+                "authority_boundary": "handoff_does_not_expand_package_permissions",
+            },
+            "constraints": {
+                "not_ssot": True,
+                "duplicates_full_canonical_content": False,
+                "writes_performed": False,
+                "canonical_context_mutated": False,
+                "automatic_context_mutation": False,
+                "consumer_specific_adapter": False,
+            },
+            "provenance": {
+                "generated_by": "ContextActivationPackageEngine.build_handoff",
+                "derived_from_package": package.get("id"),
+                "derived_from_package_hash": package.get("identity_hash"),
+                "evidence_lineage": package.get("provenance", {}).get("evidence_lineage", []),
+                "selected_source_hashes": package.get("invalidation", {}).get("source_hashes", {}),
+            },
+            "freshness": {
+                "package_valid_at_handoff": package_check["result"]["valid"],
+                "current_source_fingerprint": package_check["current_source_fingerprint"],
+                "package_source_fingerprint": package.get("source_fingerprint"),
+                "validator_exit_code": package_check["validator"]["summary"]["exit_code"],
+            },
+            "invalidation": {
+                "conditions": [
+                    "The source Activation Package check becomes invalid.",
+                    "Any selected canonical source hash changes.",
+                    "The Validator gate reports errors or fatals.",
+                    "The consumer, goal, Mission id, or authority boundary changes.",
+                    "The handoff is used for a Mission other than its bound Mission or goal.",
+                ],
+                "source_hashes": package.get("invalidation", {}).get("source_hashes", {}),
+            },
+            "evidence_and_exit_conditions": [
+                "Record the package id and identity hash used for the Mission.",
+                "Record selected sources, exclusions, gaps, and additional context reads.",
+                "Validate relevant runtime/test gates before Mission closure.",
+                "Capture learning and out-of-scope discoveries in the Evolution Inbox.",
+            ],
+            "metrics": {
+                "selected_source_count": len(selected_context),
+                "excluded_source_count": len(package.get("exclusions", [])),
+                "gap_count": len(package.get("context_gaps", [])),
+            },
+            "result": {
+                "handoff_ready": package_check["result"]["valid"],
+                "invalidated": package_check["result"]["invalidated"],
+                "failed_checks": package_check["result"]["failed_checks"],
+            },
+        }
+        handoff["id"] = f"activation.handoff.{stable_hash(self._handoff_identity_payload(handoff))[:16]}"
+        handoff["identity_hash"] = stable_hash(self._handoff_identity_payload(handoff))
+        return handoff
+
     def _select_sources(self, root: Path, goal_tokens: set[str], max_artifacts: int) -> tuple[list[dict], list[dict]]:
         scored: list[tuple[int, str, str, str]] = []
         for rel_path in candidate_paths(root):
@@ -450,4 +576,15 @@ class ContextActivationPackageEngine:
             "source_fingerprint": package["source_fingerprint"],
             "canonical_sources": package["canonical_sources"],
             "boundaries": package["boundaries"],
+        }
+
+    def _handoff_identity_payload(self, handoff: dict) -> dict:
+        return {
+            "source_package": handoff["source_package"],
+            "consumer": handoff["consumer"],
+            "mission": handoff["mission"],
+            "selected_context": handoff["selected_context"],
+            "authority": handoff["authority"],
+            "constraints": handoff["constraints"],
+            "invalidation": handoff["invalidation"],
         }

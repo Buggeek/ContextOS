@@ -24,6 +24,12 @@ Machine report schema:
 contextos.activation.package/1
 ```
 
+Package-backed handoff schema:
+
+```text
+contextos.activation.handoff/1
+```
+
 The package turns canonical Context OS sources into mission-bound working
 context for a consumer. It preserves:
 
@@ -94,10 +100,36 @@ Package checks emit:
 contextos.activation.package_check/1
 ```
 
+Generate a compact package-backed handoff from a checked package:
+
+```bash
+./contextos activate \
+  --root . \
+  --check-package /tmp/contextos-activation-package.json \
+  --handoff
+```
+
+Generate a fresh package and immediately render its handoff:
+
+```bash
+./contextos activate \
+  --root . \
+  --goal "Plan the next mission" \
+  --consumer codex \
+  --mission-id V06-ACTIVATION-HANDOFF-FORMAT-001 \
+  --handoff
+```
+
+The handoff is a compact operating brief. It preserves the exact package id and
+hash, selected canonical sources, exclusions, gaps, permissions, provenance,
+freshness, invalidation conditions, and Mission evidence obligations without
+duplicating full canonical content.
+
 Exit codes:
 
-- `0` when the package is generated or checked successfully,
-- `7` when activation is blocked or an existing package is invalidated,
+- `0` when the package is generated, checked successfully, or a handoff is ready,
+- `7` when activation is blocked, an existing package is invalidated, or a
+  handoff is not ready,
 - `9` for CLI/configuration errors.
 
 ## Package-First Mission Use
@@ -118,3 +150,22 @@ manual source list when it follows this sequence:
 
 The package is authoritative for the Mission's working context, not a second
 SSOT.
+
+## Package-Backed Handoff
+
+A handoff lets a human, Codex, Claude Code, IDE assistant, or future
+organizational consumer begin from a package reference rather than a manually
+reconstructed prompt.
+
+It answers:
+
+- what the consumer is trying to achieve,
+- which package and canonical sources govern the work,
+- what the consumer may and may not do,
+- where exact selected context lives,
+- which gaps, exclusions, and invalidation conditions apply,
+- what evidence and exit conditions must be captured.
+
+The handoff remains consumer-agnostic. Future adapters may render the same
+machine report for specific tools, but they must not weaken the package
+authority boundary or turn the handoff into a parallel SSOT.

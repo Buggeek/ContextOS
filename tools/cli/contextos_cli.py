@@ -117,6 +117,7 @@ def build_parser() -> argparse.ArgumentParser:
     activate.add_argument("--mission-id", default=None, help="Mission id to bind the activation package to.")
     activate.add_argument("--max-artifacts", type=int, default=12, help="Maximum canonical artifacts to include.")
     activate.add_argument("--check-package", default=None, help="Check an existing activation package JSON for source drift and gate validity.")
+    activate.add_argument("--handoff", action="store_true", help="Render a compact handoff derived from a valid activation package.")
     activate.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     activate.add_argument("--json-out", default=None, help="Write the machine activation package JSON to this path.")
     activate.set_defaults(handler=run_activate)
@@ -360,6 +361,8 @@ def run_init(args: argparse.Namespace) -> int:
 
 
 def activation_exit_code(report: dict) -> int:
+    if report.get("schema") == "contextos.activation.handoff/1":
+        return 0 if report["result"]["handoff_ready"] else 7
     if report.get("schema") == "contextos.activation.package_check/1":
         return 0 if report["result"]["valid"] else 7
     validator_summary = report["validator"]["summary"]
@@ -386,7 +389,10 @@ def run_activate(args: argparse.Namespace) -> int:
     try:
         if args.check_package:
             package = load_bootstrap_json(args.check_package)
-            report = engine.check_package(package)
+            if args.handoff:
+                report = engine.build_handoff(package, package_ref=args.check_package)
+            else:
+                report = engine.check_package(package)
         else:
             if not args.goal:
                 payload = error_payload(
@@ -403,6 +409,8 @@ def run_activate(args: argparse.Namespace) -> int:
                 mission_id=args.mission_id,
                 max_artifacts=args.max_artifacts,
             )
+            if args.handoff:
+                report = engine.build_handoff(report)
     except (OSError, ValueError, json.JSONDecodeError) as exc:
         payload = error_payload(
             9,

@@ -7,6 +7,7 @@ from pathlib import Path
 
 SCHEMA = "contextos.activation.package/1"
 CHECK_SCHEMA = "contextos.activation.package_check/1"
+HANDOFF_SCHEMA = "contextos.activation.handoff/1"
 
 
 def generated_timestamp() -> str:
@@ -29,6 +30,8 @@ def build_report(
 
 
 def render_human(report: dict) -> str:
+    if report.get("schema") == HANDOFF_SCHEMA:
+        return render_handoff_human(report)
     if report.get("schema") == CHECK_SCHEMA:
         return render_check_human(report)
     summary = report["summary"]
@@ -120,6 +123,91 @@ def render_check_human(report: dict) -> str:
             lines.append(f"- `{check}`")
     else:
         lines.append("- None.")
+    return "\n".join(lines) + "\n"
+
+
+def render_handoff_human(report: dict) -> str:
+    package = report["source_package"]
+    check = report["package_check"]
+    mission = report["mission"]
+    metrics = report["metrics"]
+    lines = [
+        "# Context OS Activation Handoff",
+        "",
+        f"- Schema: `{report['schema']}`",
+        f"- Handoff: `{report['id']}`",
+        f"- Package: `{package['id']}`",
+        f"- Package hash: `{package['identity_hash']}`",
+        f"- Root: `{report['root']}`",
+        f"- Consumer: `{report['consumer']['type']}`",
+        f"- Goal: {mission['goal']}",
+        f"- Mission: `{mission['mission_id'] or '<none>'}`",
+        f"- Read-only: {yes_no(report['read_only'])}",
+        f"- Handoff ready: {yes_no(report['result']['handoff_ready'])}",
+        f"- Package valid now: {yes_no(check['result']['valid'])}",
+        f"- Selected sources: {metrics['selected_source_count']}",
+        f"- Excluded sources: {metrics['excluded_source_count']}",
+        f"- Known gaps: {metrics['gap_count']}",
+        "",
+        "## Working Instruction",
+        report["working_instruction"],
+        "",
+        "## Governing Context",
+    ]
+    for source in report["selected_context"]:
+        lines.append(f"- `{source['path']}`")
+        lines.append(f"  Role: {source['activation_role']}")
+        lines.append(f"  Authority: {source['authority_tier']}")
+        lines.append(f"  Lifecycle: {source['lifecycle_state']}")
+        lines.append(f"  Hash: `{source['source_hash']}`")
+        if source.get("title"):
+            lines.append(f"  Title: {source['title']}")
+    if not report["selected_context"]:
+        lines.append("- None.")
+
+    lines.extend(["", "## Gaps And Limits"])
+    if report["known_gaps"]:
+        for gap in report["known_gaps"]:
+            lines.append(f"- `{gap['id']}` ({gap['severity']}): {gap['message']}")
+    else:
+        lines.append("- None.")
+    if report["exclusions"]["items"]:
+        lines.append("")
+        lines.append("## Exclusions")
+        for item in report["exclusions"]["items"]:
+            lines.append(f"- `{item['path']}`: {item['reason']}")
+        if report["exclusions"]["truncated"]:
+            lines.append(f"- Additional exclusions omitted: {report['exclusions']['omitted_count']}")
+
+    lines.extend(
+        [
+            "",
+            "## Authority Boundaries",
+        ]
+    )
+    for permission in report["authority"]["allowed_permissions"]:
+        lines.append(f"- Allowed: `{permission}`")
+    for permission in report["authority"]["prohibited_permissions"]:
+        lines.append(f"- Prohibited: `{permission}`")
+
+    lines.extend(["", "## Invalidation"])
+    for condition in report["invalidation"]["conditions"]:
+        lines.append(f"- {condition}")
+    if report["result"]["failed_checks"]:
+        lines.append("")
+        lines.append("## Failed Checks")
+        for failed in report["result"]["failed_checks"]:
+            lines.append(f"- `{failed}`")
+
+    lines.extend(
+        [
+            "",
+            "## Boundary",
+            "- This handoff is derived from an Activation Package and is not SSOT.",
+            "- Exact canonical source files remain authoritative.",
+            "- Revalidate the package before acting when any invalidation condition may have changed.",
+        ]
+    )
     return "\n".join(lines) + "\n"
 
 

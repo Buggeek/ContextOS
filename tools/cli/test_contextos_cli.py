@@ -291,6 +291,107 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(check_stderr, "")
         self.assertEqual(drift_stderr, "")
 
+    def test_activate_handoff_from_package_renders_human_without_target_writes(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            package_path = Path(output_temp) / "activation-package.json"
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a package-backed handoff",
+                "--consumer",
+                "codex",
+                "--mission-id",
+                "V06-ACTIVATION-HANDOFF-FORMAT-001",
+                "--json-out",
+                str(package_path),
+            ])
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(package_path),
+                "--handoff",
+            ])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Activation Handoff", stdout)
+        self.assertIn("Package valid now: yes", stdout)
+        self.assertIn("This handoff is derived from an Activation Package and is not SSOT.", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_activate_handoff_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            package_path = Path(output_temp) / "activation-package.json"
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a package-backed handoff",
+                "--consumer",
+                "claude_code",
+                "--json-out",
+                str(package_path),
+            ])
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(package_path),
+                "--handoff",
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.activation.handoff/1")
+        self.assertTrue(report["result"]["handoff_ready"])
+        self.assertEqual(report["consumer"]["type"], "claude_code")
+        self.assertFalse(report["constraints"]["duplicates_full_canonical_content"])
+        self.assertEqual(stderr, "")
+
+    def test_activate_handoff_exit_code_reports_drift(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            package_path = Path(output_temp) / "activation-package.json"
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Prepare a package-backed handoff",
+                "--consumer",
+                "codex",
+                "--json-out",
+                str(package_path),
+            ])
+            write(Path(temp) / "README.md", "# Test Repo\n\nChanged after package.\n")
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(package_path),
+                "--handoff",
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 7)
+        self.assertEqual(report["schema"], "contextos.activation.handoff/1")
+        self.assertFalse(report["result"]["handoff_ready"])
+        self.assertTrue(report["result"]["invalidated"])
+        self.assertEqual(stderr, "")
+
     def test_init_default_renders_human_bootstrap_plan_without_target_writes(self) -> None:
         with self.make_repo() as temp:
             root = Path(temp)

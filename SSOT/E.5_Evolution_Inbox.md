@@ -118,6 +118,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-067 | architecture | accepted | V06-ACTIVATION-PACKAGE-CLI-001 | Package selection currently records exclusions but does not explain per-source ranking scores. | Defer until selection tuning is needed; avoid broad RAG or Graph selection in v0.6 slice 2. |
 | INBOX-068 | UX | accepted | V06-ACTIVATION-PACKAGE-USE-001 | Package-first execution works, but future consumers need a compact package-backed handoff format that names package id, validity, goal, selected sources, gaps, and allowed actions. | Promote to the next v0.6 mission before IDE or agent adapters. |
 | INBOX-069 | implementation | accepted | V06-ACTIVATION-PACKAGE-USE-001 | Source edits during a package-first Mission invalidate the package used to start that Mission. | Require a fresh package check before a follow-on Mission uses changed context. |
+| INBOX-070 | UX | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Package-backed handoff exists, but future consumers may need adapter-specific renderers for Codex, Claude Code, IDE assistants, web, or workflow surfaces. | Defer until the universal handoff is proven in another real Mission; adapters must preserve the same machine schema. |
+| INBOX-071 | architecture | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Current activation selection can orient product and contract work, but implementation missions still need runtime/test file reads outside selected canonical sources. | Consider a bounded source-selection improvement before v0.6 release verification; do not add broad RAG or Graph runtime. |
+| INBOX-072 | product | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Handoff-first execution should be measured against a future Mission that starts from a handoff id/reference plus a short instruction. | Promote to the next v0.6 mission. |
 
 ---
 
@@ -145,3 +148,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Context Activation Package follow-up items.
 - 2026-08-11 - v0.1.0 - Added Activation Package CLI follow-up items.
 - 2026-08-11 - v0.1.0 - Added package-first Mission execution follow-up items.
+- 2026-08-11 - v0.1.0 - Added package-backed Activation Handoff follow-up items.
