@@ -6,7 +6,7 @@ Last Updated: 2026-08-11
 
 Owner: Context OS Core Team
 
-Status: Release-ready pending cut
+Status: Active
 
 ---
 
@@ -83,15 +83,14 @@ execution.
 
 # Current Version
 
-v0.5 — Context Construction
+v0.6 — Context Activation
 
 Status: Active
 
 Primary Goal:
 
-Transform readiness, inventory, validator, and bootstrap evidence into
-governed construction candidates and reviewable MOM/SSOT drafts without
-silently inventing organizational truth.
+Make governed context available in the places where humans, agents, and tools
+perform work, without duplicating, degrading, or bypassing canonical context.
 
 Canonical Contract:
 
@@ -104,6 +103,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V05-RELEASE-CUT-001`](E.4_Mission_V05-RELEASE-CUT-001_Context_Construction_Release_Cut.md)
+- Closed v0.5 release verification mission:
   [`E.4 Mission V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001`](E.4_Mission_V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001_Context_Construction_Release_Verification.md)
 - Closed v0.5 draft promotion execution mission:
   [`E.4 Mission V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001`](E.4_Mission_V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001_Draft_Promotion_Execute.md)
@@ -306,3 +307,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the Draft Approval Decision mission.
 - 2026-08-11 - v1.0 - Linked the Draft Promotion Preflight mission.
 - 2026-08-11 - v1.0 - Linked the Draft Promotion Execute mission.
+- 2026-08-11 - v1.0 - Closed v0.5 Context Construction release and re-anchored
+  current release on v0.6 Context Activation.
