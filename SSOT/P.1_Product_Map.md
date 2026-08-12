@@ -22,6 +22,7 @@ usable Organizational Context Runtime repository.
 - Validator Engine tooling (`tools/validators/`)
 - Context Readiness tooling (`tools/readiness/`)
 - Guided Bootstrap planning/proposal tooling (`tools/bootstrap/`)
+- Context Activation package tooling (`tools/activation/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -49,6 +50,9 @@ usable Organizational Context Runtime repository.
 12. Operator gives explicit apply confirmation bound to the preflight id and
     hash, then Context OS performs create-only bootstrap apply with evidence,
     validation, rollback metadata, and result state
+13. Actor requests mission-bound working context, and Context OS produces a
+    read-only Activation Package that preserves canonical source hashes,
+    provenance, permissions, and invalidation conditions
 
 ---
 
@@ -69,6 +73,8 @@ usable Organizational Context Runtime repository.
   confirmation
 - Define proposal-approved apply as the only future write-capable Guided
   Bootstrap path
+- Provide read-only Activation Packages that make canonical context consumable
+  without creating a parallel SSOT
 
 ---
 
@@ -97,6 +103,8 @@ usable Organizational Context Runtime repository.
   kept distinct
 - Apply implementation risk if proposal identity, authority, validator gates,
   and rollback are not preserved before mutation
+- Activation risk if working context packages are mistaken for canonical source
+  authority
 
 ---
 
@@ -118,6 +126,7 @@ usable Organizational Context Runtime repository.
 ## Change Log
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
+- 2026-08-11 — v0.1.1 — Added Context Activation Package surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

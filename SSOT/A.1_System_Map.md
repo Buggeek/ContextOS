@@ -40,6 +40,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
+| tools/activation | Module | Read-only Context Activation Package implementation and tests | Maintainers | v0.6 working-context package component
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -70,14 +71,14 @@ Modular monolith (documentation modules + tooling modules in one repository).
 4. Runtime contract update -> epic alignment -> implementation mission
 5. Validator/CLI change -> local tests -> gate validation -> commit
 6. Readiness assessment -> bootstrap plan -> bootstrap proposal -> approval record draft -> accepted decision -> apply preflight -> explicit apply confirmation -> create-only apply result
+7. Canonical context -> activation selection -> working context package -> consumer execution context
 
 ---
 
 ## Known Gaps / Drift
 
-- No write-capable Guided Bootstrap apply surface exists yet
-- No Discovery Bundle, Knowledge Engine, Context Builder, Context Graph
-  runtime, Activation Layer, or agent runtime exists yet
+- No Knowledge Engine, Context Graph runtime, activation CLI/adapters, or agent
+  runtime exists yet
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---
@@ -99,4 +100,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   to system map
 - 2026-08-11 — v0.1.1 — Added read-only Bootstrap Approval Record Draft to
   system map
+- 2026-08-11 — v0.1.1 — Added read-only Context Activation Package to system
+  map
 - 2026-02-19 — v0.1.0 — Initial creation

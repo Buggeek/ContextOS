@@ -15,6 +15,7 @@ expected to build against.
 | [Context Readiness Assessment Contract](1.5.6_Context_Readiness_Assessment_Contract.md) | v0.3 readiness dimensions, scoring, report schema, recommendations | EPIC-004 + EPIC-006 + EPIC-007 + EPIC-008 |
 | [Bootstrap Apply Approval Contract](1.5.7_Bootstrap_Apply_Approval_Contract.md) | Proposal identity, approval, validation, rollback, and evidence rules for future Guided Bootstrap apply | EPIC-006 + EPIC-007 + EPIC-008 |
 | [Builder Draft Authority Contract](1.5.8_Builder_Draft_Authority_Contract.md) | Authority, evidence, no-overwrite, drift, validation, and rollback rules before Builder draft writes | EPIC-006 + EPIC-007 |
+| [Context Activation Package Contract](1.5.9_Context_Activation_Package_Contract.md) | Mission-bound working-context package identity, provenance, freshness, permissions, and invalidation | EPIC-008 + Activation Layer |
 
 ## Rules
 

@@ -94,7 +94,7 @@ perform work, without duplicating, degrading, or bypassing canonical context.
 
 Canonical Contract:
 
-[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.6_Context_Readiness_Assessment_Contract.md)
+[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md)
 
 Guided Bootstrap Apply Contract:
 
@@ -103,6 +103,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V06-CONTEXT-ACTIVATION-PLAN-001`](E.4_Mission_V06-CONTEXT-ACTIVATION-PLAN-001_Context_Activation_Package.md)
+- Closed v0.5 release cut mission:
   [`E.4 Mission V05-RELEASE-CUT-001`](E.4_Mission_V05-RELEASE-CUT-001_Context_Construction_Release_Cut.md)
 - Closed v0.5 release verification mission:
   [`E.4 Mission V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001`](E.4_Mission_V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001_Context_Construction_Release_Verification.md)
@@ -178,7 +180,7 @@ release intent; Mission Packets govern bounded execution.
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
 | v0.4 Guided Bootstrap | EPIC-008 `contextos init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
 | v0.5 Context Construction | Construction planning, local Discovery Bundle, Builder Draft Plan, Builder Draft Authority, Draft Workspace runtime, create-only draft writes, draft review surface, EPIC-007 gate integration |
-| v0.6 Context Activation | EPIC-008 activation surface, adapter epics, validated context delivery |
+| v0.6 Context Activation | Context Activation Package, EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
 | v0.8 Organizational Memory | EPIC-005 durable knowledge and interpretation, Context Graph memory traversal |
 | v0.9 Contextual Reasoning | Context reasoning, capability registry, governed agent-team assembly |
@@ -254,6 +256,11 @@ validate and assess surfaces have shipped; v0.4 now exposes read-only
 construction, activation, and mission-oriented commands as their releases
 require them.
 
+The first v0.6 activation slice is engine/API-first:
+`contextos.activation.package/1`. A Runtime CLI activation surface remains the
+next release mission rather than a prerequisite for the initial activation
+primitive.
+
 ---
 
 # Success Criteria
@@ -309,3 +316,4 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the Draft Promotion Execute mission.
 - 2026-08-11 - v1.0 - Closed v0.5 Context Construction release and re-anchored
   current release on v0.6 Context Activation.
+- 2026-08-11 - v1.0 - Linked the first Context Activation Package mission.

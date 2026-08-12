@@ -110,6 +110,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-059 | product | accepted | V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001 | Promotion execution exists as an engine but has no user-facing construction CLI workflow. | Consider after v0.5 release verification clarifies the minimum usable construction surface. |
 | INBOX-060 | product | accepted | V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001 | v0.5 is release-ready as an engine/API lifecycle, but the construction journey is not yet exposed as a user-facing CLI workflow. | Defer to a post-release construction UX mission or v0.6 activation planning; do not block v0.5 release cut. |
 | INBOX-061 | governance | accepted | V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001 | Existing canonical targets are intentionally blocked from replacement; governed replacement promotion remains outside v0.5 scope. | Define only when an explicit user need requires replacement rather than create-only construction. |
+| INBOX-062 | product | accepted | V06-CONTEXT-ACTIVATION-PLAN-001 | Activation Package exists as an engine/API but has no Runtime CLI surface. | Promote to the next v0.6 mission as a narrow read-only CLI surface. |
+| INBOX-063 | architecture | accepted | V06-CONTEXT-ACTIVATION-PLAN-001 | Activation source selection is intentionally heuristic and local; richer relevance, audience profiles, and context budgeting need evidence from actual package use. | Defer until CLI dogfooding produces usage evidence; do not add Knowledge Engine or Graph selection yet. |
+| INBOX-064 | product | accepted | V06-CONTEXT-ACTIVATION-PLAN-001 | IDE, Claude Code, Codex, workflow, and non-technology organizational adapters will need the same package identity and invalidation model. | Defer adapters until the package CLI is stable and audited. |
 
 ---
 
@@ -134,3 +137,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Draft Promotion Preflight follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Promotion Execute follow-up items.
 - 2026-08-11 - v0.1.0 - Added Context Construction release verification follow-up items.
+- 2026-08-11 - v0.1.0 - Added Context Activation Package follow-up items.
