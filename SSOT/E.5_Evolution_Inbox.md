@@ -108,6 +108,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-057 | implementation | accepted | V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001 | Promotion Preflight, Approval Decision, Review Decision, and Draft Review remain engine-only surfaces without Runtime CLI workflow. | Consider a construction workflow CLI after promotion execution boundaries are decided. |
 | INBOX-058 | governance | accepted | V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001 | Existing canonical targets remain blocked because governed replacement execution is not yet defined. | Promote only when replacement/overwrite authority is explicitly required. |
 | INBOX-059 | product | accepted | V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001 | Promotion execution exists as an engine but has no user-facing construction CLI workflow. | Consider after v0.5 release verification clarifies the minimum usable construction surface. |
+| INBOX-060 | product | accepted | V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001 | v0.5 is release-ready as an engine/API lifecycle, but the construction journey is not yet exposed as a user-facing CLI workflow. | Defer to a post-release construction UX mission or v0.6 activation planning; do not block v0.5 release cut. |
+| INBOX-061 | governance | accepted | V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001 | Existing canonical targets are intentionally blocked from replacement; governed replacement promotion remains outside v0.5 scope. | Define only when an explicit user need requires replacement rather than create-only construction. |
 
 ---
 
@@ -131,3 +133,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Draft Approval Decision follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Promotion Preflight follow-up items.
 - 2026-08-11 - v0.1.0 - Added Draft Promotion Execute follow-up items.
+- 2026-08-11 - v0.1.0 - Added Context Construction release verification follow-up items.

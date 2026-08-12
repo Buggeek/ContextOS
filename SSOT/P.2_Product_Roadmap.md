@@ -6,7 +6,7 @@ Last Updated: 2026-08-11
 
 Owner: Context OS Core Team
 
-Status: Active
+Status: Release-ready pending cut
 
 ---
 
@@ -104,6 +104,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001`](E.4_Mission_V05-CONTEXT-CONSTRUCTION-RELEASE-VERIFY-001_Context_Construction_Release_Verification.md)
+- Closed v0.5 draft promotion execution mission:
   [`E.4 Mission V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001`](E.4_Mission_V05-BUILDER-DRAFT-PROMOTION-EXECUTE-001_Draft_Promotion_Execute.md)
 - Closed v0.5 draft promotion preflight mission:
   [`E.4 Mission V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001`](E.4_Mission_V05-BUILDER-DRAFT-PROMOTION-PREFLIGHT-001_Draft_Promotion_Preflight.md)
