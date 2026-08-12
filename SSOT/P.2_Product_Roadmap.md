@@ -103,8 +103,10 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Latest closed mission:
-  [`E.4 Mission V06-ACTIVATION-HANDOFF-FORMAT-001`](E.4_Mission_V06-ACTIVATION-HANDOFF-FORMAT-001_Package_Backed_Handoff_Format.md)
+  [`E.4 Mission V06-ACTIVATION-HANDOFF-USE-001`](E.4_Mission_V06-ACTIVATION-HANDOFF-USE-001_Handoff_First_Mission_Execution.md)
 - Previous closed mission:
+  [`E.4 Mission V06-ACTIVATION-HANDOFF-FORMAT-001`](E.4_Mission_V06-ACTIVATION-HANDOFF-FORMAT-001_Package_Backed_Handoff_Format.md)
+- Closed v0.6 package-first execution mission:
   [`E.4 Mission V06-ACTIVATION-PACKAGE-USE-001`](E.4_Mission_V06-ACTIVATION-PACKAGE-USE-001_Package_First_Mission_Execution.md)
 - Closed v0.6 Activation Package CLI mission:
   [`E.4 Mission V06-ACTIVATION-PACKAGE-CLI-001`](E.4_Mission_V06-ACTIVATION-PACKAGE-CLI-001_Activation_Package_CLI.md)
@@ -325,4 +327,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the first Context Activation Package mission.
 - 2026-08-11 - v1.0 - Linked the Activation Package CLI mission.
 - 2026-08-11 - v1.0 - Linked the package-backed activation handoff mission.
+- 2026-08-11 - v1.0 - Linked the handoff-first Mission execution and handoff check mission.
 - 2026-08-11 - v1.0 - Linked the package-first Mission execution proof.

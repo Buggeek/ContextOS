@@ -58,6 +58,9 @@ usable Organizational Context Runtime repository.
 15. Actor generates a package-backed Activation Handoff, and Context OS provides
     a compact working brief without copying canonical context into a second
     SSOT
+16. Actor checks a saved Activation Handoff before use, and Context OS detects
+    handoff identity drift, selected source drift, package binding drift, or
+    Validator gate invalidation
 
 ---
 
@@ -84,6 +87,8 @@ usable Organizational Context Runtime repository.
   mission-bound working context packages
 - Provide package-backed Activation Handoffs for humans, Codex, Claude Code,
   IDE assistants, and future consumers
+- Provide Activation Handoff checks so a saved handoff can govern work only
+  while its package binding, selected sources, and Validator gate remain valid
 
 ---
 
@@ -116,6 +121,8 @@ usable Organizational Context Runtime repository.
   authority
 - Handoff risk if compact operating briefs become tool-specific prompts instead
   of package-bound derived context
+- Handoff-use risk if consumers skip direct handoff revalidation and rely only
+  on a previously valid package check
 
 ---
 
@@ -140,6 +147,7 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added Context Activation Package surface
 - 2026-08-11 — v0.1.1 — Added Activation Package CLI and package check surface
 - 2026-08-11 — v0.1.1 — Added package-backed Activation Handoff surface
+- 2026-08-11 — v0.1.1 — Added Activation Handoff check surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

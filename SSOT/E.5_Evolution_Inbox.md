@@ -121,6 +121,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-070 | UX | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Package-backed handoff exists, but future consumers may need adapter-specific renderers for Codex, Claude Code, IDE assistants, web, or workflow surfaces. | Defer until the universal handoff is proven in another real Mission; adapters must preserve the same machine schema. |
 | INBOX-071 | architecture | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Current activation selection can orient product and contract work, but implementation missions still need runtime/test file reads outside selected canonical sources. | Consider a bounded source-selection improvement before v0.6 release verification; do not add broad RAG or Graph runtime. |
 | INBOX-072 | product | accepted | V06-ACTIVATION-HANDOFF-FORMAT-001 | Handoff-first execution should be measured against a future Mission that starts from a handoff id/reference plus a short instruction. | Promote to the next v0.6 mission. |
+| INBOX-073 | architecture | accepted | V06-ACTIVATION-HANDOFF-USE-001 | Handoff-first execution showed that governing context and execution context are distinct layers; implementation work required runtime/test files beyond the selected governing package. | Consider a bounded governing/execution context-layer mission before release verification if needed; preserve one coherent Mission context model. |
+| INBOX-074 | product | accepted | V06-ACTIVATION-HANDOFF-USE-001 | Saved handoff checks now exist, but v0.6 still lacks release-level verification across package, handoff, handoff check, and a real handoff-first Mission journey. | Promote after any required context-layer refinement. |
 
 ---
 
@@ -149,3 +151,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Activation Package CLI follow-up items.
 - 2026-08-11 - v0.1.0 - Added package-first Mission execution follow-up items.
 - 2026-08-11 - v0.1.0 - Added package-backed Activation Handoff follow-up items.
+- 2026-08-11 - v0.1.0 - Added handoff-first Mission execution follow-up items.

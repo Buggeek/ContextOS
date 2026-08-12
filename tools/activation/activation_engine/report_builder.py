@@ -8,6 +8,7 @@ from pathlib import Path
 SCHEMA = "contextos.activation.package/1"
 CHECK_SCHEMA = "contextos.activation.package_check/1"
 HANDOFF_SCHEMA = "contextos.activation.handoff/1"
+HANDOFF_CHECK_SCHEMA = "contextos.activation.handoff_check/1"
 
 
 def generated_timestamp() -> str:
@@ -30,6 +31,8 @@ def build_report(
 
 
 def render_human(report: dict) -> str:
+    if report.get("schema") == HANDOFF_CHECK_SCHEMA:
+        return render_handoff_check_human(report)
     if report.get("schema") == HANDOFF_SCHEMA:
         return render_handoff_human(report)
     if report.get("schema") == CHECK_SCHEMA:
@@ -206,6 +209,52 @@ def render_handoff_human(report: dict) -> str:
             "- This handoff is derived from an Activation Package and is not SSOT.",
             "- Exact canonical source files remain authoritative.",
             "- Revalidate the package before acting when any invalidation condition may have changed.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def render_handoff_check_human(report: dict) -> str:
+    validator = report["validator"]["summary"]
+    lines = [
+        "# Context OS Activation Handoff Check",
+        "",
+        f"- Schema: `{report['schema']}`",
+        f"- Handoff: `{report['handoff']['id']}`",
+        f"- Package: `{report['source_package']['id']}`",
+        f"- Root: `{report['root']}`",
+        f"- Read-only: {yes_no(report['read_only'])}",
+        f"- Valid: {yes_no(report['result']['valid'])}",
+        f"- Invalidated: {yes_no(report['result']['invalidated'])}",
+        f"- Handoff identity valid: {yes_no(report['checks']['handoff_identity_valid'])}",
+        f"- Source hashes match: {yes_no(report['checks']['source_hashes_match'])}",
+        f"- Validator gate ok: {yes_no(report['checks']['validator_gate_ok'])}",
+        f"- Package ref available: {yes_no(report['checks']['package_ref_available'])}",
+        f"- Package ref valid: {yes_no(report['checks']['package_ref_valid'])}",
+        f"- Validator findings: info={validator['info']}, warn={validator['warn']}, error={validator['error']}, fatal={validator['fatal']}",
+        "",
+        "## Source Checks",
+    ]
+    for check in report["checks"]["source_checks"]:
+        lines.append(f"- `{check['path']}` match={yes_no(check['matches'])}")
+        lines.append(f"  Expected: `{check['expected_hash']}`")
+        lines.append(f"  Current: `{check['current_hash']}`")
+    if not report["checks"]["source_checks"]:
+        lines.append("- None.")
+
+    lines.extend(["", "## Failed Checks"])
+    if report["result"]["failed_checks"]:
+        for check in report["result"]["failed_checks"]:
+            lines.append(f"- `{check}`")
+    else:
+        lines.append("- None.")
+    lines.extend(
+        [
+            "",
+            "## Boundary",
+            "- This check validates a handoff as derived working context.",
+            "- It does not regenerate context selection or create a second SSOT.",
+            "- It performs no repository mutation.",
         ]
     )
     return "\n".join(lines) + "\n"

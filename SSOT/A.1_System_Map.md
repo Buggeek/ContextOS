@@ -40,9 +40,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/validators | Module | Validator Engine implementation and tests | Maintainers | Scope-controlled
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
-| tools/activation | Module | Read-only Context Activation Package, package check, and handoff implementation and tests | Maintainers | v0.6 working-context package component
-| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply, activate package, activate package check, activate handoff
-| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply/activate package/activate package check/activate handoff
+| tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
+| tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply, activate package, activate package check, activate handoff, activate handoff check
+| contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply/activate package/activate package check/activate handoff/activate handoff check
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
 
 ---
@@ -74,6 +74,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 7. Canonical context -> activation selection -> working context package -> consumer execution context
 8. Context activation package -> package check -> source drift / validator gate validity decision
 9. Valid activation package -> package-backed handoff -> consumer starts work from compact governed context
+10. Saved activation handoff -> handoff check -> handoff identity / source drift / package binding / validator gate validity decision
 
 ---
 
@@ -107,4 +108,5 @@ Modular monolith (documentation modules + tooling modules in one repository).
 - 2026-08-11 — v0.1.1 — Added Activation Package CLI and package check to
   system map
 - 2026-08-11 — v0.1.1 — Added package-backed Activation Handoff to system map
+- 2026-08-11 — v0.1.1 — Added Activation Handoff Check to system map
 - 2026-02-19 — v0.1.0 — Initial creation

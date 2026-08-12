@@ -392,6 +392,92 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertTrue(report["result"]["invalidated"])
         self.assertEqual(stderr, "")
 
+    def test_activate_check_handoff_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            package_path = Path(output_temp) / "activation-package.json"
+            handoff_path = Path(output_temp) / "activation-handoff.json"
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Use a package-backed handoff",
+                "--consumer",
+                "codex",
+                "--json-out",
+                str(package_path),
+            ])
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(package_path),
+                "--handoff",
+                "--json-out",
+                str(handoff_path),
+            ])
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-handoff",
+                str(handoff_path),
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.activation.handoff_check/1")
+        self.assertTrue(report["result"]["valid"])
+        self.assertTrue(report["checks"]["handoff_identity_valid"])
+        self.assertTrue(report["checks"]["package_ref_valid"])
+        self.assertEqual(stderr, "")
+
+    def test_activate_check_handoff_detects_drift(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            package_path = Path(output_temp) / "activation-package.json"
+            handoff_path = Path(output_temp) / "activation-handoff.json"
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--goal",
+                "Use a package-backed handoff",
+                "--consumer",
+                "codex",
+                "--json-out",
+                str(package_path),
+            ])
+            self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-package",
+                str(package_path),
+                "--handoff",
+                "--json-out",
+                str(handoff_path),
+            ])
+            write(Path(temp) / "README.md", "# Test Repo\n\nChanged after handoff.\n")
+            code, stdout, stderr = self.invoke([
+                "activate",
+                "--root",
+                temp,
+                "--check-handoff",
+                str(handoff_path),
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 7)
+        self.assertEqual(report["schema"], "contextos.activation.handoff_check/1")
+        self.assertFalse(report["result"]["valid"])
+        self.assertTrue(report["result"]["invalidated"])
+        self.assertEqual(stderr, "")
+
     def test_init_default_renders_human_bootstrap_plan_without_target_writes(self) -> None:
         with self.make_repo() as temp:
             root = Path(temp)

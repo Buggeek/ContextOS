@@ -117,6 +117,7 @@ def build_parser() -> argparse.ArgumentParser:
     activate.add_argument("--mission-id", default=None, help="Mission id to bind the activation package to.")
     activate.add_argument("--max-artifacts", type=int, default=12, help="Maximum canonical artifacts to include.")
     activate.add_argument("--check-package", default=None, help="Check an existing activation package JSON for source drift and gate validity.")
+    activate.add_argument("--check-handoff", default=None, help="Check an existing activation handoff JSON for source drift, package binding, and gate validity.")
     activate.add_argument("--handoff", action="store_true", help="Render a compact handoff derived from a valid activation package.")
     activate.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     activate.add_argument("--json-out", default=None, help="Write the machine activation package JSON to this path.")
@@ -361,6 +362,8 @@ def run_init(args: argparse.Namespace) -> int:
 
 
 def activation_exit_code(report: dict) -> int:
+    if report.get("schema") == "contextos.activation.handoff_check/1":
+        return 0 if report["result"]["valid"] else 7
     if report.get("schema") == "contextos.activation.handoff/1":
         return 0 if report["result"]["handoff_ready"] else 7
     if report.get("schema") == "contextos.activation.package_check/1":
@@ -387,7 +390,10 @@ def run_activate(args: argparse.Namespace) -> int:
     engine = ContextActivationPackageEngine(root)
 
     try:
-        if args.check_package:
+        if args.check_handoff:
+            handoff = load_bootstrap_json(args.check_handoff)
+            report = engine.check_handoff(handoff)
+        elif args.check_package:
             package = load_bootstrap_json(args.check_package)
             if args.handoff:
                 report = engine.build_handoff(package, package_ref=args.check_package)

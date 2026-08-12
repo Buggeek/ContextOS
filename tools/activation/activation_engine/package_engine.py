@@ -6,7 +6,7 @@ import re
 import sys
 from pathlib import Path
 
-from activation_engine.report_builder import CHECK_SCHEMA, HANDOFF_SCHEMA, build_report, generated_timestamp
+from activation_engine.report_builder import CHECK_SCHEMA, HANDOFF_CHECK_SCHEMA, HANDOFF_SCHEMA, build_report, generated_timestamp
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
@@ -485,6 +485,124 @@ class ContextActivationPackageEngine:
         handoff["id"] = f"activation.handoff.{stable_hash(self._handoff_identity_payload(handoff))[:16]}"
         handoff["identity_hash"] = stable_hash(self._handoff_identity_payload(handoff))
         return handoff
+
+    def check_handoff(self, handoff: dict, *, generated_at: str | None = None) -> dict:
+        if handoff.get("schema") != HANDOFF_SCHEMA:
+            raise ValueError("Activation handoff check requires contextos.activation.handoff/1 input.")
+        root = self.root.resolve()
+        validator_report = ValidatorEngine(root).run(mode="gate")
+        handoff_identity_valid = handoff.get("identity_hash") == stable_hash(self._handoff_identity_payload(handoff))
+        source_checks = []
+        for source in handoff.get("selected_context", []):
+            rel_path = source.get("path")
+            current_path = root / rel_path
+            exists = current_path.is_file()
+            current_hash = sha256_file(current_path) if exists else None
+            source_checks.append(
+                {
+                    "path": rel_path,
+                    "expected_hash": source.get("source_hash"),
+                    "current_hash": current_hash,
+                    "exists": exists,
+                    "matches": exists and current_hash == source.get("source_hash"),
+                }
+            )
+        validator_ok = validator_report["summary"]["error"] == 0 and validator_report["summary"]["fatal"] == 0
+        package_ref = handoff.get("source_package", {}).get("ref")
+        package_ref_available = bool(package_ref)
+        package_ref_exists = False
+        package_ref_loaded = False
+        package_ref_valid = False
+        package_ref_error = None
+        package_identity_matches = False
+        package_check = None
+        if package_ref_available:
+            package_path = Path(package_ref)
+            if not package_path.is_absolute() and not package_path.exists():
+                package_path = root / package_path
+            package_ref_exists = package_path.is_file()
+            if package_ref_exists:
+                try:
+                    package = json.loads(package_path.read_text(encoding="utf-8"))
+                    package_ref_loaded = True
+                    package_identity_matches = (
+                        package.get("id") == handoff.get("source_package", {}).get("id")
+                        and package.get("identity_hash") == handoff.get("source_package", {}).get("identity_hash")
+                    )
+                    package_check = self.check_package(package, generated_at=generated_at)
+                    package_ref_valid = package_identity_matches and package_check["result"]["valid"]
+                except (OSError, ValueError, json.JSONDecodeError) as exc:
+                    package_ref_error = str(exc)
+
+        failed = []
+        if not handoff_identity_valid:
+            failed.append("activation_handoff_check.identity_hash_mismatch")
+        failed.extend(f"activation_handoff_check.source_hash_changed:{check['path']}" for check in source_checks if not check["matches"])
+        if not validator_ok:
+            failed.append("activation_handoff_check.validator_gate_blocked")
+        if package_ref_available and not package_ref_exists:
+            failed.append("activation_handoff_check.package_ref_missing")
+        if package_ref_available and package_ref_exists and (not package_ref_loaded or package_ref_error):
+            failed.append("activation_handoff_check.package_ref_unreadable")
+        if package_ref_available and package_ref_loaded and not package_identity_matches:
+            failed.append("activation_handoff_check.source_package_identity_mismatch")
+        if package_ref_available and package_ref_loaded and package_identity_matches and package_check and not package_check["result"]["valid"]:
+            failed.extend(f"activation_handoff_check.package_invalid:{check}" for check in package_check["result"]["failed_checks"])
+        current_fingerprint = stable_hash(
+            {
+                "sources": [
+                    {
+                        "path": check["path"],
+                        "hash": check["current_hash"],
+                        "authority_tier": source.get("authority_tier"),
+                        "lifecycle_state": source.get("lifecycle_state"),
+                    }
+                    for check, source in zip(source_checks, handoff.get("selected_context", []))
+                ]
+            }
+        )
+        return {
+            "schema": HANDOFF_CHECK_SCHEMA,
+            "generated_at": generated_at or generated_timestamp(),
+            "root": str(root),
+            "read_only": True,
+            "handoff": {
+                "id": handoff.get("id"),
+                "identity_hash": handoff.get("identity_hash"),
+                "mission": handoff.get("mission"),
+                "consumer": handoff.get("consumer"),
+            },
+            "source_package": handoff.get("source_package", {}),
+            "current_source_fingerprint": current_fingerprint,
+            "validator": {
+                "schema": validator_report["schema"],
+                "summary": validator_report["summary"],
+            },
+            "checks": {
+                "handoff_identity_valid": handoff_identity_valid,
+                "source_hashes_match": all(check["matches"] for check in source_checks),
+                "validator_gate_ok": validator_ok,
+                "package_ref_available": package_ref_available,
+                "package_ref_exists": package_ref_exists,
+                "package_ref_loaded": package_ref_loaded,
+                "package_ref_valid": package_ref_valid,
+                "package_identity_matches": package_identity_matches,
+                "package_ref_error": package_ref_error,
+                "source_checks": source_checks,
+                "package_check": package_check,
+            },
+            "result": {
+                "valid": not failed,
+                "invalidated": bool(failed),
+                "failed_checks": failed,
+            },
+            "constraints": {
+                "writes_performed": False,
+                "canonical_context_mutated": False,
+                "parallel_ssot_created": False,
+                "context_selection_regenerated": False,
+            },
+        }
 
     def _select_sources(self, root: Path, goal_tokens: set[str], max_artifacts: int) -> tuple[list[dict], list[dict]]:
         scored: list[tuple[int, str, str, str]] = []

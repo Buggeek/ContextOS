@@ -15,7 +15,7 @@ if str(ACTIVATION_ROOT) not in sys.path:
     sys.path.insert(0, str(ACTIVATION_ROOT))
 
 from activation_engine.package_engine import ContextActivationPackageEngine  # noqa: E402
-from activation_engine.report_builder import HANDOFF_SCHEMA, SCHEMA, render_human  # noqa: E402
+from activation_engine.report_builder import HANDOFF_CHECK_SCHEMA, HANDOFF_SCHEMA, SCHEMA, render_human  # noqa: E402
 
 
 def write(path: Path, text: str) -> None:
@@ -243,6 +243,86 @@ class ContextActivationPackageTestCase(unittest.TestCase):
         self.assertIn("Handoff ready: yes", human)
         self.assertIn("## Governing Context", human)
         self.assertIn("This handoff is derived from an Activation Package and is not SSOT.", human)
+
+    def test_handoff_check_validates_identity_sources_and_package_ref(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            package_path = root / "activation-package.json"
+            engine = ContextActivationPackageEngine(root)
+            package = engine.run(
+                goal="Activate governed context for handoff",
+                consumer="codex",
+                mission_id="V06-ACTIVATION-HANDOFF-USE-001",
+                generated_at="2026-08-11T00:00:00Z",
+            )
+            package_path.write_text(json.dumps(package, indent=2, sort_keys=True), encoding="utf-8")
+            handoff = engine.build_handoff(
+                package,
+                package_ref=str(package_path),
+                generated_at="2026-08-11T00:00:00Z",
+            )
+            check = engine.check_handoff(handoff, generated_at="2026-08-11T00:00:00Z")
+
+        self.assertEqual(check["schema"], HANDOFF_CHECK_SCHEMA)
+        self.assertTrue(check["result"]["valid"])
+        self.assertTrue(check["checks"]["handoff_identity_valid"])
+        self.assertTrue(check["checks"]["source_hashes_match"])
+        self.assertTrue(check["checks"]["package_ref_valid"])
+        self.assertFalse(check["constraints"]["context_selection_regenerated"])
+
+    def test_handoff_check_detects_source_drift(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            package_path = root / "activation-package.json"
+            engine = ContextActivationPackageEngine(root)
+            package = engine.run(
+                goal="Activate governed context for handoff",
+                consumer="codex",
+                generated_at="2026-08-11T00:00:00Z",
+            )
+            package_path.write_text(json.dumps(package, indent=2, sort_keys=True), encoding="utf-8")
+            handoff = engine.build_handoff(package, package_ref=str(package_path), generated_at="2026-08-11T00:00:00Z")
+            write(root / "README.md", "# Example Runtime\nOwner: Maintainers\nChanged.\n")
+            check = engine.check_handoff(handoff, generated_at="2026-08-11T00:00:00Z")
+
+        self.assertFalse(check["result"]["valid"])
+        self.assertTrue(check["result"]["invalidated"])
+        self.assertIn("activation_handoff_check.source_hash_changed:README.md", check["result"]["failed_checks"])
+        self.assertTrue(any(item.startswith("activation_handoff_check.package_invalid:") for item in check["result"]["failed_checks"]))
+
+    def test_handoff_check_detects_identity_tampering(self) -> None:
+        with self.make_repo() as temp:
+            engine = ContextActivationPackageEngine(temp)
+            package = engine.run(
+                goal="Activate governed context for handoff",
+                consumer="codex",
+                generated_at="2026-08-11T00:00:00Z",
+            )
+            handoff = engine.build_handoff(package, generated_at="2026-08-11T00:00:00Z")
+            handoff["mission"]["goal"] = "Different goal"
+            check = engine.check_handoff(handoff, generated_at="2026-08-11T00:00:00Z")
+
+        self.assertFalse(check["result"]["valid"])
+        self.assertIn("activation_handoff_check.identity_hash_mismatch", check["result"]["failed_checks"])
+
+    def test_handoff_check_human_report_names_boundaries(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            package_path = root / "activation-package.json"
+            engine = ContextActivationPackageEngine(root)
+            package = engine.run(
+                goal="Activate governed context for handoff",
+                consumer="human",
+                generated_at="2026-08-11T00:00:00Z",
+            )
+            package_path.write_text(json.dumps(package, indent=2, sort_keys=True), encoding="utf-8")
+            handoff = engine.build_handoff(package, package_ref=str(package_path), generated_at="2026-08-11T00:00:00Z")
+            check = engine.check_handoff(handoff, generated_at="2026-08-11T00:00:00Z")
+        human = render_human(check)
+
+        self.assertIn("# Context OS Activation Handoff Check", human)
+        self.assertIn("Valid: yes", human)
+        self.assertIn("It performs no repository mutation.", human)
 
 
 if __name__ == "__main__":

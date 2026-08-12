@@ -30,6 +30,12 @@ Package-backed handoff schema:
 contextos.activation.handoff/1
 ```
 
+Handoff check schema:
+
+```text
+contextos.activation.handoff_check/1
+```
+
 The package turns canonical Context OS sources into mission-bound working
 context for a consumer. It preserves:
 
@@ -109,6 +115,19 @@ Generate a compact package-backed handoff from a checked package:
   --handoff
 ```
 
+Check a saved handoff before use:
+
+```bash
+./contextos activate \
+  --root . \
+  --check-handoff /tmp/contextos-activation-handoff.json \
+  --format json
+```
+
+The handoff check validates handoff identity, selected source hashes, Validator
+gate status, and package binding when the handoff has a package file reference.
+It does not regenerate context selection.
+
 Generate a fresh package and immediately render its handoff:
 
 ```bash
@@ -127,9 +146,10 @@ duplicating full canonical content.
 
 Exit codes:
 
-- `0` when the package is generated, checked successfully, or a handoff is ready,
-- `7` when activation is blocked, an existing package is invalidated, or a
-  handoff is not ready,
+- `0` when the package is generated, checked successfully, a handoff is ready,
+  or a handoff check is valid,
+- `7` when activation is blocked, an existing package is invalidated, a handoff
+  is not ready, or a handoff check is invalidated,
 - `9` for CLI/configuration errors.
 
 ## Package-First Mission Use
