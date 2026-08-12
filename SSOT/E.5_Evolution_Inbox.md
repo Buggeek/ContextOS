@@ -116,6 +116,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-065 | product | accepted | V06-ACTIVATION-PACKAGE-CLI-001 | The package CLI can produce and check working context, but Context OS has not yet executed a mission that formally starts from a package artifact. | Promote to the next v0.6 mission to prove package-first self-hosted execution. |
 | INBOX-066 | UX | accepted | V06-ACTIVATION-PACKAGE-CLI-001 | Activation Package human output is inspectable but not yet optimized as a compact prompt handoff for Codex, Claude Code, or IDE assistants. | Defer until package-first mission execution reveals the minimum handoff format. |
 | INBOX-067 | architecture | accepted | V06-ACTIVATION-PACKAGE-CLI-001 | Package selection currently records exclusions but does not explain per-source ranking scores. | Defer until selection tuning is needed; avoid broad RAG or Graph selection in v0.6 slice 2. |
+| INBOX-068 | UX | accepted | V06-ACTIVATION-PACKAGE-USE-001 | Package-first execution works, but future consumers need a compact package-backed handoff format that names package id, validity, goal, selected sources, gaps, and allowed actions. | Promote to the next v0.6 mission before IDE or agent adapters. |
+| INBOX-069 | implementation | accepted | V06-ACTIVATION-PACKAGE-USE-001 | Source edits during a package-first Mission invalidate the package used to start that Mission. | Require a fresh package check before a follow-on Mission uses changed context. |
 
 ---
 
@@ -142,3 +144,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Context Construction release verification follow-up items.
 - 2026-08-11 - v0.1.0 - Added Context Activation Package follow-up items.
 - 2026-08-11 - v0.1.0 - Added Activation Package CLI follow-up items.
+- 2026-08-11 - v0.1.0 - Added package-first Mission execution follow-up items.

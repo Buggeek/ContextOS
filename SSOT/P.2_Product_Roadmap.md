@@ -103,6 +103,8 @@ Guided Bootstrap Apply Contract:
 Self-Hosting Execution:
 
 - Current closed mission:
+  [`E.4 Mission V06-ACTIVATION-PACKAGE-USE-001`](E.4_Mission_V06-ACTIVATION-PACKAGE-USE-001_Package_First_Mission_Execution.md)
+- Closed v0.6 Activation Package CLI mission:
   [`E.4 Mission V06-ACTIVATION-PACKAGE-CLI-001`](E.4_Mission_V06-ACTIVATION-PACKAGE-CLI-001_Activation_Package_CLI.md)
 - Closed v0.6 activation package mission:
   [`E.4 Mission V06-CONTEXT-ACTIVATION-PLAN-001`](E.4_Mission_V06-CONTEXT-ACTIVATION-PLAN-001_Context_Activation_Package.md)
@@ -260,7 +262,8 @@ require them.
 
 The first v0.6 activation slices provide `contextos.activation.package/1`,
 `contextos.activation.package_check/1`, and the read-only
-`contextos activate` CLI surface.
+`contextos activate` CLI surface. Package-first Mission execution is now
+proven for a self-hosted Context OS Mission.
 
 ---
 
@@ -319,3 +322,4 @@ governable, and reusable across humans, agents, and systems.
   current release on v0.6 Context Activation.
 - 2026-08-11 - v1.0 - Linked the first Context Activation Package mission.
 - 2026-08-11 - v1.0 - Linked the Activation Package CLI mission.
+- 2026-08-11 - v1.0 - Linked the package-first Mission execution proof.

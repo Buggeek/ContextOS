@@ -99,3 +99,22 @@ Exit codes:
 - `0` when the package is generated or checked successfully,
 - `7` when activation is blocked or an existing package is invalidated,
 - `9` for CLI/configuration errors.
+
+## Package-First Mission Use
+
+A self-hosted Mission may begin from an Activation Package instead of a long
+manual source list when it follows this sequence:
+
+1. Generate or resolve the package for the exact Mission.
+2. Run `./contextos activate --check-package <package.json>`.
+3. Use the package's selected sources, constraints, gaps, exclusions, and
+   provenance as working context.
+4. Fetch additional repository context only when the package identifies a gap or
+   the Mission objectively requires exact file content for an edit.
+5. Record the package id, identity hash, selected sources, additional context,
+   and validation evidence in the Mission Packet.
+6. Treat source changes during the Mission as invalidating the package; generate
+   and check a fresh package before continuing from the changed context.
+
+The package is authoritative for the Mission's working context, not a second
+SSOT.
