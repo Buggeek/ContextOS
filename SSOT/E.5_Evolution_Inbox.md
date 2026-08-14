@@ -125,6 +125,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-074 | product | accepted | V06-ACTIVATION-HANDOFF-USE-001 | Saved handoff checks now exist, but v0.6 still lacks release-level verification across package, handoff, handoff check, and a real handoff-first Mission journey. | Promote after any required context-layer refinement. |
 | INBOX-075 | architecture | accepted | V06-ACTIVATION-CONTEXT-LAYERS-001 | Future activation may need ranked execution-context retrieval suggestions, but v0.6 should not add broad RAG, Graph runtime, Knowledge Engine ranking, or adapters. | Defer until release verification proves a real blocker; preserve bounded retrieval evidence first. |
 | INBOX-076 | product | accepted | V06-ACTIVATION-CONTEXT-LAYERS-001 | v0.6 now has package, check, handoff, handoff check, handoff-first execution, and Mission Context layers; release verification is the next product gate. | Promote to V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001. |
+| INBOX-077 | architecture | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | The canonical Activation Package Contract must not be displaced by keyword-rich prior-release Mission history in a bounded governing package. | Keep the contract as baseline activation authority and preserve the release-verification selector test. |
+| INBOX-078 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | Consumer-specific adapters, IDE integrations, agent orchestration, Graph, Knowledge ranking, broad RAG, learned ranking, and background synchronization are not required for the v0.6 product promise. | Keep deferred; admit only through evidence-backed future release Missions. |
+| INBOX-079 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | v0.6 is release-ready through the universal CLI/API, package, handoff, checks, and self-hosted consumers. | Require explicit human release-cut authority; then re-anchor on v0.7 Context Health & Learning. |
 
 ---
 
@@ -155,3 +158,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added package-backed Activation Handoff follow-up items.
 - 2026-08-11 - v0.1.0 - Added handoff-first Mission execution follow-up items.
 - 2026-08-11 - v0.1.0 - Added Mission Context layers follow-up items.
+- 2026-08-13 - v0.1.0 - Added Context Activation release verification
+  decisions and deferrals.

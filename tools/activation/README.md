@@ -49,6 +49,10 @@ context for a consumer. It preserves:
 - context gaps,
 - Validator gate evidence.
 
+The Activation Package Contract is always selected as baseline Governing
+Context. Other sources are selected and ordered within the bounded package by
+goal relevance; prior-release history does not receive automatic preference.
+
 The package is not SSOT. It may contain derived excerpts ordered for a mission
 or consumer, but canonical source artifacts remain authoritative.
 

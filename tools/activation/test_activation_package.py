@@ -158,6 +158,24 @@ class ContextActivationPackageTestCase(unittest.TestCase):
         self.assertEqual(report["validator"]["summary"]["error"], 0)
         self.assertEqual(report["validator"]["summary"]["fatal"], 0)
 
+    def test_release_verification_selects_activation_contract_over_prior_release_history(self) -> None:
+        report = ContextActivationPackageEngine(".").run(
+            goal="Verify v0.6 Context Activation release readiness",
+            consumer="codex",
+            mission_id="V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001",
+            generated_at="2026-08-11T00:00:00Z",
+        )
+        paths = {item["path"] for item in report["working_context"]["items"]}
+
+        self.assertIn(
+            "docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md",
+            paths,
+        )
+        self.assertNotIn(
+            "SSOT/E.4_Mission_V05-RELEASE-CUT-001_Context_Construction_Release_Cut.md",
+            paths,
+        )
+
     def test_human_report_names_package_boundary(self) -> None:
         with self.make_repo() as temp:
             report = ContextActivationPackageEngine(temp).run(

@@ -26,6 +26,7 @@ DEFAULT_SOURCE_PATHS = [
     "SSOT/G.1_Definition_of_Ready.md",
     "SSOT/G.2_Definition_of_Done.md",
     "docs/0.x_foundations/0.8_COS_GENESIS.md",
+    "docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md",
 ]
 
 ACTIVATION_SOURCE_PATHS = [
@@ -160,7 +161,7 @@ def score_path(path: str, content: str, goal_tokens: set[str]) -> int:
         score += 6
     if path in ACTIVATION_SOURCE_PATHS:
         score += 8
-    if path.startswith("SSOT/E.4_Mission_V05") or path.startswith("SSOT/E.4_Mission_SELFHOST"):
+    if path.startswith("SSOT/E.4_Mission_SELFHOST"):
         score += 2
     score += len(goal_tokens & tokens_for(path.replace("/", " "))) * 3
     score += len(goal_tokens & tokens_for(content[:8000]))
