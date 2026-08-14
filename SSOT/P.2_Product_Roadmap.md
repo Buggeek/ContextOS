@@ -2,7 +2,7 @@
 
 Version: 1.0
 
-Last Updated: 2026-08-11
+Last Updated: 2026-08-13
 
 Owner: Context OS Core Team
 
@@ -83,26 +83,27 @@ execution.
 
 # Current Version
 
-v0.6 — Context Activation
+v0.7 — Context Health & Learning
 
 Status: Active
 
 Primary Goal:
 
-Make governed context available in the places where humans, agents, and tools
-perform work, without duplicating, degrading, or bypassing canonical context.
+Keep canonical and activated context useful by making freshness, drift,
+ownership, contradictions, and learning signals visible and actionable without
+silently mutating organizational truth.
 
-Canonical Contract:
+Governing Runtime Contracts:
 
 [`../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md)
 
-Guided Bootstrap Apply Contract:
-
-[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.7_Bootstrap_Apply_Approval_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.7_Bootstrap_Apply_Approval_Contract.md)
+[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md)
 
 Self-Hosting Execution:
 
-- Latest closed mission:
+- Latest closed release mission:
+  [`E.4 Mission V06-RELEASE-CUT-001`](E.4_Mission_V06-RELEASE-CUT-001_Context_Activation_Release_Cut.md)
+- Closed v0.6 release verification mission:
   [`E.4 Mission V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001`](E.4_Mission_V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001_Context_Activation_Release_Verification.md)
 - Previous closed mission:
   [`E.4 Mission V06-ACTIVATION-CONTEXT-LAYERS-001`](E.4_Mission_V06-ACTIVATION-CONTEXT-LAYERS-001_Mission_Context_Layers.md)
@@ -336,3 +337,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-11 - v1.0 - Linked the package-first Mission execution proof.
 - 2026-08-13 - v1.0 - Closed Context Activation release verification and
   recorded v0.6 release readiness.
+- 2026-08-13 - v1.0 - Closed v0.6 Context Activation and re-anchored the
+  current release on v0.7 Context Health & Learning.

@@ -128,6 +128,7 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-077 | architecture | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | The canonical Activation Package Contract must not be displaced by keyword-rich prior-release Mission history in a bounded governing package. | Keep the contract as baseline activation authority and preserve the release-verification selector test. |
 | INBOX-078 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | Consumer-specific adapters, IDE integrations, agent orchestration, Graph, Knowledge ranking, broad RAG, learned ranking, and background synchronization are not required for the v0.6 product promise. | Keep deferred; admit only through evidence-backed future release Missions. |
 | INBOX-079 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | v0.6 is release-ready through the universal CLI/API, package, handoff, checks, and self-hosted consumers. | Require explicit human release-cut authority; then re-anchor on v0.7 Context Health & Learning. |
+| INBOX-080 | product | accepted | V06-RELEASE-CUT-001 | v0.6 release authority was granted after fresh package/handoff and full regression evidence remained green. | Close v0.6 and re-anchor on V07-CONTEXT-HEALTH-PLAN-001 without beginning implementation during release cut. |
 
 ---
 
@@ -160,3 +161,4 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-11 - v0.1.0 - Added Mission Context layers follow-up items.
 - 2026-08-13 - v0.1.0 - Added Context Activation release verification
   decisions and deferrals.
+- 2026-08-13 - v0.1.0 - Recorded the v0.6 release cut and v0.7 re-anchor.
