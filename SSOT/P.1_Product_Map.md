@@ -1,7 +1,7 @@
 # P.1 Product Map
-## Version: 0.1.0
-Last Updated: 2026-02-19  
-Owner: Context OS Maintainers  
+## Version: 0.1.1
+Last Updated: 2026-08-15
+Owner: Context OS Maintainers
 
 ---
 
@@ -23,6 +23,7 @@ usable Organizational Context Runtime repository.
 - Context Readiness tooling (`tools/readiness/`)
 - Guided Bootstrap planning/proposal tooling (`tools/bootstrap/`)
 - Context Activation package tooling (`tools/activation/`)
+- Context Health & Learning tooling (`tools/health/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -63,6 +64,8 @@ usable Organizational Context Runtime repository.
     Validator gate invalidation
 17. Actor distinguishes Governing Context from bounded Execution Context within
     one Mission Context, so orientation and execution retrieval remain coherent
+18. Operator runs Context Health analysis and receives explainable integrity,
+    usefulness, and learning signals plus governed Context Update Candidates
 
 ---
 
@@ -93,6 +96,8 @@ usable Organizational Context Runtime repository.
   while its package binding, selected sources, and Validator gate remain valid
 - Provide a single Mission Context model that separates Governing Context from
   bounded Execution Context without creating a second SSOT or package family
+- Provide a read-only Context Health Report that exposes evidence, unknowns,
+  and non-canonical update candidates without an opaque score
 
 ---
 
@@ -129,6 +134,8 @@ usable Organizational Context Runtime repository.
   on a previously valid package check
 - Context-layer risk if bounded execution retrieval becomes broad search or a
   second context system
+- Health risk if narrative evidence is mistaken for measured usefulness or if
+  update candidates bypass governed Construction
 
 ---
 
@@ -155,6 +162,7 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added package-backed Activation Handoff surface
 - 2026-08-11 — v0.1.1 — Added Activation Handoff check surface
 - 2026-08-11 — v0.1.1 — Added Mission Context layer model
+- 2026-08-15 — v0.1.1 — Added Context Health & Learning report surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

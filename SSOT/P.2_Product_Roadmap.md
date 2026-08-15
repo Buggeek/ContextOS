@@ -95,12 +95,16 @@ silently mutating organizational truth.
 
 Governing Runtime Contracts:
 
+[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.10_Context_Health_Report_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.10_Context_Health_Report_Contract.md)
+
 [`../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md)
 
 [`../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md)
 
 Self-Hosting Execution:
 
+- Latest closed mission:
+  [`E.4 Mission V07-CONTEXT-HEALTH-PLAN-001`](E.4_Mission_V07-CONTEXT-HEALTH-PLAN-001_Context_Health_and_Learning.md)
 - Latest closed release mission:
   [`E.4 Mission V06-RELEASE-CUT-001`](E.4_Mission_V06-RELEASE-CUT-001_Context_Activation_Release_Cut.md)
 - Closed v0.6 release verification mission:
@@ -339,3 +343,5 @@ governable, and reusable across humans, agents, and systems.
   recorded v0.6 release readiness.
 - 2026-08-13 - v1.0 - Closed v0.6 Context Activation and re-anchored the
   current release on v0.7 Context Health & Learning.
+- 2026-08-15 - v1.0 - Linked the first Context Health & Learning Mission and
+  Health Report contract.

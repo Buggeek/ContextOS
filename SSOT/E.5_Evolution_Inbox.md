@@ -129,6 +129,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-078 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | Consumer-specific adapters, IDE integrations, agent orchestration, Graph, Knowledge ranking, broad RAG, learned ranking, and background synchronization are not required for the v0.6 product promise. | Keep deferred; admit only through evidence-backed future release Missions. |
 | INBOX-079 | product | accepted | V06-CONTEXT-ACTIVATION-RELEASE-VERIFY-001 | v0.6 is release-ready through the universal CLI/API, package, handoff, checks, and self-hosted consumers. | Require explicit human release-cut authority; then re-anchor on v0.7 Context Health & Learning. |
 | INBOX-080 | product | accepted | V06-RELEASE-CUT-001 | v0.6 release authority was granted after fresh package/handoff and full regression evidence remained green. | Close v0.6 and re-anchor on V07-CONTEXT-HEALTH-PLAN-001 without beginning implementation during release cut. |
+| INBOX-081 | architecture | accepted | V07-CONTEXT-HEALTH-PLAN-001 | Integrity, usefulness, and learning are explainable dimensions of one Health Report; separate engines and an aggregate score are not justified. | Preserve one read-only `contextos.health.report/1`; add scoring only after calibrated decision evidence exists. |
+| INBOX-082 | evidence | accepted | V07-CONTEXT-HEALTH-PLAN-001 | Mission learning and activation use are mostly narrative, so Health cannot prove per-source consumption or causal effectiveness. | Promote to V07-CONTEXT-USE-EVIDENCE-001 before trend or effectiveness claims. |
+| INBOX-083 | governance | accepted | V07-CONTEXT-HEALTH-PLAN-001 | Health candidates must not become a second path to canonical truth. | Route accepted candidates through the existing v0.5 Construction lifecycle with human review. |
+| INBOX-084 | product | deferred | V07-CONTEXT-HEALTH-PLAN-001 | A `contextos health` CLI would make the report directly user-accessible. | Consider after the Health schema and Mission-use evidence input are validated; do not duplicate engine logic. |
+| INBOX-085 | architecture | deferred | V07-CONTEXT-HEALTH-PLAN-001 | Trends, degradation, and improvement require explicit prior reports or structured historical evidence. | Do not infer trends from one report; define comparison only after evidence capture exists. |
 
 ---
 
@@ -162,3 +167,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-13 - v0.1.0 - Added Context Activation release verification
   decisions and deferrals.
 - 2026-08-13 - v0.1.0 - Recorded the v0.6 release cut and v0.7 re-anchor.
+- 2026-08-15 - v0.1.0 - Added first Context Health & Learning findings and
+  next evidence dependency.

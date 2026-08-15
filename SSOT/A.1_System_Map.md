@@ -1,7 +1,7 @@
 # A.1 System Map
-## Version: 0.1.0
-Last Updated: 2026-02-19  
-Owner: Context OS Maintainers  
+## Version: 0.1.1
+Last Updated: 2026-08-15
+Owner: Context OS Maintainers
 
 ---
 
@@ -41,6 +41,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/readiness | Module | Context Readiness inventory, scoring, recommendations, and reports | Maintainers | v0.3 Runtime component
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
+| tools/health | Module | Read-only Context Health report across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply, activate package, activate package check, activate handoff, activate handoff check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init plan/init proposal/init approval-record draft/init accepted decision/init apply preflight/init create-only apply/activate package/activate package check/activate handoff/activate handoff check
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -76,6 +77,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 9. Valid activation package -> package-backed handoff -> consumer starts work from compact governed context
 10. Saved activation handoff -> handoff check -> handoff identity / source drift / package binding / validator gate validity decision
 11. Mission Context -> Governing Context orientation -> bounded Execution Context retrieval only when execution requires it
+12. Execution evidence -> Context Health signals -> non-canonical Context Update Candidate -> existing governed Construction lifecycle
 
 ---
 
@@ -111,4 +113,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
 - 2026-08-11 — v0.1.1 — Added package-backed Activation Handoff to system map
 - 2026-08-11 — v0.1.1 — Added Activation Handoff Check to system map
 - 2026-08-11 — v0.1.1 — Added Mission Context layer model to system map
+- 2026-08-15 — v0.1.1 — Added read-only Context Health & Learning report
+  component
 - 2026-02-19 — v0.1.0 — Initial creation
