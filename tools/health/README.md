@@ -19,6 +19,29 @@ report = ContextHealthEngine(".").run()
 human = render_human(report)
 ```
 
+`MissionContextUseEvidenceEngine` produces the read-only input:
+
+```text
+contextos.mission.context_use_evidence/1
+```
+
+```python
+from health_engine.mission_use_evidence import MissionContextUseEvidenceEngine
+
+evidence = MissionContextUseEvidenceEngine(".").run(
+    package=package,
+    handoff=handoff,
+    selected_accesses=selected_accesses,
+    execution_retrievals=execution_retrievals,
+)
+report = ContextHealthEngine(".").run(mission_use_evidence=evidence)
+```
+
+The object binds an exact package, handoff, Mission, and consumer to explicit
+observed, declared, derived, or unknown evidence. It never treats selection as
+retrieval, retrieval as consumption, consumption as use, or use as usefulness.
+Missing access evidence remains unknown rather than becoming an `unused` claim.
+
 The report combines existing Validator, Readiness, Mission, Activation, and
 Evolution Inbox evidence into three explainable dimensions:
 
@@ -38,6 +61,7 @@ Evidence -> Construction Candidate -> Draft -> Review -> Approval
 -> Promotion -> Canonical Validation
 ```
 
-This slice does not add a CLI, automatic mutation, a second Construction
-lifecycle, Knowledge Engine reasoning, Context Graph runtime, agents, external
-connectors, broad RAG, or trend scoring without prior report evidence.
+This slice does not add telemetry, surveillance monitoring, a CLI, automatic
+mutation, a second Construction lifecycle, Knowledge Engine reasoning, Context
+Graph runtime, agents, external connectors, broad RAG, or trend scoring without
+prior report evidence.

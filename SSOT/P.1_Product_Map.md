@@ -66,6 +66,8 @@ usable Organizational Context Runtime repository.
     one Mission Context, so orientation and execution retrieval remain coherent
 18. Operator runs Context Health analysis and receives explainable integrity,
     usefulness, and learning signals plus governed Context Update Candidates
+19. Mission executor records explicit selected, accessed, retrieved, used, and
+    unknown context evidence without inferring usefulness from access or outcome
 
 ---
 
@@ -98,6 +100,8 @@ usable Organizational Context Runtime repository.
   bounded Execution Context without creating a second SSOT or package family
 - Provide a read-only Context Health Report that exposes evidence, unknowns,
   and non-canonical update candidates without an opaque score
+- Provide Mission-use evidence that binds context participation to an exact
+  Activation Package, Handoff, Mission, and consumer
 
 ---
 
@@ -163,6 +167,7 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added Activation Handoff check surface
 - 2026-08-11 — v0.1.1 — Added Mission Context layer model
 - 2026-08-15 — v0.1.1 — Added Context Health & Learning report surface
+- 2026-08-16 — v0.1.1 — Added structured Mission-use evidence surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

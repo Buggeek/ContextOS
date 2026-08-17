@@ -104,6 +104,8 @@ Governing Runtime Contracts:
 Self-Hosting Execution:
 
 - Latest closed mission:
+  [`E.4 Mission V07-CONTEXT-USE-EVIDENCE-001`](E.4_Mission_V07-CONTEXT-USE-EVIDENCE-001_Mission_Use_Evidence.md)
+- Previous closed mission:
   [`E.4 Mission V07-CONTEXT-HEALTH-PLAN-001`](E.4_Mission_V07-CONTEXT-HEALTH-PLAN-001_Context_Health_and_Learning.md)
 - Latest closed release mission:
   [`E.4 Mission V06-RELEASE-CUT-001`](E.4_Mission_V06-RELEASE-CUT-001_Context_Activation_Release_Cut.md)
@@ -345,3 +347,5 @@ governable, and reusable across humans, agents, and systems.
   current release on v0.7 Context Health & Learning.
 - 2026-08-15 - v1.0 - Linked the first Context Health & Learning Mission and
   Health Report contract.
+- 2026-08-16 - v1.0 - Linked structured Mission-use evidence and its Health
+  integration.

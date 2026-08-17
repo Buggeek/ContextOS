@@ -134,6 +134,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-083 | governance | accepted | V07-CONTEXT-HEALTH-PLAN-001 | Health candidates must not become a second path to canonical truth. | Route accepted candidates through the existing v0.5 Construction lifecycle with human review. |
 | INBOX-084 | product | deferred | V07-CONTEXT-HEALTH-PLAN-001 | A `contextos health` CLI would make the report directly user-accessible. | Consider after the Health schema and Mission-use evidence input are validated; do not duplicate engine logic. |
 | INBOX-085 | architecture | deferred | V07-CONTEXT-HEALTH-PLAN-001 | Trends, degradation, and improvement require explicit prior reports or structured historical evidence. | Do not infer trends from one report; define comparison only after evidence capture exists. |
+| INBOX-086 | evidence | accepted | V07-CONTEXT-USE-EVIDENCE-001 | Explicit access and contribution records improve traceability but cannot prove cognitive consumption or causal usefulness. | Preserve `usefulness_effect: unknown` until an explicit declared or independently observed usefulness assertion exists. |
+| INBOX-087 | product | accepted | V07-CONTEXT-USE-EVIDENCE-001 | Health and Mission-use evidence remain API/report surfaces without a user-facing Runtime CLI. | Promote a narrow `contextos health` surface as the next v0.7 product Mission; do not duplicate engine logic. |
+| INBOX-088 | architecture | deferred | V07-CONTEXT-USE-EVIDENCE-001 | The Mission-bound Activation Package oriented the work but omitted the exact Health contract required for execution. | Use this as future selector evidence; do not add ranking, Graph, or broad retrieval in the active Mission. |
 
 ---
 
@@ -169,3 +172,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-13 - v0.1.0 - Recorded the v0.6 release cut and v0.7 re-anchor.
 - 2026-08-15 - v0.1.0 - Added first Context Health & Learning findings and
   next evidence dependency.
+- 2026-08-16 - v0.1.0 - Added Mission-use observability limits, Health CLI
+  opportunity, and bounded selector evidence.

@@ -199,7 +199,7 @@ def readiness_signals(readiness_report: dict) -> list[dict]:
     ]
 
 
-def usefulness_signals(missions: dict) -> list[dict]:
+def usefulness_signals(missions: dict, mission_use_evidence: dict | None = None) -> list[dict]:
     activation_refs = missions["activation_paths"]
     signals = [
         make_signal(
@@ -227,15 +227,82 @@ def usefulness_signals(missions: dict) -> list[dict]:
             else "No bounded Execution Context evidence was found.",
             [mission["path"] for mission in missions["items"] if mission["status"].startswith("closed:done") and mission["mentions_execution_context"]],
         ),
-        make_signal(
-            "usefulness",
-            "per_source_usage_traceability",
-            "unknown",
-            "Mission evidence is narrative; per-source selected-versus-used evidence is not yet machine-measurable.",
-            activation_refs,
-            belief_state="observed_limitation",
-        ),
     ]
+    if mission_use_evidence is None:
+        signals.append(
+            make_signal(
+                "usefulness",
+                "per_source_usage_traceability",
+                "unknown",
+                "Mission evidence is narrative; per-source selected-versus-used evidence is not yet machine-measurable.",
+                activation_refs,
+                belief_state="observed_limitation",
+            )
+        )
+        return signals
+
+    if mission_use_evidence.get("schema") != "contextos.mission.context_use_evidence/1":
+        raise ValueError("Health requires contextos.mission.context_use_evidence/1 input.")
+    summary = mission_use_evidence["summary"]
+    validity = mission_use_evidence["validity"]
+    evidence_ref = [mission_use_evidence["id"]]
+    valid = (
+        validity["package_valid_at_capture"]
+        and validity["handoff_valid_at_capture"]
+        and validity["package_handoff_binding_matches"]
+    )
+    signals.extend(
+        [
+            make_signal(
+                "usefulness",
+                "mission_use_evidence_integrity",
+                "healthy" if valid else "blocked",
+                "Mission-use evidence is bound to a valid package and handoff."
+                if valid
+                else f"Mission-use evidence has {len(validity['failed_checks'])} failed binding or freshness checks.",
+                evidence_ref + validity["failed_checks"],
+                belief_state="derived",
+            ),
+            make_signal(
+                "usefulness",
+                "per_source_usage_traceability",
+                "healthy" if summary["selected_accessed_count"] or summary["execution_retrieval_count"] else "unknown",
+                f"Structured evidence distinguishes {summary['selected_count']} selected sources, "
+                f"{summary['selected_accessed_count']} accessed selected sources, and "
+                f"{summary['execution_retrieval_count']} additional retrievals.",
+                evidence_ref,
+                belief_state="derived",
+            ),
+            make_signal(
+                "usefulness",
+                "context_gaps_during_execution",
+                "attention" if summary["gap_count"] or summary["stale_context_count"] else "healthy",
+                f"Mission-use evidence records {summary['gap_count']} context gaps and "
+                f"{summary['stale_context_count']} stale or invalid context observations.",
+                evidence_ref,
+                belief_state="derived",
+            ),
+            make_signal(
+                "usefulness",
+                "context_contribution_traceability",
+                "healthy" if summary["contribution_count"] or summary["used_assertion_count"] else "unknown",
+                f"Mission-use evidence records {summary['contribution_count']} contributions and "
+                f"{summary['used_assertion_count']} explicit use assertions.",
+                evidence_ref,
+                belief_state="derived",
+            ),
+            make_signal(
+                "usefulness",
+                "usefulness_effect",
+                "healthy" if summary["supported_useful_assertion_count"] else "unknown",
+                f"Mission-use evidence contains {summary['supported_useful_assertion_count']} supported usefulness assertions."
+                if summary["supported_useful_assertion_count"]
+                else "Context participation is traceable, but actual usefulness remains unknown without explicit supporting evidence.",
+                evidence_ref,
+                belief_state="derived" if summary["supported_useful_assertion_count"] else "observed_limitation",
+            ),
+        ]
+    )
     return signals
 
 
@@ -322,16 +389,17 @@ def build_candidates(dimensions: dict, readiness_report: dict) -> list[dict]:
             )
         )
     usage_signal = by_kind["per_source_usage_traceability"]
-    candidates.append(
-        candidate(
-            "structure_activation_usage_evidence",
-            "medium",
-            "Structure selected-versus-used activation evidence",
-            usage_signal["message"],
-            "Define a read-only Mission evidence input that records source use, additional retrieval, and discovered gaps before trend analysis.",
-            [usage_signal["id"]],
+    if usage_signal["status"] == "unknown":
+        candidates.append(
+            candidate(
+                "structure_activation_usage_evidence",
+                "medium",
+                "Structure selected-versus-used activation evidence",
+                usage_signal["message"],
+                "Capture a read-only Mission-use evidence object before trend or effectiveness analysis.",
+                [usage_signal["id"]],
+            )
         )
-    )
     return candidates
 
 
@@ -346,6 +414,7 @@ class ContextHealthEngine:
         *,
         validator_report: dict | None = None,
         readiness_report: dict | None = None,
+        mission_use_evidence: dict | None = None,
         generated_at: str | None = None,
     ) -> dict:
         root = self.root.resolve()
@@ -367,7 +436,7 @@ class ContextHealthEngine:
                 "usefulness",
                 "Context Usefulness",
                 "Did activated context help a Mission without unnecessary or stale context?",
-                usefulness_signals(missions),
+                usefulness_signals(missions, mission_use_evidence),
             ),
             "learning": dimension(
                 "learning",
@@ -398,6 +467,16 @@ class ContextHealthEngine:
                 "readiness": {"schema": readiness["schema"], "summary": readiness["summary"]},
                 "missions": {key: value for key, value in missions.items() if key != "items"},
                 "evolution_inbox": {key: value for key, value in inbox.items() if key != "items"},
+                "mission_use": (
+                    {
+                        "schema": mission_use_evidence["schema"],
+                        "id": mission_use_evidence["id"],
+                        "summary": mission_use_evidence["summary"],
+                        "validity": mission_use_evidence["validity"],
+                    }
+                    if mission_use_evidence
+                    else None
+                ),
             },
             "learning_boundary": {
                 "signals_are_canonical_truth": False,
@@ -424,7 +503,7 @@ class ContextHealthEngine:
             },
             "limitations": [
                 "This first report is a current-state observation; trend comparison requires explicit prior report evidence.",
-                "Narrative Mission evidence cannot prove per-source context consumption.",
+                "Access evidence does not prove consumption, use, usefulness, or causal contribution.",
                 "Health signals are explainable observations and suggestions, not a numerical truth score.",
             ],
         }
