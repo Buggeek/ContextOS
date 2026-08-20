@@ -137,6 +137,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-086 | evidence | accepted | V07-CONTEXT-USE-EVIDENCE-001 | Explicit access and contribution records improve traceability but cannot prove cognitive consumption or causal usefulness. | Preserve `usefulness_effect: unknown` until an explicit declared or independently observed usefulness assertion exists. |
 | INBOX-087 | product | accepted | V07-CONTEXT-USE-EVIDENCE-001 | Health and Mission-use evidence remain API/report surfaces without a user-facing Runtime CLI. | Promote a narrow `contextos health` surface as the next v0.7 product Mission; do not duplicate engine logic. |
 | INBOX-088 | architecture | deferred | V07-CONTEXT-USE-EVIDENCE-001 | The Mission-bound Activation Package oriented the work but omitted the exact Health contract required for execution. | Use this as future selector evidence; do not add ranking, Graph, or broad retrieval in the active Mission. |
+| INBOX-089 | product | accepted | V07-CONTEXT-HEALTH-CLI-001 | Context Health is now directly consumable as a read-only human and machine report through the Runtime CLI. | Verify the complete v0.7 product journey before adding more Health capability. |
+| INBOX-090 | evidence | deferred | V07-CONTEXT-HEALTH-CLI-001 | Structured Mission-use evidence is accepted as an explicit report input, but no automatic capture workflow exists. | Do not introduce telemetry; evaluate whether explicit capture ergonomics block release during v0.7 verification. |
+| INBOX-091 | UX | deferred | V07-CONTEXT-HEALTH-CLI-001 | Large evidence lists are accurate but may need progressive disclosure in future interactive surfaces. | Preserve complete CLI evidence now; defer dashboards and adapter-specific presentation until demonstrated need. |
 
 ---
 
@@ -174,3 +177,5 @@ quarantine and triage surface for context that may deserve future action.
   next evidence dependency.
 - 2026-08-16 - v0.1.0 - Added Mission-use observability limits, Health CLI
   opportunity, and bounded selector evidence.
+- 2026-08-20 - v0.1.0 - Recorded Health CLI delivery, explicit evidence-input
+  ergonomics, and future presentation opportunity.

@@ -24,6 +24,7 @@ from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E
 MISSION_PATTERN = "E.4_Mission_*.md"
 STATUS_PATTERN = re.compile(r"^Status:\s*(.+?)\s*$", re.MULTILINE)
 INBOX_ROW_PATTERN = re.compile(r"^\|\s*(INBOX-\d+)\s*\|(.+?)\|\s*$")
+BELIEF_STATES = {"observed", "declared", "derived", "unknown"}
 
 
 def stable_hash(value: dict) -> str:
@@ -45,6 +46,8 @@ def make_signal(
     *,
     belief_state: str = "observed",
 ) -> dict:
+    if belief_state not in BELIEF_STATES:
+        raise ValueError(f"Unsupported Health signal belief state: {belief_state!r}.")
     refs = sorted(dict.fromkeys(evidence_refs))
     return {
         "id": signal_id(dimension, kind, refs),
@@ -236,7 +239,7 @@ def usefulness_signals(missions: dict, mission_use_evidence: dict | None = None)
                 "unknown",
                 "Mission evidence is narrative; per-source selected-versus-used evidence is not yet machine-measurable.",
                 activation_refs,
-                belief_state="observed_limitation",
+                belief_state="unknown",
             )
         )
         return signals
@@ -299,7 +302,7 @@ def usefulness_signals(missions: dict, mission_use_evidence: dict | None = None)
                 if summary["supported_useful_assertion_count"]
                 else "Context participation is traceable, but actual usefulness remains unknown without explicit supporting evidence.",
                 evidence_ref,
-                belief_state="derived" if summary["supported_useful_assertion_count"] else "observed_limitation",
+                belief_state="derived" if summary["supported_useful_assertion_count"] else "unknown",
             ),
         ]
     )
@@ -337,7 +340,7 @@ def learning_signals(missions: dict, inbox: dict) -> list[dict]:
                 "docs/1.x_architecture/1.5_runtime_contracts/1.5.8_Builder_Draft_Authority_Contract.md",
                 "SSOT/E.4_Mission_V05-CONTEXT-CONSTRUCTION-PLAN-001_Context_Construction_Planning.md",
             ],
-            belief_state="governed_rule",
+            belief_state="observed",
         ),
     ]
 
@@ -418,6 +421,10 @@ class ContextHealthEngine:
         generated_at: str | None = None,
     ) -> dict:
         root = self.root.resolve()
+        if mission_use_evidence is not None:
+            evidence_root = mission_use_evidence.get("root")
+            if not evidence_root or Path(evidence_root).resolve() != root:
+                raise ValueError("Mission-use evidence root does not match the Health target root.")
         validator = validator_report or ValidatorEngine(root).run(mode="full")
         readiness = readiness_report or ReadinessScoringEngine(root, validator_mode="full").run(
             validator_report=validator,

@@ -11,6 +11,8 @@ import unittest
 from pathlib import Path
 
 import contextos_cli
+from activation_engine.package_engine import ContextActivationPackageEngine
+from health_engine.mission_use_evidence import MissionContextUseEvidenceEngine
 
 
 def write(path: Path, text: str) -> None:
@@ -80,6 +82,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("assess", stdout)
         self.assertIn("init", stdout)
         self.assertIn("activate", stdout)
+        self.assertIn("health", stdout)
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:
@@ -87,6 +90,126 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertIn("contextos", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_health_default_is_read_only_and_explains_attention(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke(["health", "--root", temp])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Health Report", stdout)
+        self.assertIn("## Health Dimensions", stdout)
+        self.assertIn("## What Needs Attention", stdout)
+        self.assertIn("## Context Integrity", stdout)
+        self.assertIn("## Context Usefulness", stdout)
+        self.assertIn("## Organizational Learning", stdout)
+        self.assertIn("## Context Update Candidates", stdout)
+        self.assertIn("What to consider next:", stdout)
+        self.assertIn("This report made no automatic changes.", stdout)
+        self.assertIn("Mission-use evidence: not supplied", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_health_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["health", "--root", temp, "--format", "json"])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.health.report/1")
+        self.assertEqual(set(report["dimensions"]), {"integrity", "usefulness", "learning"})
+        self.assertTrue(report["read_only"])
+        self.assertFalse(report["authority"]["may_write_drafts"])
+        self.assertEqual(stderr, "")
+
+    def test_health_consumes_exact_mission_use_evidence(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            activation = ContextActivationPackageEngine(temp)
+            package = activation.run(
+                goal="Assess context use",
+                consumer="human",
+                mission_id="V07-HEALTH-CLI-TEST",
+            )
+            handoff = activation.build_handoff(package)
+            evidence = MissionContextUseEvidenceEngine(temp).run(
+                package=package,
+                handoff=handoff,
+                selected_accesses=[
+                    {
+                        "source_ref": handoff["selected_context"][0]["path"],
+                        "evidence_semantics": "observed",
+                        "evidence_refs": ["test.read"],
+                    }
+                ],
+            )
+            evidence_path = Path(output_temp) / "mission-use.json"
+            evidence_path.write_text(json.dumps(evidence), encoding="utf-8")
+            code, stdout, stderr = self.invoke([
+                "health",
+                "--root",
+                temp,
+                "--mission-use-evidence",
+                str(evidence_path),
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        signals = {item["kind"]: item for item in report["dimensions"]["usefulness"]["signals"]}
+        self.assertEqual(code, 0)
+        self.assertEqual(report["evidence_sources"]["mission_use"]["id"], evidence["id"])
+        self.assertEqual(signals["per_source_usage_traceability"]["status"], "healthy")
+        self.assertEqual(signals["usefulness_effect"]["status"], "unknown")
+        self.assertEqual(stderr, "")
+
+    def test_health_json_out_writes_full_machine_report(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            report_path = Path(output_temp) / "health.json"
+            code, stdout, stderr = self.invoke([
+                "health",
+                "--root",
+                temp,
+                "--json-out",
+                str(report_path),
+            ])
+            saved = json.loads(report_path.read_text(encoding="utf-8"))
+
+        self.assertEqual(code, 0)
+        self.assertEqual(saved["schema"], "contextos.health.report/1")
+        self.assertIn("# Context OS Health Report", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_health_rejects_wrong_schema_as_misconfiguration(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            evidence_path = Path(output_temp) / "wrong.json"
+            evidence_path.write_text(json.dumps({"schema": "wrong", "root": temp}), encoding="utf-8")
+            code, stdout, stderr = self.invoke([
+                "health",
+                "--root",
+                temp,
+                "--mission-use-evidence",
+                str(evidence_path),
+                "--format",
+                "json",
+            ])
+
+        error = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(error["error"]["category"], "misconfiguration")
+        self.assertEqual(stderr, "")
+
+    def test_health_preserves_blocking_validator_exit_code(self) -> None:
+        with self.make_repo() as temp:
+            write(Path(temp) / "README.md", "# Test Repo\n\n[Missing](missing.md)\n")
+            code, stdout, stderr = self.invoke(["health", "--root", temp, "--format", "json"])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 7)
+        self.assertEqual(report["dimensions"]["integrity"]["status"], "blocked")
+        self.assertGreater(report["summary"]["blocking_count"], 0)
         self.assertEqual(stderr, "")
 
     def test_validate_json_wraps_validator_engine(self) -> None:

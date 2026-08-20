@@ -37,6 +37,21 @@ evidence = MissionContextUseEvidenceEngine(".").run(
 report = ContextHealthEngine(".").run(mission_use_evidence=evidence)
 ```
 
+Runtime CLI:
+
+```bash
+./contextos health --root .
+./contextos health --root . --format json
+./contextos health --root . --mission-use-evidence <mission-use.json>
+./contextos health --root . --json-out <health-report.json>
+```
+
+The default human report starts with dimension status and prioritized
+attention, blocking, and unknown signals. It preserves evidence references and
+belief state, then shows governed Context Update Candidates, observability
+limits, and why no automatic mutation occurred. JSON stdout is the pure
+`contextos.health.report/1` object.
+
 The object binds an exact package, handoff, Mission, and consumer to explicit
 observed, declared, derived, or unknown evidence. It never treats selection as
 retrieval, retrieval as consumption, consumption as use, or use as usefulness.
@@ -61,7 +76,7 @@ Evidence -> Construction Candidate -> Draft -> Review -> Approval
 -> Promotion -> Canonical Validation
 ```
 
-This slice does not add telemetry, surveillance monitoring, a CLI, automatic
-mutation, a second Construction lifecycle, Knowledge Engine reasoning, Context
-Graph runtime, agents, external connectors, broad RAG, or trend scoring without
-prior report evidence.
+This slice does not add telemetry, surveillance monitoring, automatic mutation,
+a second Construction lifecycle, remediation execution, Knowledge Engine
+reasoning, Context Graph runtime, agents, external connectors, broad RAG, or
+trend scoring without prior report evidence.

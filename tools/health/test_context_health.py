@@ -83,6 +83,16 @@ class ContextHealthTestCase(unittest.TestCase):
         self.assertIn("## Context Update Candidates", human)
         self.assertIn("not organizational truth", human)
 
+    def test_signal_belief_states_use_canonical_evidence_semantics(self) -> None:
+        report = ContextHealthEngine(".").run(generated_at="2026-08-14T00:00:00Z")
+        states = {
+            signal["belief_state"]
+            for dimension in report["dimensions"].values()
+            for signal in dimension["signals"]
+        }
+
+        self.assertTrue(states <= {"observed", "declared", "derived", "unknown"})
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

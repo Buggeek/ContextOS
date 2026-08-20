@@ -11,7 +11,8 @@ VALIDATORS_ROOT = REPO_ROOT / "tools" / "validators"
 READINESS_ROOT = REPO_ROOT / "tools" / "readiness"
 BOOTSTRAP_ROOT = REPO_ROOT / "tools" / "bootstrap"
 ACTIVATION_ROOT = REPO_ROOT / "tools" / "activation"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT):
+HEALTH_ROOT = REPO_ROOT / "tools" / "health"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
@@ -40,12 +41,15 @@ from engine.report_builder import render_human as render_validator_human  # noqa
 from engine.report_builder import write_json_report as write_validator_json_report  # noqa: E402
 from engine.selectors import parse_rule_selector  # noqa: E402
 from engine.validator_engine import VALID_MODES, ValidatorEngine  # noqa: E402
+from health_engine.health_engine import ContextHealthEngine  # noqa: E402
+from health_engine.report_builder import render_human as render_health_human  # noqa: E402
+from health_engine.report_builder import write_json_report as write_health_json_report  # noqa: E402
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
 from readiness_engine.report_builder import render_human as render_readiness_human  # noqa: E402
 from readiness_engine.report_builder import write_json_report as write_readiness_json_report  # noqa: E402
 
 
-VERSION = "0.6.0-cli-v0"
+VERSION = "0.7.0-cli-v0"
 FORMAT_CHOICES = ("text", "human", "json")
 
 
@@ -122,6 +126,17 @@ def build_parser() -> argparse.ArgumentParser:
     activate.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     activate.add_argument("--json-out", default=None, help="Write the machine activation package JSON to this path.")
     activate.set_defaults(handler=run_activate)
+
+    health = subparsers.add_parser(
+        "health",
+        help="Report Context Health & Learning.",
+        description="Report Context Health & Learning without modifying organizational context.",
+    )
+    health.add_argument("--root", default=".", help="Repository root to assess for Context Health.")
+    health.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    health.add_argument("--mission-use-evidence", default=None, help="Optional contextos.mission.context_use_evidence/1 JSON report.")
+    health.add_argument("--json-out", default=None, help="Write the machine Health report JSON to this path.")
+    health.set_defaults(handler=run_health)
     return parser
 
 
@@ -435,6 +450,54 @@ def run_activate(args: argparse.Namespace) -> int:
     else:
         print(render_activation_human(report), end="")
     return activation_exit_code(report)
+
+
+def health_exit_code(report: dict) -> int:
+    validator_summary = report["evidence_sources"]["validator"]["summary"]
+    if validator_summary["fatal"]:
+        return 8
+    if validator_summary["error"]:
+        return 7
+    return 0
+
+
+def run_health(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    try:
+        mission_use_evidence = (
+            load_bootstrap_json(args.mission_use_evidence)
+            if args.mission_use_evidence
+            else None
+        )
+        report = ContextHealthEngine(root).run(mission_use_evidence=mission_use_evidence)
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Could not create Context Health report.",
+            {"mission_use_evidence": args.mission_use_evidence, "error": str(exc)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    if args.json_out:
+        write_health_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_health_human(report), end="")
+    return health_exit_code(report)
 
 
 def main(argv: list[str] | None = None) -> int:

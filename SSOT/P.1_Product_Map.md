@@ -68,6 +68,8 @@ usable Organizational Context Runtime repository.
     usefulness, and learning signals plus governed Context Update Candidates
 19. Mission executor records explicit selected, accessed, retrieved, used, and
     unknown context evidence without inferring usefulness from access or outcome
+20. Operator runs `contextos health` and receives prioritized evidence-backed
+    attention, unknowns, learning, and governed next considerations
 
 ---
 
@@ -102,6 +104,8 @@ usable Organizational Context Runtime repository.
   and non-canonical update candidates without an opaque score
 - Provide Mission-use evidence that binds context participation to an exact
   Activation Package, Handoff, Mission, and consumer
+- Provide a read-only human and machine Health CLI without remediation or
+  canonical mutation
 
 ---
 
@@ -168,6 +172,7 @@ usable Organizational Context Runtime repository.
 - 2026-08-11 — v0.1.1 — Added Mission Context layer model
 - 2026-08-15 — v0.1.1 — Added Context Health & Learning report surface
 - 2026-08-16 — v0.1.1 — Added structured Mission-use evidence surface
+- 2026-08-20 — v0.1.1 — Added the read-only Context Health CLI surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product
