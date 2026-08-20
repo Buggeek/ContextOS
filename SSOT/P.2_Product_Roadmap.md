@@ -2,11 +2,11 @@
 
 Version: 1.0
 
-Last Updated: 2026-08-13
+Last Updated: 2026-08-20
 
 Owner: Context OS Core Team
 
-Status: Release-ready; awaiting authorized release cut
+Status: Active
 
 ---
 
@@ -83,27 +83,28 @@ execution.
 
 # Current Version
 
-v0.7 — Context Health & Learning
+v0.8 — Organizational Memory
 
 Status: Active
 
 Primary Goal:
 
-Keep canonical and activated context useful by making freshness, drift,
-ownership, contradictions, and learning signals visible and actionable without
-silently mutating organizational truth.
+Make context durable across decisions, changes, and teams so prior decisions,
+historical rationale, and reusable context can be retrieved with provenance.
 
-Governing Runtime Contracts:
+Governing Context:
 
-[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.10_Context_Health_Report_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.10_Context_Health_Report_Contract.md)
+[`../docs/0.x_foundations/0.8_COS_GENESIS.md`](../docs/0.x_foundations/0.8_COS_GENESIS.md)
 
-[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.9_Context_Activation_Package_Contract.md)
+[`../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md`](../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md)
 
-[`../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md`](../docs/1.x_architecture/1.5_runtime_contracts/1.5.1_Validator_Contract.md)
+[`../SSOT/epics/EPIC-005_Knowledge_Engine.md`](epics/EPIC-005_Knowledge_Engine.md)
 
 Self-Hosting Execution:
 
-- Latest closed mission:
+- Latest closed release mission:
+  [`E.4 Mission V07-RELEASE-CUT-001`](E.4_Mission_V07-RELEASE-CUT-001_Context_Health_and_Learning_Release_Cut.md)
+- Closed v0.7 release verification mission:
   [`E.4 Mission V07-CONTEXT-HEALTH-RELEASE-VERIFY-001`](E.4_Mission_V07-CONTEXT-HEALTH-RELEASE-VERIFY-001_Context_Health_Release_Verification.md)
 - Previous closed mission:
   [`E.4 Mission V07-CONTEXT-HEALTH-CLI-001`](E.4_Mission_V07-CONTEXT-HEALTH-CLI-001_Context_Health_CLI.md)
@@ -230,10 +231,11 @@ remain deferred.
 
 Knowledge Engine
 
-Status: Planned
+Status: Active
 
-Primary release slice: v0.7 Context Health & Learning, expanding in v0.8
-Organizational Memory.
+Primary release slice: v0.8 Organizational Memory, building on the v0.7
+Context Health & Learning evidence foundation. The exact v0.8 implementation
+sequence remains subject to a governed foundational Mission.
 
 ---
 
@@ -356,3 +358,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-20 - v1.0 - Linked the read-only Context Health CLI Mission.
 - 2026-08-20 - v1.0 - Recorded v0.7 Context Health & Learning release
   readiness.
+- 2026-08-20 - v1.0 - Closed v0.7 Context Health & Learning and re-anchored
+  the current release on v0.8 Organizational Memory.

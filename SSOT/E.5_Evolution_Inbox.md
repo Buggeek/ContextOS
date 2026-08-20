@@ -143,6 +143,7 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-092 | architecture | deferred | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Historical comparison and trend reporting are not required to truthfully assess present Health or produce evidence-backed update candidates. | Defer until multiple preserved reports demonstrate a decision need; do not expand v0.7. |
 | INBOX-093 | UX | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Human evidence lists were accurate but too diagnostic for first-pass assessment. | Keep bounded evidence previews in human output and preserve complete references in JSON. |
 | INBOX-094 | product | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | v0.7 satisfies its read-only Health & Learning promise without remediation, canonical updates, or historical comparison. | Require explicit human release-cut authority, then re-anchor on v0.8 Organizational Memory. |
+| INBOX-095 | product | accepted | V07-RELEASE-CUT-001 | v0.7 release authority was granted after the package-bound release decision and full regression evidence remained green. | Close v0.7, preserve all intentional deferrals, and re-anchor on v0.8; require separate human authority before THEORY-AI-NATIVE-ORGANIZATION-V01. |
 
 ---
 
@@ -184,3 +185,5 @@ quarantine and triage surface for context that may deserve future action.
   ergonomics, and future presentation opportunity.
 - 2026-08-20 - v0.1.0 - Recorded v0.7 release decisions, bounded human
   evidence previews, and historical comparison deferral.
+- 2026-08-20 - v0.1.0 - Recorded the v0.7 release cut, preserved intentional
+  deferrals, and re-anchored on v0.8 Organizational Memory.
