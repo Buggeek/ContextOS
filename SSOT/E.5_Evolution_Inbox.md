@@ -140,6 +140,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-089 | product | accepted | V07-CONTEXT-HEALTH-CLI-001 | Context Health is now directly consumable as a read-only human and machine report through the Runtime CLI. | Verify the complete v0.7 product journey before adding more Health capability. |
 | INBOX-090 | evidence | deferred | V07-CONTEXT-HEALTH-CLI-001 | Structured Mission-use evidence is accepted as an explicit report input, but no automatic capture workflow exists. | Do not introduce telemetry; evaluate whether explicit capture ergonomics block release during v0.7 verification. |
 | INBOX-091 | UX | deferred | V07-CONTEXT-HEALTH-CLI-001 | Large evidence lists are accurate but may need progressive disclosure in future interactive surfaces. | Preserve complete CLI evidence now; defer dashboards and adapter-specific presentation until demonstrated need. |
+| INBOX-092 | architecture | deferred | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Historical comparison and trend reporting are not required to truthfully assess present Health or produce evidence-backed update candidates. | Defer until multiple preserved reports demonstrate a decision need; do not expand v0.7. |
+| INBOX-093 | UX | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Human evidence lists were accurate but too diagnostic for first-pass assessment. | Keep bounded evidence previews in human output and preserve complete references in JSON. |
+| INBOX-094 | product | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | v0.7 satisfies its read-only Health & Learning promise without remediation, canonical updates, or historical comparison. | Require explicit human release-cut authority, then re-anchor on v0.8 Organizational Memory. |
 
 ---
 
@@ -179,3 +182,5 @@ quarantine and triage surface for context that may deserve future action.
   opportunity, and bounded selector evidence.
 - 2026-08-20 - v0.1.0 - Recorded Health CLI delivery, explicit evidence-input
   ergonomics, and future presentation opportunity.
+- 2026-08-20 - v0.1.0 - Recorded v0.7 release decisions, bounded human
+  evidence previews, and historical comparison deferral.

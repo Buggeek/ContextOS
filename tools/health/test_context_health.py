@@ -77,11 +77,15 @@ class ContextHealthTestCase(unittest.TestCase):
         human = render_human(report)
 
         self.assertIn("# Context OS Health Report", human)
+        self.assertIn("## Executive Assessment", human)
+        self.assertIn("Overall Health is", human)
         self.assertIn("## Context Integrity", human)
         self.assertIn("## Context Usefulness", human)
         self.assertIn("## Organizational Learning", human)
         self.assertIn("## Context Update Candidates", human)
         self.assertIn("not organizational truth", human)
+        self.assertIn("more in JSON", human)
+        self.assertLess(max(len(line) for line in human.splitlines()), 500)
 
     def test_signal_belief_states_use_canonical_evidence_semantics(self) -> None:
         report = ContextHealthEngine(".").run(generated_at="2026-08-14T00:00:00Z")

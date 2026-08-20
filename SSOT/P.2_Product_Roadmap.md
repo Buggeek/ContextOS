@@ -6,7 +6,7 @@ Last Updated: 2026-08-13
 
 Owner: Context OS Core Team
 
-Status: Active
+Status: Release-ready; awaiting authorized release cut
 
 ---
 
@@ -104,8 +104,10 @@ Governing Runtime Contracts:
 Self-Hosting Execution:
 
 - Latest closed mission:
-  [`E.4 Mission V07-CONTEXT-HEALTH-CLI-001`](E.4_Mission_V07-CONTEXT-HEALTH-CLI-001_Context_Health_CLI.md)
+  [`E.4 Mission V07-CONTEXT-HEALTH-RELEASE-VERIFY-001`](E.4_Mission_V07-CONTEXT-HEALTH-RELEASE-VERIFY-001_Context_Health_Release_Verification.md)
 - Previous closed mission:
+  [`E.4 Mission V07-CONTEXT-HEALTH-CLI-001`](E.4_Mission_V07-CONTEXT-HEALTH-CLI-001_Context_Health_CLI.md)
+- Earlier closed mission:
   [`E.4 Mission V07-CONTEXT-USE-EVIDENCE-001`](E.4_Mission_V07-CONTEXT-USE-EVIDENCE-001_Mission_Use_Evidence.md)
 - Earlier closed mission:
   [`E.4 Mission V07-CONTEXT-HEALTH-PLAN-001`](E.4_Mission_V07-CONTEXT-HEALTH-PLAN-001_Context_Health_and_Learning.md)
@@ -352,3 +354,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-16 - v1.0 - Linked structured Mission-use evidence and its Health
   integration.
 - 2026-08-20 - v1.0 - Linked the read-only Context Health CLI Mission.
+- 2026-08-20 - v1.0 - Recorded v0.7 Context Health & Learning release
+  readiness.

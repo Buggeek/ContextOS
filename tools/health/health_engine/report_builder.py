@@ -19,6 +19,13 @@ def build_report(root: Path, report: dict, generated_at: str | None = None) -> d
     return report
 
 
+def format_evidence_refs(refs: list[str], limit: int = 3) -> str:
+    visible = refs[:limit]
+    rendered = ", ".join(f"`{ref}`" for ref in visible)
+    omitted = len(refs) - len(visible)
+    return f"{rendered} (+{omitted} more in JSON)" if omitted else rendered
+
+
 def render_human(report: dict) -> str:
     summary = report["summary"]
     lines = [
@@ -33,6 +40,13 @@ def render_human(report: dict) -> str:
         f"- Blocking signals: {summary['blocking_count']}",
         f"- Unknown signals: {summary['unknown_count']}",
         f"- Context update candidates: {summary['context_update_candidate_count']}",
+        "",
+        "## Executive Assessment",
+        f"- Overall Health is `{summary['status']}` because the report observed "
+        f"{summary['attention_count']} attention, {summary['blocking_count']} blocking, "
+        f"and {summary['unknown_count']} unknown signal(s).",
+        f"- Review {summary['context_update_candidate_count']} governed Context Update Candidate(s) below; "
+        "this report does not execute them.",
         "",
         "## Health Dimensions",
         "",
@@ -61,7 +75,7 @@ def render_human(report: dict) -> str:
                 f"- `{signal['status']}` / `{signal['dimension']}` / `{signal['belief_state']}`: {signal['message']}"
             )
             if signal["evidence_refs"]:
-                lines.append(f"  Evidence: {', '.join(f'`{ref}`' for ref in signal['evidence_refs'][:8])}")
+                lines.append(f"  Evidence: {format_evidence_refs(signal['evidence_refs'])}")
     else:
         lines.append("- No blocking, attention, or unknown signals were observed.")
 
@@ -72,7 +86,7 @@ def render_human(report: dict) -> str:
                 f"- `{signal['id']}` [{signal['status']}; {signal['belief_state']}]: {signal['message']}"
             )
             if signal["evidence_refs"]:
-                lines.append(f"  Evidence: {', '.join(f'`{ref}`' for ref in signal['evidence_refs'][:8])}")
+                lines.append(f"  Evidence: {format_evidence_refs(signal['evidence_refs'])}")
 
     lines.extend(["", "## Context Update Candidates", "", "What to consider next:"])
     if report["context_update_candidates"]:
@@ -93,6 +107,7 @@ def render_human(report: dict) -> str:
             "- This report made no automatic changes.",
             "",
             "## Observability Limits",
+            "- Evidence semantics remain distinct: observed, declared, derived, and unknown.",
             *[f"- {limitation}" for limitation in report["limitations"]],
             "",
             "## Evidence Sources",

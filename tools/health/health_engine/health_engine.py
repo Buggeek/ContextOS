@@ -367,6 +367,18 @@ def build_candidates(dimensions: dict, readiness_report: dict) -> list[dict]:
     signals = [signal for value in dimensions.values() for signal in value["signals"]]
     by_kind = {signal["kind"]: signal for signal in signals}
     candidates: list[dict] = []
+    gate_signal = by_kind["validator_gate"]
+    if gate_signal["status"] == "blocked":
+        candidates.append(
+            candidate(
+                "resolve_validator_blockers",
+                "high",
+                "Resolve blocking Validator findings",
+                gate_signal["message"],
+                "Review the blocking findings, authorize only the required remediation, and rerun Health after Validator gate passes.",
+                [gate_signal["id"]],
+            )
+        )
     warning_signal = by_kind["validator_warnings"]
     if warning_signal["status"] == "attention":
         candidates.append(
