@@ -76,6 +76,9 @@ usable Organizational Context Runtime repository.
 21. Operator inspects prior Missions, decisions, evidence, outcomes,
     learning, and superseded context through governed Organizational Memory
     without treating a derived index as authority
+22. Actor requests Goal/Mission prior art through `contextos memory`, inspects
+    why each candidate was selected, and checks the saved result for current
+    Activation or Memory drift before reuse
 
 ---
 
@@ -115,6 +118,8 @@ usable Organizational Context Runtime repository.
 - Provide a read-only Memory Continuity report with source hashes, temporal
   unknowns, explicit supersession, explainable prior art, and non-canonical
   pattern candidates
+- Provide bounded human and machine Memory retrieval with exact Activation and
+  Continuity bindings, selection rationale, exclusions, and invalidation checks
 
 ---
 
@@ -188,6 +193,8 @@ usable Organizational Context Runtime repository.
   the governed Organizational Memory journey boundary
 - 2026-08-21 — v0.1.1 — Added the first read-only Organizational Memory
   continuity report capability
+- 2026-08-21 — v0.1.1 — Added the bounded Organizational Memory retrieval and
+  saved-result check surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

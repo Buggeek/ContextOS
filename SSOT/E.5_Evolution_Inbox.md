@@ -156,6 +156,12 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-105 | hypothesis | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Deterministic term overlap can surface explainable prior art, but selection does not prove applicability or usefulness. | Test through the next user-facing Memory retrieval Mission; do not introduce learned ranking yet. |
 | INBOX-106 | hypothesis | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Recurring authority, evidence, drift, read-only, and truth-boundary themes appear across Mission Learning records. | Keep as non-canonical pattern candidates until governed review and external reuse evidence exist. |
 | INBOX-107 | evidence | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | v0.3 and v0.4 predate explicit release-cut Mission records, while v0.5-v0.7 preserve release transitions through closed Mission evidence. | Keep the historical gap explicit; do not reconstruct missing release decisions from Git chronology alone. |
+| INBOX-108 | architecture | accepted | V08-MEMORY-RETRIEVAL-SURFACE-001 | The fresh retrieval-Mission Activation Package selected the Memory Continuity Mission but omitted the canonical Theory and current Memory contracts. | Use explicit authorities as bounded Execution Context; improve Activation selection only through separate evidence-backed work. |
+| INBOX-109 | evidence | accepted | V08-MEMORY-RETRIEVAL-SURFACE-001 | Structured retrieval explains why a candidate was selected but cannot independently prove applicability or causal usefulness. | Preserve applicability as candidate and usefulness as unproven; capture explicit consumer use evidence before stronger claims. |
+| INBOX-110 | architecture | accepted | V08-MEMORY-RETRIEVAL-SURFACE-001 | Mission lineage, evidence references, and context-version relationships are not uniformly structured across historical Mission records. | Keep deterministic term/metadata retrieval bounded; improve capture contracts before adding Graph or semantic ranking. |
+| INBOX-111 | evidence | accepted | V08-MEMORY-RETRIEVAL-SURFACE-001 | Memor.IA convergence is canonical in GENESIS and architecture, but earlier personal-memory rationale is not preserved as explicit Mission memory. | Treat current canon as Governing Context and record historical rationale as unavailable; do not reconstruct it from recency or narrative fragments. |
+| INBOX-112 | architecture | deferred | V08-MEMORY-RETRIEVAL-SURFACE-001 | Bounded structured retrieval surfaces relevant continuity and explicit supersession without GraphRAG, embeddings, vector search, or Knowledge reasoning. | Keep advanced retrieval deferred until measured use evidence demonstrates a concrete failure of structured retrieval. |
+| INBOX-113 | governance | decision-needed | V08-MEMORY-RETRIEVAL-SURFACE-001 | v0.8 now exposes continuity and retrieval, but retention, sensitivity, expiration, archival, legal/compliance, recovery, and deliberate forgetting remain undecided. | Promote to V08-MEMORY-RETENTION-GOVERNANCE-001 under separate human governance authority. |
 
 ---
 
@@ -205,3 +211,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-21 - v0.1.0 - Recorded first Organizational Memory continuity
   evidence, retention boundaries, selector gap, prior-art hypothesis, and next
   retrieval Mission.
+- 2026-08-21 - v0.1.0 - Recorded bounded Memory retrieval evidence,
+  applicability limits, structured-lineage gaps, GraphRAG deferral, and the
+  retention-governance dependency.

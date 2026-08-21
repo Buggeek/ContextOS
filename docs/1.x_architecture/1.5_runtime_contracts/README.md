@@ -18,6 +18,7 @@ expected to build against.
 | [Context Activation Package Contract](1.5.9_Context_Activation_Package_Contract.md) | Mission-bound working-context package identity, provenance, freshness, permissions, and invalidation | EPIC-008 + Activation Layer |
 | [Context Health Report Contract](1.5.10_Context_Health_Report_Contract.md) | Evidence-first integrity, usefulness, learning signals, and governed context update candidates | Context Health Engine + EPIC-007 |
 | [Organizational Memory Continuity Contract](1.5.11_Organizational_Memory_Continuity_Contract.md) | Read-only Mission, decision, evidence, outcome, learning, temporal, supersession, retention, and prior-art continuity | Organizational Memory Engine + EPIC-005 |
+| [Organizational Memory Retrieval Contract](1.5.12_Organizational_Memory_Retrieval_Contract.md) | Bounded, Activation-bound, explainable prior-art retrieval and deterministic invalidation checks | Organizational Memory Engine + EPIC-008 |
 
 ## Rules
 

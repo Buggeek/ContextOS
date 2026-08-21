@@ -5,7 +5,7 @@
 ## Public API
 
 ```python
-from memory_engine import OrganizationalMemoryEngine
+from memory_engine import MemoryRetrievalEngine, OrganizationalMemoryEngine
 from memory_engine.report_builder import render_human
 
 report = OrganizationalMemoryEngine(".").run(
@@ -13,9 +13,27 @@ report = OrganizationalMemoryEngine(".").run(
     goal="Preserve continuity across Missions, decisions, evidence, outcomes, and learning.",
 )
 print(render_human(report))
+
+retrieval = MemoryRetrievalEngine(".").run(
+    goal="Use prior Organizational Memory to inform a bounded Mission.",
+    mission_id="V08-MEMORY-RETRIEVAL-SURFACE-001",
+    consumer="human",
+)
 ```
 
-The machine report schema is `contextos.memory.continuity_report/1`.
+Machine schemas:
+
+- `contextos.memory.continuity_report/1`
+- `contextos.memory.retrieval_result/1`
+- `contextos.memory.retrieval_check/1`
+
+## CLI
+
+```bash
+./contextos memory --goal "Retrieve relevant prior art" --mission-id MISSION-ID
+./contextos memory --goal "Retrieve relevant prior art" --format json
+./contextos memory --check-retrieval retrieval.json
+```
 
 ## Boundary
 
@@ -31,4 +49,5 @@ The machine report schema is `contextos.memory.continuity_report/1`.
 
 ```bash
 python3 tools/memory/test_memory_continuity.py
+python3 tools/memory/test_memory_retrieval.py
 ```

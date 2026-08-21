@@ -12,7 +12,8 @@ READINESS_ROOT = REPO_ROOT / "tools" / "readiness"
 BOOTSTRAP_ROOT = REPO_ROOT / "tools" / "bootstrap"
 ACTIVATION_ROOT = REPO_ROOT / "tools" / "activation"
 HEALTH_ROOT = REPO_ROOT / "tools" / "health"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT):
+MEMORY_ROOT = REPO_ROOT / "tools" / "memory"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT, MEMORY_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
@@ -44,6 +45,9 @@ from engine.validator_engine import VALID_MODES, ValidatorEngine  # noqa: E402
 from health_engine.health_engine import ContextHealthEngine  # noqa: E402
 from health_engine.report_builder import render_human as render_health_human  # noqa: E402
 from health_engine.report_builder import write_json_report as write_health_json_report  # noqa: E402
+from memory_engine.retrieval_engine import MemoryRetrievalEngine  # noqa: E402
+from memory_engine.retrieval_report_builder import render_human as render_memory_human  # noqa: E402
+from memory_engine.retrieval_report_builder import write_json_report as write_memory_json_report  # noqa: E402
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
 from readiness_engine.report_builder import render_human as render_readiness_human  # noqa: E402
 from readiness_engine.report_builder import write_json_report as write_readiness_json_report  # noqa: E402
@@ -137,6 +141,22 @@ def build_parser() -> argparse.ArgumentParser:
     health.add_argument("--mission-use-evidence", default=None, help="Optional contextos.mission.context_use_evidence/1 JSON report.")
     health.add_argument("--json-out", default=None, help="Write the machine Health report JSON to this path.")
     health.set_defaults(handler=run_health)
+
+    memory = subparsers.add_parser(
+        "memory",
+        help="Retrieve bounded Organizational Memory prior art.",
+        description="Retrieve or check read-only Organizational Memory candidates without overriding current context.",
+    )
+    memory.add_argument("--root", default=".", help="Repository root containing governed Organizational Memory records.")
+    memory.add_argument("--goal", default=None, help="Goal that bounds memory retrieval.")
+    memory.add_argument("--mission-id", default=None, help="Mission id that binds memory retrieval.")
+    memory.add_argument("--question", default=None, help="Optional bounded organizational question.")
+    memory.add_argument("--consumer", default="human", help="Consumer requesting prior art, such as human, codex, or claude_code.")
+    memory.add_argument("--limit", type=int, default=12, help="Maximum memory candidates to return (1-50).")
+    memory.add_argument("--check-retrieval", default=None, help="Check a saved contextos.memory.retrieval_result/1 JSON report.")
+    memory.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    memory.add_argument("--json-out", default=None, help="Write the machine Memory retrieval report JSON to this path.")
+    memory.set_defaults(handler=run_memory)
     return parser
 
 
@@ -498,6 +518,68 @@ def run_health(args: argparse.Namespace) -> int:
     else:
         print(render_health_human(report), end="")
     return health_exit_code(report)
+
+
+def run_memory(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    engine = MemoryRetrievalEngine(root)
+    try:
+        if args.check_retrieval:
+            saved = load_bootstrap_json(args.check_retrieval)
+            report = engine.check_retrieval(saved)
+        else:
+            if not args.goal:
+                payload = error_payload(
+                    9,
+                    "misconfiguration",
+                    "Memory retrieval requires --goal unless --check-retrieval is used.",
+                    {"goal": args.goal},
+                )
+                emit_error(payload, args.format)
+                return 9
+            report = engine.run(
+                goal=args.goal,
+                mission_id=args.mission_id,
+                question=args.question,
+                consumer=args.consumer,
+                limit=args.limit,
+            )
+    except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Could not retrieve or check Organizational Memory.",
+            {"retrieval": args.check_retrieval, "error": str(exc)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    if args.json_out:
+        write_memory_json_report(args.json_out, report)
+
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    else:
+        print(render_memory_human(report), end="")
+
+    if report.get("schema") == "contextos.memory.retrieval_check/1":
+        return 0 if report["result"]["valid"] else 7
+    validator = report["activation_package"]["validator"]["summary"]
+    if validator["fatal"]:
+        return 8
+    if validator["error"]:
+        return 7
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:

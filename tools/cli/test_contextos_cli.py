@@ -45,6 +45,23 @@ Test artifact.
 """
 
 
+def mission_doc() -> str:
+    return """# E.4 Mission TEST-MEMORY-001 - Retrieval
+## Version: 0.1.0
+Last Updated: 2026-08-21
+Owner: Test Owner
+Status: closed:done
+
+## Decision
+
+Preserve memory retrieval provenance and human authority.
+
+## Learning
+
+Historical memory does not override current canonical context.
+"""
+
+
 class ContextOSCliTestCase(unittest.TestCase):
     def make_repo(self) -> tempfile.TemporaryDirectory[str]:
         temp = tempfile.TemporaryDirectory()
@@ -83,6 +100,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("init", stdout)
         self.assertIn("activate", stdout)
         self.assertIn("health", stdout)
+        self.assertIn("memory", stdout)
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:
@@ -211,6 +229,83 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(report["dimensions"]["integrity"]["status"], "blocked")
         self.assertGreater(report["summary"]["blocking_count"], 0)
         self.assertEqual(stderr, "")
+
+    def test_memory_human_surface_is_read_only_and_explainable(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            write(
+                root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Retrieval.md",
+                mission_doc(),
+            )
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke([
+                "memory", "--root", temp, "--goal", "memory retrieval provenance", "--consumer", "human"
+            ])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Memory Retrieval", stdout)
+        self.assertIn("## Authority Boundary", stdout)
+        self.assertIn("Why selected:", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_memory_json_is_pure_machine_report(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            write(root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Retrieval.md", mission_doc())
+            code, stdout, stderr = self.invoke([
+                "memory", "--root", temp, "--goal", "memory provenance", "--format", "json"
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.memory.retrieval_result/1")
+        self.assertTrue(report["read_only"])
+        self.assertFalse(report["authority"]["retrieved_memory_may_override_canonical"])
+        self.assertEqual(stderr, "")
+
+    def test_memory_json_out_and_check_round_trip(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            write(root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Retrieval.md", mission_doc())
+            report_path = Path(output_temp) / "retrieval.json"
+            code, _stdout, stderr = self.invoke([
+                "memory", "--root", temp, "--goal", "memory provenance", "--json-out", str(report_path)
+            ])
+            check_code, check_stdout, check_stderr = self.invoke([
+                "memory", "--root", temp, "--check-retrieval", str(report_path), "--format", "json"
+            ])
+            saved = json.loads(report_path.read_text(encoding="utf-8"))
+
+        check = json.loads(check_stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(saved["schema"], "contextos.memory.retrieval_result/1")
+        self.assertEqual(check_code, 0)
+        self.assertEqual(check["schema"], "contextos.memory.retrieval_check/1")
+        self.assertTrue(check["result"]["valid"])
+        self.assertEqual(stderr, "")
+        self.assertEqual(check_stderr, "")
+
+    def test_memory_check_detects_source_drift(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            root = Path(temp)
+            source = root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Retrieval.md"
+            write(source, mission_doc())
+            report_path = Path(output_temp) / "retrieval.json"
+            code, _stdout, _stderr = self.invoke([
+                "memory", "--root", temp, "--goal", "memory provenance", "--json-out", str(report_path)
+            ])
+            source.write_text(source.read_text(encoding="utf-8") + "\nDrift.\n", encoding="utf-8")
+            check_code, check_stdout, check_stderr = self.invoke([
+                "memory", "--root", temp, "--check-retrieval", str(report_path), "--format", "json"
+            ])
+
+        check = json.loads(check_stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(check_code, 7)
+        self.assertFalse(check["result"]["valid"])
+        self.assertEqual(check_stderr, "")
 
     def test_validate_json_wraps_validator_engine(self) -> None:
         with self.make_repo() as temp:
