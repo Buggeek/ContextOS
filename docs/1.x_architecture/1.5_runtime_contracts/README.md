@@ -19,6 +19,7 @@ expected to build against.
 | [Context Health Report Contract](1.5.10_Context_Health_Report_Contract.md) | Evidence-first integrity, usefulness, learning signals, and governed context update candidates | Context Health Engine + EPIC-007 |
 | [Organizational Memory Continuity Contract](1.5.11_Organizational_Memory_Continuity_Contract.md) | Read-only Mission, decision, evidence, outcome, learning, temporal, supersession, retention, and prior-art continuity | Organizational Memory Engine + EPIC-005 |
 | [Organizational Memory Retrieval Contract](1.5.12_Organizational_Memory_Retrieval_Contract.md) | Bounded, Activation-bound, explainable prior-art retrieval and deterministic invalidation checks | Organizational Memory Engine + EPIC-008 |
+| [Organizational Memory Retention Governance Contract](1.5.13_Organizational_Memory_Retention_Governance_Contract.md) | Retention states, policy resolution, sensitivity/access, holds, authority, forgetting, recovery, and future validation boundaries | Governance Layer + Organizational Memory |
 
 ## Rules
 

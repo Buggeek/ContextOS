@@ -67,13 +67,17 @@ v0.8 Organizational Memory expansion:
   learning as governed memory inputs.
 - Preserve context versions, temporal validity, supersession, retention, and
   governed forgetting.
+- Keep retention governance separate from interpretation: policy resolution
+  may constrain Knowledge inputs and outputs, but Knowledge Engine cannot
+  classify sensitivity, resolve holds, or authorize forgetting autonomously.
 - Produce prior-art and pattern/consolidation candidates with explicit
   applicability and provenance.
 - Raw Knowledge ingestion (`contextos knowledge ingest`, surface declared
   as a CLI extension under EPIC-008 forward-looking).
 - Document deduplication and stable identifiers.
 - Interpretation pass producing typed drafts (entity candidates, role
-  candidates, hypothesis candidates) with `belief_state = inferred`.
+  candidates, hypothesis candidates) with epistemic support `inferred`; any
+  v0.x `belief_state` field is a compatibility alias for this axis only.
 - Durable memory traversal support.
 
 ---

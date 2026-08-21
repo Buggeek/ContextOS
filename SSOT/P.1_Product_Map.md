@@ -27,6 +27,7 @@ usable Organizational Context Runtime repository.
 - Context Activation package tooling (`tools/activation/`)
 - Context Health & Learning tooling (`tools/health/`)
 - Organizational Memory continuity tooling (`tools/memory/`)
+- Organizational Memory retention-governance contract (policy-only)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -79,6 +80,9 @@ usable Organizational Context Runtime repository.
 22. Actor requests Goal/Mission prior art through `contextos memory`, inspects
     why each candidate was selected, and checks the saved result for current
     Activation or Memory drift before reuse
+23. Governance defines why memory is preserved, restricted, archived, or
+    considered for deliberate forgetting before any retention transition can
+    exist
 
 ---
 
@@ -118,6 +122,10 @@ usable Organizational Context Runtime repository.
 - Provide a read-only Memory Continuity report with source hashes, temporal
   unknowns, explicit supersession, explainable prior art, and non-canonical
   pattern candidates
+- Define retention state independently from truth, sensitivity, access,
+  retrieval eligibility, and Activation eligibility
+- Block unresolved preservation-versus-deletion duties for accountable human
+  governance instead of inventing legal precedence
 - Provide bounded human and machine Memory retrieval with exact Activation and
   Continuity bindings, selection rationale, exclusions, and invalidation checks
 

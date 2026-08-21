@@ -46,7 +46,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
-| tools/memory | Module | Read-only Organizational Memory continuity and bounded Activation-bound retrieval across Missions, decisions, evidence, outcomes, learning, release state, supersession, retention gaps, and prior art | Maintainers | v0.8 derived continuity/retrieval component; not SSOT
+| tools/memory | Module | Read-only Organizational Memory continuity and bounded Activation-bound retrieval across Missions, decisions, evidence, outcomes, learning, release state, supersession, retention gaps, and prior art | Maintainers | v0.8 derived continuity/retrieval component; retention governance is contract-only and not yet a Runtime resolver
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -87,6 +87,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 14. Validator + Readiness + Mission-use evidence -> `contextos health` -> human or machine Health report -> governed consideration
 15. Mission + decision + evidence + outcome + learning + Inbox records -> Memory Continuity report -> explainable prior art and governed pattern candidates
 16. Goal/Mission + current Activation Package + Memory Continuity -> bounded prior-art candidates -> retrieval validity check
+17. Applicable retention policies + exact memory identity + authority/holds -> deterministic policy resolution -> Retrieval/Activation eligibility or explicit blocked conflict (contract only)
 
 ---
 
@@ -94,7 +95,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 - No Knowledge Engine, Context Graph runtime, activation adapters, or agent
   runtime exists yet
-- Organizational Memory provides continuity and bounded retrieval; no retention
+- Organizational Memory provides continuity, bounded retrieval, and canonical
+  retention-governance policy semantics; no policy resolver, retention
   execution, forgetting, semantic interpretation, Graph runtime, or learned
   ranking exists yet
 - Template coverage does not yet span every possible taxonomy doc type
@@ -136,4 +138,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   report and derived-view boundary
 - 2026-08-21 — v0.1.1 — Added bounded Activation-bound Memory retrieval and
   deterministic retrieval checks
+- 2026-08-21 — v0.1.1 — Added the policy-only Organizational Memory
+  retention-governance model and explicit no-execution boundary
 - 2026-02-19 — v0.1.0 — Initial creation

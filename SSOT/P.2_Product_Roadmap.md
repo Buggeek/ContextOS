@@ -109,8 +109,10 @@ Governing Context:
 Self-Hosting Execution:
 
 - Latest closed v0.8 mission:
-  [`E.4 Mission V08-MEMORY-RETRIEVAL-SURFACE-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-SURFACE-001_Bounded_Memory_Retrieval.md)
+  [`E.4 Mission V08-MEMORY-RETENTION-GOVERNANCE-001`](E.4_Mission_V08-MEMORY-RETENTION-GOVERNANCE-001_Memory_Retention_Governance.md)
 - Previous closed v0.8 mission:
+  [`E.4 Mission V08-MEMORY-RETRIEVAL-SURFACE-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-SURFACE-001_Bounded_Memory_Retrieval.md)
+- Earlier closed v0.8 mission:
   [`E.4 Mission V08-ORGANIZATIONAL-MEMORY-PLAN-001`](E.4_Mission_V08-ORGANIZATIONAL-MEMORY-PLAN-001_Organizational_Memory_Continuity.md)
 - Latest closed foundational mission:
   [`E.4 Mission THEORY-AI-NATIVE-ORGANIZATION-V01`](E.4_Mission_THEORY-AI-NATIVE-ORGANIZATION-V01.md)
@@ -378,3 +380,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-20 - v1.0 - Linked the canonical Theory of the AI-Native
   Organization and aligned v0.8-v1.0 around governed memory, reasoning, and
   organizational evolution.
+- 2026-08-21 - v1.0 - Opened the policy-only Organizational Memory retention
+  governance Mission after publishing bounded retrieval.

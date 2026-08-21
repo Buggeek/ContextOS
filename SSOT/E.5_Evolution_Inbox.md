@@ -162,6 +162,13 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-111 | evidence | accepted | V08-MEMORY-RETRIEVAL-SURFACE-001 | Memor.IA convergence is canonical in GENESIS and architecture, but earlier personal-memory rationale is not preserved as explicit Mission memory. | Treat current canon as Governing Context and record historical rationale as unavailable; do not reconstruct it from recency or narrative fragments. |
 | INBOX-112 | architecture | deferred | V08-MEMORY-RETRIEVAL-SURFACE-001 | Bounded structured retrieval surfaces relevant continuity and explicit supersession without GraphRAG, embeddings, vector search, or Knowledge reasoning. | Keep advanced retrieval deferred until measured use evidence demonstrates a concrete failure of structured retrieval. |
 | INBOX-113 | governance | decision-needed | V08-MEMORY-RETRIEVAL-SURFACE-001 | v0.8 now exposes continuity and retrieval, but retention, sensitivity, expiration, archival, legal/compliance, recovery, and deliberate forgetting remain undecided. | Promote to V08-MEMORY-RETENTION-GOVERNANCE-001 under separate human governance authority. |
+| INBOX-114 | governance | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | Universal retention periods would fabricate organizational and jurisdictional policy; Context OS can canonize semantics and safe defaults but not lawful durations. | Require organization-owned policy values and preserve missing durations as decision-needed. |
+| INBOX-115 | governance | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | Preservation duties and deletion/minimization duties may conflict and cannot be resolved safely by ordinary policy precedence. | Block execution, surface all governing authorities, and require accountable legal/compliance and Governance human resolution. |
+| INBOX-116 | security | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | Explainable Retrieval exclusions can still leak restricted titles, paths, snippets, hashes, or policy reasons. | Future policy resolution and Retrieval integration must permission-check exclusion metadata as well as content. |
+| INBOX-117 | architecture | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | The original `0.7` belief-state table mixed epistemic support and strategic belief, which conflicts with the canonical three-axis Theory. | Supersede the single-axis model in place and keep retention as a fourth independent policy axis. |
+| INBOX-118 | product | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | A decision-complete policy contract exists, but no read-only resolver currently computes applicable policies, conflicts, or Retrieval/Activation eligibility. | Promote a bounded read-only policy-resolution Mission before any retention execution. |
+| INBOX-119 | evidence | deferred | V08-MEMORY-RETENTION-GOVERNANCE-001 | Context OS self-hosting evidence is sufficient for an initial organizational policy model but does not validate personal-memory consent, portability, data-subject, or shared-ownership behavior. | Preserve the universal primitives while requiring separate future personal-context evidence and authority. |
+| INBOX-120 | governance | decision-needed | V08-MEMORY-RETENTION-GOVERNANCE-001 | Context OS has no organization-specific policy values for review cadence, sensitivity mapping, affected-party handling, or jurisdictional duties. | Do not invent defaults beyond conservative access and no mutation; require accountable policy owners before operational resolution. |
 
 ---
 
@@ -214,3 +221,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-21 - v0.1.0 - Recorded bounded Memory retrieval evidence,
   applicability limits, structured-lineage gaps, GraphRAG deferral, and the
   retention-governance dependency.
+- 2026-08-21 - v0.1.0 - Recorded retention-policy boundaries, conflict
+  blocking, metadata-leakage risk, three-axis alignment, personal-memory
+  evidence limits, and the next read-only policy-resolution dependency.

@@ -64,8 +64,9 @@ v0.5 Context Construction expansion:
   (`contextos sources add|list|remove`).
 - Reference connectors for at least: local filesystem (a repository),
   GitHub repository metadata, and a generic JSON/YAML import.
-- Discovery Bundle output schema (artifacts, entities, systems, owners,
-  raw observations) with `belief_state = observed`.
+- Discovery Bundle output schema (artifacts, entities, systems, owners, raw
+  observations) with epistemic support `observed`; the v0.x compatibility
+  field `belief_state` represents this epistemic axis only.
 - Idempotent scans (`contextos scan`) with `--source` filter.
 - Conflict reporting against existing SSOT.
 

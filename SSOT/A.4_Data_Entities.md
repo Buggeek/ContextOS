@@ -28,6 +28,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | BootstrapAcceptedDecision | A read-only accepted human decision artifact for an exact Bootstrap Proposal identity | tools/bootstrap acceptance output | id, approval_record, proposal, authority, decision, validation, constraints | N | Approves preserved intent but does not authorize or perform apply
 | BootstrapApplyPreflight | A read-only final gate that verifies an accepted decision and freezes the executable mutation set | tools/bootstrap preflight output | id, accepted_decision, approval_record, proposal, authority, frozen_mutation_set, validation, eligibility | N | May mark apply eligible but does not authorize or perform apply
 | BootstrapApplyResult | A governed create-only apply evidence report | tools/bootstrap apply output | id, preflight, confirmation, mutation_set, mutations, validation, rollback, result | N | Records explicit result state after create-only apply and validation |
+| MemoryRetentionPolicy | A versioned governance policy for preservation, sensitivity, access, holds, retrieval, Activation, forgetting, and recovery | organization policy / future Runtime input | id, version, scope, owner, purpose, rules, inheritance, authority, evidence | Context-dependent | Defines bounds; never executes a retention transition |
+| MemoryRetentionDecision | A memory-specific immutable Decision Record resolving exact policies and constraints for exact memory items | governance decision evidence | id, item_ids, source_hashes, policy_resolution, states, holds, authority, evidence, reversibility, lineage | Context-dependent | Does not authorize execution unless a separate transition contract explicitly does so |
 
 ---
 
@@ -45,6 +47,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - BootstrapApplyPreflight → may become BootstrapApplyResult only with explicit preflight-bound apply confirmation
 - BootstrapApplyResult → may become ChangeRequest evidence only after validated apply
 - BootstrapApprovalRecord → may become DecisionRecord only after human authority
+- MemoryRetentionPolicy → constrains Memory Retrieval, Context Activation, and future retention transitions
+- MemoryRetentionDecision → specializes DecisionRecord and binds an exact policy resolution without changing canonical truth
 
 ---
 
@@ -89,3 +93,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   Bootstrap apply approval.
 - 2026-08-11 — v0.1.0 — Added BootstrapApprovalRecord entity for read-only
   approval drafts.
+- 2026-08-21 — v0.1.0 — Added policy-only MemoryRetentionPolicy and
+  MemoryRetentionDecision entities.
