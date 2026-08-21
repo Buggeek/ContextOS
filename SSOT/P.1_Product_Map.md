@@ -27,7 +27,7 @@ usable Organizational Context Runtime repository.
 - Context Activation package tooling (`tools/activation/`)
 - Context Health & Learning tooling (`tools/health/`)
 - Organizational Memory continuity tooling (`tools/memory/`)
-- Organizational Memory retention-governance contract (policy-only)
+- Organizational Memory retention-governance and read-only policy-resolution tooling
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -83,6 +83,9 @@ usable Organizational Context Runtime repository.
 23. Governance defines why memory is preserved, restricted, archived, or
     considered for deliberate forgetting before any retention transition can
     exist
+24. Operator or Runtime consumer resolves explicit retention policies against
+    exact memory metadata and receives separate access, Retrieval, Activation,
+    transition, and destructive-action outcomes without mutation
 
 ---
 
@@ -126,6 +129,8 @@ usable Organizational Context Runtime repository.
   retrieval eligibility, and Activation eligibility
 - Block unresolved preservation-versus-deletion duties for accountable human
   governance instead of inventing legal precedence
+- Provide deterministic, metadata-safe read-only retention resolution with
+  policy/source drift invalidation and no implicit permission
 - Provide bounded human and machine Memory retrieval with exact Activation and
   Continuity bindings, selection rationale, exclusions, and invalidation checks
 

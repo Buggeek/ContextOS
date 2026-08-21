@@ -169,6 +169,13 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-118 | product | accepted | V08-MEMORY-RETENTION-GOVERNANCE-001 | A decision-complete policy contract exists, but no read-only resolver currently computes applicable policies, conflicts, or Retrieval/Activation eligibility. | Promote a bounded read-only policy-resolution Mission before any retention execution. |
 | INBOX-119 | evidence | deferred | V08-MEMORY-RETENTION-GOVERNANCE-001 | Context OS self-hosting evidence is sufficient for an initial organizational policy model but does not validate personal-memory consent, portability, data-subject, or shared-ownership behavior. | Preserve the universal primitives while requiring separate future personal-context evidence and authority. |
 | INBOX-120 | governance | decision-needed | V08-MEMORY-RETENTION-GOVERNANCE-001 | Context OS has no organization-specific policy values for review cadence, sensitivity mapping, affected-party handling, or jurisdictional duties. | Do not invent defaults beyond conservative access and no mutation; require accountable policy owners before operational resolution. |
+| INBOX-121 | architecture | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | The fresh retention-resolution Activation Package omitted the canonical Retention Governance contract even though the Mission depended on its exact semantics. | Use the contract as bounded Execution Context now; improve selector coverage only through separate Activation evidence. |
+| INBOX-122 | governance | decision-needed | V08-MEMORY-RETENTION-RESOLUTION-001 | Context OS still has no organization-approved retention durations, jurisdictional rules, sensitivity mappings, or affected-party policy values. | Keep dogfood policies controlled and illustrative; do not represent them as active organizational policy. |
+| INBOX-123 | evidence | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | Historical Mission and release evidence does not uniformly carry organization, tier, sensitivity, owner, temporal, and policy-reference metadata needed for exact applicability. | Preserve applicability as unknown where metadata is absent; improve future evidence capture before broad policy application. |
+| INBOX-124 | security | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | Caller-supplied metadata visibility can prove report redaction behavior but is not itself organization-approved visibility authority. | Require policy-bound visibility when Retention Resolution is integrated with real Retrieval/Activation inputs. |
+| INBOX-125 | architecture | deferred | V08-MEMORY-RETENTION-RESOLUTION-001 | Evaluation time can change policy applicability, review-due, or expiration-candidate state, but no scheduler or background reevaluation exists. | Keep explicit evaluation-time invalidation; defer scheduling and automatic reevaluation beyond this read-only Mission. |
+| INBOX-126 | product | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | A standalone retention CLI would expose policy mechanics before Retrieval or Activation can consume the result. | Keep the public Engine/report API as the first surface; add user-facing commands only when a coherent product journey requires them. |
+| INBOX-127 | product | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | Memory Retrieval currently selects candidates without consuming exact Retention Resolution outcomes. | Promote a bounded read-only Retrieval policy-integration Mission before any retention execution capability. |
 
 ---
 
@@ -224,3 +231,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-21 - v0.1.0 - Recorded retention-policy boundaries, conflict
   blocking, metadata-leakage risk, three-axis alignment, personal-memory
   evidence limits, and the next read-only policy-resolution dependency.
+- 2026-08-21 - v0.1.0 - Recorded read-only Retention Resolution evidence,
+  policy-input gaps, metadata-visibility authority, scheduling and CLI
+  deferrals, and the next Retrieval integration dependency.

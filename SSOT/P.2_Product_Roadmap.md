@@ -2,7 +2,7 @@
 
 Version: 1.0
 
-Last Updated: 2026-08-20
+Last Updated: 2026-08-21
 
 Owner: Context OS Core Team
 
@@ -109,8 +109,10 @@ Governing Context:
 Self-Hosting Execution:
 
 - Latest closed v0.8 mission:
-  [`E.4 Mission V08-MEMORY-RETENTION-GOVERNANCE-001`](E.4_Mission_V08-MEMORY-RETENTION-GOVERNANCE-001_Memory_Retention_Governance.md)
+  [`E.4 Mission V08-MEMORY-RETENTION-RESOLUTION-001`](E.4_Mission_V08-MEMORY-RETENTION-RESOLUTION-001_Read_Only_Retention_Resolution.md)
 - Previous closed v0.8 mission:
+  [`E.4 Mission V08-MEMORY-RETENTION-GOVERNANCE-001`](E.4_Mission_V08-MEMORY-RETENTION-GOVERNANCE-001_Memory_Retention_Governance.md)
+- Earlier closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-RETRIEVAL-SURFACE-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-SURFACE-001_Bounded_Memory_Retrieval.md)
 - Earlier closed v0.8 mission:
   [`E.4 Mission V08-ORGANIZATIONAL-MEMORY-PLAN-001`](E.4_Mission_V08-ORGANIZATIONAL-MEMORY-PLAN-001_Organizational_Memory_Continuity.md)

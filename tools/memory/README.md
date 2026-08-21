@@ -5,7 +5,7 @@
 ## Public API
 
 ```python
-from memory_engine import MemoryRetrievalEngine, OrganizationalMemoryEngine
+from memory_engine import MemoryRetrievalEngine, OrganizationalMemoryEngine, RetentionResolutionEngine
 from memory_engine.report_builder import render_human
 
 report = OrganizationalMemoryEngine(".").run(
@@ -19,6 +19,12 @@ retrieval = MemoryRetrievalEngine(".").run(
     mission_id="V08-MEMORY-RETRIEVAL-SURFACE-001",
     consumer="human",
 )
+
+resolution = RetentionResolutionEngine(".").run(
+    memory_item,
+    retention_policies,
+    consumer="memory_retrieval",
+)
 ```
 
 Machine schemas:
@@ -26,6 +32,9 @@ Machine schemas:
 - `contextos.memory.continuity_report/1`
 - `contextos.memory.retrieval_result/1`
 - `contextos.memory.retrieval_check/1`
+- `contextos.memory.retention_policy/1` (input)
+- `contextos.memory.retention_resolution/1`
+- `contextos.memory.retention_resolution_check/1`
 
 ## CLI
 
@@ -43,6 +52,12 @@ Machine schemas:
 - Prior-art relevance is deterministic and explainable, but remains a derived hypothesis.
 - Pattern candidates remain suggested hypotheses until governed review and Context Construction.
 - Missing time, supersession, usefulness, and retention evidence remains explicit.
+- Retention Resolution evaluates supplied explicit policy independently for
+  access, Retrieval, Activation, retention transition, and destructive action.
+- Resolution grants no authority, performs no legal interpretation, and never
+  changes memory, access, retention state, holds, or canonical context.
+- Missing policy, unknown applicability, source drift, holds, and conflicting
+  preservation/removal duties remain explicit and cannot become permission.
 - No storage service, embedding, vector database, GraphRAG, Context Graph Runtime, Knowledge Engine, agent, or deletion behavior is introduced.
 
 ## Tests
@@ -50,4 +65,5 @@ Machine schemas:
 ```bash
 python3 tools/memory/test_memory_continuity.py
 python3 tools/memory/test_memory_retrieval.py
+python3 tools/memory/test_memory_retention_resolution.py
 ```
