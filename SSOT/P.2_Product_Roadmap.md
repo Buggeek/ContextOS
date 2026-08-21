@@ -108,6 +108,8 @@ Governing Context:
 
 Self-Hosting Execution:
 
+- Latest closed v0.8 mission:
+  [`E.4 Mission V08-ORGANIZATIONAL-MEMORY-PLAN-001`](E.4_Mission_V08-ORGANIZATIONAL-MEMORY-PLAN-001_Organizational_Memory_Continuity.md)
 - Latest closed foundational mission:
   [`E.4 Mission THEORY-AI-NATIVE-ORGANIZATION-V01`](E.4_Mission_THEORY-AI-NATIVE-ORGANIZATION-V01.md)
 - Latest closed release mission:

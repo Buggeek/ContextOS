@@ -17,6 +17,7 @@ expected to build against.
 | [Builder Draft Authority Contract](1.5.8_Builder_Draft_Authority_Contract.md) | Authority, evidence, no-overwrite, drift, validation, and rollback rules before Builder draft writes | EPIC-006 + EPIC-007 |
 | [Context Activation Package Contract](1.5.9_Context_Activation_Package_Contract.md) | Mission-bound working-context package identity, provenance, freshness, permissions, and invalidation | EPIC-008 + Activation Layer |
 | [Context Health Report Contract](1.5.10_Context_Health_Report_Contract.md) | Evidence-first integrity, usefulness, learning signals, and governed context update candidates | Context Health Engine + EPIC-007 |
+| [Organizational Memory Continuity Contract](1.5.11_Organizational_Memory_Continuity_Contract.md) | Read-only Mission, decision, evidence, outcome, learning, temporal, supersession, retention, and prior-art continuity | Organizational Memory Engine + EPIC-005 |
 
 ## Rules
 

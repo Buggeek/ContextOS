@@ -1,6 +1,6 @@
 # P.1 Product Map
 ## Version: 0.1.1
-Last Updated: 2026-08-20
+Last Updated: 2026-08-21
 Owner: Context OS Maintainers
 
 ---
@@ -26,6 +26,7 @@ usable Organizational Context Runtime repository.
 - Guided Bootstrap planning/proposal tooling (`tools/bootstrap/`)
 - Context Activation package tooling (`tools/activation/`)
 - Context Health & Learning tooling (`tools/health/`)
+- Organizational Memory continuity tooling (`tools/memory/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -72,7 +73,7 @@ usable Organizational Context Runtime repository.
     unknown context evidence without inferring usefulness from access or outcome
 20. Operator runs `contextos health` and receives prioritized evidence-backed
     attention, unknowns, learning, and governed next considerations
-21. Future operator retrieves prior Missions, decisions, evidence, outcomes,
+21. Operator inspects prior Missions, decisions, evidence, outcomes,
     learning, and superseded context through governed Organizational Memory
     without treating a derived index as authority
 
@@ -111,6 +112,9 @@ usable Organizational Context Runtime repository.
   Activation Package, Handoff, Mission, and consumer
 - Provide a read-only human and machine Health CLI without remediation or
   canonical mutation
+- Provide a read-only Memory Continuity report with source hashes, temporal
+  unknowns, explicit supersession, explainable prior art, and non-canonical
+  pattern candidates
 
 ---
 
@@ -182,6 +186,8 @@ usable Organizational Context Runtime repository.
 - 2026-08-20 — v0.1.1 — Added the read-only Context Health CLI surface
 - 2026-08-20 — v0.1.1 — Added the canonical AI-native organization theory and
   the governed Organizational Memory journey boundary
+- 2026-08-21 — v0.1.1 — Added the first read-only Organizational Memory
+  continuity report capability
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

@@ -1,6 +1,6 @@
 # E.5 Evolution Inbox
 ## Version: 0.1.0
-Last Updated: 2026-08-11
+Last Updated: 2026-08-21
 Owner: Context OS Maintainers
 Status: Active
 
@@ -149,6 +149,13 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-098 | hypothesis | accepted | THEORY-AI-NATIVE-ORGANIZATION-V01 | The universal organizational model is mapped across domains but has not been validated through a non-Technology Context OS implementation. | Preserve as not-yet-tested until a governed external domain implementation produces evidence. |
 | INBOX-099 | governance | decision-needed | THEORY-AI-NATIVE-ORGANIZATION-V01 | v0.8 requires operational retention and forgetting semantics across continuity, privacy, legal, cost, and audit needs. | Resolve policy boundaries before any destructive compaction or forgetting behavior is implemented. |
 | INBOX-100 | product | accepted | THEORY-AI-NATIVE-ORGANIZATION-V01 | The first v0.8 capability should establish governed memory continuity from existing Missions, decisions, evidence, outcomes, learning, and context versions before unstructured interpretation or graph retrieval. | Promote to V08-ORGANIZATIONAL-MEMORY-PLAN-001 under separate human authority. |
+| INBOX-101 | architecture | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | The fresh v0.8 Activation Package omitted the newly canonical Theory and Context Versioning and Memory foundation despite their explicit roadmap authority. | Treat both as bounded Execution Context now; improve selection only through a future evidence-backed Activation Mission. |
+| INBOX-102 | governance | decision-needed | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Retention cannot mean either silent deletion or unconditional permanent storage; sensitivity, ownership, expiration, legal hold, archival, recovery, and deliberate forgetting remain undecided. | Prohibit destructive retention behavior and resolve policy before any retention/forgetting implementation. |
+| INBOX-103 | product | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | The Memory Continuity API/report proves the model, but a user still needs a bounded retrieval surface for prior decisions, rationale, learning, supersession, and Mission prior art. | Promote to V08-MEMORY-RETRIEVAL-SURFACE-001 without adding semantic reasoning or GraphRAG. |
+| INBOX-104 | evidence | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Mission artifacts do not consistently cite immutable context-version objects, so historical governing context cannot always be reconstructed exactly. | Preserve as an explicit continuity gap; define capture requirements before claiming complete historical replay. |
+| INBOX-105 | hypothesis | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Deterministic term overlap can surface explainable prior art, but selection does not prove applicability or usefulness. | Test through the next user-facing Memory retrieval Mission; do not introduce learned ranking yet. |
+| INBOX-106 | hypothesis | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | Recurring authority, evidence, drift, read-only, and truth-boundary themes appear across Mission Learning records. | Keep as non-canonical pattern candidates until governed review and external reuse evidence exist. |
+| INBOX-107 | evidence | accepted | V08-ORGANIZATIONAL-MEMORY-PLAN-001 | v0.3 and v0.4 predate explicit release-cut Mission records, while v0.5-v0.7 preserve release transitions through closed Mission evidence. | Keep the historical gap explicit; do not reconstruct missing release decisions from Git chronology alone. |
 
 ---
 
@@ -195,3 +202,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-20 - v0.1.0 - Recorded the AI-native organizational model,
   GraphRAG boundary, universal-model hypothesis, retention decision, and first
   v0.8 Mission dependency.
+- 2026-08-21 - v0.1.0 - Recorded first Organizational Memory continuity
+  evidence, retention boundaries, selector gap, prior-art hypothesis, and next
+  retrieval Mission.

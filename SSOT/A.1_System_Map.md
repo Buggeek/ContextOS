@@ -1,6 +1,6 @@
 # A.1 System Map
 ## Version: 0.1.1
-Last Updated: 2026-08-20
+Last Updated: 2026-08-21
 Owner: Context OS Maintainers
 
 ---
@@ -46,6 +46,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
+| tools/memory | Module | Read-only Organizational Memory continuity across Missions, decisions, evidence, outcomes, learning, release state, supersession, retention gaps, and prior art | Maintainers | v0.8 derived continuity component; not SSOT
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan, init proposal, init approval-record draft, init accepted decision, init apply preflight, init create-only apply, activate package/check/handoff, health report
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -84,6 +85,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 12. Execution evidence -> Context Health signals -> non-canonical Context Update Candidate -> existing governed Construction lifecycle
 13. Activation Package + Handoff + explicit Mission records -> Mission-use evidence -> explainable Context Usefulness signals
 14. Validator + Readiness + Mission-use evidence -> `contextos health` -> human or machine Health report -> governed consideration
+15. Mission + decision + evidence + outcome + learning + Inbox records -> Memory Continuity report -> explainable prior art and governed pattern candidates
 
 ---
 
@@ -91,8 +93,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 - No Knowledge Engine, Context Graph runtime, activation adapters, or agent
   runtime exists yet
-- No Organizational Memory runtime exists yet; v0.8 must establish governed
-  continuity without turning a retrieval index into authority
+- Organizational Memory currently provides a read-only continuity report; no
+  retention execution, forgetting, Knowledge interpretation, Graph runtime, or
+  user-facing Memory CLI exists yet
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---
@@ -128,4 +131,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
 - 2026-08-20 — v0.1.1 — Added read-only Context Health CLI surface
 - 2026-08-20 — v0.1.1 — Linked the AI-native organizational theory and
   clarified the unimplemented Organizational Memory boundary
+- 2026-08-21 — v0.1.1 — Added the read-only Organizational Memory continuity
+  report and derived-view boundary
 - 2026-02-19 — v0.1.0 — Initial creation
