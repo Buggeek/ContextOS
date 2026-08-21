@@ -1,6 +1,6 @@
 # A.1 System Map
 ## Version: 0.1.1
-Last Updated: 2026-08-15
+Last Updated: 2026-08-20
 Owner: Context OS Maintainers
 
 ---
@@ -20,6 +20,10 @@ CLI tooling, templates, examples, and operational rules.
 The primary output is a coherent contextual operating layer that humans and
 agents can use to assess, bootstrap, construct, activate, learn from, and
 reason over shared context.
+
+The system serves the organizational model defined by the Theory of the
+AI-Native Organization. No current runtime module may claim that broader
+outcome by itself.
 
 ---
 
@@ -87,6 +91,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 - No Knowledge Engine, Context Graph runtime, activation adapters, or agent
   runtime exists yet
+- No Organizational Memory runtime exists yet; v0.8 must establish governed
+  continuity without turning a retrieval index into authority
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---
@@ -97,6 +103,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 - P.1 Product Map
 - G.1 Definition of Ready
 - G.2 Definition of Done
+- [`0.9 Theory of the AI-Native Organization`](../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
 
 ---
 
@@ -119,4 +126,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   component
 - 2026-08-16 — v0.1.1 — Added structured Mission-use evidence input and flow
 - 2026-08-20 — v0.1.1 — Added read-only Context Health CLI surface
+- 2026-08-20 — v0.1.1 — Linked the AI-native organizational theory and
+  clarified the unimplemented Organizational Memory boundary
 - 2026-02-19 — v0.1.0 — Initial creation

@@ -143,7 +143,12 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-092 | architecture | deferred | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Historical comparison and trend reporting are not required to truthfully assess present Health or produce evidence-backed update candidates. | Defer until multiple preserved reports demonstrate a decision need; do not expand v0.7. |
 | INBOX-093 | UX | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | Human evidence lists were accurate but too diagnostic for first-pass assessment. | Keep bounded evidence previews in human output and preserve complete references in JSON. |
 | INBOX-094 | product | accepted | V07-CONTEXT-HEALTH-RELEASE-VERIFY-001 | v0.7 satisfies its read-only Health & Learning promise without remediation, canonical updates, or historical comparison. | Require explicit human release-cut authority, then re-anchor on v0.8 Organizational Memory. |
-| INBOX-095 | product | accepted | V07-RELEASE-CUT-001 | v0.7 release authority was granted after the package-bound release decision and full regression evidence remained green. | Close v0.7, preserve all intentional deferrals, and re-anchor on v0.8; require separate human authority before THEORY-AI-NATIVE-ORGANIZATION-V01. |
+| INBOX-095 | product | superseded | V07-RELEASE-CUT-001 | v0.7 release authority was granted after the package-bound release decision and full regression evidence remained green. | v0.7 was closed and the separate foundational authority was exercised through THEORY-AI-NATIVE-ORGANIZATION-V01. |
+| INBOX-096 | architecture | accepted | THEORY-AI-NATIVE-ORGANIZATION-V01 | Direction, Context and Memory, Sense and Activate, Organize and Execute, Measure and Learn, and Govern and Evolve are six concurrent organizational planes rather than a sequential architecture. | Use the six-plane theory to evaluate v0.8-v1.0 without replacing GENESIS or Runtime architecture. |
+| INBOX-097 | architecture | deferred | THEORY-AI-NATIVE-ORGANIZATION-V01 | GraphRAG may support relationship-aware retrieval and reasoning, but current evidence does not prove it is required for Organizational Memory. | Admit GraphRAG only through a future evidence-backed Mission; keep Context Graph derived and Activation authoritative for packaging. |
+| INBOX-098 | hypothesis | accepted | THEORY-AI-NATIVE-ORGANIZATION-V01 | The universal organizational model is mapped across domains but has not been validated through a non-Technology Context OS implementation. | Preserve as not-yet-tested until a governed external domain implementation produces evidence. |
+| INBOX-099 | governance | decision-needed | THEORY-AI-NATIVE-ORGANIZATION-V01 | v0.8 requires operational retention and forgetting semantics across continuity, privacy, legal, cost, and audit needs. | Resolve policy boundaries before any destructive compaction or forgetting behavior is implemented. |
+| INBOX-100 | product | accepted | THEORY-AI-NATIVE-ORGANIZATION-V01 | The first v0.8 capability should establish governed memory continuity from existing Missions, decisions, evidence, outcomes, learning, and context versions before unstructured interpretation or graph retrieval. | Promote to V08-ORGANIZATIONAL-MEMORY-PLAN-001 under separate human authority. |
 
 ---
 
@@ -187,3 +192,6 @@ quarantine and triage surface for context that may deserve future action.
   evidence previews, and historical comparison deferral.
 - 2026-08-20 - v0.1.0 - Recorded the v0.7 release cut, preserved intentional
   deferrals, and re-anchored on v0.8 Organizational Memory.
+- 2026-08-20 - v0.1.0 - Recorded the AI-native organizational model,
+  GraphRAG boundary, universal-model hypothesis, retention decision, and first
+  v0.8 Mission dependency.

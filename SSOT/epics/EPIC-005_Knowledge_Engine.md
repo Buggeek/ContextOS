@@ -2,7 +2,7 @@
 
 - **Epic ID:** EPIC-005
 - **Version:** v0.7/v0.8 — Context Health & Learning and Organizational Memory
-- **Status:** Planned
+- **Status:** Active for v0.8 planning
 - **Owner:** Runtime Owner
 
 ---
@@ -34,6 +34,13 @@ produces structured **Interpretations** that feed the Context Builder.
 The Knowledge Engine interprets meaning; Context Memory retains governed
 beliefs, decisions, and historical context over time.
 
+The canonical
+[`Theory of the AI-Native Organization`](../../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
+clarifies that Knowledge Engine is not Organizational Memory. It may produce
+traceable interpretations for memory and construction, while Context Memory
+owns continuity, temporal state, authority, supersession, retention, and prior
+art.
+
 ---
 
 ## Problem
@@ -56,6 +63,12 @@ v0.7 Context Health & Learning slice:
 
 v0.8 Organizational Memory expansion:
 
+- Preserve Mission history, decisions, rationale, evidence, outcomes, and
+  learning as governed memory inputs.
+- Preserve context versions, temporal validity, supersession, retention, and
+  governed forgetting.
+- Produce prior-art and pattern/consolidation candidates with explicit
+  applicability and provenance.
 - Raw Knowledge ingestion (`contextos knowledge ingest`, surface declared
   as a CLI extension under EPIC-008 forward-looking).
 - Document deduplication and stable identifiers.
@@ -70,6 +83,9 @@ v0.8 Organizational Memory expansion:
 - General-purpose RAG agent.
 - Conversational document Q&A.
 - Long-term embeddings storage strategy beyond the first memory slice.
+- GraphRAG unless memory retrieval evidence proves it is required.
+- Automatic consolidation into canonical processes, skills, tools, roles,
+  policies, or team patterns.
 - Multilingual normalization beyond English baseline.
 - Any v0.3 readiness dependency.
 
@@ -88,6 +104,7 @@ v0.8 Organizational Memory expansion:
 ## Dependencies
 
 - [`../../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md`](../../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md)
+- [`../../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md`](../../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
 - [`../../docs/1.x_architecture/1.5_runtime_contracts/1.5.3_Context_Graph_Schema.md`](../../docs/1.x_architecture/1.5_runtime_contracts/1.5.3_Context_Graph_Schema.md)
 - [`../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md`](../../docs/4.x_adoption/4.4_COS_Runtime_Bootstrap.md) §Step 4–5
 - EPIC-008 (CLI skeleton) for ingestion surface.

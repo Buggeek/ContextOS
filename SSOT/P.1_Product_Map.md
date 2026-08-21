@@ -1,6 +1,6 @@
 # P.1 Product Map
 ## Version: 0.1.1
-Last Updated: 2026-08-15
+Last Updated: 2026-08-20
 Owner: Context OS Maintainers
 
 ---
@@ -14,6 +14,8 @@ usable Organizational Context Runtime repository.
 
 ## Product Surfaces
 
+- Canonical AI-native organization theory
+  (`docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md`)
 - Framework docs (`docs/`)
 - Templates (`templates/`)
 - Examples (`examples/`)
@@ -70,6 +72,9 @@ usable Organizational Context Runtime repository.
     unknown context evidence without inferring usefulness from access or outcome
 20. Operator runs `contextos health` and receives prioritized evidence-backed
     attention, unknowns, learning, and governed next considerations
+21. Future operator retrieves prior Missions, decisions, evidence, outcomes,
+    learning, and superseded context through governed Organizational Memory
+    without treating a derived index as authority
 
 ---
 
@@ -144,6 +149,8 @@ usable Organizational Context Runtime repository.
   second context system
 - Health risk if narrative evidence is mistaken for measured usefulness or if
   update candidates bypass governed Construction
+- Memory risk if storage, retrieval, GraphRAG, or historical summaries become a
+  second SSOT or drop authority, temporal, supersession, and retention context
 
 ---
 
@@ -173,6 +180,8 @@ usable Organizational Context Runtime repository.
 - 2026-08-15 — v0.1.1 — Added Context Health & Learning report surface
 - 2026-08-16 — v0.1.1 — Added structured Mission-use evidence surface
 - 2026-08-20 — v0.1.1 — Added the read-only Context Health CLI surface
+- 2026-08-20 — v0.1.1 — Added the canonical AI-native organization theory and
+  the governed Organizational Memory journey boundary
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

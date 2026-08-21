@@ -5,6 +5,9 @@
 The canonical first-principles definition lives in
 [`docs/0.x_foundations/0.8_COS_GENESIS.md`](docs/0.x_foundations/0.8_COS_GENESIS.md).
 
+The organizational outcome is defined by the
+[`Theory of the AI-Native Organization`](docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md).
+
 Not a tool.  
 Not a framework for writing specs.  
 Not a productivity hack.
@@ -242,6 +245,8 @@ It’s infrastructure.
 
 1. Read the foundational documents in `/docs/0.x_foundations/`
    - Start with `0.8_COS_GENESIS.md` for the canonical model
+   - Continue with `0.9_COS_Theory_of_the_AI_Native_Organization.md` for the
+     organizational outcome and falsifiable theory
 2. Review the architecture in `/docs/1.x_architecture/`
 3. Understand taxonomy in `/docs/2.x_taxonomy/`
 4. Build your Minimum Operational Map using `/docs/3.x_operation/`

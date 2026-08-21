@@ -19,6 +19,10 @@ Context OS enables humans, agents, and systems to operate using a shared
 contextual model that continuously evolves, validates itself, and supports
 intelligent execution.
 
+The broader organizational outcome is to enable AI-native organizations to
+govern their own evolution, as defined by the canonical
+[`Theory of the AI-Native Organization`](../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md).
+
 Canonical architecture:
 [`../docs/1.x_architecture/1.0_COS_Architecture.md`](../docs/1.x_architecture/1.0_COS_Architecture.md).
 
@@ -94,6 +98,8 @@ historical rationale, and reusable context can be retrieved with provenance.
 
 Governing Context:
 
+[`../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md`](../docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
+
 [`../docs/0.x_foundations/0.8_COS_GENESIS.md`](../docs/0.x_foundations/0.8_COS_GENESIS.md)
 
 [`../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md`](../docs/0.x_foundations/0.7_COS_Context_Versioning_and_Memory.md)
@@ -102,6 +108,8 @@ Governing Context:
 
 Self-Hosting Execution:
 
+- Latest closed foundational mission:
+  [`E.4 Mission THEORY-AI-NATIVE-ORGANIZATION-V01`](E.4_Mission_THEORY-AI-NATIVE-ORGANIZATION-V01.md)
 - Latest closed release mission:
   [`E.4 Mission V07-RELEASE-CUT-001`](E.4_Mission_V07-RELEASE-CUT-001_Context_Health_and_Learning_Release_Cut.md)
 - Closed v0.7 release verification mission:
@@ -206,9 +214,9 @@ release intent; Mission Packets govern bounded execution.
 | v0.5 Context Construction | Construction planning, local Discovery Bundle, Builder Draft Plan, Builder Draft Authority, Draft Workspace runtime, create-only draft writes, draft review surface, EPIC-007 gate integration |
 | v0.6 Context Activation | Context Activation Package, EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
-| v0.8 Organizational Memory | EPIC-005 durable knowledge and interpretation, Context Graph memory traversal |
-| v0.9 Contextual Reasoning | Context reasoning, capability registry, governed agent-team assembly |
-| v1.0 Organizational Context Runtime | Full governed product journey operating end-to-end |
+| v0.8 Organizational Memory | Governed Mission, decision, evidence, outcome, learning, temporal, supersession, retention, prior-art, and pattern continuity; EPIC-005 interpretation only where required |
+| v0.9 Contextual Reasoning | Evidence-backed interpretation, impact analysis, hypotheses, improvement and capability recommendations; GraphRAG only where justified |
+| v1.0 Organizational Context Runtime | Full product journey and governed organizational evolution loop operating end-to-end |
 
 ---
 
@@ -234,8 +242,11 @@ Knowledge Engine
 Status: Active
 
 Primary release slice: v0.8 Organizational Memory, building on the v0.7
-Context Health & Learning evidence foundation. The exact v0.8 implementation
-sequence remains subject to a governed foundational Mission.
+Context Health & Learning evidence foundation. The Theory of the AI-Native
+Organization now governs the v0.8 planning boundary: memory must preserve
+Mission history, decisions, evidence, outcomes, learning, temporal state,
+supersession, retention, prior art, and pattern candidates without replacing
+SSOT authority.
 
 ---
 
@@ -360,3 +371,6 @@ governable, and reusable across humans, agents, and systems.
   readiness.
 - 2026-08-20 - v1.0 - Closed v0.7 Context Health & Learning and re-anchored
   the current release on v0.8 Organizational Memory.
+- 2026-08-20 - v1.0 - Linked the canonical Theory of the AI-Native
+  Organization and aligned v0.8-v1.0 around governed memory, reasoning, and
+  organizational evolution.
