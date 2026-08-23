@@ -94,6 +94,9 @@ usable Organizational Context Runtime repository.
     preserving exact source identities and fingerprints without copying the SSOT
 27. Memory consumer checks a historical Context Version independently for
     immutable identity, source availability, and current applicability
+28. Actor retrieves a prior Decision with exact, partial, or unknown historical
+    context evidence and sees whether the old context is superseded without
+    receiving semantic conclusions or present authority
 
 ---
 
@@ -147,6 +150,9 @@ usable Organizational Context Runtime repository.
 - Provide deterministic read-only Context Version planning, capture, and checks
   with content-free source manifests, optional implementation evidence, and
   explicit historical gaps
+- Bind Memory Continuity and policy-aware Retrieval to exact Context Versions
+  while preserving partial/unknown history and independently governing version
+  metadata exposure
 
 ---
 
@@ -189,6 +195,8 @@ usable Organizational Context Runtime repository.
   second SSOT or drop authority, temporal, supersession, and retention context
 - Context Version risk if Git history, Activation Packages, or retrospective
   narratives are mistaken for universal or complete historical context
+- Historical Retrieval risk if version lineage leaks restricted source metadata
+  or if supersession is presented as semantic invalidity
 
 ---
 
@@ -228,6 +236,8 @@ usable Organizational Context Runtime repository.
   exposure and added metadata-safe policy outcomes to the public surface
 - 2026-08-23 — v0.1.1 — Added immutable Context Version capture/checks and
   explicit historical continuity-gap handling
+- 2026-08-23 — v0.1.1 — Integrated exact Context Version evidence into Memory
+  Continuity and policy-aware Retrieval without semantic comparison
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

@@ -58,6 +58,10 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   becoming working context or granting historical authority
 - ContextVersion → may become `context_state` Organizational Memory while its
   metadata and referenced content remain independently retention-governed
+- MissionPacket and Mission-derived memory → may bind an exact ContextVersion,
+  partial historical evidence, or an explicit unknown without reconstruction
+- Memory Retrieval → may expose ContextVersion identity and lineage only after
+  independent policy resolution; Retrieval grants no historical authority
 
 ---
 
@@ -110,3 +114,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   Retrieval while preserving independent Activation eligibility.
 - 2026-08-23 — v0.1.0 — Added immutable, content-free ContextVersion and its
   Mission, Activation, Memory, supersession, and retention boundaries.
+- 2026-08-23 — v0.1.0 — Added exact/partial/unknown Memory bindings and
+  policy-before-exposure ContextVersion Retrieval relationships.

@@ -140,6 +140,7 @@ def memory_entry(form: str, mission: dict, heading: str, body: str) -> dict:
         "truth": truth(),
         "source": {**mission["source"], "section": heading},
         "retention_class": f"{form}_record",
+        "context_evidence": mission["context_evidence"],
     }
 
 
@@ -159,6 +160,7 @@ def extract_form_entries(missions: list[dict]) -> dict[str, list[dict]]:
                 "truth": truth(),
                 "source": mission["source"],
                 "retention_class": "mission_record",
+                "context_evidence": mission["context_evidence"],
             }
         )
         for form, headings in SECTION_FORMS.items():
@@ -308,9 +310,21 @@ class OrganizationalMemoryEngine:
     def __init__(self, root: str | Path = ".") -> None:
         self.root = Path(root).resolve()
 
-    def run(self, *, mission_id: str | None = None, goal: str = "", generated_at: str | None = None) -> dict:
+    def run(
+        self,
+        *,
+        mission_id: str | None = None,
+        goal: str = "",
+        context_versions: list[dict] | tuple[dict, ...] = (),
+        generated_at: str | None = None,
+    ) -> dict:
+        from .context_version_integration import integrate_context_versions
+
         mission_dir = self.root / "SSOT"
         missions = [parse_mission(self.root, path) for path in sorted(mission_dir.glob(MISSION_GLOB))] if mission_dir.is_dir() else []
+        missions, context_version_index, context_version_gaps = integrate_context_versions(
+            self.root, missions, context_versions
+        )
         forms = extract_form_entries(missions)
         inbox, supersession = parse_inbox(self.root)
         prior_art = select_prior_art(missions, mission_id, goal)
@@ -329,14 +343,21 @@ class OrganizationalMemoryEngine:
             key=lambda item: item["path"],
         )
         source_fingerprint = stable_hash(sources)
-        gaps = []
+        gaps = list(context_version_gaps)
         if any(entry["temporal"]["valid_from"] is None for entry in forms["mission"]):
             gaps.append({"id": "memory.gap.mission_valid_from", "status": "unknown", "message": "Some Mission records do not declare when their continuity became valid."})
         if not supersession:
             gaps.append({"id": "memory.gap.explicit_supersession", "status": "unknown", "message": "No explicit supersession records were observed; absence is not proof that nothing was superseded."})
+        if context_version_index["mission_binding_counts"]["partial"] or context_version_index["mission_binding_counts"]["unknown"]:
+            gaps.append(
+                {
+                    "id": "memory.gap.context_versions",
+                    "status": "partial" if context_version_index["mission_binding_counts"]["exact"] else "unknown",
+                    "message": "Mission history contains partial or unknown Context Version bindings; no historical version was fabricated.",
+                }
+            )
         gaps.extend(
             [
-                {"id": "memory.gap.context_versions", "status": "unknown", "message": "Mission artifacts do not consistently cite immutable context-version objects."},
                 {"id": "memory.gap.retention_policy", "status": "decision_needed", "message": "Operational retention, sensitivity, expiration, archival, and forgetting policy remains undecided."},
                 {"id": "memory.gap.outcome_effectiveness", "status": "unknown", "message": "Recorded outcomes do not by themselves prove usefulness or causal effectiveness."},
             ]
@@ -354,6 +375,7 @@ class OrganizationalMemoryEngine:
             "forms": counts,
             "prior_art": [item["mission_id"] for item in prior_art],
             "supersession": [item["id"] for item in supersession],
+            "context_version_index_hash": context_version_index["identity_hash"],
         }
         identity_hash = stable_hash(identity_input)
         report = {
@@ -373,6 +395,7 @@ class OrganizationalMemoryEngine:
                 "supersession_count": len(supersession),
                 "pattern_candidate_count": len(patterns),
                 "gap_count": len(gaps),
+                "context_version_bindings": context_version_index["mission_binding_counts"],
             },
             "truth_model": {
                 "epistemic_support": ["observed", "declared", "inferred", "derived", "unknown"],
@@ -386,6 +409,7 @@ class OrganizationalMemoryEngine:
             "prior_art": prior_art,
             "supersession": supersession,
             "pattern_candidates": patterns,
+            "context_versions": context_version_index,
             "retention": {
                 "policy_state": "decision_needed",
                 "classes_observed": sorted({entry["retention_class"] for entries in forms.values() for entry in entries}),

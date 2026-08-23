@@ -13,6 +13,7 @@ from pathlib import Path
 import contextos_cli
 from activation_engine.package_engine import ContextActivationPackageEngine
 from health_engine.mission_use_evidence import MissionContextUseEvidenceEngine
+from test_memory_context_version_integration import exact_version
 
 
 def write(path: Path, text: str) -> None:
@@ -357,6 +358,69 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertTrue(check["result"]["valid"])
         self.assertEqual(stderr, "")
         self.assertEqual(check_stderr, "")
+
+    def test_memory_cli_consumes_exact_context_version_without_granting_authority(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as inputs_temp:
+            root = Path(temp)
+            write(root / "SSOT/E.4_Mission_TEST-MEMORY-001_Retrieval.md", mission_doc())
+            version = exact_version(root)
+            version_path = Path(inputs_temp) / "version.json"
+            policy_path = Path(inputs_temp) / "policy.json"
+            metadata_path = Path(inputs_temp) / "metadata.json"
+            version_path.write_text(json.dumps(version), encoding="utf-8")
+            policy_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "contextos.memory.retention_policy/1",
+                        "id": "policy.cli.context-version",
+                        "version": "1",
+                        "status": "active",
+                        "scope": {"memory_forms": ["mission", "decision", "context_state"]},
+                        "effects": {"access": "normal", "retrieval": "normal", "activation": "excluded"},
+                        "obligations": [],
+                        "holds": [],
+                        "required_authority": {},
+                        "inherits_from": [],
+                        "explanation_visibility": "id_only",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            metadata_path.write_text(
+                json.dumps(
+                    {
+                        "defaults": {
+                            "organization": "test",
+                            "operation": "product",
+                            "tier": "organizational",
+                            "owner": "Test Owner",
+                            "sensitivity": "internal",
+                            "retention_state": "historical",
+                            "metadata_visibility": "full",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            code, stdout, stderr = self.invoke(
+                [
+                    "memory", "--root", temp,
+                    "--goal", "memory decision provenance authority historical context version",
+                    "--retention-policy", str(policy_path),
+                    "--memory-metadata", str(metadata_path),
+                    "--context-version", str(version_path),
+                    "--format", "json",
+                ]
+            )
+
+        report = json.loads(stdout)
+        exact_items = [item for item in report["items"] if (item.get("context_evidence") or {}).get("metadata_exposed")]
+        self.assertEqual(code, 0)
+        self.assertEqual(report["summary"]["context_version_bindings"]["exact"], 1)
+        self.assertGreater(len(exact_items), 0)
+        self.assertEqual(exact_items[0]["context_evidence"]["context_version"]["id"], version["id"])
+        self.assertEqual(exact_items[0]["authority"]["current_authority"], "none_from_retrieval")
+        self.assertEqual(stderr, "")
 
     def test_memory_check_detects_source_drift(self) -> None:
         with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:

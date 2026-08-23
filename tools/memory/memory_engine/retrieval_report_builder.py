@@ -91,6 +91,32 @@ def render_human(report: dict) -> str:
                 f"- Summary: {item['summary'] or '<restricted>'}",
             ]
         )
+        context = item.get("context_evidence")
+        if context:
+            if context.get("metadata_exposed") and context.get("binding_state") == "exact":
+                version = context["context_version"]
+                lines.extend(
+                    [
+                        f"- Historical Context Version: `{version['id']}`",
+                        f"- Historical verification: `{version['historical_verification']}`",
+                        f"- Context at event: `{version['applicability_at_capture']}`",
+                        f"- Current context relationship: `{version['current_applicability']}`",
+                        f"- Historical source availability: `{version['source_availability']}`",
+                        "- Authority from historical context: `none_from_historical_context`",
+                        "- Semantic applicability: `not_evaluated`",
+                    ]
+                )
+            elif context.get("status") == "withheld_by_policy":
+                lines.extend(
+                    [
+                        "- Historical context metadata: `withheld_by_policy`",
+                        "- Authority from historical context: `none_from_historical_context`",
+                        "- Semantic applicability: `not_evaluated`",
+                    ]
+                )
+            else:
+                lines.append(f"- Historical context binding: `{context.get('binding_state', 'unknown')}`")
+                lines.append("- Semantic applicability: `not_evaluated`")
         if item.get("provenance"):
             lines.append(f"- Source: `{item['provenance']['path']}`")
             lines.append(f"- Source hash: `{item['provenance']['source_hash']}`")

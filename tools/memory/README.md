@@ -11,6 +11,7 @@ from memory_engine.report_builder import render_human
 report = OrganizationalMemoryEngine(".").run(
     mission_id="V08-ORGANIZATIONAL-MEMORY-PLAN-001",
     goal="Preserve continuity across Missions, decisions, evidence, outcomes, and learning.",
+    context_versions=[preserved_context_version],
 )
 print(render_human(report))
 
@@ -24,6 +25,7 @@ retrieval = MemoryRetrievalEngine(".").run(
     authority_scope="project:context-os",
     retention_policies=retention_policies,
     memory_metadata_by_id=memory_metadata,
+    context_versions=[preserved_context_version],
 )
 
 resolution = RetentionResolutionEngine(".").run(
@@ -34,9 +36,10 @@ resolution = RetentionResolutionEngine(".").run(
 
 version_engine = ContextVersionEngine(".")
 plan = version_engine.plan(
-    capture_event="mission_start",
-    capture_reason="Freeze governed context for a bounded Mission.",
-    captured_at="2026-08-23T00:00:00Z",
+    scope={"organization": "example", "domain": "product", "tier": "organizational", "context_root": "canonical"},
+    event_type="mission_start",
+    reason="Freeze governed context for a bounded Mission.",
+    capture_at="2026-08-23T00:00:00Z",
     mission_id="MISSION-ID",
     goal="Execute the Mission from exact governed context.",
 )
@@ -69,10 +72,12 @@ Machine schemas:
   --actor-role project_owner \
   --authority-scope project:context-os \
   --retention-policy policy.json \
-  --memory-metadata memory-metadata.json
+  --memory-metadata memory-metadata.json \
+  --context-version preserved-version.json
 ./contextos memory --check-retrieval retrieval.json \
   --retention-policy policy.json \
-  --memory-metadata memory-metadata.json
+  --memory-metadata memory-metadata.json \
+  --context-version preserved-version.json
 ```
 
 ## Boundary
@@ -106,6 +111,11 @@ Machine schemas:
 - Context Version planning, capture, and checks are read-only. Persistence,
   automatic capture, semantic historical comparison, and version registries
   remain outside this primitive.
+- Continuity accepts exact preserved Context Version objects and reports exact,
+  partial, or unknown Mission bindings without retrospective fabrication.
+- Retrieval evaluates Context Version metadata independently before exposing
+  identity or lineage. Historical evidence grants no current authority and
+  semantic applicability remains `not_evaluated`.
 
 ## Tests
 
@@ -115,4 +125,5 @@ python3 tools/memory/test_memory_retrieval.py
 python3 tools/memory/test_memory_retrieval_policy.py
 python3 tools/memory/test_memory_retention_resolution.py
 python3 tools/memory/test_context_version.py
+python3 tools/memory/test_memory_context_version_integration.py
 ```

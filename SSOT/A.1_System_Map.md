@@ -46,7 +46,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/bootstrap | Module | Guided Bootstrap planning, proposal generation, approval-record drafts, accepted decisions, apply preflight, create-only apply, and reports | Maintainers | v0.4 plan/proposal/approval/acceptance/preflight/apply component
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
-| tools/memory | Module | Read-only Organizational Memory continuity, policy-aware Retrieval, retention-policy resolution, and immutable content-free Context Version capture/checks across governed organizational events | Maintainers | v0.8 continuity/retrieval/resolution/version component; no retention transition, historical reconstruction, or destructive behavior
+| tools/memory | Module | Read-only Organizational Memory continuity, policy-aware Retrieval, retention-policy resolution, immutable Context Version capture/checks, and exact/partial/unknown historical-context bindings | Maintainers | v0.8 continuity/retrieval/resolution/version component; no semantic comparison, restored historical authority, retention transition, or destructive behavior
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -89,6 +89,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 16. Goal/Mission + current Activation Package + Memory Continuity -> private relevance candidates -> exact Retention Resolution -> metadata-safe bounded prior art -> retrieval validity check
 17. Applicable retention policies + exact memory identity + consumer/authority/holds/time -> deterministic read-only policy resolution -> independent Retrieval/Activation eligibility or explicit blocked conflict
 18. Governed source state + meaningful event + optional Activation evidence -> read-only Context Version capture plan -> immutable content-free Context Version -> historical verification and Memory lineage
+19. Exact Context Version + governed Mission records -> Continuity binding -> independent version-metadata policy gate -> bounded historical Retrieval with no current authority
 
 ---
 
@@ -98,9 +99,10 @@ Modular monolith (documentation modules + tooling modules in one repository).
   runtime exists yet
 - Organizational Memory provides continuity, policy-aware bounded retrieval,
   canonical retention-governance semantics, read-only policy resolution, and
-  explicit Context Version capture/checks; no version registry, automatic
-  capture, retention execution, forgetting, semantic historical comparison,
-  Graph runtime, or learned ranking exists yet
+  explicit Context Version capture/checks, and policy-safe historical bindings;
+  no durable version registry, automatic capture, retention execution,
+  forgetting, semantic historical comparison, Graph runtime, or learned ranking
+  exists yet
 - Template coverage does not yet span every possible taxonomy doc type
 
 ---
@@ -148,4 +150,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   candidate exposure with safe exclusions and policy-context invalidation
 - 2026-08-23 — v0.1.1 — Added immutable, content-free Context Version capture
   planning, deterministic identity, source fingerprints, and historical checks
+- 2026-08-23 — v0.1.1 — Integrated exact Context Version evidence into Memory
+  Continuity and policy-aware Retrieval with partial/unknown gap preservation
 - 2026-02-19 — v0.1.0 — Initial creation

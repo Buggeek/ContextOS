@@ -188,6 +188,12 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-137 | governance | decision-needed | V08-CONTEXT-VERSION-CAPTURE-001 | Context Version metadata and its referenced content can have different retention, sensitivity, hold, and availability states. | Resolve storage-specific policy before persistent version registry or destructive retention behavior; do not infer co-retention. |
 | INBOX-138 | evidence | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | v0.7/v0.6 release cuts and the Theory decision are partially reconstructable; the v0.5 promotion was isolated; v0.3/v0.4 do not have enough exact governed-context evidence. | Preserve the gaps and begin prospective capture instead of fabricating historical versions. |
 | INBOX-139 | implementation | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | Organizational Memory does not yet index exact Context Version objects or bind retrieval applicability to them. | Promote a bounded Context Version to Memory continuity/retrieval integration Mission before v0.8 release verification. |
+| INBOX-140 | architecture | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | The refreshed Activation Package selected the Context Version Mission but omitted the exact Context Version Contract despite the Mission Goal. | Use the contract as bounded Execution Context; improve selectors only through separate Activation evidence, not inside v0.8 Memory integration. |
+| INBOX-141 | product | deferred | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Exact Context Versions remain explicitly supplied immutable JSON objects; no append-only registry or discovery surface exists. | Existing API/CLI input is sufficient for this primitive; assess durability and ownership during v0.8 release verification before adding storage infrastructure. |
+| INBOX-142 | process | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | The self-hosted Mission-start Context Version was captured before its Mission Packet file was materialized, although the Mission identity and authority were explicit in the human grant. | Future self-hosted execution should materialize the accepted Mission Packet before Mission-start version capture; preserve this ordering gap rather than rewriting evidence. |
+| INBOX-143 | governance | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context Version metadata can be policy-permitted or prohibited independently from its associated Memory item and referenced content. | Preserve independent policy resolution and metadata-safe withholding; do not infer access from the Memory item or version retention state. |
+| INBOX-144 | evidence | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context OS dogfood has two exact Context Version bindings, fifteen partial bindings, and twenty-seven unknown bindings across current Mission history. | Continue prospective explicit capture; do not backfill historical versions from Git or narrative evidence. |
+| INBOX-145 | product | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context Version capture, Continuity integration, policy-aware Retrieval, and retention governance now form a coherent v0.8 lifecycle, but release-level product verification has not run. | Promote V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 before adding more Memory capability. |
 
 ---
 
@@ -252,3 +258,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-23 - v0.1.0 - Recorded explicit Context Version capture triggers,
   retrospective continuity gaps, storage/retention decisions, adapter needs,
   and the next Memory integration dependency.
+- 2026-08-23 - v0.1.0 - Recorded Context Version selector and Mission-ordering
+  gaps, persistence deferral, independent version-metadata policy evidence,
+  historical binding coverage, and the v0.8 release-verification dependency.

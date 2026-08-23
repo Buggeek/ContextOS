@@ -86,6 +86,7 @@ def candidate_records(continuity: dict) -> list[dict]:
                     "source": entry["source"],
                     "retention_class": entry.get("retention_class"),
                     "supersession": None,
+                    "context_evidence": entry.get("context_evidence"),
                 }
             )
     for item in continuity["inbox_memory"]:
@@ -103,6 +104,7 @@ def candidate_records(continuity: dict) -> list[dict]:
                 "source": item["source"],
                 "retention_class": "evolution_inbox_record",
                 "supersession": item["disposition"] if item["status"] == "superseded" else None,
+                "context_evidence": None,
             }
         )
     for item in continuity["pattern_candidates"]:
@@ -125,6 +127,7 @@ def candidate_records(continuity: dict) -> list[dict]:
                 "retention_class": "pattern_candidate",
                 "supersession": None,
                 "evidence_refs": item["evidence_refs"],
+                "context_evidence": None,
             }
         )
     return records
@@ -154,6 +157,26 @@ def memory_metadata(candidate: dict, supplied: dict) -> dict:
         "truth": candidate.get("truth", {}),
         "evidence_refs": candidate.get("evidence_refs", [candidate["source"]["path"]]),
         "provenance": candidate["source"],
+    }
+
+
+def context_version_metadata(context_evidence: dict, supplied: dict) -> dict:
+    version = context_evidence["context_version"]
+    defaults = supplied.get("defaults", {}) if isinstance(supplied, dict) else {}
+    items = supplied.get("items", {}) if isinstance(supplied, dict) else {}
+    explicit = items.get(version["id"], {}) if isinstance(items, dict) else {}
+    metadata = {**defaults, **explicit}
+    return {
+        **metadata,
+        "id": version["id"],
+        "form": "context_state",
+        "sensitivity": metadata.get("sensitivity", "unknown"),
+        "retention_state": metadata.get("retention_state", "unknown"),
+        "metadata_visibility": metadata.get("metadata_visibility", "none"),
+        "temporal": {"observed_at": version["captured_at"]},
+        "truth": {},
+        "evidence_refs": [],
+        "provenance": {"type": "context_version_identity", "content_embedded": False},
     }
 
 
@@ -229,6 +252,7 @@ class MemoryRetrievalEngine:
         authority_scope: str | None = None,
         retention_policies: list[dict] | None = None,
         memory_metadata_by_id: dict | None = None,
+        context_versions: list[dict] | tuple[dict, ...] = (),
         evaluation_time: str | None = None,
         generated_at: str | None = None,
     ) -> dict:
@@ -250,6 +274,7 @@ class MemoryRetrievalEngine:
         continuity = OrganizationalMemoryEngine(self.root).run(
             mission_id=mission_id,
             goal=f"{goal} {question}".strip(),
+            context_versions=context_versions,
             generated_at=generated_at,
         )
         activation = ContextActivationPackageEngine(self.root).run(
@@ -335,6 +360,7 @@ class MemoryRetrievalEngine:
                 "unresolved_count": statuses["unresolved"],
                 "unknown_count": statuses["unknown"],
                 "continuity_gap_count": len(continuity["continuity_gaps"]),
+                "context_version_bindings": continuity["summary"]["context_version_bindings"],
             },
             "bindings": {
                 "memory_continuity": {
@@ -350,6 +376,7 @@ class MemoryRetrievalEngine:
                     "source_fingerprint": activation["source_fingerprint"],
                 },
                 "retention_policy_context": policy_summary,
+                "context_version_index_hash": continuity["context_versions"]["identity_hash"],
             },
             "activation_package": activation,
             "items": selected,
@@ -379,6 +406,7 @@ class MemoryRetrievalEngine:
                     "The bound Activation Package becomes invalid or its selected canonical sources change.",
                     "Supersession, temporal, retention, permission, or evidence relationships change.",
                     "A supplied policy, memory metadata value, sensitivity, hold, actor role, purpose, authority scope, organizational mode, or evaluation time changes.",
+                    "A bound Context Version identity, verification state, source availability, or supersession lineage changes.",
                 ]
             },
             "limitations": [
@@ -386,6 +414,7 @@ class MemoryRetrievalEngine:
                 "A selected candidate is not proven applicable, authoritative, or useful.",
                 "Semantic conflict with current canonical context remains unknown without governed interpretation.",
                 "Missing history, temporal state, context versions, and retention policy remain explicit gaps.",
+                "Historical verification and current applicability are reported independently; semantic applicability is not evaluated.",
                 "Relevant candidates are exposed only after explicit Retention Resolution; no-policy remains unknown.",
                 "No GraphRAG, embeddings, vector database, Knowledge Engine, external service, agent, or mutation is used.",
             ],
@@ -398,6 +427,7 @@ class MemoryRetrievalEngine:
         *,
         retention_policies: list[dict] | None = None,
         memory_metadata_by_id: dict | None = None,
+        context_versions: list[dict] | tuple[dict, ...] = (),
         evaluation_time: str | None = None,
         generated_at: str | None = None,
     ) -> dict:
@@ -421,6 +451,7 @@ class MemoryRetrievalEngine:
             authority_scope=query.get("authority_scope"),
             retention_policies=retention_policies,
             memory_metadata_by_id=memory_metadata_by_id,
+            context_versions=context_versions,
             evaluation_time=evaluation_time or query.get("evaluation_time"),
             generated_at=generated_at,
         )
@@ -580,6 +611,44 @@ class MemoryRetrievalEngine:
                 continue
             per_source[path] += 1
             visibility_full = visibility == "full"
+            context_evidence = candidate.get("context_evidence") if visibility_full else None
+            exposed_context_evidence = context_evidence
+            if context_evidence and context_evidence.get("binding_state") == "exact":
+                version_resolution = resolver.run(
+                    context_version_metadata(context_evidence, supplied_metadata),
+                    policies,
+                    consumer=consumer,
+                    actor_roles=actor_roles,
+                    requested_operations=["access", "retrieval", "activation"],
+                    organizational_mode=organizational_mode,
+                    authority_scope=authority_scope,
+                    evaluation_time=evaluation_time,
+                    generated_at=generated_at,
+                )
+                resolution_hashes.append(version_resolution["identity_hash"])
+                version_evaluation = safe_policy_evaluation(version_resolution)
+                version_visible = (
+                    version_evaluation["access_outcome"] == "normal"
+                    and version_evaluation["retrieval_outcome"] == "normal"
+                    and version_evaluation["memory"]["metadata_visibility"] == "full"
+                )
+                if version_visible:
+                    exposed_context_evidence = {
+                        **context_evidence,
+                        "retention_eligibility": version_evaluation,
+                        "metadata_exposed": True,
+                    }
+                else:
+                    exposed_context_evidence = {
+                        "status": "withheld_by_policy",
+                        "metadata_exposed": False,
+                        "retention_eligibility": version_evaluation,
+                        "authority": {
+                            "current_authority": "none_from_historical_context",
+                            "canonical_context_governs": True,
+                        },
+                        "semantic_applicability": "not_evaluated",
+                    }
             selected.append(
                 {
                     "id": f"memory.retrieval.item.{stable_hash({'candidate': candidate['candidate_id'], 'matched': matched})[:16]}",
@@ -631,6 +700,7 @@ class MemoryRetrievalEngine:
                     "provenance": candidate["source"] if visibility_full else None,
                     "evidence_refs": candidate.get("evidence_refs", [candidate["source"]["path"]]) if visibility_full else [],
                     "retention_class": candidate["retention_class"] if visibility_full else None,
+                    "context_evidence": exposed_context_evidence,
                     "canonical": False,
                 }
             )

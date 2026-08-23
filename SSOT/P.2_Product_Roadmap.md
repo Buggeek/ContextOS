@@ -109,8 +109,10 @@ Governing Context:
 Self-Hosting Execution:
 
 - Latest closed v0.8 mission:
-  [`E.4 Mission V08-CONTEXT-VERSION-CAPTURE-001`](E.4_Mission_V08-CONTEXT-VERSION-CAPTURE-001_Context_Version_Capture.md)
+  [`E.4 Mission V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001`](E.4_Mission_V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001_Context_Version_Memory_Integration.md)
 - Previous closed v0.8 mission:
+  [`E.4 Mission V08-CONTEXT-VERSION-CAPTURE-001`](E.4_Mission_V08-CONTEXT-VERSION-CAPTURE-001_Context_Version_Capture.md)
+- Earlier closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001_Policy_Aware_Memory_Retrieval.md)
 - Earlier closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-RETENTION-RESOLUTION-001`](E.4_Mission_V08-MEMORY-RETENTION-RESOLUTION-001_Read_Only_Retention_Resolution.md)
@@ -394,3 +396,6 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-23 - v1.0 - Added immutable, content-free Context Version capture
   and historical verification as the next Organizational Memory continuity
   primitive.
+- 2026-08-23 - v1.0 - Integrated exact Context Version evidence into Memory
+  Continuity and policy-aware Retrieval while preserving partial/unknown
+  history and current canonical authority.

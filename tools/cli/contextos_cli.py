@@ -158,6 +158,7 @@ def build_parser() -> argparse.ArgumentParser:
     memory.add_argument("--authority-scope", default=None, help="Exact authority scope bound to Retrieval; this does not grant authority.")
     memory.add_argument("--retention-policy", action="append", default=[], help="JSON file containing one contextos.memory.retention_policy/1 object, a list, or a policies list. May be repeated.")
     memory.add_argument("--memory-metadata", default=None, help="JSON file containing defaults and per-memory metadata for Retention Resolution.")
+    memory.add_argument("--context-version", action="append", default=[], help="Preserved contextos.context.version/1 JSON object. May be repeated.")
     memory.add_argument("--evaluation-time", default=None, help="Explicit ISO-8601 temporal basis for policy resolution and saved-result checks.")
     memory.add_argument("--limit", type=int, default=12, help="Maximum memory candidates to return (1-50).")
     memory.add_argument("--check-retrieval", default=None, help="Check a saved contextos.memory.retrieval_result/1 JSON report.")
@@ -555,12 +556,19 @@ def run_memory(args: argparse.Namespace) -> int:
         metadata = load_bootstrap_json(args.memory_metadata) if args.memory_metadata else {}
         if not isinstance(metadata, dict):
             raise ValueError("Memory metadata input must be a JSON object.")
+        context_versions = []
+        for version_path in args.context_version:
+            version = load_bootstrap_json(version_path)
+            if not isinstance(version, dict) or version.get("schema") != "contextos.context.version/1":
+                raise ValueError(f"Context Version file must use contextos.context.version/1: {version_path}")
+            context_versions.append(version)
         if args.check_retrieval:
             saved = load_bootstrap_json(args.check_retrieval)
             report = engine.check_retrieval(
                 saved,
                 retention_policies=policies,
                 memory_metadata_by_id=metadata,
+                context_versions=context_versions,
                 evaluation_time=args.evaluation_time,
             )
         else:
@@ -585,6 +593,7 @@ def run_memory(args: argparse.Namespace) -> int:
                 authority_scope=args.authority_scope,
                 retention_policies=policies,
                 memory_metadata_by_id=metadata,
+                context_versions=context_versions,
                 evaluation_time=args.evaluation_time,
             )
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:

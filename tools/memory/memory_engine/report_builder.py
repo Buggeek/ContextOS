@@ -54,6 +54,9 @@ def render_human(report: dict) -> str:
             f"- Historical records: {summary['historical_record_count']}",
             f"- Explicit supersession records: {summary['supersession_count']}",
             f"- Unresolved continuity gaps: {summary['gap_count']}",
+            f"- Exact Context Version bindings: {summary['context_version_bindings']['exact']}",
+            f"- Partial historical context evidence: {summary['context_version_bindings']['partial']}",
+            f"- Unknown historical context bindings: {summary['context_version_bindings']['unknown']}",
             "",
             "## Prior Art For This Mission",
         ]
@@ -75,6 +78,15 @@ def render_human(report: dict) -> str:
         for item in entries[:8]:
             lines.append(f"- `{item['mission_id']}`: {item['summary']}")
             lines.append(f"  Provenance: `{item['source']['path']}#{item['source']['section']}`")
+            context = item.get("context_evidence") or {}
+            state = context.get("binding_state", "unknown")
+            lines.append(f"  Historical context binding: `{state}`")
+            if state == "exact":
+                version = context["context_version"]
+                lines.append(
+                    f"  Context Version: `{version['id']}`; historical `{version['historical_verification']}`; "
+                    f"current applicability `{version['current_applicability']}`"
+                )
         if len(entries) > 8:
             lines.append(f"- {len(entries) - 8} more in JSON.")
 
@@ -107,6 +119,7 @@ def render_human(report: dict) -> str:
             "## Governance Boundary",
             "- This report is a derived memory view, not a second SSOT.",
             "- Remembered does not mean canonical, current, approved, or useful.",
+            "- Historical Context Version evidence grants no current authority and performs no semantic applicability comparison.",
             "- Supersession is reported only when source evidence is explicit.",
             "- Pattern candidates remain derived suggestions and hypotheses until governed review.",
             "- No source, canonical context, retention state, or Mission artifact was mutated.",
