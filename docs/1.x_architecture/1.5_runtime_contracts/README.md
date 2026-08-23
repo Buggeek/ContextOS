@@ -20,6 +20,7 @@ expected to build against.
 | [Organizational Memory Continuity Contract](1.5.11_Organizational_Memory_Continuity_Contract.md) | Read-only Mission, decision, evidence, outcome, learning, temporal, supersession, retention, and prior-art continuity | Organizational Memory Engine + EPIC-005 |
 | [Organizational Memory Retrieval Contract](1.5.12_Organizational_Memory_Retrieval_Contract.md) | Bounded, Activation-bound, explainable prior-art retrieval and deterministic invalidation checks | Organizational Memory Engine + EPIC-008 |
 | [Organizational Memory Retention Governance Contract](1.5.13_Organizational_Memory_Retention_Governance_Contract.md) | Retention states, policy resolution, sensitivity/access, holds, authority, forgetting, recovery, and future validation boundaries | Governance Layer + Organizational Memory |
+| [Context Version Contract](1.5.14_Context_Version_Contract.md) | Immutable governed-context identity, capture planning, source fingerprints, historical verification, and supersession | Organizational Memory Engine |
 
 ## Rules
 

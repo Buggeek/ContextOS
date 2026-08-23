@@ -181,6 +181,13 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-130 | product | deferred | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Repeated policy and metadata JSON inputs are auditable but cumbersome for routine users. | Defer policy registry/profile ergonomics until organization-owned values and a coherent governance surface exist. |
 | INBOX-131 | architecture | accepted | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Retrieval now reports Activation eligibility but intentionally does not add memory to Governing Context or alter an Activation Package. | Preserve explicit consumer choice; require a separate evidence-backed Mission before any policy-aware memory-to-Activation inclusion path. |
 | INBOX-132 | evidence | accepted | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Historical Mission records still lack uniform immutable Context Version references, limiting exact reconstruction of what context governed a past decision. | Promote read-only Context Version capture/check as the next v0.8 dependency before release verification. |
+| INBOX-133 | evidence | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | Exact current-state capture preserved 22 source identities and hashes, while retrospective v0.5-v0.7/Theory review could recover implementation and Activation evidence but not the complete governed source manifest. | Use explicit Context Version capture at future meaningful events; never represent retrospective narrative or Git evidence as a complete version. |
+| INBOX-134 | product | deferred | V08-CONTEXT-VERSION-CAPTURE-001 | Context Version exists as an engine/report primitive without a CLI, append-only registry, or automatic operation hooks. | Integrate with Memory and future governed events only after persistence ownership, retention, and user journey are decision-complete. |
+| INBOX-135 | architecture | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | Mission start, consequential decision, accepted approval, canonical promotion, release cut, material policy/governance change, and explicit human checkpoint are sufficient initial capture events. | Keep capture explicit; defer automatic hooks and reject routine file/command/report events to prevent version explosion. |
+| INBOX-136 | architecture | deferred | V08-CONTEXT-VERSION-CAPTURE-001 | The filesystem adapter proves stable source identities and hashes, but non-filesystem organizational systems need equivalent source-of-record adapters. | Preserve the universal source identity/fingerprint contract; implement adapters only with real domain evidence. |
+| INBOX-137 | governance | decision-needed | V08-CONTEXT-VERSION-CAPTURE-001 | Context Version metadata and its referenced content can have different retention, sensitivity, hold, and availability states. | Resolve storage-specific policy before persistent version registry or destructive retention behavior; do not infer co-retention. |
+| INBOX-138 | evidence | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | v0.7/v0.6 release cuts and the Theory decision are partially reconstructable; the v0.5 promotion was isolated; v0.3/v0.4 do not have enough exact governed-context evidence. | Preserve the gaps and begin prospective capture instead of fabricating historical versions. |
+| INBOX-139 | implementation | accepted | V08-CONTEXT-VERSION-CAPTURE-001 | Organizational Memory does not yet index exact Context Version objects or bind retrieval applicability to them. | Promote a bounded Context Version to Memory continuity/retrieval integration Mission before v0.8 release verification. |
 
 ---
 
@@ -242,3 +249,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-23 - v0.1.0 - Recorded policy-before-exposure Retrieval, future
   source-adapter access boundaries, organization-policy gaps, Activation
   separation, and the immutable Context Version dependency.
+- 2026-08-23 - v0.1.0 - Recorded explicit Context Version capture triggers,
+  retrospective continuity gaps, storage/retention decisions, adapter needs,
+  and the next Memory integration dependency.

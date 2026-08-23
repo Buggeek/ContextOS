@@ -29,6 +29,7 @@ usable Organizational Context Runtime repository.
 - Organizational Memory continuity tooling (`tools/memory/`)
 - Organizational Memory retention-governance, read-only policy resolution, and
   policy-before-exposure Retrieval tooling
+- Immutable Context Version capture planning and historical verification
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -89,6 +90,10 @@ usable Organizational Context Runtime repository.
     transition, and destructive-action outcomes without mutation
 25. Actor requests relevant prior art, and Context OS evaluates exact retention
     policy before exposing any candidate content or protected exclusion metadata
+26. Actor captures a meaningful governed event as an immutable Context Version,
+    preserving exact source identities and fingerprints without copying the SSOT
+27. Memory consumer checks a historical Context Version independently for
+    immutable identity, source availability, and current applicability
 
 ---
 
@@ -139,6 +144,9 @@ usable Organizational Context Runtime repository.
 - Apply Retention Resolution before exposing relevant memory, preserving
   independent normal, elevated, excluded, prohibited, unknown, visibility, and
   Activation outcomes
+- Provide deterministic read-only Context Version planning, capture, and checks
+  with content-free source manifests, optional implementation evidence, and
+  explicit historical gaps
 
 ---
 
@@ -179,6 +187,8 @@ usable Organizational Context Runtime repository.
   update candidates bypass governed Construction
 - Memory risk if storage, retrieval, GraphRAG, or historical summaries become a
   second SSOT or drop authority, temporal, supersession, and retention context
+- Context Version risk if Git history, Activation Packages, or retrospective
+  narratives are mistaken for universal or complete historical context
 
 ---
 
@@ -216,6 +226,8 @@ usable Organizational Context Runtime repository.
   saved-result check surface
 - 2026-08-23 — v0.1.1 — Integrated retention eligibility before Memory
   exposure and added metadata-safe policy outcomes to the public surface
+- 2026-08-23 — v0.1.1 — Added immutable Context Version capture/checks and
+  explicit historical continuity-gap handling
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

@@ -31,6 +31,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | MemoryRetentionPolicy | A versioned governance policy for preservation, sensitivity, access, holds, retrieval, Activation, forgetting, and recovery | organization policy / future Runtime input | id, version, scope, owner, purpose, rules, inheritance, authority, evidence | Context-dependent | Defines bounds; never executes a retention transition |
 | MemoryRetentionDecision | A memory-specific immutable Decision Record resolving exact policies and constraints for exact memory items | governance decision evidence | id, item_ids, source_hashes, policy_resolution, states, holds, authority, evidence, reversibility, lineage | Context-dependent | Does not authorize execution unless a separate transition contract explicitly does so |
 | MemoryRetentionResolution | A deterministic read-only derived evaluation of explicit policies against exact memory metadata | tools/memory retention-resolution output | id, input_fingerprint, policy_hashes, operation_results, holds, conflicts, unknowns, authority, invalidation | Context-dependent | Grants no authority and performs no transition, deletion, forgetting, or canonical mutation |
+| ContextVersion | An immutable, content-free identity and provenance record for governed context at a meaningful event | tools/memory Context Version output / future governed version store | id, identity_hash, scope, capture, source_manifest, source_fingerprint, bindings, lineage, truth_summary, retention, continuity_gaps | Context-dependent | Identifies historical source state; it is not copied context, an Activation Package, a Git commit, or authority |
 
 ---
 
@@ -51,6 +52,12 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - MemoryRetentionPolicy → constrains Memory Retrieval, Context Activation, and future retention transitions
 - MemoryRetentionDecision → specializes DecisionRecord and binds an exact policy resolution without changing canonical truth
 - MemoryRetentionResolution → constrains Memory Retrieval before candidate exposure and future Activation/transition review without executing policy
+- ContextVersion → binds Missions, Decisions, Approvals, Promotions, releases,
+  and other consequential events to exact governed source identities and hashes
+- ContextVersion → may reference Activation Package/Handoff evidence without
+  becoming working context or granting historical authority
+- ContextVersion → may become `context_state` Organizational Memory while its
+  metadata and referenced content remain independently retention-governed
 
 ---
 
@@ -101,3 +108,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   entity.
 - 2026-08-23 — v0.1.0 — Bound MemoryRetentionResolution to policy-before-exposure
   Retrieval while preserving independent Activation eligibility.
+- 2026-08-23 — v0.1.0 — Added immutable, content-free ContextVersion and its
+  Mission, Activation, Memory, supersession, and retention boundaries.

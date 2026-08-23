@@ -5,7 +5,7 @@
 ## Public API
 
 ```python
-from memory_engine import MemoryRetrievalEngine, OrganizationalMemoryEngine, RetentionResolutionEngine
+from memory_engine import ContextVersionEngine, MemoryRetrievalEngine, OrganizationalMemoryEngine, RetentionResolutionEngine
 from memory_engine.report_builder import render_human
 
 report = OrganizationalMemoryEngine(".").run(
@@ -31,6 +31,18 @@ resolution = RetentionResolutionEngine(".").run(
     retention_policies,
     consumer="memory_retrieval",
 )
+
+version_engine = ContextVersionEngine(".")
+plan = version_engine.plan(
+    capture_event="mission_start",
+    capture_reason="Freeze governed context for a bounded Mission.",
+    captured_at="2026-08-23T00:00:00Z",
+    mission_id="MISSION-ID",
+    goal="Execute the Mission from exact governed context.",
+)
+plan_check = version_engine.check_plan(plan)
+version = version_engine.capture(plan)
+version_check = version_engine.check_version(version)
 ```
 
 Machine schemas:
@@ -41,6 +53,10 @@ Machine schemas:
 - `contextos.memory.retention_policy/1` (input)
 - `contextos.memory.retention_resolution/1`
 - `contextos.memory.retention_resolution_check/1`
+- `contextos.context.version_capture_plan/1`
+- `contextos.context.version_capture_plan_check/1`
+- `contextos.context.version/1`
+- `contextos.context.version_check/1`
 
 ## CLI
 
@@ -84,6 +100,12 @@ Machine schemas:
 - Missing policy, unknown applicability, source drift, holds, and conflicting
   preservation/removal duties remain explicit and cannot become permission.
 - No storage service, embedding, vector database, GraphRAG, Context Graph Runtime, Knowledge Engine, agent, or deletion behavior is introduced.
+- A Context Version is an immutable, content-free identity and provenance
+  record for governed context at a meaningful event. It is not a context copy,
+  Activation Package, Git commit, Retrieval result, or source of authority.
+- Context Version planning, capture, and checks are read-only. Persistence,
+  automatic capture, semantic historical comparison, and version registries
+  remain outside this primitive.
 
 ## Tests
 
@@ -92,4 +114,5 @@ python3 tools/memory/test_memory_continuity.py
 python3 tools/memory/test_memory_retrieval.py
 python3 tools/memory/test_memory_retrieval_policy.py
 python3 tools/memory/test_memory_retention_resolution.py
+python3 tools/memory/test_context_version.py
 ```
