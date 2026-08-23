@@ -65,7 +65,13 @@ def render_human(report: dict) -> str:
         "## Retrieved Memory Candidates",
     ]
     if not report["items"]:
-        lines.append("- No candidate crossed the deterministic relevance threshold.")
+        if summary["relevant_candidate_count"]:
+            lines.append(
+                "- Relevant candidates were found, but none passed the current policy, "
+                "authority, and visibility gates."
+            )
+        else:
+            lines.append("- No candidate crossed the deterministic relevance threshold.")
     for index, item in enumerate(report["items"], start=1):
         lines.extend(
             [

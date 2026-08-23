@@ -194,6 +194,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-143 | governance | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context Version metadata can be policy-permitted or prohibited independently from its associated Memory item and referenced content. | Preserve independent policy resolution and metadata-safe withholding; do not infer access from the Memory item or version retention state. |
 | INBOX-144 | evidence | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context OS dogfood has two exact Context Version bindings, fifteen partial bindings, and twenty-seven unknown bindings across current Mission history. | Continue prospective explicit capture; do not backfill historical versions from Git or narrative evidence. |
 | INBOX-145 | product | accepted | V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001 | Context Version capture, Continuity integration, policy-aware Retrieval, and retention governance now form a coherent v0.8 lifecycle, but release-level product verification has not run. | Promote V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 before adding more Memory capability. |
+| INBOX-146 | architecture | deferred | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | Explicit immutable Context Version JSON survives process restart, tamper checks, repository evolution, and Memory rebinding without a registry, while Mission evidence remains repository-backed. | Do not add a v0.8 storage subsystem; require a stronger persistence layer only for automatic capture, multi-writer discovery, cross-system operation, or observed artifact-loss failures. |
+| INBOX-147 | product | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | The Memory human report incorrectly described policy-blocked relevant candidates as below the relevance threshold. | Fixed within v0.8 so relevance and policy eligibility remain visibly distinct; preserve the machine schema. |
+| INBOX-148 | governance | deferred | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | Context OS has no organization-approved active retention-policy profile, so ordinary repository dogfood safely withholds relevant memory unless controlled policies are supplied. | Do not block v0.8: missing policy is a governed unknown. Require accountable policy owners before activating routine organizational Retrieval. |
+| INBOX-149 | evidence | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | Exact prospective Context Versions coexist with partial and unknown historical bindings; v0.3/v0.4 release context remains unrecoverable exactly. | Preserve gaps, continue meaningful-event capture, and never backfill exact versions from Git chronology or narrative evidence. |
+| INBOX-150 | product | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | v0.8 satisfies governed continuity, bounded prior art, retention resolution, policy-before-exposure, and exact historical binding without semantic reasoning or destructive memory operations. | Require explicit release-cut authority; then re-anchor on v0.9 Contextual Reasoning without importing deferred storage or Graph capabilities automatically. |
 
 ---
 
@@ -261,3 +266,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-23 - v0.1.0 - Recorded Context Version selector and Mission-ordering
   gaps, persistence deferral, independent version-metadata policy evidence,
   historical binding coverage, and the v0.8 release-verification dependency.
+- 2026-08-23 - v0.1.0 - Recorded v0.8 release readiness, explicit-artifact
+  persistence sufficiency, policy-profile deferral, historical gaps, and the
+  relevance-versus-eligibility report correction.

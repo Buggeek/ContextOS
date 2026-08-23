@@ -109,6 +109,8 @@ Governing Context:
 Self-Hosting Execution:
 
 - Latest closed v0.8 mission:
+  [`E.4 Mission V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001`](E.4_Mission_V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001_Organizational_Memory_Release_Verification.md)
+- Previous closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001`](E.4_Mission_V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001_Context_Version_Memory_Integration.md)
 - Previous closed v0.8 mission:
   [`E.4 Mission V08-CONTEXT-VERSION-CAPTURE-001`](E.4_Mission_V08-CONTEXT-VERSION-CAPTURE-001_Context_Version_Capture.md)
@@ -399,3 +401,6 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-23 - v1.0 - Integrated exact Context Version evidence into Memory
   Continuity and policy-aware Retrieval while preserving partial/unknown
   history and current canonical authority.
+- 2026-08-23 - v1.0 - Verified v0.8 Organizational Memory release readiness,
+  retained explicit artifact persistence, and deferred automatic registry and
+  destructive retention capabilities.

@@ -126,4 +126,5 @@ python3 tools/memory/test_memory_retrieval_policy.py
 python3 tools/memory/test_memory_retention_resolution.py
 python3 tools/memory/test_context_version.py
 python3 tools/memory/test_memory_context_version_integration.py
+python3 tools/memory/test_organizational_memory_release_verify.py
 ```
