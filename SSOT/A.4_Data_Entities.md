@@ -50,7 +50,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 - BootstrapApprovalRecord → may become DecisionRecord only after human authority
 - MemoryRetentionPolicy → constrains Memory Retrieval, Context Activation, and future retention transitions
 - MemoryRetentionDecision → specializes DecisionRecord and binds an exact policy resolution without changing canonical truth
-- MemoryRetentionResolution → constrains future Retrieval/Activation integration and transition review without executing policy
+- MemoryRetentionResolution → constrains Memory Retrieval before candidate exposure and future Activation/transition review without executing policy
 
 ---
 
@@ -99,3 +99,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   MemoryRetentionDecision entities.
 - 2026-08-21 — v0.1.0 — Added read-only MemoryRetentionResolution derived-view
   entity.
+- 2026-08-23 — v0.1.0 — Bound MemoryRetentionResolution to policy-before-exposure
+  Retrieval while preserving independent Activation eligibility.

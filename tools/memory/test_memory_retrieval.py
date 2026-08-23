@@ -121,6 +121,41 @@ def snapshot(root: Path) -> dict[str, bytes]:
     return {path.relative_to(root).as_posix(): path.read_bytes() for path in root.rglob("*") if path.is_file()}
 
 
+def policy_inputs() -> dict:
+    return {
+        "retention_policies": [
+            {
+                "schema": "contextos.memory.retention_policy/1",
+                "id": "policy.test.memory-retrieval",
+                "version": "1",
+                "status": "active",
+                "scope": {
+                    "memory_forms": [
+                        "mission", "decision", "evidence", "outcome", "learning", "context_state", "evolution_inbox"
+                    ]
+                },
+                "effects": {"access": "normal", "retrieval": "normal", "activation": "normal"},
+                "obligations": [{"id": "preserve.test-lineage", "kind": "preserve"}],
+                "holds": [],
+                "required_authority": {},
+                "inherits_from": [],
+                "explanation_visibility": "id_only",
+            }
+        ],
+        "memory_metadata_by_id": {
+            "defaults": {
+                "organization": "test",
+                "operation": "product",
+                "tier": "organizational",
+                "owner": "Test Owner",
+                "sensitivity": "internal",
+                "retention_state": "historical",
+                "metadata_visibility": "full",
+            }
+        },
+    }
+
+
 class MemoryRetrievalTestCase(unittest.TestCase):
     def test_retrieval_binds_continuity_and_current_activation(self) -> None:
         report = MemoryRetrievalEngine(".").run(
@@ -128,6 +163,7 @@ class MemoryRetrievalTestCase(unittest.TestCase):
             mission_id="V08-MEMORY-RETRIEVAL-SURFACE-001",
             consumer="codex",
             generated_at=FIXED_TIME,
+            **policy_inputs(),
         )
 
         self.assertEqual(report["schema"], SCHEMA)
@@ -140,8 +176,8 @@ class MemoryRetrievalTestCase(unittest.TestCase):
     def test_retrieval_is_read_only_deterministic_and_bounded(self) -> None:
         root = Path(".").resolve()
         before = snapshot(root)
-        first = MemoryRetrievalEngine(root).run(goal="memory provenance authority", limit=5, generated_at=FIXED_TIME)
-        second = MemoryRetrievalEngine(root).run(goal="memory provenance authority", limit=5, generated_at=FIXED_TIME)
+        first = MemoryRetrievalEngine(root).run(goal="memory provenance authority", limit=5, generated_at=FIXED_TIME, **policy_inputs())
+        second = MemoryRetrievalEngine(root).run(goal="memory provenance authority", limit=5, generated_at=FIXED_TIME, **policy_inputs())
         after = snapshot(root)
 
         self.assertEqual(before, after)
@@ -157,6 +193,7 @@ class MemoryRetrievalTestCase(unittest.TestCase):
                 goal="memory retrieval provenance authority",
                 question="Which historical decision remains relevant?",
                 generated_at=FIXED_TIME,
+                **policy_inputs(),
             )
 
         self.assertGreater(len(report["items"]), 0)
@@ -173,8 +210,8 @@ class MemoryRetrievalTestCase(unittest.TestCase):
             root = Path(temp)
             make_repo(root)
             engine = MemoryRetrievalEngine(root)
-            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME)
-            check = engine.check_retrieval(report, generated_at=FIXED_TIME)
+            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME, **policy_inputs())
+            check = engine.check_retrieval(report, generated_at=FIXED_TIME, **policy_inputs())
 
         self.assertEqual(check["schema"], CHECK_SCHEMA)
         self.assertTrue(check["result"]["valid"])
@@ -185,10 +222,10 @@ class MemoryRetrievalTestCase(unittest.TestCase):
             root = Path(temp)
             make_repo(root)
             engine = MemoryRetrievalEngine(root)
-            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME)
+            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME, **policy_inputs())
             source = root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Memory_Continuity.md"
             source.write_text(source.read_text(encoding="utf-8") + "\nChanged evidence.\n", encoding="utf-8")
-            check = engine.check_retrieval(report, generated_at=FIXED_TIME)
+            check = engine.check_retrieval(report, generated_at=FIXED_TIME, **policy_inputs())
 
         self.assertFalse(check["result"]["valid"])
         self.assertIn("memory_retrieval_check.continuity_state_changed", check["result"]["failed_checks"])
@@ -199,9 +236,9 @@ class MemoryRetrievalTestCase(unittest.TestCase):
             root = Path(temp)
             make_repo(root)
             engine = MemoryRetrievalEngine(root)
-            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME)
+            report = engine.run(goal="memory provenance", generated_at=FIXED_TIME, **policy_inputs())
             report["items"][0]["selection"]["score"] += 1
-            check = engine.check_retrieval(report, generated_at=FIXED_TIME)
+            check = engine.check_retrieval(report, generated_at=FIXED_TIME, **policy_inputs())
 
         self.assertFalse(check["checks"]["identity_valid"])
         self.assertIn("memory_retrieval_check.identity_hash_mismatch", check["result"]["failed_checks"])
@@ -214,6 +251,7 @@ class MemoryRetrievalTestCase(unittest.TestCase):
                 goal="Retrieve supersession memory",
                 question="What was superseded?",
                 generated_at=FIXED_TIME,
+                **policy_inputs(),
             )
 
         superseded = [item for item in report["items"] if item["temporal_status"] == "superseded"]
@@ -222,7 +260,7 @@ class MemoryRetrievalTestCase(unittest.TestCase):
         self.assertEqual(superseded[0]["supersession"]["status"], "explicit")
 
     def test_human_report_explains_selection_and_limits(self) -> None:
-        report = MemoryRetrievalEngine(".").run(goal="memory prior art provenance", generated_at=FIXED_TIME)
+        report = MemoryRetrievalEngine(".").run(goal="memory prior art provenance", generated_at=FIXED_TIME, **policy_inputs())
         human = render_human(report)
 
         self.assertIn("# Context OS Memory Retrieval", human)

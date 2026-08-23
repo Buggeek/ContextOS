@@ -247,7 +247,8 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(before, after)
         self.assertIn("# Context OS Memory Retrieval", stdout)
         self.assertIn("## Authority Boundary", stdout)
-        self.assertIn("Why selected:", stdout)
+        self.assertIn("No retention policy was supplied", stdout)
+        self.assertIn("Selected candidates: 0", stdout)
         self.assertEqual(stderr, "")
 
     def test_memory_json_is_pure_machine_report(self) -> None:
@@ -263,6 +264,76 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertEqual(report["schema"], "contextos.memory.retrieval_result/1")
         self.assertTrue(report["read_only"])
         self.assertFalse(report["authority"]["retrieved_memory_may_override_canonical"])
+        self.assertEqual(stderr, "")
+
+    def test_memory_cli_applies_retention_policy_before_exposure(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as inputs_temp:
+            root = Path(temp)
+            write(root / "SSOT" / "E.4_Mission_TEST-MEMORY-001_Retrieval.md", mission_doc())
+            policy_path = Path(inputs_temp) / "policy.json"
+            metadata_path = Path(inputs_temp) / "metadata.json"
+            policy_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "contextos.memory.retention_policy/1",
+                        "id": "policy.cli.memory",
+                        "version": "1",
+                        "status": "active",
+                        "scope": {
+                            "memory_forms": [
+                                "mission", "decision", "evidence", "outcome", "learning",
+                                "context_state", "evolution_inbox",
+                            ]
+                        },
+                        "effects": {"access": "normal", "retrieval": "normal", "activation": "excluded"},
+                        "obligations": [],
+                        "holds": [],
+                        "required_authority": {},
+                        "inherits_from": [],
+                        "explanation_visibility": "id_only",
+                    }
+                ),
+                encoding="utf-8",
+            )
+            metadata_path.write_text(
+                json.dumps(
+                    {
+                        "defaults": {
+                            "organization": "test",
+                            "operation": "product",
+                            "tier": "organizational",
+                            "owner": "Test Owner",
+                            "sensitivity": "internal",
+                            "retention_state": "historical",
+                            "metadata_visibility": "full",
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            code, stdout, stderr = self.invoke([
+                "memory", "--root", temp,
+                "--goal", "memory retrieval provenance",
+                "--purpose", "Review historical prior art",
+                "--consumer", "human",
+                "--organizational-mode", "project",
+                "--actor-role", "project_owner",
+                "--authority-scope", "project:test",
+                "--retention-policy", str(policy_path),
+                "--memory-metadata", str(metadata_path),
+                "--format", "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertGreater(report["summary"]["selected_count"], 0)
+        self.assertEqual(report["query"]["purpose"], "Review historical prior art")
+        self.assertEqual(report["query"]["organizational_mode"], "project")
+        self.assertEqual(report["query"]["actor_roles"], ["project_owner"])
+        self.assertEqual(report["query"]["authority_scope"], "project:test")
+        self.assertTrue(report["authority"]["policy_evaluated_before_exposure"])
+        self.assertTrue(all(item["retrieval_eligibility"]["retrieval_outcome"] == "normal" for item in report["items"]))
+        self.assertTrue(all(item["retrieval_eligibility"]["activation_outcome"] == "excluded" for item in report["items"]))
         self.assertEqual(stderr, "")
 
     def test_memory_json_out_and_check_round_trip(self) -> None:

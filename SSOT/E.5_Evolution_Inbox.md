@@ -176,6 +176,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-125 | architecture | deferred | V08-MEMORY-RETENTION-RESOLUTION-001 | Evaluation time can change policy applicability, review-due, or expiration-candidate state, but no scheduler or background reevaluation exists. | Keep explicit evaluation-time invalidation; defer scheduling and automatic reevaluation beyond this read-only Mission. |
 | INBOX-126 | product | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | A standalone retention CLI would expose policy mechanics before Retrieval or Activation can consume the result. | Keep the public Engine/report API as the first surface; add user-facing commands only when a coherent product journey requires them. |
 | INBOX-127 | product | accepted | V08-MEMORY-RETENTION-RESOLUTION-001 | Memory Retrieval currently selects candidates without consuming exact Retention Resolution outcomes. | Promote a bounded read-only Retrieval policy-integration Mission before any retention execution capability. |
+| INBOX-128 | architecture | accepted | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | The local repository runtime can privately rank evidence it is already authorized to read, but a future external or partitioned memory source must enforce source-level access before loading protected candidate content. | Preserve policy-before-exposure now; require access-aware source adapters before external memory stores or connectors. |
+| INBOX-129 | governance | decision-needed | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Context OS has no active organization-approved policy registry or complete per-memory sensitivity/access metadata, so repository dogfood cannot claim ordinary policy-authorized Retrieval. | Keep no-policy as unknown and use controlled fixtures only until accountable policy owners approve exact values. |
+| INBOX-130 | product | deferred | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Repeated policy and metadata JSON inputs are auditable but cumbersome for routine users. | Defer policy registry/profile ergonomics until organization-owned values and a coherent governance surface exist. |
+| INBOX-131 | architecture | accepted | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Retrieval now reports Activation eligibility but intentionally does not add memory to Governing Context or alter an Activation Package. | Preserve explicit consumer choice; require a separate evidence-backed Mission before any policy-aware memory-to-Activation inclusion path. |
+| INBOX-132 | evidence | accepted | V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001 | Historical Mission records still lack uniform immutable Context Version references, limiting exact reconstruction of what context governed a past decision. | Promote read-only Context Version capture/check as the next v0.8 dependency before release verification. |
 
 ---
 
@@ -234,3 +239,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-21 - v0.1.0 - Recorded read-only Retention Resolution evidence,
   policy-input gaps, metadata-visibility authority, scheduling and CLI
   deferrals, and the next Retrieval integration dependency.
+- 2026-08-23 - v0.1.0 - Recorded policy-before-exposure Retrieval, future
+  source-adapter access boundaries, organization-policy gaps, Activation
+  separation, and the immutable Context Version dependency.

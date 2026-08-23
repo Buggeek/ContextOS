@@ -152,6 +152,13 @@ def build_parser() -> argparse.ArgumentParser:
     memory.add_argument("--mission-id", default=None, help="Mission id that binds memory retrieval.")
     memory.add_argument("--question", default=None, help="Optional bounded organizational question.")
     memory.add_argument("--consumer", default="human", help="Consumer requesting prior art, such as human, codex, or claude_code.")
+    memory.add_argument("--purpose", default=None, help="Exact purpose for which memory is requested; defaults visibly to the question or Goal.")
+    memory.add_argument("--organizational-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Organizational authority mode for policy resolution.")
+    memory.add_argument("--actor-role", action="append", default=[], help="Current actor role considered by Retention Resolution. May be repeated.")
+    memory.add_argument("--authority-scope", default=None, help="Exact authority scope bound to Retrieval; this does not grant authority.")
+    memory.add_argument("--retention-policy", action="append", default=[], help="JSON file containing one contextos.memory.retention_policy/1 object, a list, or a policies list. May be repeated.")
+    memory.add_argument("--memory-metadata", default=None, help="JSON file containing defaults and per-memory metadata for Retention Resolution.")
+    memory.add_argument("--evaluation-time", default=None, help="Explicit ISO-8601 temporal basis for policy resolution and saved-result checks.")
     memory.add_argument("--limit", type=int, default=12, help="Maximum memory candidates to return (1-50).")
     memory.add_argument("--check-retrieval", default=None, help="Check a saved contextos.memory.retrieval_result/1 JSON report.")
     memory.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
@@ -534,9 +541,28 @@ def run_memory(args: argparse.Namespace) -> int:
 
     engine = MemoryRetrievalEngine(root)
     try:
+        policies = []
+        for policy_path in args.retention_policy:
+            payload = load_bootstrap_json(policy_path)
+            if isinstance(payload, list):
+                policies.extend(payload)
+            elif isinstance(payload, dict) and payload.get("schema") == "contextos.memory.retention_policy/1":
+                policies.append(payload)
+            elif isinstance(payload, dict) and isinstance(payload.get("policies"), list):
+                policies.extend(payload["policies"])
+            else:
+                raise ValueError(f"Retention policy file has no supported policy shape: {policy_path}")
+        metadata = load_bootstrap_json(args.memory_metadata) if args.memory_metadata else {}
+        if not isinstance(metadata, dict):
+            raise ValueError("Memory metadata input must be a JSON object.")
         if args.check_retrieval:
             saved = load_bootstrap_json(args.check_retrieval)
-            report = engine.check_retrieval(saved)
+            report = engine.check_retrieval(
+                saved,
+                retention_policies=policies,
+                memory_metadata_by_id=metadata,
+                evaluation_time=args.evaluation_time,
+            )
         else:
             if not args.goal:
                 payload = error_payload(
@@ -553,6 +579,13 @@ def run_memory(args: argparse.Namespace) -> int:
                 question=args.question,
                 consumer=args.consumer,
                 limit=args.limit,
+                purpose=args.purpose,
+                organizational_mode=args.organizational_mode,
+                actor_roles=args.actor_role,
+                authority_scope=args.authority_scope,
+                retention_policies=policies,
+                memory_metadata_by_id=metadata,
+                evaluation_time=args.evaluation_time,
             )
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         payload = error_payload(

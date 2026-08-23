@@ -43,17 +43,23 @@ def render_human(report: dict) -> str:
         f"- Goal: {query['goal']}",
         f"- Mission: `{query['mission_id'] or '<none>'}`",
         f"- Consumer: `{query['consumer']}`",
+        f"- Purpose: {query['purpose']}",
+        f"- Organizational mode: `{query['organizational_mode']}`",
+        f"- Actor roles: {', '.join(query['actor_roles']) or 'none supplied'}",
+        f"- Authority scope: `{query['authority_scope'] or '<none>'}`",
         f"- Read-only: {_yes_no(report['read_only'])}",
         f"- Fresh at generation: {_yes_no(report['freshness']['fresh_at_generation'])}",
         f"- Activation Package: `{activation['id']}`",
         f"- Memory Continuity: `{continuity['id']}`",
         f"- Selected candidates: {summary['selected_count']}",
+        f"- Relevant candidates evaluated: {summary['relevant_candidate_count']}",
         f"- Excluded candidates: {summary['excluded_count']}",
         "",
         "## Authority Boundary",
         "- The Activation Package provides current Governing Context.",
         "- Retrieved memory is bounded prior art and never overrides current canonical context.",
         "- Selection does not prove applicability, authority, or usefulness.",
+        "- Relevance is evaluated before eligibility; policy eligibility is evaluated before exposure.",
         "- Retrieved items are not silently added to Governing Context.",
         "",
         "## Retrieved Memory Candidates",
@@ -68,10 +74,10 @@ def render_human(report: dict) -> str:
                 f"- Temporal status: `{item['temporal_status']}`",
                 f"- Applicability: `{item['applicability']['status']}`",
                 f"- Authority now: `{item['authority']['current_authority']}`",
+                f"- Retrieval eligibility: `{item['retrieval_eligibility']['retrieval_outcome']}`",
+                f"- Activation eligibility: `{item['retrieval_eligibility']['activation_outcome']}`",
                 f"- Why selected: {item['selection']['rationale']}",
                 f"- Matched terms: {', '.join(item['selection']['matched_terms'])}",
-                f"- Source: `{item['provenance']['path']}`",
-                f"- Source hash: `{item['provenance']['source_hash']}`",
                 f"- Mission: `{item['mission_id'] or '<none>'}`",
                 f"- Release: `{item['release'] or '<unknown>'}`",
                 f"- Valid from: `{_known(item['temporal'].get('valid_from'))}`",
@@ -82,9 +88,12 @@ def render_human(report: dict) -> str:
                 f"- Epistemic: `{_known(item['truth'].get('epistemic_support'))}`",
                 f"- Governance: `{_known(item['truth'].get('governance_lifecycle'))}`",
                 f"- Strategic belief: `{_known(item['truth'].get('strategic_belief'))}`",
-                f"- Summary: {item['summary']}",
+                f"- Summary: {item['summary'] or '<restricted>'}",
             ]
         )
+        if item.get("provenance"):
+            lines.append(f"- Source: `{item['provenance']['path']}`")
+            lines.append(f"- Source hash: `{item['provenance']['source_hash']}`")
         if item["supersession"].get("detail"):
             lines.append(f"- Superseded by: {item['supersession']['detail']}")
 
@@ -94,14 +103,27 @@ def render_human(report: dict) -> str:
     if not report["continuity_gaps"]:
         lines.append("- None observed.")
 
+    lines.extend(["", "## Policy Eligibility"])
+    outcomes = summary["policy_outcomes"]
+    for outcome in ("normal", "elevated_authority", "excluded", "prohibited", "unknown"):
+        lines.append(f"- `{outcome}`: {outcomes.get(outcome, 0)}")
+    if not report["bindings"]["retention_policy_context"]["policies_supplied"]:
+        lines.append("- No retention policy was supplied; relevant memory remains unknown and unexposed.")
+
     lines.extend(["", "## Intentional Exclusions"])
     for exclusion in report["exclusions"]["items"][:12]:
-        lines.append(f"- `{exclusion['candidate_id']}`: {exclusion['reason']}")
+        lines.append(
+            f"- `{exclusion['candidate']}`: {exclusion['reason']} "
+            f"(access `{exclusion['access_outcome']}`, Retrieval `{exclusion['retrieval_outcome']}`, unresolved {exclusion['unresolved_count']}, "
+            f"conflicts {exclusion['conflict_count']})"
+        )
     omitted = len(report["exclusions"]["items"]) - min(12, len(report["exclusions"]["items"]))
     if omitted:
         lines.append(f"- {omitted} more exclusions are preserved in JSON.")
     if not report["exclusions"]["items"]:
         lines.append("- None.")
+    relevance = report["exclusions"]["relevance"]
+    lines.append(f"- Non-relevant/self candidates withheld without identity exposure: {relevance['count']}.")
 
     lines.extend(
         [
@@ -110,7 +132,7 @@ def render_human(report: dict) -> str:
             "- Historical does not mean invalid; superseded does not mean deleted.",
             "- Remembered does not mean canonical; repeated does not mean useful.",
             "- Semantic conflict with current canonical context remains unknown without governed interpretation.",
-            "- Retention policy remains visible and undecided; no deletion, archival, or forgetting occurred.",
+            "- Missing policy remains explicit; no deletion, archival, or forgetting occurred.",
             "",
             "## Freshness And Invalidation",
         ]
@@ -133,6 +155,8 @@ def render_check_human(report: dict) -> str:
         f"- Activation Package valid: {_yes_no(report['checks']['activation_package_valid'])}",
         f"- Continuity state unchanged: {_yes_no(report['checks']['continuity_state_unchanged'])}",
         f"- Selection unchanged: {_yes_no(report['checks']['selection_unchanged'])}",
+        f"- Policy context unchanged: {_yes_no(report['checks'].get('policy_context_unchanged', False))}",
+        f"- Temporal basis unchanged: {_yes_no(report['checks'].get('temporal_basis_unchanged', False))}",
         "",
         "## Failed Checks",
     ]

@@ -27,7 +27,8 @@ usable Organizational Context Runtime repository.
 - Context Activation package tooling (`tools/activation/`)
 - Context Health & Learning tooling (`tools/health/`)
 - Organizational Memory continuity tooling (`tools/memory/`)
-- Organizational Memory retention-governance and read-only policy-resolution tooling
+- Organizational Memory retention-governance, read-only policy resolution, and
+  policy-before-exposure Retrieval tooling
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -86,6 +87,8 @@ usable Organizational Context Runtime repository.
 24. Operator or Runtime consumer resolves explicit retention policies against
     exact memory metadata and receives separate access, Retrieval, Activation,
     transition, and destructive-action outcomes without mutation
+25. Actor requests relevant prior art, and Context OS evaluates exact retention
+    policy before exposing any candidate content or protected exclusion metadata
 
 ---
 
@@ -133,6 +136,9 @@ usable Organizational Context Runtime repository.
   policy/source drift invalidation and no implicit permission
 - Provide bounded human and machine Memory retrieval with exact Activation and
   Continuity bindings, selection rationale, exclusions, and invalidation checks
+- Apply Retention Resolution before exposing relevant memory, preserving
+  independent normal, elevated, excluded, prohibited, unknown, visibility, and
+  Activation outcomes
 
 ---
 
@@ -208,6 +214,8 @@ usable Organizational Context Runtime repository.
   continuity report capability
 - 2026-08-21 — v0.1.1 — Added the bounded Organizational Memory retrieval and
   saved-result check surface
+- 2026-08-23 — v0.1.1 — Integrated retention eligibility before Memory
+  exposure and added metadata-safe policy outcomes to the public surface
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

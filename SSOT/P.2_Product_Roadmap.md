@@ -109,8 +109,10 @@ Governing Context:
 Self-Hosting Execution:
 
 - Latest closed v0.8 mission:
-  [`E.4 Mission V08-MEMORY-RETENTION-RESOLUTION-001`](E.4_Mission_V08-MEMORY-RETENTION-RESOLUTION-001_Read_Only_Retention_Resolution.md)
+  [`E.4 Mission V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-POLICY-INTEGRATION-001_Policy_Aware_Memory_Retrieval.md)
 - Previous closed v0.8 mission:
+  [`E.4 Mission V08-MEMORY-RETENTION-RESOLUTION-001`](E.4_Mission_V08-MEMORY-RETENTION-RESOLUTION-001_Read_Only_Retention_Resolution.md)
+- Earlier closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-RETENTION-GOVERNANCE-001`](E.4_Mission_V08-MEMORY-RETENTION-GOVERNANCE-001_Memory_Retention_Governance.md)
 - Earlier closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-RETRIEVAL-SURFACE-001`](E.4_Mission_V08-MEMORY-RETRIEVAL-SURFACE-001_Bounded_Memory_Retrieval.md)
@@ -384,3 +386,6 @@ governable, and reusable across humans, agents, and systems.
   organizational evolution.
 - 2026-08-21 - v1.0 - Opened the policy-only Organizational Memory retention
   governance Mission after publishing bounded retrieval.
+- 2026-08-23 - v1.0 - Integrated deterministic Retention Resolution into
+  Memory Retrieval before candidate exposure and preserved independent
+  Retrieval, visibility, and Activation outcomes.
