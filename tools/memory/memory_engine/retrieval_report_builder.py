@@ -64,6 +64,9 @@ def render_human(report: dict) -> str:
         "",
         "## Retrieved Memory Candidates",
     ]
+    if report.get("bindings", {}).get("adoption_profile"):
+        profile = report["bindings"]["adoption_profile"]
+        lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
     if not report["items"]:
         if summary["relevant_candidate_count"]:
             lines.append(

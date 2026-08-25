@@ -53,6 +53,10 @@ def render_human(report: dict) -> str:
         "| Dimension | Status | Signals | Attention | Blocked | Unknown |",
         "|---|---|---:|---:|---:|---:|",
     ]
+    if report.get("adoption_profile"):
+        profile = report["adoption_profile"]
+        lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
+        lines.insert(5, "- Evidence isolation: target evidence only; host Context OS artifacts are not target Health evidence")
     for dimension in report["dimensions"].values():
         counts = dimension["counts"]
         lines.append(

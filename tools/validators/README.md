@@ -11,7 +11,12 @@ The implementation is intentionally small:
 - no external connectors
 - no automatic fixes
 
-The future EPIC-008 CLI may wrap this surface as `contextos validate`.
+The Runtime CLI wraps this surface as `contextos validate`.
+
+External targets may pass `--adoption-profile <contextos.adoption.profile/1>`.
+Profile-aware reports preserve stable rule IDs while distinguishing `passed`,
+`violated`, `mapped_equivalent`, `not_applicable`, and `unknown`; skipped native
+rules retain rationale and equivalent-control evidence.
 
 ---
 

@@ -254,6 +254,20 @@ It’s infrastructure.
 ./contextos reason --root . --goal "Identify what requires attention"
 ```
 
+For an external organization with an existing distributed canon, bind a
+governed Adoption Profile instead of imposing Context OS-native structure:
+
+```bash
+./contextos assess --root /path/to/target \
+  --adoption-profile examples/adoption_profiles/lukspeed.json
+./contextos activate --root /path/to/target \
+  --adoption-profile examples/adoption_profiles/lukspeed.json \
+  --goal "Describe the bounded Mission"
+```
+
+The profile maps target authority; it is not the target SSOT and never grants
+write authority.
+
 `assess`, bare `init`, `activate`, `health`, `memory`, and `reason` are
 read-only. Write-capable Guided Bootstrap requires the complete proposal,
 approval, accepted-decision, fresh-preflight, and explicit-confirmation chain.

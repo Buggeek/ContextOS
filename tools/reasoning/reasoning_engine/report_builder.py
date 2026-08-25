@@ -118,6 +118,10 @@ def render_human(report: dict) -> str:
         "- Historical context and retrieved memory provide prior art; neither overrides current Governing Context.",
         "- This assessment may suggest. It cannot decide, approve, execute, or mutate canonical context.",
     ]
+    if report.get("adoption_profile"):
+        profile = report["adoption_profile"]
+        lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
+        lines.insert(5, "- Evidence isolation: target/profile evidence only")
     sections = (
         ("Observed Facts", "observations"),
         ("Relevant Prior Art", "prior_art"),

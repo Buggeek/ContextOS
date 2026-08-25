@@ -3,10 +3,19 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+import sys
 from collections import Counter
 from pathlib import Path
 
 from .report_builder import build_report
+
+
+TOOLS_ROOT = Path(__file__).resolve().parents[2]
+ADOPTION_ROOT = TOOLS_ROOT / "adoption"
+if str(ADOPTION_ROOT) not in sys.path:
+    sys.path.insert(0, str(ADOPTION_ROOT))
+
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 MISSION_GLOB = "E.4_Mission_*.md"
@@ -283,6 +292,8 @@ def pattern_candidates(learning_entries: list[dict], missions_by_id: dict[str, d
     for topic, needles in PATTERN_TOPICS.items():
         refs = []
         for entry in learning_entries:
+            if entry.get("mission_id") not in missions_by_id:
+                continue
             text = missions_by_id[entry["mission_id"]]["sections"].get("Learning", "").lower()
             if any(needle in text for needle in needles):
                 refs.append(f"{entry['source']['path']}#Learning")
@@ -304,11 +315,69 @@ def pattern_candidates(learning_entries: list[dict], missions_by_id: dict[str, d
     return candidates
 
 
+def profile_memory_forms(root: Path, profile) -> dict[str, list[dict]]:
+    result = {form: [] for form in ("mission", "decision", "evidence", "outcome", "learning", "context_state")}
+    form_for_concept = {
+        "goals_missions": "mission",
+        "active_work": "context_state",
+        "evidence_closure": "evidence",
+        "organizational_memory": "learning",
+        "current_roadmap": "context_state",
+    }
+    for record in profile.source_records(root):
+        form = form_for_concept.get(record["concept"])
+        if form is None or not record["exists"] or "memory" not in record.get("applicable_operations", []):
+            continue
+        path = root / record["locator"]
+        text = path.read_text(encoding="utf-8")
+        title = next((line[2:].strip() for line in text.splitlines() if line.startswith("# ")), path.stem.replace("_", " "))
+        identity = {
+            "profile": profile.identity_hash,
+            "concept": record["concept"],
+            "path": record["locator"],
+            "source_hash": record["source_hash"],
+            "form": form,
+        }
+        applicability = "historical" if record.get("currentness") == "historical" else "current"
+        result[form].append(
+            {
+                "id": f"memory.{form}.{stable_hash(identity)[:16]}",
+                "form": form,
+                "mission_id": None,
+                "title": title,
+                "status": record.get("currentness", "unknown"),
+                "release": None,
+                "summary": summarize(text),
+                "applicability": applicability,
+                "temporal": {
+                    "valid_from": None,
+                    "valid_to": None,
+                    "observed_at": None,
+                    "ceased_current_at": None,
+                    "temporal_unknowns": ["valid_from", "observed_at", "ceased_current_at"],
+                },
+                "truth": truth(epistemic=record["mapping_support"], governance=record["lifecycle_state"]),
+                "source": {"path": record["locator"], "source_hash": record["source_hash"], "section": None},
+                "retention_class": f"external_{form}_record",
+                "context_evidence": None,
+                "adoption_mapping": {
+                    "profile_id": profile.id,
+                    "profile_identity_hash": profile.identity_hash,
+                    "concept": record["concept"],
+                    "authority_owner": record["authority_owner"],
+                    "supersession_status": record.get("supersession_status", "unknown"),
+                },
+            }
+        )
+    return result
+
+
 class OrganizationalMemoryEngine:
     """Build a governed, read-only continuity view over explicit Context OS records."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root).resolve()
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(
         self,
@@ -326,6 +395,10 @@ class OrganizationalMemoryEngine:
             self.root, missions, context_versions
         )
         forms = extract_form_entries(missions)
+        if self.adoption_profile:
+            mapped_forms = profile_memory_forms(self.root, self.adoption_profile)
+            for form, entries in mapped_forms.items():
+                forms[form].extend(entries)
         inbox, supersession = parse_inbox(self.root)
         prior_art = select_prior_art(missions, mission_id, goal)
         by_id = {mission["mission_id"]: mission for mission in missions}
@@ -342,6 +415,13 @@ class OrganizationalMemoryEngine:
             + roadmap_source,
             key=lambda item: item["path"],
         )
+        if self.adoption_profile:
+            mapped_sources = [
+                {"path": item["locator"], "source_hash": item["source_hash"]}
+                for item in self.adoption_profile.source_records(self.root)
+                if item["exists"] and "memory" in item.get("applicable_operations", [])
+            ]
+            sources = sorted({item["path"]: item for item in sources + mapped_sources}.values(), key=lambda item: item["path"])
         source_fingerprint = stable_hash(sources)
         gaps = list(context_version_gaps)
         if any(entry["temporal"]["valid_from"] is None for entry in forms["mission"]):
@@ -376,6 +456,7 @@ class OrganizationalMemoryEngine:
             "prior_art": [item["mission_id"] for item in prior_art],
             "supersession": [item["id"] for item in supersession],
             "context_version_index_hash": context_version_index["identity_hash"],
+            "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
         }
         identity_hash = stable_hash(identity_input)
         report = {
@@ -436,4 +517,12 @@ class OrganizationalMemoryEngine:
                 "No retention, archival, forgetting, graph traversal, semantic interpretation, or canonical mutation is performed.",
             ],
         }
+        if self.adoption_profile:
+            report["adoption_profile"] = self.adoption_profile.binding()
+            report["scope"]["corpus"] = "target_native_governed_records_mapped_by_adoption_profile"
+            report["invalidation"] = {
+                "profile_identity_hash": self.adoption_profile.identity_hash,
+                "target_source_fingerprint": self.adoption_profile.state(self.root)["source_fingerprint"],
+                "conditions": self.adoption_profile.data["invalidation"]["conditions"],
+            }
         return build_report(self.root, report, generated_at)

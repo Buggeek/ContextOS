@@ -1,0 +1,447 @@
+{
+  "schema": "contextos.adoption.profile/1",
+  "id": "adoption.profile.lukspeed.v1",
+  "version": "1.0.0",
+  "target": {
+    "id": "lukspeed",
+    "name": "Lukspeed",
+    "scope": "repository",
+    "kind": "external_distributed_canon"
+  },
+  "lifecycle": {
+    "state": "approved",
+    "target_ssot": false,
+    "historical_reports_reinterpreted": false
+  },
+  "authority": {
+    "owner": "Context OS External Adoption Authority",
+    "mapping_authority": "accepted PILOT-LUKSPEED-001 evidence",
+    "target_authority_preserved": true
+  },
+  "mappings": [
+    {
+      "concept": "organizational_intent",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/strategy/Lukspeed_Strategic_Framework.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Product Owner",
+          "authority_tier": "target_strategy_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "reasoning", "context_version"],
+          "activation_role": "intent_anchor",
+          "priority": 100,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "product_value_model",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/strategy/Lukspeed_Current_Product_Capabilities.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Product Owner",
+          "authority_tier": "target_product_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "reasoning", "context_version"],
+          "activation_role": "product_truth_anchor",
+          "priority": 95,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "current_roadmap",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": "The prioritized backlog governs active execution when it conflicts with roadmap orientation.",
+      "sources": [
+        {
+          "locator": "docs/strategy/Lukspeed_Roadmap_v3.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Product Owner",
+          "authority_tier": "target_strategy_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active_with_precedence_constraint",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "reasoning", "context_version"],
+          "activation_role": "roadmap_anchor",
+          "priority": 85,
+          "evidence_refs": ["docs/BACKLOG_PRIORIZADO.md", "docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "active_work",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": "PILOT-LUKSPEED-001 observed reconciliation drift in active-state labels.",
+      "sources": [
+        {
+          "locator": "docs/BACKLOG_PRIORIZADO.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Product Owner",
+          "authority_tier": "target_execution_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current_with_observed_drift",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "memory", "reasoning", "context_version"],
+          "activation_role": "active_work_anchor",
+          "priority": 100,
+          "evidence_refs": ["docs/delivery-ops/WAY_OF_WORK_V2_GOAL_DRIVEN_AUTONOMOUS_EXECUTION.md"]
+        }
+      ]
+    },
+    {
+      "concept": "architecture",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/Lukspeed_System_Architecture_Map.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Architecture Authority",
+          "authority_tier": "target_architecture_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "reasoning", "context_version"],
+          "activation_role": "architecture_anchor",
+          "priority": 95,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "runtime_inventory",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": "Exact deployed environment state still requires target-specific runtime evidence.",
+      "sources": [
+        {
+          "locator": "docs/Systems_Inventory.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Runtime Authority",
+          "authority_tier": "target_runtime_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "reasoning", "context_version"],
+          "activation_role": "runtime_anchor",
+          "priority": 90,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "governance",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/DOCUMENTATION_GUIDE.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Documentation Authority",
+          "authority_tier": "target_canon_governance",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "reasoning", "context_version"],
+          "activation_role": "canon_authority_map",
+          "priority": 92,
+          "evidence_refs": ["docs/delivery-ops/AGENTIC_OPERATING_SYSTEM.md"]
+        },
+        {
+          "locator": "docs/delivery-ops/AGENTIC_OPERATING_SYSTEM.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_governance_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "reasoning", "context_version"],
+          "activation_role": "governance_anchor",
+          "priority": 95,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        },
+        {
+          "locator": "docs/delivery-ops/PRODUCT_DELIVERY_TAXONOMY.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_governance_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["readiness", "activation", "context_version"],
+          "activation_role": "execution_taxonomy",
+          "priority": 75,
+          "evidence_refs": ["docs/DOCUMENTATION_GUIDE.md"]
+        }
+      ]
+    },
+    {
+      "concept": "authority_boundaries",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/delivery-ops/CODEX_BUILD_AUTHORIZATION_MODEL.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Human Authority",
+          "authority_tier": "target_authority_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "reasoning", "context_version"],
+          "activation_role": "authority_anchor",
+          "priority": 100,
+          "evidence_refs": ["docs/delivery-ops/AI_TEAM_MODEL.md"]
+        },
+        {
+          "locator": "docs/delivery-ops/AI_TEAM_MODEL.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Human Authority",
+          "authority_tier": "target_authority_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["readiness", "activation", "context_version"],
+          "activation_role": "human_agent_boundary",
+          "priority": 80,
+          "evidence_refs": ["docs/delivery-ops/CODEX_BUILD_AUTHORIZATION_MODEL.md"]
+        }
+      ]
+    },
+    {
+      "concept": "goals_missions",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/delivery-ops/WAY_OF_WORK_V2_GOAL_DRIVEN_AUTONOMOUS_EXECUTION.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_execution_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "memory", "reasoning", "context_version"],
+          "activation_role": "goal_execution_anchor",
+          "priority": 95,
+          "evidence_refs": ["docs/delivery-ops/MISSION_PACKET_STANDARD.md"]
+        },
+        {
+          "locator": "docs/delivery-ops/MISSION_PACKET_STANDARD.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_execution_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["activation", "memory", "context_version"],
+          "activation_role": "mission_contract",
+          "priority": 85,
+          "evidence_refs": ["docs/delivery-ops/MISSION_PACKAGE_STANDARD.md"]
+        }
+      ]
+    },
+    {
+      "concept": "evidence_closure",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": null,
+      "sources": [
+        {
+          "locator": "docs/delivery-ops/Lukspeed_Closure_Model.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_evidence_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "memory", "reasoning", "context_version"],
+          "activation_role": "evidence_closure_anchor",
+          "priority": 85,
+          "evidence_refs": ["docs/evidence/activity-decision-continuity-production-2026-07-21/README.md"]
+        },
+        {
+          "locator": "docs/evidence/activity-decision-continuity-production-2026-07-21/README.md",
+          "source_of_record": false,
+          "authority_owner": "Lukspeed Evidence Authority",
+          "authority_tier": "target_execution_evidence",
+          "lifecycle_state": "verified_evidence",
+          "currentness": "historical",
+          "supersession_status": "retained",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["health", "memory", "reasoning", "context_version"],
+          "activation_role": "historical_evidence",
+          "priority": 40,
+          "evidence_refs": ["docs/delivery-ops/Lukspeed_Closure_Model.md"]
+        }
+      ]
+    },
+    {
+      "concept": "organizational_memory",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": "Target retention policy has not been mapped; content exposure remains policy-gated.",
+      "sources": [
+        {
+          "locator": "docs/delivery-ops/Lukspeed_Workstream_Memory_Operating_Model.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_memory_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "memory", "reasoning", "context_version"],
+          "activation_role": "memory_governance_anchor",
+          "priority": 80,
+          "evidence_refs": ["docs/delivery-ops/CAPABILITY_EVOLUTION_FRAMEWORK.md"]
+        },
+        {
+          "locator": "docs/delivery-ops/CAPABILITY_EVOLUTION_FRAMEWORK.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_learning_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["health", "memory", "reasoning", "context_version"],
+          "activation_role": "learning_anchor",
+          "priority": 75,
+          "evidence_refs": ["docs/delivery-ops/Lukspeed_Workstream_Memory_Operating_Model.md"]
+        },
+        {
+          "locator": "docs/system_graph/mission_packets.md",
+          "source_of_record": false,
+          "authority_owner": "Lukspeed Delivery Authority",
+          "authority_tier": "target_derived_memory_index",
+          "lifecycle_state": "derived",
+          "currentness": "current",
+          "supersession_status": "regenerable",
+          "permitted_consumers": ["human", "coding_agent"],
+          "applicable_operations": ["memory", "reasoning", "context_version"],
+          "activation_role": "mission_memory_index",
+          "priority": 50,
+          "evidence_refs": ["docs/delivery-ops/MISSION_PACKET_STANDARD.md"]
+        }
+      ]
+    },
+    {
+      "concept": "environment_boundaries",
+      "support": "declared",
+      "confidence": "high",
+      "recognized_as_canonical": true,
+      "unresolved_ambiguity": "Runtime evidence is required to prove the currently served environment state.",
+      "sources": [
+        {
+          "locator": "docs/delivery-ops/DELIVERY_ENVIRONMENT_OPERATING_MODEL.md",
+          "source_of_record": true,
+          "authority_owner": "Lukspeed Release Authority",
+          "authority_tier": "target_environment_canon",
+          "lifecycle_state": "canonical",
+          "currentness": "current",
+          "supersession_status": "active",
+          "permitted_consumers": ["human", "coding_agent", "organizational_runtime"],
+          "applicable_operations": ["readiness", "activation", "health", "reasoning", "context_version"],
+          "activation_role": "environment_boundary",
+          "priority": 90,
+          "evidence_refs": ["docs/delivery-ops/Lukspeed_Release_Operating_System.md"]
+        }
+      ]
+    }
+  ],
+  "validation": {
+    "rules": {
+      "structure.required_roots": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "The target uses a distributed governed canon rather than Context OS native roots.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "structure.runtime_manifest": {"applicability": "not_applicable", "enforcement": "none", "rationale": "The Context OS native runtime manifest is not required in read-only external adoption mode.", "equivalent_control_refs": ["docs/Systems_Inventory.md"], "gap": false},
+      "structure.tracked_junk_absent": {"applicability": "universal", "enforcement": "blocking", "rationale": "Tracked repository junk is a universal integrity issue.", "equivalent_control_refs": [], "gap": false},
+      "structure.markdown_h1_present": {"applicability": "target_native", "enforcement": "advisory", "rationale": "Readable Markdown headings are useful, but target governance determines whether every document requires H1.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "structure.legacy_paths": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS legacy paths are not target-native doctrine.", "equivalent_control_refs": [], "gap": false},
+      "naming.contextos_convention": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS native naming is not imposed on an external canon.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "naming.doctrine_terms": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS doctrine terminology is not imposed on the target.", "equivalent_control_refs": [], "gap": false},
+      "links.relative_paths_resolve": {"applicability": "target_native", "enforcement": "advisory", "rationale": "Broken target-local references are evidence-backed target issues.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "links.anchors_resolve": {"applicability": "target_native", "enforcement": "advisory", "rationale": "Broken target-local anchors are evidence-backed target issues.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "links.heading_anchor_unique": {"applicability": "target_native", "enforcement": "advisory", "rationale": "Duplicate anchors reduce target document navigability.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "taxonomy.ssot_filename_prefix": {"applicability": "not_applicable", "enforcement": "none", "rationale": "The target's canon is not required to use Context OS SSOT prefixes.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "taxonomy.ssot_h1_matches_file": {"applicability": "not_applicable", "enforcement": "none", "rationale": "The target's document identity convention differs from Context OS SSOT conventions.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "taxonomy.docs_folder_prefix": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS numbered documentation folders are not universal.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "mom.required_artifacts": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "The profile maps Minimum Operational Map capabilities to target-native sources.", "equivalent_control_refs": ["docs/strategy/Lukspeed_Strategic_Framework.md", "docs/BACKLOG_PRIORIZADO.md", "docs/Lukspeed_System_Architecture_Map.md"], "gap": false},
+      "mom.required_fields": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS native MOM field syntax is not universal.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "mom.epic_required_sections": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS epic templates are not target-native requirements.", "equivalent_control_refs": ["docs/delivery-ops/PRODUCT_DELIVERY_TAXONOMY.md"], "gap": false},
+      "ownership.ssot_owner_present": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "Source authority owners are declared per profile mapping rather than Context OS SSOT metadata.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "ownership.framework_owner_present": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS framework ownership metadata is not imposed on target documents.", "equivalent_control_refs": ["docs/DOCUMENTATION_GUIDE.md"], "gap": false},
+      "governance.dor_dod_present": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "Target closure and mission standards provide equivalent readiness/completion controls.", "equivalent_control_refs": ["docs/delivery-ops/MISSION_PACKET_STANDARD.md", "docs/delivery-ops/Lukspeed_Closure_Model.md"], "gap": false},
+      "governance.agent_rules_present": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "Target agent and authorization models provide the applicable control.", "equivalent_control_refs": ["docs/delivery-ops/AGENTIC_OPERATING_SYSTEM.md", "docs/delivery-ops/CODEX_BUILD_AUTHORIZATION_MODEL.md"], "gap": false},
+      "authority.model_present": {"applicability": "mapped_equivalent", "enforcement": "none", "rationale": "The target Human/Codex authority boundary is explicitly mapped.", "equivalent_control_refs": ["docs/delivery-ops/CODEX_BUILD_AUTHORIZATION_MODEL.md", "docs/delivery-ops/AI_TEAM_MODEL.md"], "gap": false},
+      "hypothesis.product_status_fields": {"applicability": "not_applicable", "enforcement": "none", "rationale": "Context OS product-map hypothesis field syntax is not a target-native requirement.", "equivalent_control_refs": ["docs/strategy/Lukspeed_Current_Product_Capabilities.md"], "gap": false},
+      "drift.discovery_bundle_available": {"applicability": "universal", "enforcement": "advisory", "rationale": "Read-only discovery availability is a universal runtime observation.", "equivalent_control_refs": [], "gap": false}
+    }
+  },
+  "activation": {
+    "required_concepts": ["organizational_intent", "active_work", "governance", "authority_boundaries", "architecture", "evidence_closure"]
+  },
+  "evidence_isolation": {
+    "target_only": true,
+    "host_context_is_evidence": false,
+    "allowed_target_prefixes": ["docs/", "README.md"],
+    "protected_metadata_exposure": "policy_before_exposure"
+  },
+  "invalidation": {
+    "conditions": [
+      "Profile identity, version, target scope, mapping, applicability, selection, or authority changes.",
+      "A mapped source fingerprint, lifecycle, currentness, supersession, authority, sensitivity, or access state changes.",
+      "The target repository identity or governed evidence boundary changes."
+    ]
+  },
+  "constraints": {
+    "read_only": true,
+    "automatic_profile_generation": false,
+    "target_migration_required": false,
+    "parallel_target_ssot_created": false,
+    "external_connectors_used": false
+  }
+}

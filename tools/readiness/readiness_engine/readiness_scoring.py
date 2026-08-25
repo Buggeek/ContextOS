@@ -17,6 +17,12 @@ for runtime_path in (READINESS_ROOT, VALIDATORS_ROOT):
 from engine.validator_engine import ValidatorEngine  # noqa: E402
 from inventory_engine.repository_inventory import RepositoryInventoryEngine  # noqa: E402
 
+ADOPTION_ROOT = Path(__file__).resolve().parents[2] / "adoption"
+if str(ADOPTION_ROOT) not in sys.path:
+    sys.path.insert(0, str(ADOPTION_ROOT))
+
+from adoption_engine import load_adoption_profile  # noqa: E402
+
 
 DIMENSION_WEIGHTS = {
     "inventory": 20,
@@ -25,6 +31,15 @@ DIMENSION_WEIGHTS = {
     "operational_map": 15,
     "runtime": 15,
     "source_evidence": 10,
+}
+
+PROFILE_DIMENSION_CONCEPTS = {
+    "inventory": {"organizational_intent", "product_value_model", "current_roadmap", "active_work", "architecture", "governance"},
+    "structure": {"organizational_intent", "product_value_model", "current_roadmap", "architecture"},
+    "governance": {"governance", "authority_boundaries", "evidence_closure"},
+    "operational_map": {"active_work", "goals_missions", "architecture", "runtime_inventory"},
+    "runtime": {"runtime_inventory", "environment_boundaries", "authority_boundaries"},
+    "source_evidence": {"evidence_closure", "organizational_memory", "active_work", "goals_missions"},
 }
 
 INVENTORY_CLASSES = {
@@ -299,12 +314,98 @@ def validator_summary(validator_report: dict) -> dict:
         }
         for finding in validator_report["findings"][:10]
     ]
-    return {
+    summary = {
         "schema": validator_report["schema"],
         "mode": validator_report["mode"],
         "summary": validator_report["summary"],
         "top_findings": top_findings,
     }
+    if validator_report.get("adoption_profile"):
+        summary["adoption_profile"] = validator_report["adoption_profile"]
+        summary["rule_results"] = validator_report.get("rule_results", [])
+    return summary
+
+
+def build_profile_dimension(dimension_id: str, profile, profile_state: dict, validator_report: dict) -> dict:
+    required = PROFILE_DIMENSION_CONCEPTS[dimension_id]
+    mappings = {item["concept"]: item for item in profile.mappings()}
+    source_by_concept: dict[str, list[dict]] = {}
+    for source in profile_state["sources"]:
+        source_by_concept.setdefault(source["concept"], []).append(source)
+    signals: list[str] = []
+    gaps: list[str] = []
+    evidence: list[str] = []
+    points = 0.0
+    for concept in sorted(required):
+        mapping = mappings.get(concept)
+        sources = source_by_concept.get(concept, [])
+        available = [source for source in sources if source["exists"]]
+        if mapping and mapping["support"] in {"observed", "declared", "derived"} and available:
+            support_factor = {"observed": 1.0, "declared": 0.9, "derived": 0.75}[mapping["support"]]
+            current_factor = 1.0 if any(source.get("currentness") == "current" for source in available) else 0.85
+            points += support_factor * current_factor
+            signals.append(
+                f"Mapped capability `{concept}` is supported by {len(available)} target-native source(s) ({mapping['support']})."
+            )
+            evidence.extend(source["locator"] for source in available)
+            if mapping.get("unresolved_ambiguity"):
+                gaps.append(f"Mapped capability `{concept}` has unresolved ambiguity: {mapping['unresolved_ambiguity']}")
+            if not any(source.get("currentness") == "current" for source in available):
+                gaps.append(f"Mapped capability `{concept}` has no source declared exactly current.")
+        elif mapping and mapping["support"] == "suggested":
+            points += 0.35 if available else 0.0
+            gaps.append(f"Mapping for `{concept}` is suggested and requires target authority confirmation.")
+            evidence.extend(source["locator"] for source in available)
+        elif mapping and mapping["support"] == "unknown":
+            gaps.append(f"Capability `{concept}` remains unknown under the active Adoption Profile.")
+        else:
+            gaps.append(f"True capability gap: no supported target-native source maps `{concept}`.")
+    coverage_score = round((points / len(required)) * 100)
+    relevant_prefixes = {
+        "structure": STRUCTURE_RULE_PREFIXES,
+        "governance": GOVERNANCE_RULE_PREFIXES,
+        "operational_map": OPERATIONAL_RULE_PREFIXES,
+    }.get(dimension_id)
+    if relevant_prefixes:
+        findings = findings_for_prefixes(validator_report, relevant_prefixes)
+        validator_score = score_from_findings(findings)
+        coverage_score = round((coverage_score * 0.75) + (validator_score * 0.25))
+        evidence.extend(finding_refs(findings))
+        if findings:
+            gaps.extend(f"Applicable Validator finding group: {item}." for item in finding_rule_summary(findings))
+    return build_dimension(
+        dimension_id,
+        coverage_score,
+        DIMENSION_WEIGHTS[dimension_id],
+        signals,
+        gaps,
+        limited_refs(evidence),
+    )
+
+
+def profile_score_caps(score: int, profile, profile_state: dict, validator_report: dict) -> tuple[int, list[str]]:
+    capped = score
+    reasons: list[str] = []
+    summary = validator_report["summary"]
+    if summary["fatal"]:
+        capped = min(capped, 19)
+        reasons.append("Applicable Validator rules returned fatal findings; maximum readiness level is R0.")
+    elif summary["error"]:
+        capped = min(capped, 59)
+        reasons.append("Applicable Validator rules returned error findings; maximum readiness level is R2.")
+    missing = {
+        item["concept"]
+        for item in profile_state["sources"]
+        if not item["exists"]
+    }
+    mapped = {item["concept"] for item in profile_state["sources"] if item["exists"]}
+    true_gaps = sorted(concept for concept in PROFILE_DIMENSION_CONCEPTS["inventory"] if concept not in mapped)
+    if true_gaps:
+        capped = min(capped, 74)
+        reasons.append(f"Required mapped capabilities remain unsupported: {', '.join(true_gaps)}.")
+    if missing:
+        reasons.append(f"{len(missing)} mapped concept(s) reference unavailable source evidence.")
+    return capped, reasons
 
 
 def weighted_score(dimensions: dict) -> int:
@@ -350,9 +451,10 @@ def apply_score_caps(score: int, inventory_report: dict, validator_report: dict)
 class ReadinessScoringEngine:
     """Read-only Context Readiness scoring engine."""
 
-    def __init__(self, root: str | Path = ".", validator_mode: str = "full") -> None:
+    def __init__(self, root: str | Path = ".", validator_mode: str = "full", adoption_profile=None) -> None:
         self.root = Path(root)
         self.validator_mode = validator_mode
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(
         self,
@@ -361,22 +463,64 @@ class ReadinessScoringEngine:
         generated_at: str | None = None,
     ) -> dict:
         resolved_root = self.root.resolve()
-        inventory = inventory_report or RepositoryInventoryEngine(resolved_root).run(generated_at=generated_at)
-        validator = validator_report or ValidatorEngine(resolved_root).run(mode=self.validator_mode)
-        dimensions = {
-            "inventory": build_inventory_dimension(inventory),
-            "structure": build_structure_dimension(validator),
-            "governance": build_governance_dimension(inventory, validator),
-            "operational_map": build_operational_map_dimension(inventory, validator),
-            "runtime": build_runtime_dimension(inventory, validator),
-            "source_evidence": build_source_evidence_dimension(inventory),
-        }
+        inventory = inventory_report or RepositoryInventoryEngine(resolved_root, self.adoption_profile).run(generated_at=generated_at)
+        validator = validator_report or ValidatorEngine(resolved_root, self.adoption_profile).run(mode=self.validator_mode)
+        if self.adoption_profile:
+            profile_state = self.adoption_profile.state(resolved_root)
+            dimensions = {
+                dimension_id: build_profile_dimension(dimension_id, self.adoption_profile, profile_state, validator)
+                for dimension_id in DIMENSION_WEIGHTS
+            }
+        else:
+            profile_state = None
+            dimensions = {
+                "inventory": build_inventory_dimension(inventory),
+                "structure": build_structure_dimension(validator),
+                "governance": build_governance_dimension(inventory, validator),
+                "operational_map": build_operational_map_dimension(inventory, validator),
+                "runtime": build_runtime_dimension(inventory, validator),
+                "source_evidence": build_source_evidence_dimension(inventory),
+            }
         uncapped_score = weighted_score(dimensions)
-        score, cap_reasons = apply_score_caps(uncapped_score, inventory, validator)
+        score, cap_reasons = (
+            profile_score_caps(uncapped_score, self.adoption_profile, profile_state, validator)
+            if self.adoption_profile
+            else apply_score_caps(uncapped_score, inventory, validator)
+        )
         embedded_inventory = inventory_summary(inventory)
+        if self.adoption_profile:
+            embedded_inventory["adoption_profile"] = self.adoption_profile.binding()
+            embedded_inventory["mapped_concepts"] = inventory["detected"]["mapped_concepts"]
+            embedded_inventory["missing_artifacts"] = []
+            embedded_inventory["missing_capabilities"] = [
+                item["concept"] for item in inventory["detected"]["mapped_concepts"] if item["true_gap"]
+            ]
         embedded_validator = validator_summary(validator)
         recommendations = generate_recommendations(dimensions, embedded_inventory, validator, cap_reasons)
-        return build_report(
+        if self.adoption_profile:
+            ambiguous = [mapping for mapping in self.adoption_profile.mappings() if mapping.get("unresolved_ambiguity")]
+            if ambiguous:
+                recommendations.append(
+                    {
+                        "id": "readiness.adoption.review_mapping_ambiguity",
+                        "priority": "P1",
+                        "category": "adoption",
+                        "title": "Review unresolved target-canon mapping ambiguity.",
+                        "rationale": f"{len(ambiguous)} mapped capability decision(s) preserve unresolved target authority or currentness questions.",
+                        "suggested_action": "Have the accountable target authority review the mapped precedence/currentness evidence; do not create Context OS-native replacement artifacts.",
+                        "suggested_next_action": "Review the profile ambiguity with target authority.",
+                        "related_dimension": "inventory",
+                        "evidence_refs": sorted(
+                            {
+                                source["locator"]
+                                for mapping in ambiguous
+                                for source in mapping.get("sources", [])
+                            }
+                        )[:10],
+                    }
+                )
+                recommendations.sort(key=lambda item: ({"P0": 0, "P1": 1, "P2": 2, "P3": 3}[item["priority"]], item["id"]))
+        report = build_report(
             resolved_root,
             dimensions,
             embedded_inventory,
@@ -387,3 +531,8 @@ class ReadinessScoringEngine:
             recommendations,
             generated_at=generated_at,
         )
+        if self.adoption_profile:
+            report["adoption_profile"] = self.adoption_profile.binding()
+            report["mode"] = "external_adoption_profile"
+            report["capability_basis"] = "functional_equivalence_not_native_taxonomy_conformance"
+        return report

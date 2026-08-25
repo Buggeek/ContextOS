@@ -148,6 +148,7 @@ class ValidationContext:
     markdown_docs: list[MarkdownDocument]
     markdown_by_rel: dict[str, MarkdownDocument]
     tracked_files: set[str] | None
+    adoption_profile: object | None = None
 
 
 def canonical_json(value: object) -> str:
@@ -173,7 +174,7 @@ def markdown_anchor(heading: str) -> str:
     slug = heading.strip().lower()
     slug = re.sub(r"`([^`]*)`", r"\1", slug)
     slug = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", slug)
-    slug = re.sub(r"[^a-z0-9 _.-]", "", slug)
+    slug = re.sub(r"[^a-z0-9 _-]", "", slug)
     slug = slug.replace(" ", "-")
     slug = re.sub(r"-+", "-", slug)
     return slug.strip("-")

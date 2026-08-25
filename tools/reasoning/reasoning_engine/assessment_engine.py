@@ -10,13 +10,14 @@ from .report_builder import build_check_report, build_report
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
-for runtime in ("activation", "health", "memory"):
+for runtime in ("activation", "health", "memory", "adoption"):
     path = TOOLS_ROOT / runtime
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 
 from health_engine.health_engine import ContextHealthEngine  # noqa: E402
 from memory_engine import ContextVersionEngine, MemoryRetrievalEngine  # noqa: E402
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 ASSERTION_TYPES = {
@@ -74,8 +75,9 @@ def assertion(
 class ContextualAssessmentEngine:
     """Compose governed Runtime evidence into a bounded advisory assessment."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root).resolve()
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(
         self,
@@ -110,11 +112,11 @@ class ContextualAssessmentEngine:
         focus = sorted(set(str(item) for item in focus_entities))
         structured_reasoning = derive_reasoning(evidence_set, focus)
         version_checks = self._check_versions(versions, generated_at)
-        health = ContextHealthEngine(self.root).run(
+        health = ContextHealthEngine(self.root, self.adoption_profile).run(
             mission_use_evidence=mission_use_evidence,
             generated_at=generated_at,
         )
-        memory = MemoryRetrievalEngine(self.root).run(
+        memory = MemoryRetrievalEngine(self.root, self.adoption_profile).run(
             goal=goal,
             mission_id=mission_id,
             question=question,
@@ -154,6 +156,7 @@ class ContextualAssessmentEngine:
             "evaluation_time": evaluation_time,
         }
         bindings = {
+            "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
             "activation_package": self._ref(memory["activation_package"]),
             "health_report": self._ref(health),
             "memory_retrieval": self._ref(memory),
@@ -232,6 +235,13 @@ class ContextualAssessmentEngine:
                 "GraphRAG, embeddings, vector search, broad RAG, and autonomous execution are not used.",
             ],
         }
+        if self.adoption_profile:
+            report["adoption_profile"] = self.adoption_profile.binding()
+            report["evidence_isolation"] = {
+                "target_only": True,
+                "host_context_used_as_target_evidence": False,
+                "profile_identity_hash": self.adoption_profile.identity_hash,
+            }
         return build_report(self.root, report, generated_at)
 
     def check_assessment(
@@ -314,7 +324,7 @@ class ContextualAssessmentEngine:
         return build_check_report(self.root, report, generated_at)
 
     def _check_versions(self, versions: list[dict], generated_at: str | None) -> list[dict]:
-        engine = ContextVersionEngine(self.root)
+        engine = ContextVersionEngine(self.root, self.adoption_profile)
         checks = []
         for version in versions:
             check = engine.check_version(version, generated_at=generated_at)

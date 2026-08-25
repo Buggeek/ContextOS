@@ -23,12 +23,14 @@ from .continuity_engine import stable_hash
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
 ACTIVATION_ROOT = TOOLS_ROOT / "activation"
 VALIDATORS_ROOT = TOOLS_ROOT / "validators"
-for module_root in (ACTIVATION_ROOT, VALIDATORS_ROOT):
+ADOPTION_ROOT = TOOLS_ROOT / "adoption"
+for module_root in (ACTIVATION_ROOT, VALIDATORS_ROOT, ADOPTION_ROOT):
     if str(module_root) not in sys.path:
         sys.path.insert(0, str(module_root))
 
 from activation_engine.package_engine import ContextActivationPackageEngine  # noqa: E402
 from engine.validator_engine import ValidatorEngine  # noqa: E402
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 CAPTURE_EVENTS = {
@@ -133,8 +135,9 @@ def _ref(value: dict | None) -> dict | None:
 class ContextVersionEngine:
     """Plan, capture, and verify immutable content-free Context Versions."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root).resolve()
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def plan(
         self,
@@ -167,14 +170,14 @@ class ContextVersionEngine:
         continuity_gaps = []
         package_sources = []
         if activation_package:
-            package_check = ContextActivationPackageEngine(self.root).check_package(activation_package, generated_at=generated_at)
+            package_check = ContextActivationPackageEngine(self.root, self.adoption_profile).check_package(activation_package, generated_at=generated_at)
             package_sources = activation_package.get("canonical_sources", [])
             if not package_check["result"]["valid"]:
                 continuity_gaps.append(
                     {"id": "context.version.gap.activation_package_invalid", "message": "The bound Activation Package is not currently valid."}
                 )
         if activation_handoff:
-            handoff_check = ContextActivationPackageEngine(self.root).check_handoff(activation_handoff, generated_at=generated_at)
+            handoff_check = ContextActivationPackageEngine(self.root, self.adoption_profile).check_handoff(activation_handoff, generated_at=generated_at)
             if not handoff_check["result"]["valid"]:
                 continuity_gaps.append(
                     {"id": "context.version.gap.activation_handoff_invalid", "message": "The bound Activation Handoff is not currently valid."}
@@ -186,7 +189,7 @@ class ContextVersionEngine:
             continuity_gaps.append(
                 {"id": "context.version.gap.no_sources", "message": "No governed source was available for Context Version capture."}
             )
-        validator = ValidatorEngine(self.root).run(mode="gate")
+        validator = ValidatorEngine(self.root, self.adoption_profile).run(mode="gate")
         validator_ok = validator["summary"]["error"] == 0 and validator["summary"]["fatal"] == 0
         if not validator_ok:
             continuity_gaps.append(
@@ -207,11 +210,13 @@ class ContextVersionEngine:
                         "authority_tier": item["authority_tier"],
                     }
                     for item in manifest
-                ]
+                ],
+                "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
             }
         )
         repository_evidence = self._repository_evidence()
         bindings = {
+            "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
             "activation_package": _ref(activation_package),
             "activation_handoff": _ref(activation_handoff),
             "authority_refs": self._source_refs(manifest, authority_paths),
@@ -230,6 +235,7 @@ class ContextVersionEngine:
             "authority_paths": sorted(set(authority_paths)),
             "policy_paths": sorted(set(policy_paths)),
             "effective_from": effective_from or capture_at,
+            "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
         }
         gates = {
             "sources_resolved": not source_gaps and bool(manifest),
@@ -374,6 +380,7 @@ class ContextVersionEngine:
             "source_manifest": plan["source_manifest"],
             "source_fingerprint": plan["source_fingerprint"],
             "bindings": {
+                "adoption_profile": plan["bindings"].get("adoption_profile"),
                 "activation_package": plan["bindings"]["activation_package"],
                 "activation_handoff": plan["bindings"]["activation_handoff"],
                 "authority_refs": plan["bindings"]["authority_refs"],
@@ -438,7 +445,13 @@ class ContextVersionEngine:
         else:
             historical_verification = "unverifiable"
         current_known = [item for item in source_checks if item["current_exists"]]
-        if total and len(current_known) == total and all(item["current_match"] for item in source_checks):
+        profile_binding = version.get("bindings", {}).get("adoption_profile")
+        profile_check = (
+            self.adoption_profile.check_binding(profile_binding or {})
+            if self.adoption_profile
+            else {"valid": profile_binding is None, "checks": {"profile_absent": profile_binding is None}}
+        )
+        if total and len(current_known) == total and all(item["current_match"] for item in source_checks) and profile_check["valid"]:
             current_applicability = "exact_current_match"
         elif source_checks:
             current_applicability = "superseded_or_drifted"
@@ -459,7 +472,13 @@ class ContextVersionEngine:
             {
                 "read_only": True,
                 "version": {"id": version.get("id"), "identity_hash": version.get("identity_hash")},
-                "checks": {"identity_valid": identity_valid, "source_count": total, "resolved_source_count": resolved},
+                "checks": {
+                    "identity_valid": identity_valid,
+                    "source_count": total,
+                    "resolved_source_count": resolved,
+                    "adoption_profile_valid": profile_check["valid"],
+                    "adoption_profile_checks": profile_check["checks"],
+                },
                 "source_checks": source_checks,
                 "continuity_gaps": gaps,
                 "result": {
@@ -481,6 +500,24 @@ class ContextVersionEngine:
 
     def _source_manifest(self, scope: dict, package_sources: list[dict], extra_paths: list[str]) -> tuple[list[dict], list[dict]]:
         declarations = {item.get("path"): item for item in package_sources if item.get("path")}
+        if self.adoption_profile:
+            for source in self.adoption_profile.source_records(self.root):
+                if "context_version" not in source.get("applicable_operations", []):
+                    continue
+                declarations.setdefault(
+                    source["locator"],
+                    {
+                        "hash": source["source_hash"],
+                        "authority_tier": source.get("authority_tier"),
+                        "lifecycle_state": source.get("lifecycle_state"),
+                        "truth": {
+                            "epistemic_support": source.get("mapping_support"),
+                            "governance_lifecycle": source.get("lifecycle_state"),
+                            "strategic_belief": None,
+                        },
+                        "mapped_concept": source["concept"],
+                    },
+                )
         for locator in extra_paths:
             declarations.setdefault(locator, {})
         manifest = []
@@ -521,11 +558,9 @@ class ContextVersionEngine:
                     "fingerprint": {"algorithm": "sha256", "value": fingerprint},
                     "authority_tier": declared.get("authority_tier") or _authority_tier(locator),
                     "lifecycle_state": declared.get("lifecycle_state") or _lifecycle_state(locator),
-                    "truth": {
-                        "epistemic_support": None,
-                        "governance_lifecycle": None,
-                        "strategic_belief": None,
-                    },
+                    "truth": declared.get("truth")
+                    or {"epistemic_support": None, "governance_lifecycle": None, "strategic_belief": None},
+                    "mapped_concept": declared.get("mapped_concept"),
                     "content_embedded": False,
                 }
             )

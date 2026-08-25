@@ -87,3 +87,6 @@ CLI surface:
 ```
 
 `contextos assess` is read-only and emits `contextos.readiness.report/1`.
+
+`--adoption-profile <profile.json>` evaluates mapped organizational capability
+equivalence rather than requiring Context OS-native directories or filenames.

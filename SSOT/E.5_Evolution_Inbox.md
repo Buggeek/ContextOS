@@ -255,6 +255,13 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-204 | Lukspeed | deferred | PILOT-LUKSPEED-001 | Lukspeed's read-first active backlog contains closed/merged rows and a potentially stale active status relative to current main history. | After Context OS hardening and separate Lukspeed docs authority, run `LUKSPEED-ACTIVE-EXECUTION-INDEX-RECONCILIATION-001` in an isolated lane. |
 | INBOX-205 | security | accepted | PILOT-LUKSPEED-001 | Policy-before-exposure, read-only execution, explicit non-zero failures, repository-bound authority, and no-inferred-authority behavior held under external Shadow Mode. | Preserve these v1.0 safety properties while hardening external adoption. |
 | INBOX-206 | architecture | deferred | PILOT-LUKSPEED-001 | Repository authority preflight is bound to canonical local roots and does not directly recognize an isolated analysis clone. | Preserve canonical-root verification now; evaluate a signed/explicit isolated-lane binding only from a future real workflow need. |
+| INBOX-207 | architecture | accepted | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | One deterministic Adoption Profile can bind semantic mappings, target authority, rule applicability, selection, isolation, and invalidation without becoming a parallel target SSOT. | Preserve `contextos.adoption.profile/1` as the universal external-adoption boundary. |
+| INBOX-208 | evidence | accepted | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Profile-aware Lukspeed Shadow Mode produced gate exit 0, 89/R4 Readiness, a valid 12-source package/Handoff, isolated Health, mapped Memory, bounded Reasoning, and a 19-source Context Version without target mutation. | Permit a separately authorized bounded target Mission after fresh profile/package/Handoff validation. |
+| INBOX-209 | product | deferred | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Explicit applicability and provenance increased nine machine reports from about 744 KB to about 985 KB even while human orientation fell below 10 KB. | Design a compact cross-report adoption summary only from a future product Mission; do not remove audit evidence. |
+| INBOX-210 | validation | deferred | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Generic Markdown validation leaves 142 link and 423 duplicate-heading advisory candidates whose target significance requires native governance interpretation. | Add target-native rule adapters only when a governed target control and repeatable need exist; keep current findings advisory. |
+| INBOX-211 | governance | decision-needed | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Lukspeed Memory candidates are now recognized, but no target Retention Policy is mapped; no-policy correctly exposes nothing. | Require Lukspeed policy authority before normal Memory visibility outside controlled fixtures. |
+| INBOX-212 | architecture | deferred | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Filesystem profiles prove repository-local portability but not non-filesystem source-of-record systems or non-Technology domains. | Add adapters and cross-domain claims only from external evidence; do not generalize from filenames. |
+| INBOX-213 | evidence | accepted | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | The active Lukspeed worktree had already changed from the prior 152-entry record to 78 entries before rerun, while tracked/staged fingerprints remained bounded during this Mission. | Treat external worktree state as a fresh per-Mission observation and never claim stale continuity. |
 
 ---
 
@@ -360,3 +367,6 @@ quarantine and triage surface for context that may deserve future action.
   evidence, profile-aware runtime dependency, target-evidence defect, safety
   evidence, non-synthetic baseline, and held real Mission execution at the
   required human/product boundary.
+- 2026-08-25 - v0.1.0 - Recorded external Adoption Profile portability,
+  target-only Health evidence, profile-aware Runtime proof, machine-report
+  presentation debt, retention authority, and fresh external-worktree evidence.

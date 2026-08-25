@@ -2,8 +2,16 @@ from __future__ import annotations
 
 from collections import defaultdict
 from pathlib import Path
+import sys
 
 from inventory_engine.report_builder import build_report
+
+
+ADOPTION_ROOT = Path(__file__).resolve().parents[2] / "adoption"
+if str(ADOPTION_ROOT) not in sys.path:
+    sys.path.insert(0, str(ADOPTION_ROOT))
+
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 EXCLUDED_DIRS = {".git", ".mypy_cache", ".pytest_cache", "__pycache__"}
@@ -184,8 +192,9 @@ def compact_artifact(artifact: dict, **extra: str) -> dict:
 class RepositoryInventoryEngine:
     """Read-only repository inventory engine for Context Readiness."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root)
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(self, generated_at: str | None = None) -> dict:
         resolved_root = self.root.resolve()
@@ -223,4 +232,27 @@ class RepositoryInventoryEngine:
             "governance_artifacts": sorted(governance_artifacts, key=lambda item: item["path"]),
             "roadmap_artifacts": sorted(roadmap_artifacts, key=lambda item: item["path"]),
         }
-        return build_report(resolved_root, detected, generated_at=generated_at)
+        report = build_report(resolved_root, detected, generated_at=generated_at)
+        if self.adoption_profile is not None:
+            state = self.adoption_profile.state(resolved_root)
+            mapped_concepts = []
+            for mapping in self.adoption_profile.mappings():
+                sources = [item for item in state["sources"] if item["concept"] == mapping["concept"]]
+                mapped_concepts.append(
+                    {
+                        "concept": mapping["concept"],
+                        "support": mapping["support"],
+                        "confidence": mapping.get("confidence", "unknown"),
+                        "source_count": len(sources),
+                        "available_source_count": sum(1 for item in sources if item["exists"]),
+                        "source_locators": [item["locator"] for item in sources],
+                        "true_gap": not sources or not any(item["exists"] for item in sources),
+                    }
+                )
+            report["adoption_profile"] = self.adoption_profile.binding()
+            report["detected"]["mapped_concepts"] = mapped_concepts
+            report["detected"]["mapped_sources"] = state["sources"]
+            report["summary"]["mapped_concept_count"] = sum(1 for item in mapped_concepts if not item["true_gap"])
+            report["summary"]["mapped_source_count"] = state["available_source_count"]
+            report["summary"]["true_gap_count"] = sum(1 for item in mapped_concepts if item["true_gap"])
+        return report

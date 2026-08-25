@@ -57,6 +57,9 @@ def render_human(report: dict) -> str:
         "",
         "## Included Context",
     ]
+    if report.get("adoption_profile"):
+        profile = report["adoption_profile"]
+        lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
     for item in report["working_context"]["items"]:
         lines.append(f"- `{item['path']}`")
         lines.append(f"  Role: {item['activation_role']}")
@@ -114,6 +117,9 @@ def render_check_human(report: dict) -> str:
         "",
         "## Source Checks",
     ]
+    profile = report.get("package", {}).get("adoption_profile")
+    if profile:
+        lines.insert(5, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
     for check in report["checks"]["source_checks"]:
         lines.append(f"- `{check['path']}` match={yes_no(check['matches'])}")
         lines.append(f"  Expected: `{check['expected_hash']}`")
@@ -157,6 +163,9 @@ def render_handoff_human(report: dict) -> str:
         "",
         "## Governing Context",
     ]
+    if report.get("adoption_profile"):
+        profile = report["adoption_profile"]
+        lines.insert(6, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
     for source in report["selected_context"]:
         lines.append(f"- `{source['path']}`")
         lines.append(f"  Role: {source['activation_role']}")
@@ -254,6 +263,9 @@ def render_handoff_check_human(report: dict) -> str:
         "",
         "## Source Checks",
     ]
+    profile = report.get("source_package", {}).get("adoption_profile")
+    if profile:
+        lines.insert(6, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
     for check in report["checks"]["source_checks"]:
         lines.append(f"- `{check['path']}` match={yes_no(check['matches'])}")
         lines.append(f"  Expected: `{check['expected_hash']}`")

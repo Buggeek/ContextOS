@@ -1,5 +1,9 @@
 # Context OS Organizational Memory
 
+`--adoption-profile` maps target-native Mission, closure, evidence, learning,
+and workstream-memory sources into continuity candidates. Mapping establishes
+relevance only; Retention Resolution still runs before exposure.
+
 `tools/memory` provides the first read-only Organizational Memory runtime.
 
 ## Public API

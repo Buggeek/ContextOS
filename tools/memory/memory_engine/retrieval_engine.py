@@ -235,8 +235,9 @@ def safe_policy_evaluation(resolution: dict) -> dict:
 class MemoryRetrievalEngine:
     """Retrieve bounded historical prior art while preserving current Activation authority."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root).resolve()
+        self.adoption_profile = adoption_profile
 
     def run(
         self,
@@ -271,13 +272,13 @@ class MemoryRetrievalEngine:
         policies = list(retention_policies or [])
         supplied_metadata = memory_metadata_by_id or {}
         evaluated_at = evaluation_time or generated_at or generated_timestamp()
-        continuity = OrganizationalMemoryEngine(self.root).run(
+        continuity = OrganizationalMemoryEngine(self.root, self.adoption_profile).run(
             mission_id=mission_id,
             goal=f"{goal} {question}".strip(),
             context_versions=context_versions,
             generated_at=generated_at,
         )
-        activation = ContextActivationPackageEngine(self.root).run(
+        activation = ContextActivationPackageEngine(self.root, self.adoption_profile).run(
             goal=goal,
             mission_id=mission_id,
             consumer=consumer,
@@ -363,6 +364,7 @@ class MemoryRetrievalEngine:
                 "context_version_bindings": continuity["summary"]["context_version_bindings"],
             },
             "bindings": {
+                "adoption_profile": continuity.get("adoption_profile"),
                 "memory_continuity": {
                     "schema": continuity["schema"],
                     "id": continuity["id"],
@@ -435,7 +437,7 @@ class MemoryRetrievalEngine:
             raise ValueError("Memory retrieval check requires contextos.memory.retrieval_result/1 input.")
         expected_hash = stable_hash(self._identity_payload(report))
         identity_valid = report.get("identity_hash") == expected_hash
-        activation_check = ContextActivationPackageEngine(self.root).check_package(
+        activation_check = ContextActivationPackageEngine(self.root, self.adoption_profile).check_package(
             report.get("activation_package", {}), generated_at=generated_at
         )
         query = report.get("query", {})

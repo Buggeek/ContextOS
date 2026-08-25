@@ -13,12 +13,14 @@ from health_engine.report_builder import build_report
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
 VALIDATORS_ROOT = TOOLS_ROOT / "validators"
 READINESS_ROOT = TOOLS_ROOT / "readiness"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT):
+ADOPTION_ROOT = TOOLS_ROOT / "adoption"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, ADOPTION_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
 from engine.validator_engine import ValidatorEngine  # noqa: E402
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 MISSION_PATTERN = "E.4_Mission_*.md"
@@ -150,6 +152,48 @@ def read_evolution_inbox(root: Path) -> dict:
         "category_counts": dict(sorted(Counter(item["category"] for item in items).items())),
         "status_counts": dict(sorted(Counter(item["status"] for item in items).items())),
     }
+
+
+def read_profile_evidence(root: Path, profile) -> tuple[dict, dict]:
+    records = profile.source_records(root)
+    mission_concepts = {"active_work", "goals_missions", "evidence_closure", "organizational_memory"}
+    items = []
+    for record in records:
+        if record["concept"] not in mission_concepts or not record["exists"]:
+            continue
+        is_learning = record["concept"] == "organizational_memory" or "CAPABILITY_EVOLUTION" in record["locator"]
+        items.append(
+            {
+                "path": record["locator"],
+                "status": record.get("currentness", "unknown"),
+                "has_learning": is_learning,
+                "mentions_invalidation": bool(record.get("supersession_status")),
+                "mentions_execution_context": record["concept"] in {"active_work", "goals_missions"},
+                "mentions_authority": bool(record.get("authority_owner")),
+                "is_activation": False,
+            }
+        )
+    missions = {
+        "items": items,
+        "count": len(items),
+        "closed_count": 0,
+        "learning_count": 0,
+        "invalidation_count": 0,
+        "execution_context_count": 0,
+        "authority_count": sum(1 for item in items if item["mentions_authority"]),
+        "activation_paths": [],
+    }
+    learning_sources = [item for item in records if item["exists"] and item["concept"] == "organizational_memory"]
+    inbox = {
+        "path": None,
+        "items": [],
+        "item_count": len(learning_sources),
+        "category_counts": {"mapped_target_learning_source": len(learning_sources)} if learning_sources else {},
+        "status_counts": {"observed": len(learning_sources)} if learning_sources else {},
+        "source_refs": [item["locator"] for item in learning_sources],
+        "kind": "mapped_target_learning_sources",
+    }
+    return missions, inbox
 
 
 def validator_signals(validator_report: dict) -> list[dict]:
@@ -309,9 +353,10 @@ def usefulness_signals(missions: dict, mission_use_evidence: dict | None = None)
     return signals
 
 
-def learning_signals(missions: dict, inbox: dict) -> list[dict]:
+def learning_signals(missions: dict, inbox: dict, construction_refs: list[str] | None = None) -> list[dict]:
     mission_refs = [mission["path"] for mission in missions["items"] if mission["has_learning"]]
-    inbox_ref = [inbox["path"]] if inbox["path"] else []
+    inbox_ref = [inbox["path"]] if inbox["path"] else inbox.get("source_refs", [])
+    mapped_learning = inbox.get("kind") == "mapped_target_learning_sources"
     return [
         make_signal(
             "learning",
@@ -326,20 +371,19 @@ def learning_signals(missions: dict, inbox: dict) -> list[dict]:
             "learning",
             "evolution_inbox_capture",
             "healthy" if inbox["item_count"] else "unknown",
-            f"Evolution Inbox preserves {inbox['item_count']} observations across {len(inbox['category_counts'])} categories."
+            f"Mapped target learning sources preserve {inbox['item_count']} governed continuity source(s)."
+            if mapped_learning and inbox["item_count"]
+            else f"Evolution Inbox preserves {inbox['item_count']} observations across {len(inbox['category_counts'])} categories."
             if inbox["item_count"]
-            else "No Evolution Inbox observations were found.",
+            else "No governed target learning or Evolution Inbox observations were found.",
             inbox_ref,
         ),
         make_signal(
             "learning",
             "construction_route",
             "healthy",
-            "Context update candidates are routed to the existing governed Construction lifecycle.",
-            [
-                "docs/1.x_architecture/1.5_runtime_contracts/1.5.8_Builder_Draft_Authority_Contract.md",
-                "SSOT/E.4_Mission_V05-CONTEXT-CONSTRUCTION-PLAN-001_Context_Construction_Planning.md",
-            ],
+            "Context update candidates remain suggestions and require a governed human-reviewed construction route.",
+            construction_refs or [],
             belief_state="observed",
         ),
     ]
@@ -421,8 +465,9 @@ def build_candidates(dimensions: dict, readiness_report: dict) -> list[dict]:
 class ContextHealthEngine:
     """Read-only, evidence-first Context Health and Learning report engine."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root)
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(
         self,
@@ -437,13 +482,27 @@ class ContextHealthEngine:
             evidence_root = mission_use_evidence.get("root")
             if not evidence_root or Path(evidence_root).resolve() != root:
                 raise ValueError("Mission-use evidence root does not match the Health target root.")
-        validator = validator_report or ValidatorEngine(root).run(mode="full")
-        readiness = readiness_report or ReadinessScoringEngine(root, validator_mode="full").run(
+        validator = validator_report or ValidatorEngine(root, self.adoption_profile).run(mode="full")
+        readiness = readiness_report or ReadinessScoringEngine(
+            root, validator_mode="full", adoption_profile=self.adoption_profile
+        ).run(
             validator_report=validator,
             generated_at=generated_at,
         )
-        missions = read_mission_evidence(root)
-        inbox = read_evolution_inbox(root)
+        if self.adoption_profile:
+            missions, inbox = read_profile_evidence(root, self.adoption_profile)
+            construction_refs = [
+                item["locator"]
+                for item in self.adoption_profile.source_records(root, {"governance", "evidence_closure"})
+                if item["exists"]
+            ]
+        else:
+            missions = read_mission_evidence(root)
+            inbox = read_evolution_inbox(root)
+            construction_refs = [
+                "docs/1.x_architecture/1.5_runtime_contracts/1.5.8_Builder_Draft_Authority_Contract.md",
+                "SSOT/E.4_Mission_V05-CONTEXT-CONSTRUCTION-PLAN-001_Context_Construction_Planning.md",
+            ]
         dimensions = {
             "integrity": dimension(
                 "integrity",
@@ -461,7 +520,7 @@ class ContextHealthEngine:
                 "learning",
                 "Organizational Learning",
                 "What did execution teach that may justify governed context evolution?",
-                learning_signals(missions, inbox),
+                learning_signals(missions, inbox, construction_refs),
             ),
         }
         candidates = build_candidates(dimensions, readiness)
@@ -526,4 +585,77 @@ class ContextHealthEngine:
                 "Health signals are explainable observations and suggestions, not a numerical truth score.",
             ],
         }
+        if self.adoption_profile:
+            profile_state = self.adoption_profile.state(root)
+            report["adoption_profile"] = self.adoption_profile.binding()
+            report["evidence_isolation"] = {
+                "target_only": True,
+                "host_context_used_as_target_evidence": False,
+                "target_source_fingerprint": profile_state["source_fingerprint"],
+                "target_evidence_refs": sorted(
+                    {
+                        ref
+                        for value in dimensions.values()
+                        for signal in value["signals"]
+                        for ref in signal["evidence_refs"]
+                        if ref and not ref.startswith(("validator.", "readiness.", "health.", "contextos."))
+                    }
+                ),
+            }
+            report["invalidation"] = {
+                "conditions": self.adoption_profile.data["invalidation"]["conditions"],
+                "profile_identity_hash": self.adoption_profile.identity_hash,
+                "target_source_fingerprint": profile_state["source_fingerprint"],
+            }
+        identity_payload = {
+            "summary": report["summary"],
+            "dimensions": report["dimensions"],
+            "context_update_candidates": report["context_update_candidates"],
+            "evidence_sources": report["evidence_sources"],
+            "adoption_profile": report.get("adoption_profile"),
+            "invalidation": report.get("invalidation"),
+            "authority": report["authority"],
+        }
+        report["identity_hash"] = stable_hash(identity_payload)
+        report["id"] = f"health.report.{report['identity_hash'][:16]}"
         return build_report(root, report, generated_at=generated_at)
+
+    def check_report(
+        self,
+        report: dict,
+        *,
+        mission_use_evidence: dict | None = None,
+        generated_at: str | None = None,
+    ) -> dict:
+        if report.get("schema") != "contextos.health.report/1":
+            raise ValueError("Health check requires contextos.health.report/1 input.")
+        identity_payload = {
+            "summary": report.get("summary"),
+            "dimensions": report.get("dimensions"),
+            "context_update_candidates": report.get("context_update_candidates"),
+            "evidence_sources": report.get("evidence_sources"),
+            "adoption_profile": report.get("adoption_profile"),
+            "invalidation": report.get("invalidation"),
+            "authority": report.get("authority"),
+        }
+        expected = stable_hash(identity_payload)
+        identity_valid = report.get("identity_hash") == expected and report.get("id") == f"health.report.{expected[:16]}"
+        current = self.run(mission_use_evidence=mission_use_evidence, generated_at=generated_at)
+        current_state_unchanged = report.get("identity_hash") == current.get("identity_hash")
+        failed = []
+        if not identity_valid:
+            failed.append("health_report_check.identity_hash_mismatch")
+        if not current_state_unchanged:
+            failed.append("health_report_check.current_state_changed")
+        return {
+            "schema": "contextos.health.report_check/1",
+            "generated_at": generated_at,
+            "root": str(self.root.resolve()),
+            "read_only": True,
+            "checks": {
+                "identity_valid": identity_valid,
+                "current_state_unchanged": current_state_unchanged,
+            },
+            "current": {"id": current["id"], "identity_hash": current["identity_hash"]},
+            "result": {"valid": not failed, "invalidated": bool(failed), "failed_checks": failed},
+        }

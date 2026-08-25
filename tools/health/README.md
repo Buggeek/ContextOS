@@ -46,6 +46,10 @@ Runtime CLI:
 ./contextos health --root . --json-out <health-report.json>
 ```
 
+With `--adoption-profile`, Health enforces target-only evidence isolation and
+binds the profile/source fingerprint. Context OS host Missions and releases are
+never evidence that an external target is healthy.
+
 The default human report starts with dimension status and prioritized
 attention, blocking, and unknown signals. It preserves evidence references and
 belief state, then shows governed Context Update Candidates, observability

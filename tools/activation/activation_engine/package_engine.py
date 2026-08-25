@@ -11,10 +11,13 @@ from activation_engine.report_builder import CHECK_SCHEMA, HANDOFF_CHECK_SCHEMA,
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
 VALIDATORS_ROOT = TOOLS_ROOT / "validators"
-if str(VALIDATORS_ROOT) not in sys.path:
-    sys.path.insert(0, str(VALIDATORS_ROOT))
+ADOPTION_ROOT = TOOLS_ROOT / "adoption"
+for runtime_path in (VALIDATORS_ROOT, ADOPTION_ROOT):
+    if str(runtime_path) not in sys.path:
+        sys.path.insert(0, str(runtime_path))
 
 from engine.validator_engine import ValidatorEngine  # noqa: E402
+from adoption_engine import load_adoption_profile  # noqa: E402
 
 
 DEFAULT_SOURCE_PATHS = [
@@ -171,8 +174,9 @@ def score_path(path: str, content: str, goal_tokens: set[str]) -> int:
 class ContextActivationPackageEngine:
     """Read-only activation package builder for mission-bound working context."""
 
-    def __init__(self, root: str | Path = ".") -> None:
+    def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root)
+        self.adoption_profile = load_adoption_profile(adoption_profile)
 
     def run(
         self,
@@ -191,9 +195,13 @@ class ContextActivationPackageEngine:
             raise ValueError("Activation package requires at least one artifact.")
 
         root = self.root.resolve()
-        validator_report = ValidatorEngine(root).run(mode="gate")
+        validator_report = ValidatorEngine(root, self.adoption_profile).run(mode="gate")
         goal_tokens = tokens_for(goal + " " + (mission_id or "") + " " + consumer)
-        selected, excluded = self._select_sources(root, goal_tokens, max_artifacts)
+        selected, excluded = (
+            self._select_profile_sources(root, goal_tokens, max_artifacts)
+            if self.adoption_profile
+            else self._select_sources(root, goal_tokens, max_artifacts)
+        )
         source_material = [
             {
                 "path": item["path"],
@@ -203,7 +211,12 @@ class ContextActivationPackageEngine:
             }
             for item in selected
         ]
-        source_fingerprint = stable_hash({"sources": source_material})
+        source_fingerprint = stable_hash(
+            {
+                "sources": source_material,
+                "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
+            }
+        )
         activation_allowed = validator_report["summary"]["error"] == 0 and validator_report["summary"]["fatal"] == 0
         context_gaps = self._context_gaps(selected, activation_allowed, validator_report)
         package = {
@@ -224,6 +237,7 @@ class ContextActivationPackageEngine:
                 "prohibited_permissions": ["mutate_canonical_context", "promote_context", "delegate_authority"],
             },
             "source_fingerprint": source_fingerprint,
+            "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
             "summary": {
                 "activation_allowed": activation_allowed,
                 "included_artifact_count": len(selected),
@@ -260,6 +274,7 @@ class ContextActivationPackageEngine:
                     "The Validator gate reports errors or fatals.",
                     "The package goal, mission id, consumer, or permissions change.",
                     "A source artifact changes lifecycle state or authority tier.",
+                    "The active Adoption Profile identity, version, target, mapping, or applicability decision changes.",
                 ],
                 "source_hashes": {item["path"]: item["source_hash"] for item in selected},
             },
@@ -289,8 +304,13 @@ class ContextActivationPackageEngine:
         if package.get("schema") != "contextos.activation.package/1":
             raise ValueError("Activation package check requires contextos.activation.package/1 input.")
         root = self.root.resolve()
-        validator_report = ValidatorEngine(root).run(mode="gate")
+        validator_report = ValidatorEngine(root, self.adoption_profile).run(mode="gate")
         identity_valid = package.get("identity_hash") == stable_hash(self._identity_payload(package))
+        profile_check = (
+            self.adoption_profile.check_binding(package.get("adoption_profile") or {})
+            if self.adoption_profile
+            else {"valid": package.get("adoption_profile") is None, "checks": {"profile_absent": package.get("adoption_profile") is None}}
+        )
         source_checks = []
         for source in package.get("canonical_sources", []):
             rel_path = source.get("path")
@@ -310,6 +330,8 @@ class ContextActivationPackageEngine:
         failed = []
         if not identity_valid:
             failed.append("activation_package_check.identity_hash_mismatch")
+        if not profile_check["valid"]:
+            failed.append("activation_package_check.adoption_profile_changed")
         failed.extend(f"activation_package_check.source_hash_changed:{check['path']}" for check in source_checks if not check["matches"])
         if not validator_ok:
             failed.append("activation_package_check.validator_gate_blocked")
@@ -323,7 +345,8 @@ class ContextActivationPackageEngine:
                         "lifecycle_state": source.get("lifecycle_state"),
                     }
                     for check, source in zip(source_checks, package.get("canonical_sources", []))
-                ]
+                ],
+                "adoption_profile": self.adoption_profile.binding() if self.adoption_profile else None,
             }
         )
         return {
@@ -337,6 +360,7 @@ class ContextActivationPackageEngine:
                 "goal": package.get("goal"),
                 "consumer": package.get("consumer"),
                 "source_fingerprint": package.get("source_fingerprint"),
+                "adoption_profile": package.get("adoption_profile"),
             },
             "current_source_fingerprint": current_fingerprint,
             "validator": {
@@ -345,6 +369,8 @@ class ContextActivationPackageEngine:
             },
             "checks": {
                 "identity_valid": identity_valid,
+                "adoption_profile_valid": profile_check["valid"],
+                "adoption_profile_checks": profile_check["checks"],
                 "source_hashes_match": all(check["matches"] for check in source_checks),
                 "validator_gate_ok": validator_ok,
                 "source_checks": source_checks,
@@ -400,7 +426,9 @@ class ContextActivationPackageEngine:
                 "ref": package_ref,
                 "schema": package.get("schema"),
                 "source_fingerprint": package.get("source_fingerprint"),
+                "adoption_profile": package.get("adoption_profile"),
             },
+            "adoption_profile": package.get("adoption_profile"),
             "package_check": package_check,
             "consumer": package.get("consumer", {}),
             "mission": {
@@ -422,7 +450,9 @@ class ContextActivationPackageEngine:
                     "purpose": "orient_consumer_to_outcome_authority_constraints_and_evidence",
                     "source_refs": [item["path"] for item in selected_context],
                     "selected_at_activation": True,
-                    "sufficient_for_orientation": True,
+                    "sufficient_for_orientation": bool(selected_context)
+                    and package_check["result"]["valid"]
+                    and not any(gap.get("severity") == "blocker" for gap in package.get("context_gaps", [])),
                 },
                 "execution_context": {
                     "purpose": "bounded_on_demand_material_required_to_perform_the_mission",
@@ -518,7 +548,7 @@ class ContextActivationPackageEngine:
         if handoff.get("schema") != HANDOFF_SCHEMA:
             raise ValueError("Activation handoff check requires contextos.activation.handoff/1 input.")
         root = self.root.resolve()
-        validator_report = ValidatorEngine(root).run(mode="gate")
+        validator_report = ValidatorEngine(root, self.adoption_profile).run(mode="gate")
         handoff_identity_valid = handoff.get("identity_hash") == stable_hash(self._handoff_identity_payload(handoff))
         source_checks = []
         for source in handoff.get("selected_context", []):
@@ -536,6 +566,11 @@ class ContextActivationPackageEngine:
                 }
             )
         validator_ok = validator_report["summary"]["error"] == 0 and validator_report["summary"]["fatal"] == 0
+        profile_check = (
+            self.adoption_profile.check_binding(handoff.get("adoption_profile") or {})
+            if self.adoption_profile
+            else {"valid": handoff.get("adoption_profile") is None, "checks": {"profile_absent": handoff.get("adoption_profile") is None}}
+        )
         package_ref = handoff.get("source_package", {}).get("ref")
         package_ref_available = bool(package_ref)
         package_ref_exists = False
@@ -565,6 +600,8 @@ class ContextActivationPackageEngine:
         failed = []
         if not handoff_identity_valid:
             failed.append("activation_handoff_check.identity_hash_mismatch")
+        if not profile_check["valid"]:
+            failed.append("activation_handoff_check.adoption_profile_changed")
         failed.extend(f"activation_handoff_check.source_hash_changed:{check['path']}" for check in source_checks if not check["matches"])
         if not validator_ok:
             failed.append("activation_handoff_check.validator_gate_blocked")
@@ -609,6 +646,8 @@ class ContextActivationPackageEngine:
             "checks": {
                 "handoff_identity_valid": handoff_identity_valid,
                 "source_hashes_match": all(check["matches"] for check in source_checks),
+                "adoption_profile_valid": profile_check["valid"],
+                "adoption_profile_checks": profile_check["checks"],
                 "validator_gate_ok": validator_ok,
                 "package_ref_available": package_ref_available,
                 "package_ref_exists": package_ref_exists,
@@ -675,6 +714,83 @@ class ContextActivationPackageEngine:
         ]
         return selected, excluded
 
+    def _select_profile_sources(self, root: Path, goal_tokens: set[str], max_artifacts: int) -> tuple[list[dict], list[dict]]:
+        records = self.adoption_profile.source_records(root)
+        required = set(self.adoption_profile.data.get("activation", {}).get("required_concepts", []))
+        by_path: dict[str, dict] = {}
+        for record in records:
+            if not record["exists"] or record["mapping_support"] in {"suggested", "unknown"}:
+                continue
+            item = by_path.setdefault(
+                record["locator"],
+                {
+                    "path": record["locator"],
+                    "source_hash": record["source_hash"],
+                    "authority_tier": record.get("authority_tier", "target_canon"),
+                    "lifecycle_state": record["lifecycle_state"],
+                    "activation_role": record.get("activation_role", "mapped_governing_context"),
+                    "title": None,
+                    "owner": record["authority_owner"],
+                    "mapped_concepts": [],
+                    "profile_priority": int(record.get("priority", 50)),
+                    "provenance": {
+                        "source_path": record["locator"],
+                        "source_hash": record["source_hash"],
+                        "adoption_profile_id": self.adoption_profile.id,
+                        "adoption_profile_hash": self.adoption_profile.identity_hash,
+                        "mapping_evidence_refs": [],
+                    },
+                },
+            )
+            item["mapped_concepts"].append(record["concept"])
+            item["provenance"]["mapping_evidence_refs"].extend(record.get("evidence_refs", []))
+            item["profile_priority"] = max(item["profile_priority"], int(record.get("priority", 50)))
+        scored = []
+        for path, item in by_path.items():
+            content = (root / path).read_text(encoding="utf-8")
+            item["title"] = title_for(content)
+            item["content_excerpt"] = excerpt_for(content, goal_tokens)
+            item["mapped_concepts"] = sorted(set(item["mapped_concepts"]))
+            item["provenance"]["mapping_evidence_refs"] = sorted(set(item["provenance"]["mapping_evidence_refs"]))
+            relevance = len(goal_tokens & tokens_for(path + " " + content[:12000]))
+            required_bonus = 100 if required & set(item["mapped_concepts"]) else 0
+            current_bonus = 30 if any(
+                record.get("currentness") == "current" for record in records if record["locator"] == path
+            ) else 0
+            score = required_bonus + current_bonus + item["profile_priority"] + relevance * 4
+            scored.append((score, path, item))
+        scored.sort(key=lambda value: (-value[0], value[1]))
+
+        selected: list[dict] = []
+        covered: set[str] = set()
+        remaining = list(scored)
+        for concept in sorted(required):
+            candidate = next((entry for entry in remaining if concept in entry[2]["mapped_concepts"]), None)
+            if candidate and candidate[2]["path"] not in {item["path"] for item in selected}:
+                selected.append(candidate[2])
+                covered.update(candidate[2]["mapped_concepts"])
+                if len(selected) >= max_artifacts:
+                    break
+        if len(selected) < max_artifacts:
+            for _score, _path, item in remaining:
+                if item["path"] in {value["path"] for value in selected}:
+                    continue
+                selected.append(item)
+                if len(selected) >= max_artifacts:
+                    break
+        selected_paths = {item["path"] for item in selected}
+        excluded = [
+            {
+                "path": item["path"],
+                "reason": "mapped_source_lower_relevance_or_package_limit",
+                "source_hash": item["source_hash"],
+                "mapped_concepts": item["mapped_concepts"],
+            }
+            for _score, _path, item in scored
+            if item["path"] not in selected_paths
+        ]
+        return selected, excluded
+
     def _context_gaps(self, selected: list[dict], activation_allowed: bool, validator_report: dict) -> list[dict]:
         gaps: list[dict] = []
         if not activation_allowed:
@@ -686,7 +802,19 @@ class ContextActivationPackageEngine:
                     "evidence_refs": ["validator.summary"],
                 }
             )
-        if not any(item["authority_tier"] == "ssot" for item in selected):
+        if self.adoption_profile:
+            required = set(self.adoption_profile.data.get("activation", {}).get("required_concepts", []))
+            covered = {concept for item in selected for concept in item.get("mapped_concepts", [])}
+            for concept in sorted(required - covered):
+                gaps.append(
+                    {
+                        "id": f"activation.gap.mapped_concept_missing.{concept}",
+                        "severity": "warning",
+                        "message": f"Required mapped governing concept `{concept}` has no selected supported source.",
+                        "evidence_refs": [self.adoption_profile.id],
+                    }
+                )
+        elif not any(item["authority_tier"] == "ssot" for item in selected):
             gaps.append(
                 {
                     "id": "activation.gap.no_ssot_source_selected",
@@ -695,7 +823,7 @@ class ContextActivationPackageEngine:
                     "evidence_refs": [],
                 }
             )
-        if not any(item["activation_role"] == "first_principles_authority" for item in selected):
+        if not self.adoption_profile and not any(item["activation_role"] == "first_principles_authority" for item in selected):
             gaps.append(
                 {
                     "id": "activation.gap.genesis_not_selected",
@@ -721,12 +849,14 @@ class ContextActivationPackageEngine:
             "consumer": package["consumer"],
             "source_fingerprint": package["source_fingerprint"],
             "canonical_sources": package["canonical_sources"],
+            "adoption_profile": package.get("adoption_profile"),
             "boundaries": package["boundaries"],
         }
 
     def _handoff_identity_payload(self, handoff: dict) -> dict:
         return {
             "source_package": handoff["source_package"],
+            "adoption_profile": handoff.get("adoption_profile"),
             "consumer": handoff["consumer"],
             "mission": handoff["mission"],
             "selected_context": handoff["selected_context"],

@@ -18,6 +18,11 @@ package = ContextActivationPackageEngine(".").run(
 human = render_human(package)
 ```
 
+For an external target, construct the engine with `adoption_profile=<path>` or
+pass `--adoption-profile <path>` to the CLI. Selection then uses mapped target
+authority, currentness, priority, and Goal/Mission relevance; profile changes
+invalidate saved packages and Handoffs.
+
 Machine report schema:
 
 ```text

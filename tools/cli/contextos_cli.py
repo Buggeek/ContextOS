@@ -14,7 +14,8 @@ ACTIVATION_ROOT = REPO_ROOT / "tools" / "activation"
 HEALTH_ROOT = REPO_ROOT / "tools" / "health"
 MEMORY_ROOT = REPO_ROOT / "tools" / "memory"
 REASONING_ROOT = REPO_ROOT / "tools" / "reasoning"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT, MEMORY_ROOT, REASONING_ROOT):
+ADOPTION_ROOT = REPO_ROOT / "tools" / "adoption"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT, MEMORY_ROOT, REASONING_ROOT, ADOPTION_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
@@ -80,6 +81,7 @@ def build_parser() -> argparse.ArgumentParser:
     validate.add_argument("--format", default="text", choices=FORMAT_CHOICES, help="Output format.")
     validate.add_argument("--rules", default=None, help="Comma-separated rule selectors.")
     validate.add_argument("--json-out", default=None, help="Write the machine report JSON to this path.")
+    validate.add_argument("--adoption-profile", default=None, help="Governed contextos.adoption.profile/1 JSON for an external target.")
     validate.set_defaults(handler=run_validate)
 
     assess = subparsers.add_parser(
@@ -90,6 +92,7 @@ def build_parser() -> argparse.ArgumentParser:
     assess.add_argument("--root", default=".", help="Repository root to assess.")
     assess.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     assess.add_argument("--json-out", default=None, help="Write the machine readiness report JSON to this path.")
+    assess.add_argument("--adoption-profile", default=None, help="Governed external Adoption Profile JSON.")
     assess.set_defaults(handler=run_assess)
 
     init = subparsers.add_parser(
@@ -134,6 +137,7 @@ def build_parser() -> argparse.ArgumentParser:
     activate.add_argument("--handoff", action="store_true", help="Render a compact handoff derived from a valid activation package.")
     activate.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     activate.add_argument("--json-out", default=None, help="Write the machine activation package JSON to this path.")
+    activate.add_argument("--adoption-profile", default=None, help="Governed external Adoption Profile JSON.")
     activate.set_defaults(handler=run_activate)
 
     health = subparsers.add_parser(
@@ -145,6 +149,7 @@ def build_parser() -> argparse.ArgumentParser:
     health.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     health.add_argument("--mission-use-evidence", default=None, help="Optional contextos.mission.context_use_evidence/1 JSON report.")
     health.add_argument("--json-out", default=None, help="Write the machine Health report JSON to this path.")
+    health.add_argument("--adoption-profile", default=None, help="Governed external Adoption Profile JSON.")
     health.set_defaults(handler=run_health)
 
     memory = subparsers.add_parser(
@@ -169,6 +174,7 @@ def build_parser() -> argparse.ArgumentParser:
     memory.add_argument("--check-retrieval", default=None, help="Check a saved contextos.memory.retrieval_result/1 JSON report.")
     memory.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     memory.add_argument("--json-out", default=None, help="Write the machine Memory retrieval report JSON to this path.")
+    memory.add_argument("--adoption-profile", default=None, help="Governed external Adoption Profile JSON.")
     memory.set_defaults(handler=run_memory)
 
     reason = subparsers.add_parser(
@@ -196,6 +202,7 @@ def build_parser() -> argparse.ArgumentParser:
     reason.add_argument("--check-assessment", default=None, help="Check a saved contextos.reasoning.assessment/1 JSON report.")
     reason.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     reason.add_argument("--json-out", default=None, help="Write the full machine report JSON to this path.")
+    reason.add_argument("--adoption-profile", default=None, help="Governed external Adoption Profile JSON.")
     reason.set_defaults(handler=run_reason)
     return parser
 
@@ -237,7 +244,7 @@ def run_validate(args: argparse.Namespace) -> int:
         emit_error(payload, args.format)
         return 9
 
-    report = ValidatorEngine(root).run(
+    report = ValidatorEngine(root, args.adoption_profile).run(
         mode=args.mode,
         rules=args.rules,
     )
@@ -272,7 +279,7 @@ def run_assess(args: argparse.Namespace) -> int:
         emit_error(payload, args.format)
         return 9
 
-    report = ReadinessScoringEngine(root).run()
+    report = ReadinessScoringEngine(root, adoption_profile=args.adoption_profile).run()
     if args.json_out:
         write_readiness_json_report(args.json_out, report)
 
@@ -462,7 +469,7 @@ def run_activate(args: argparse.Namespace) -> int:
         )
         emit_error(payload, args.format)
         return 9
-    engine = ContextActivationPackageEngine(root)
+    engine = ContextActivationPackageEngine(root, args.adoption_profile)
 
     try:
         if args.check_handoff:
@@ -539,7 +546,7 @@ def run_health(args: argparse.Namespace) -> int:
             if args.mission_use_evidence
             else None
         )
-        report = ContextHealthEngine(root).run(mission_use_evidence=mission_use_evidence)
+        report = ContextHealthEngine(root, args.adoption_profile).run(mission_use_evidence=mission_use_evidence)
     except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
         payload = error_payload(
             9,
@@ -572,7 +579,7 @@ def run_memory(args: argparse.Namespace) -> int:
         emit_error(payload, args.format)
         return 9
 
-    engine = MemoryRetrievalEngine(root)
+    engine = MemoryRetrievalEngine(root, args.adoption_profile)
     try:
         policies = []
         for policy_path in args.retention_policy:
@@ -684,7 +691,7 @@ def run_reason(args: argparse.Namespace) -> int:
         if not isinstance(metadata, dict):
             raise ValueError("Memory metadata input must be a JSON object.")
 
-        engine = ContextualAssessmentEngine(root)
+        engine = ContextualAssessmentEngine(root, args.adoption_profile)
         if args.check_assessment:
             saved = load_bootstrap_json(args.check_assessment)
             report = engine.check_assessment(

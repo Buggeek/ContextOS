@@ -22,6 +22,7 @@ expected to build against.
 | [Organizational Memory Retention Governance Contract](1.5.13_Organizational_Memory_Retention_Governance_Contract.md) | Retention states, policy resolution, sensitivity/access, holds, authority, forgetting, recovery, and future validation boundaries | Governance Layer + Organizational Memory |
 | [Context Version Contract](1.5.14_Context_Version_Contract.md) | Immutable governed-context identity, capture planning, source fingerprints, historical verification, and supersession | Organizational Memory Engine |
 | [Contextual Assessment Contract](1.5.15_Contextual_Assessment_Contract.md) | Evidence-backed observations, interpretations, hypotheses, recommendations, unknowns, authority boundaries, and deterministic identity | Contextual Reasoning Engine + EPIC-005 |
+| [External Adoption Profile Contract](1.5.16_External_Adoption_Profile_Contract.md) | Semantic target-canon mapping, validation applicability, evidence isolation, profile-aware selection, and invalidation | External Adoption Runtime + existing engines |
 
 ## Rules
 

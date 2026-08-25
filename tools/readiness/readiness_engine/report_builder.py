@@ -131,6 +131,10 @@ def render_human(report: dict) -> str:
         f"- Can construct: {yes_no(summary['can_construct'])}",
         f"- Recommendations: {summary['recommendation_count']}",
     ]
+    if report.get("adoption_profile"):
+        profile = report["adoption_profile"]
+        lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
+        lines.insert(5, "- Basis: functional capability equivalence, not Context OS native taxonomy conformity")
 
     lines.extend(["", "## Score Caps"])
     if summary["cap_reasons"]:

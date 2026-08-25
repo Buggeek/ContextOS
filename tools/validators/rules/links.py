@@ -12,8 +12,11 @@ URL_SCHEMES = {"http", "https", "mailto", "tel"}
 
 
 def strip_markdown_code(text: str) -> str:
-    text = re.sub(r"```.*?```", "", text, flags=re.DOTALL)
-    return re.sub(r"`[^`]*`", "", text)
+    def preserve_lines(match: re.Match[str]) -> str:
+        return "\n" * match.group(0).count("\n")
+
+    text = re.sub(r"```.*?```", preserve_lines, text, flags=re.DOTALL)
+    return re.sub(r"`[^`]*`", lambda match: " " * len(match.group(0)), text)
 
 
 def extract_markdown_links(doc: MarkdownDocument) -> Iterable[tuple[str, int, str, str]]:
