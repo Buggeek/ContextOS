@@ -92,6 +92,8 @@ class ContextualAssessmentEngine:
         memory_metadata_by_id: dict | None = None,
         context_versions: list[dict] | tuple[dict, ...] = (),
         mission_use_evidence: dict | None = None,
+        reasoning_evidence: dict | None = None,
+        focus_entities: list[str] | tuple[str, ...] = (),
         memory_limit: int = 12,
         evaluation_time: str | None = None,
         generated_at: str | None = None,
@@ -101,7 +103,12 @@ class ContextualAssessmentEngine:
         if not consumer or not consumer.strip():
             raise ValueError("Contextual Assessment requires a consumer.")
 
+        from .structured_evidence import derive_reasoning, normalize_evidence_set
+
         versions = list(context_versions)
+        evidence_set = normalize_evidence_set(reasoning_evidence)
+        focus = sorted(set(str(item) for item in focus_entities))
+        structured_reasoning = derive_reasoning(evidence_set, focus)
         version_checks = self._check_versions(versions, generated_at)
         health = ContextHealthEngine(self.root).run(
             mission_use_evidence=mission_use_evidence,
@@ -123,7 +130,7 @@ class ContextualAssessmentEngine:
             evaluation_time=evaluation_time,
             generated_at=generated_at,
         )
-        reasoning = self._reason(health, memory, version_checks)
+        reasoning = self._reason(health, memory, version_checks, structured_reasoning)
         all_assertions = [item for values in reasoning.values() for item in values]
         counts = Counter(item["type"] for item in all_assertions)
         status = self._status(health, reasoning)
@@ -136,6 +143,7 @@ class ContextualAssessmentEngine:
             "organizational_mode": organizational_mode,
             "actor_roles": sorted(set(actor_roles)),
             "authority_scope": authority_scope,
+            "focus_entities": focus,
         }
         bindings = {
             "activation_package": self._ref(memory["activation_package"]),
@@ -154,6 +162,13 @@ class ContextualAssessmentEngine:
                     }
                     for check in version_checks
                 ],
+            },
+            "reasoning_evidence": {
+                "schema": evidence_set["schema"],
+                "id": evidence_set["id"],
+                "identity_hash": evidence_set["identity_hash"],
+                "claim_count": len(evidence_set["claims"]),
+                "relationship_count": len(evidence_set["relationships"]),
             },
         }
         identity_payload = {
@@ -184,6 +199,7 @@ class ContextualAssessmentEngine:
                 "health": health,
                 "memory_retrieval": memory,
                 "context_version_checks": version_checks,
+                "reasoning_evidence": evidence_set,
             },
             "authority": self._authority(),
             "truth_boundary": {
@@ -198,13 +214,14 @@ class ContextualAssessmentEngine:
                 "source_fingerprint": stable_hash(bindings),
                 "conditions": [
                     "The Goal, Mission, consumer, purpose, roles, or authority scope changes.",
-                    "The Activation Package, Health Report, Memory Retrieval, or Context Version evidence changes.",
+                    "The Activation Package, Health Report, Memory Retrieval, Context Version, or structured reasoning evidence changes.",
                     "A source, policy, retention state, temporal basis, or permission bound to an input changes.",
                     "A saved assessment identity no longer matches its exact bound evidence.",
                 ],
             },
             "limitations": [
                 "Assertions are deterministic interpretations of structured Runtime evidence, not free-form semantic truth.",
+                "Contradiction and impact results require explicit comparable claims or declared relationships.",
                 "Missing or policy-withheld memory remains unknown and is not reconstructed.",
                 "No causal usefulness, semantic historical applicability, or decision authority is inferred.",
                 "GraphRAG, embeddings, vector search, broad RAG, and autonomous execution are not used.",
@@ -222,16 +239,22 @@ class ContextualAssessmentEngine:
             checks.append(check)
         return checks
 
-    def _reason(self, health: dict, memory: dict, version_checks: list[dict]) -> dict:
+    def _reason(
+        self,
+        health: dict,
+        memory: dict,
+        version_checks: list[dict],
+        structured_reasoning: dict,
+    ) -> dict:
         health_ref = self._ref(health)["id"]
-        observations = []
-        interpretations = []
+        observations = list(structured_reasoning["observations"])
+        interpretations = list(structured_reasoning["interpretations"])
         prior_art = []
         context_changes = []
-        contradictions = []
+        contradictions = list(structured_reasoning["contradictions"])
         hypotheses = []
         recommendations = []
-        unknowns = []
+        unknowns = list(structured_reasoning["unknowns"])
         required_decisions = []
         additional_evidence = []
 

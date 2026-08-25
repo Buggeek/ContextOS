@@ -17,13 +17,14 @@ from reasoning_engine import ContextualAssessmentEngine, ReasoningBenchmarkEngin
 from reasoning_engine.report_builder import BENCHMARK_SCHEMA, render_benchmark_human  # noqa: E402
 from test_memory_context_version_integration import exact_candidate, exact_version, policy_inputs  # noqa: E402
 from test_memory_retrieval import FIXED_TIME, make_repo, snapshot  # noqa: E402
+from test_structured_reasoning_evidence import evidence_set  # noqa: E402
 
 
 GOAL = "assess organizational context memory evidence policy impact prior decisions"
 
 
 class ReasoningBenchmarkTestCase(unittest.TestCase):
-    def make_reports(self) -> tuple[tempfile.TemporaryDirectory, Path, dict, dict, dict]:
+    def make_reports(self) -> tuple[tempfile.TemporaryDirectory, Path, dict, dict, dict, dict]:
         temp = tempfile.TemporaryDirectory()
         root = Path(temp.name)
         make_repo(root)
@@ -42,10 +43,18 @@ class ReasoningBenchmarkTestCase(unittest.TestCase):
         source = root / "SSOT/P.1_Product_Map.md"
         source.write_text(source.read_text(encoding="utf-8") + "\nChanged governed context.\n", encoding="utf-8")
         drifted = engine.run(goal=GOAL, mission_id="BENCHMARK-001", context_versions=[version], generated_at=FIXED_TIME)
-        return temp, root, baseline, authorized, drifted
+        structured = engine.run(
+            goal=GOAL,
+            mission_id="BENCHMARK-001",
+            context_versions=[version],
+            reasoning_evidence=evidence_set(),
+            focus_entities=["mission.reasoning"],
+            generated_at=FIXED_TIME,
+        )
+        return temp, root, baseline, authorized, drifted, structured
 
     @staticmethod
-    def cases(baseline: dict, authorized: dict, drifted: dict) -> list[dict]:
+    def cases(baseline: dict, authorized: dict, drifted: dict, structured: dict) -> list[dict]:
         return [
             {
                 "id": "benchmark.current_state",
@@ -65,16 +74,14 @@ class ReasoningBenchmarkTestCase(unittest.TestCase):
                 "id": "benchmark.contradiction_detection",
                 "reasoning_class": "contradiction_detection",
                 "question": "Can explicit contradictory claims be identified?",
-                "assessment": baseline,
-                "expected_result": "fail",
+                "assessment": structured,
                 "expected": {"minimum_assertions": {"contradictions": 1}},
             },
             {
                 "id": "benchmark.impact_analysis",
                 "reasoning_class": "impact_analysis",
                 "question": "Can a governed context change be traced to affected outcomes?",
-                "assessment": drifted,
-                "expected_result": "fail",
+                "assessment": structured,
                 "expected": {"statement_fragments": {"interpretations": ["impact on"]}},
             },
             {
@@ -116,42 +123,41 @@ class ReasoningBenchmarkTestCase(unittest.TestCase):
                 "id": "benchmark.multi_hop",
                 "reasoning_class": "multi_hop_relationship",
                 "question": "Can indirect evidence relationships support a multi-hop conclusion?",
-                "assessment": authorized,
-                "expected_result": "fail",
-                "expected": {"statement_fragments": {"prior_art": ["indirect dependency"]}},
+                "assessment": structured,
+                "expected": {"statement_fragments": {"interpretations": ["indirect relationship path"]}},
             },
         ]
 
     def test_controlled_benchmark_measures_gaps_without_hiding_them(self) -> None:
-        temp, root, baseline, authorized, drifted = self.make_reports()
+        temp, root, baseline, authorized, drifted, structured = self.make_reports()
         self.addCleanup(temp.cleanup)
         before = snapshot(root)
-        report = ReasoningBenchmarkEngine().run(self.cases(baseline, authorized, drifted), generated_at=FIXED_TIME)
+        report = ReasoningBenchmarkEngine().run(self.cases(baseline, authorized, drifted, structured), generated_at=FIXED_TIME)
         after = snapshot(root)
 
         self.assertEqual(report["schema"], BENCHMARK_SCHEMA)
         self.assertEqual(report["summary"]["status"], "complete")
         self.assertEqual(report["summary"]["case_count"], 10)
-        self.assertEqual(report["summary"]["passed_count"], 7)
-        self.assertEqual(report["summary"]["failed_count"], 3)
+        self.assertEqual(report["summary"]["passed_count"], 10)
+        self.assertEqual(report["summary"]["failed_count"], 0)
         self.assertEqual(report["summary"]["unexpected_result_count"], 0)
         self.assertEqual(before, after)
         self.assertTrue(report["read_only"])
 
     def test_graphrag_is_deferred_without_comparative_evidence(self) -> None:
-        temp, _, baseline, authorized, drifted = self.make_reports()
+        temp, _, baseline, authorized, drifted, structured = self.make_reports()
         self.addCleanup(temp.cleanup)
-        report = ReasoningBenchmarkEngine().run(self.cases(baseline, authorized, drifted), generated_at=FIXED_TIME)
+        report = ReasoningBenchmarkEngine().run(self.cases(baseline, authorized, drifted, structured), generated_at=FIXED_TIME)
 
         self.assertEqual(report["graphrag"]["decision"], "defer")
         self.assertFalse(report["graphrag"]["graph_comparison_performed"])
         self.assertFalse(report["graphrag"]["material_graph_advantage_proven"])
-        self.assertIn("premature", report["graphrag"]["rationale"])
+        self.assertIn("not required", report["graphrag"]["rationale"])
 
     def test_report_is_deterministic_parseable_and_human_readable(self) -> None:
-        temp, _, baseline, authorized, drifted = self.make_reports()
+        temp, _, baseline, authorized, drifted, structured = self.make_reports()
         self.addCleanup(temp.cleanup)
-        cases = self.cases(baseline, authorized, drifted)
+        cases = self.cases(baseline, authorized, drifted, structured)
         first = ReasoningBenchmarkEngine().run(cases, generated_at=FIXED_TIME)
         second = ReasoningBenchmarkEngine().run(cases, generated_at=FIXED_TIME)
 
@@ -159,13 +165,13 @@ class ReasoningBenchmarkTestCase(unittest.TestCase):
         json.loads(json.dumps(first, sort_keys=True))
         human = render_benchmark_human(first)
         self.assertIn("## Reasoning Classes", human)
-        self.assertIn("[GAP] `contradiction_detection`", human)
+        self.assertIn("[PASS] `contradiction_detection`", human)
         self.assertIn("Decision: `defer`", human)
 
     def test_missing_required_class_invalidates_benchmark(self) -> None:
-        temp, _, baseline, authorized, drifted = self.make_reports()
+        temp, _, baseline, authorized, drifted, structured = self.make_reports()
         self.addCleanup(temp.cleanup)
-        cases = self.cases(baseline, authorized, drifted)[:-1]
+        cases = self.cases(baseline, authorized, drifted, structured)[:-1]
         report = ReasoningBenchmarkEngine().run(cases, generated_at=FIXED_TIME)
 
         self.assertEqual(report["summary"]["status"], "invalid")

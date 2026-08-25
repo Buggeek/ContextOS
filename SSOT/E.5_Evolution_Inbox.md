@@ -208,6 +208,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-157 | evidence | accepted | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | The controlled benchmark passed seven of ten classes and exposed contradiction, impact, and multi-hop as release gaps rather than hiding expected failures. | Promote one bounded structured-evidence Mission before self-hosted reasoning use or release verification. |
 | INBOX-158 | architecture | accepted | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | The multi-hop failure occurs before a graph-retrieval comparison because Contextual Assessment has no explicit claim/relationship evidence input. | Defer GraphRAG; first implement universal structured claim/relationship evidence and bounded traversal, then rerun the same benchmark. |
 | INBOX-159 | product | deferred | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | A public Reasoning CLI would expose incomplete contradiction, impact, and multi-hop behavior. | Keep the Engine/report surface internal until the benchmark gaps close and a self-hosted Mission proves coherent user value. |
+| INBOX-160 | architecture | accepted | V09-STRUCTURED-REASONING-EVIDENCE-001 | Exact claims plus declared relationships and bounded traversal closed all three measured benchmark gaps without an authoritative graph. | Preserve ReasoningEvidenceSet as an input view; do not turn it into a parallel store or Context Graph by accumulation. |
+| INBOX-161 | evidence | accepted | V09-STRUCTURED-REASONING-EVIDENCE-001 | The controlled benchmark now passes 10/10; GraphRAG has no demonstrated advantage because explicit two-hop traversal recovered the required path with full provenance. | Defer GraphRAG and reconsider only from a failed real-corpus case plus a policy-preserving comparative benchmark. |
+| INBOX-162 | product | accepted | V09-STRUCTURED-REASONING-EVIDENCE-001 | Contextual Assessment is benchmark-capable but has not yet governed a real Mission selection/execution loop. | Promote V09-CONTEXTUAL-REASONING-USE-001 before deciding on a public surface or release verification. |
+| INBOX-163 | architecture | deferred | V09-STRUCTURED-REASONING-EVIDENCE-001 | Current relationships are explicitly supplied; automated extraction from unstructured context would require governed interpretation and source-specific evidence. | Defer extraction to a future evidence-backed Knowledge capability; never infer relationships merely to improve benchmark coverage. |
 
 ---
 
@@ -285,3 +289,5 @@ quarantine and triage surface for context that may deserve future action.
   ordering learning.
 - 2026-08-24 - v0.1.0 - Recorded the controlled reasoning baseline, three
   explicit release gaps, and evidence-backed GraphRAG deferral.
+- 2026-08-24 - v0.1.0 - Recorded structured claims/relationships, 10/10
+  benchmark closure, GraphRAG deferral, and the self-hosted use dependency.

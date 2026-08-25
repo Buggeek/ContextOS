@@ -272,6 +272,11 @@ Activation, Health, policy-aware Memory, and exact Context Versions. The next
 release dependency is a controlled multi-class benchmark and evidence-backed
 GraphRAG decision.
 
+The controlled benchmark now passes all ten required classes after adding
+explicit claim comparison and bounded relationship traversal. GraphRAG is
+deferred with evidence. The active release dependency is self-hosted use of an
+Assessment before public-surface and release-verification decisions.
+
 ---
 
 ## EPIC-006
@@ -416,3 +421,6 @@ governable, and reusable across humans, agents, and systems.
   current release on v0.9 Contextual Reasoning.
 - 2026-08-24 - v1.0 - Linked the first governed Contextual Assessment Mission
   and the controlled reasoning benchmark dependency.
+- 2026-08-24 - v1.0 - Recorded 10/10 controlled reasoning coverage,
+  structured evidence traversal, GraphRAG deferral, and the self-hosted use
+  dependency.

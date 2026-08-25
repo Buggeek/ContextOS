@@ -109,6 +109,8 @@ def render_human(report: dict) -> str:
             f"- Health Report: `{report['bindings']['health_report']['id']}`",
             f"- Memory Retrieval: `{report['bindings']['memory_retrieval']['id']}`",
             f"- Context Version evidence supplied: {report['bindings']['context_versions']['supplied_count']}",
+            f"- Structured claims: {report['bindings']['reasoning_evidence']['claim_count']}",
+            f"- Structured relationships: {report['bindings']['reasoning_evidence']['relationship_count']}",
             "",
             "## Invalidation",
         ]

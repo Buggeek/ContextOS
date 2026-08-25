@@ -92,6 +92,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 18. Governed source state + meaningful event + optional Activation evidence -> read-only Context Version capture plan -> immutable content-free Context Version -> historical verification and Memory lineage
 19. Exact Context Version + governed Mission records -> Continuity binding -> independent version-metadata policy gate -> bounded historical Retrieval with no current authority
 20. Goal/Mission + Activation + Health + policy-authorized Memory + Context Versions -> Contextual Assessment -> evidence-backed observations, hypotheses, recommendations, unknowns, and required human decisions
+21. Exact structured claims + declared relationships + focus entities -> bounded comparison/traversal -> cited contradiction and impact assertions without graph authority
 
 ---
 
@@ -157,4 +158,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   Continuity and policy-aware Retrieval with partial/unknown gap preservation
 - 2026-08-24 — v0.1.1 — Added the first read-only governed Contextual
   Assessment component and its explicit reasoning/authority boundaries
+- 2026-08-24 — v0.1.1 — Added universal structured claims and bounded
+  relationship traversal without introducing GraphRAG or a Context Graph
 - 2026-02-19 — v0.1.0 — Initial creation

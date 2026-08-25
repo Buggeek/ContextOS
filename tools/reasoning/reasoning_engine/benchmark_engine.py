@@ -140,7 +140,10 @@ class ReasoningBenchmarkEngine:
     def _graph_decision(results: list[dict]) -> dict:
         multi_hop = next((item for item in results if item["reasoning_class"] == "multi_hop_relationship"), None)
         if multi_hop and multi_hop["passed"]:
-            rationale = "Bounded structured Retrieval satisfied the controlled multi-hop case; graph infrastructure is not required."
+            rationale = (
+                "Bounded traversal over explicitly supplied structured relationships satisfied the controlled multi-hop case; "
+                "graph infrastructure is not required."
+            )
         else:
             rationale = (
                 "The multi-hop case failed, but no structured-versus-graph comparison isolates Retrieval topology as the cause. "
@@ -153,8 +156,7 @@ class ReasoningBenchmarkEngine:
             "material_graph_advantage_proven": False,
             "rationale": rationale,
             "reconsider_when": [
-                "Explicit structured evidence and relationship inputs are supported.",
-                "A controlled multi-hop case still fails because relevant indirect evidence is not recovered.",
+                "A controlled real-corpus multi-hop case fails because relevant indirect evidence is not supplied or recovered.",
                 "A structured-versus-graph comparison preserves policy, provenance, authority, and explainability.",
             ],
         }

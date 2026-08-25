@@ -33,6 +33,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | MemoryRetentionResolution | A deterministic read-only derived evaluation of explicit policies against exact memory metadata | tools/memory retention-resolution output | id, input_fingerprint, policy_hashes, operation_results, holds, conflicts, unknowns, authority, invalidation | Context-dependent | Grants no authority and performs no transition, deletion, forgetting, or canonical mutation |
 | ContextVersion | An immutable, content-free identity and provenance record for governed context at a meaningful event | tools/memory Context Version output / future governed version store | id, identity_hash, scope, capture, source_manifest, source_fingerprint, bindings, lineage, truth_summary, retention, continuity_gaps | Context-dependent | Identifies historical source state; it is not copied context, an Activation Package, a Git commit, or authority |
 | ContextualAssessment | A deterministic read-only advisory view derived from governed Runtime evidence for an exact Goal/Mission and consumer | tools/reasoning Contextual Assessment output | id, identity_hash, query, bindings, observations, prior_art, context_changes, contradictions, interpretations, hypotheses, recommendations, unknowns, required_decisions, evidence, authority, invalidation | Context-dependent | Derived working view; never a Decision, authority, canonical truth, or second SSOT |
+| ReasoningEvidenceSet | An immutable input view of explicit claims and declared relationships supplied to a Contextual Assessment | exact governed input / source systems | id, identity_hash, claims, relationships, source_refs, truth axes, temporal basis, authority status, limitations | Context-dependent | Not a store, graph authority, Decision, or truth promotion surface |
 
 ---
 
@@ -67,6 +68,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   ContextVersion evidence without changing their authority
 - ContextualAssessment → may propose a Decision or Mission candidate only
   through existing human authority and governance lifecycles
+- ReasoningEvidenceSet → may support exact contradiction comparison and bounded
+  relationship traversal without resolving truth or creating graph authority
 
 ---
 
@@ -123,3 +126,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   policy-before-exposure ContextVersion Retrieval relationships.
 - 2026-08-24 — v0.1.0 — Added ContextualAssessment as a deterministic,
   non-canonical, non-decisional derived reasoning entity.
+- 2026-08-24 — v0.1.0 — Added explicit ReasoningEvidenceSet claims and
+  relationships for bounded contradiction, impact, and multi-hop reasoning.

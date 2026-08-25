@@ -15,6 +15,8 @@ report = ContextualAssessmentEngine(".").run(
     context_versions=[current_context_version],
     retention_policies=authorized_policies,
     memory_metadata_by_id=authorized_metadata,
+    reasoning_evidence=exact_claims_and_relationships,
+    focus_entities=["mission.current"],
 )
 ```
 
@@ -36,12 +38,16 @@ contextos.reasoning.assessment/1
 - The engine is deterministic for fixed inputs, read-only, and stdlib-only.
 - It does not use GraphRAG, embeddings, vectors, broad RAG, agents, external
   connectors, or autonomous execution.
+- Explicit claims may be compared only across matching scope and temporal
+  basis. Declared impact relationships may be traversed up to three hops with
+  every edge cited; this is not an authoritative graph.
 
 ## Tests
 
 ```bash
 python3 tools/reasoning/test_contextual_assessment.py
 python3 tools/reasoning/test_reasoning_benchmark.py
+python3 tools/reasoning/test_structured_reasoning_evidence.py
 ```
 
 The controlled benchmark uses `contextos.reasoning.benchmark/1` to measure all
