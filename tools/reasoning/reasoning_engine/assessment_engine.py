@@ -130,7 +130,13 @@ class ContextualAssessmentEngine:
             evaluation_time=evaluation_time,
             generated_at=generated_at,
         )
-        reasoning = self._reason(health, memory, version_checks, structured_reasoning)
+        reasoning = self._reason(
+            health,
+            memory,
+            version_checks,
+            structured_reasoning,
+            has_structured_claims=bool(evidence_set["claims"]),
+        )
         all_assertions = [item for values in reasoning.values() for item in values]
         counts = Counter(item["type"] for item in all_assertions)
         status = self._status(health, reasoning)
@@ -245,6 +251,8 @@ class ContextualAssessmentEngine:
         memory: dict,
         version_checks: list[dict],
         structured_reasoning: dict,
+        *,
+        has_structured_claims: bool,
     ) -> dict:
         health_ref = self._ref(health)["id"]
         observations = list(structured_reasoning["observations"])
@@ -380,7 +388,7 @@ class ContextualAssessmentEngine:
                 )
             )
 
-        if not contradictions:
+        if not contradictions and not has_structured_claims:
             additional_evidence.append(
                 assertion(
                     "additional_evidence",

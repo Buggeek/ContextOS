@@ -212,6 +212,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-161 | evidence | accepted | V09-STRUCTURED-REASONING-EVIDENCE-001 | The controlled benchmark now passes 10/10; GraphRAG has no demonstrated advantage because explicit two-hop traversal recovered the required path with full provenance. | Defer GraphRAG and reconsider only from a failed real-corpus case plus a policy-preserving comparative benchmark. |
 | INBOX-162 | product | accepted | V09-STRUCTURED-REASONING-EVIDENCE-001 | Contextual Assessment is benchmark-capable but has not yet governed a real Mission selection/execution loop. | Promote V09-CONTEXTUAL-REASONING-USE-001 before deciding on a public surface or release verification. |
 | INBOX-163 | architecture | deferred | V09-STRUCTURED-REASONING-EVIDENCE-001 | Current relationships are explicitly supplied; automated extraction from unstructured context would require governed interpretation and source-specific evidence. | Defer extraction to a future evidence-backed Knowledge capability; never infer relationships merely to improve benchmark coverage. |
+| INBOX-164 | product | accepted | V09-CONTEXTUAL-REASONING-USE-001 | A real self-hosted Assessment correctly oriented release dependencies while leaving Mission selection and authority to the Goal Loop. | Preserve Assessment as advisory input; promote a narrow product surface only now that benchmark and self-hosted value are proven. |
+| INBOX-165 | implementation | accepted | V09-CONTEXTUAL-REASONING-USE-001 | A saved Assessment has documented invalidation semantics but no deterministic check surface, so reuse could rely on stale working reasoning. | Include exact saved-assessment validation in V09-CONTEXTUAL-REASONING-SURFACE-001 before release verification. |
+| INBOX-166 | bug | resolved | V09-CONTEXTUAL-REASONING-USE-001 | Assessment requested exact claim-level evidence even when explicit comparable claims were supplied and simply did not conflict. | Fixed the condition and added regression evidence; no additional evidence is requested merely because explicit claims agree. |
+| INBOX-167 | governance | deferred | V09-CONTEXTUAL-REASONING-USE-001 | Organization-approved Memory policy remains absent, so repository self-hosting cannot expose relevant prior art under ordinary authority. | Keep the unknown/required-decision result; do not block bounded reasoning or fabricate an organizational policy for v0.9. |
 
 ---
 
@@ -291,3 +295,6 @@ quarantine and triage surface for context that may deserve future action.
   explicit release gaps, and evidence-backed GraphRAG deferral.
 - 2026-08-24 - v0.1.0 - Recorded structured claims/relationships, 10/10
   benchmark closure, GraphRAG deferral, and the self-hosted use dependency.
+- 2026-08-24 - v0.1.0 - Recorded assessment-first self-hosting, saved-result
+  validation dependency, one resolved evidence-gap bug, and continuing policy
+  uncertainty.

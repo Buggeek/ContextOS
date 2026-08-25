@@ -277,6 +277,11 @@ explicit claim comparison and bounded relationship traversal. GraphRAG is
 deferred with evidence. The active release dependency is self-hosted use of an
 Assessment before public-surface and release-verification decisions.
 
+Assessment-first self-hosting has now proven Mission orientation without
+Decision authority. A narrow read-only human/machine product surface and exact
+saved-assessment validation are the active dependencies before release
+verification.
+
 ---
 
 ## EPIC-006
@@ -424,3 +429,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-24 - v1.0 - Recorded 10/10 controlled reasoning coverage,
   structured evidence traversal, GraphRAG deferral, and the self-hosted use
   dependency.
+- 2026-08-24 - v1.0 - Recorded assessment-first self-hosting and promoted the
+  bounded Reasoning surface plus saved-result check dependency.

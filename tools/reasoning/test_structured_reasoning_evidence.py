@@ -116,6 +116,9 @@ class StructuredReasoningEvidenceTestCase(unittest.TestCase):
 
         self.assertFalse(report["reasoning"]["contradictions"])
         self.assertTrue(any("No contradiction is proven" in item["statement"] for item in report["reasoning"]["unknowns"]))
+        self.assertFalse(
+            any("requires exact claim-level evidence" in item["statement"] for item in report["reasoning"]["additional_evidence"])
+        )
 
     def test_unsupported_relationship_is_not_traversed(self) -> None:
         temp, root, version = self.make_fixture()
