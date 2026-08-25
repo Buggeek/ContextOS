@@ -113,6 +113,8 @@ Self-Hosting Execution:
 
 - Closed v1.0 integration assessment mission:
   [`E.4 Mission V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001`](E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001_Integrated_Runtime_Assessment.md)
+- Closed v1.0 integrated benchmark mission:
+  [`E.4 Mission V10-RUNTIME-INTEGRATION-BENCHMARK-001`](E.4_Mission_V10-RUNTIME-INTEGRATION-BENCHMARK-001_Integrated_Runtime_Benchmark.md)
 - Latest closed release mission:
   [`E.4 Mission V09-RELEASE-CUT-001`](E.4_Mission_V09-RELEASE-CUT-001_Contextual_Reasoning_Release_Cut.md)
 - Closed v0.9 release verification mission:
@@ -305,6 +307,12 @@ proof of exact identity, authority, provenance, invalidation, and self-hosted
 evolution across the released runtime. A mega-command, GraphRAG, agents, and
 hosted infrastructure remain deferred.
 
+The integrated benchmark now passes 23/23 checks across 14 live stages and
+exact accepted write-stage evidence. The active dependency is
+`V10-SELF-HOSTED-EVOLUTION-CASE-001`, which must capture the post-change Context
+Version, fresh Activation, re-reasoning, and re-anchor for one complete
+self-hosted evolution case before final release verification.
+
 ---
 
 ## EPIC-006
@@ -462,3 +470,5 @@ governable, and reusable across humans, agents, and systems.
   tag and re-anchored the active release on v1.0 Organizational Context Runtime.
 - 2026-08-24 - v1.0 - Classified v1.0 integration gaps and selected an
   integrated runtime benchmark instead of a new subsystem or mega-command.
+- 2026-08-24 - v1.0 - Passed the integrated runtime benchmark and promoted
+  post-change temporal closure of the first self-hosted v1.0 evolution case.

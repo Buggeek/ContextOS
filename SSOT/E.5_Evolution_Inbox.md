@@ -231,6 +231,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-180 | evidence | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | The only release-blocking gap found is integrated continuity evidence across released object identities, authority, provenance, invalidation, and learning. | Promote V10-RUNTIME-INTEGRATION-BENCHMARK-001. |
 | INBOX-181 | governance | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | Context OS repository Memory policy authority remains unknown, so self-hosted Retrieval exposes no protected prior art. | Preserve policy-unknown; an accountable policy owner may establish policy in a separately authorized Mission. |
 | INBOX-182 | architecture | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | GraphRAG, agents, adapters, durable registries, automatic capture, and hosted infrastructure do not block the v1.0 product promise. | Retain as evidence-triggered post-v1.0 opportunities. |
+| INBOX-183 | evidence | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | Fourteen released runtime stages and six exact release-verification artifacts compose without schema, authority, provenance, truth, or invalidation contradiction. | Retain the 23-check benchmark as a v1.0 release gate. |
+| INBOX-184 | governance | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | Context OS has relevant self-hosted Memory but no organization-approved Retrieval policy; all 117 relevant candidates remained hidden. | Treat policy-unknown as a correct governed outcome, not a release defect or implicit permission. |
+| INBOX-185 | evidence | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | Health attention and unknown usefulness can coexist with release integrity when observability limits and authority boundaries are explicit. | Do not force a health score or usefulness claim to make v1.0 appear complete. |
+| INBOX-186 | process | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | The implementation commit must exist before the same case can prove a post-change Context Version and re-anchor. | Promote V10-SELF-HOSTED-EVOLUTION-CASE-001 after committing the green benchmark. |
 
 ---
 
@@ -322,3 +326,5 @@ quarantine and triage surface for context that may deserve future action.
   intentional deferrals, and promoted the governed v1.0 integration audit.
 - 2026-08-24 - v0.1.0 - Classified v1.0 gaps, deferred unproven orchestration
   and infrastructure, and promoted the integrated runtime benchmark.
+- 2026-08-24 - v0.1.0 - Recorded the passing integrated benchmark, honest
+  policy/usefulness boundaries, and post-change self-hosting dependency.

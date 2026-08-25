@@ -48,6 +48,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
 | tools/memory | Module | Read-only Organizational Memory continuity, policy-aware Retrieval, retention-policy resolution, immutable Context Version capture/checks, and exact/partial/unknown historical-context bindings | Maintainers | v0.8 continuity/retrieval/resolution/version component; no semantic comparison, restored historical authority, retention transition, or destructive behavior
 | tools/reasoning | Module | Read-only governed Contextual Assessment over Activation, Health, policy-aware Memory, and Context Version evidence | Maintainers | v0.9 advisory reasoning component; no Decision, execution, canonical mutation, or GraphRAG
+| tools/runtime | Module | Internal integrated Organizational Context Runtime benchmark and proof report | Maintainers | v1.0 read-only integration evidence; not a product orchestration surface
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check, contextual reasoning/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory/reason
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -94,6 +95,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 20. Goal/Mission + Activation + Health + policy-authorized Memory + Context Versions -> Contextual Assessment -> evidence-backed observations, hypotheses, recommendations, unknowns, and required human decisions
 21. Exact structured claims + declared relationships + focus entities -> bounded comparison/traversal -> cited contradiction and impact assertions without graph authority
 22. Goal/Mission + exact reasoning inputs -> `contextos reason` -> human or machine Assessment -> saved Assessment check before reuse
+23. Released runtime APIs + exact accepted write-stage evidence -> integrated runtime benchmark -> explicit release blockers or coherent end-to-end proof
 
 ---
 
@@ -109,6 +111,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
   forgetting, semantic historical comparison, Graph runtime, or learned ranking
   exists yet
 - Template coverage does not yet span every possible taxonomy doc type
+- The integrated runtime benchmark passes, but the first self-hosted v1.0 case
+  still requires post-change Context Version, fresh Activation, re-reasoning,
+  and formal re-anchor evidence before release verification
 
 ---
 
@@ -123,6 +128,9 @@ Modular monolith (documentation modules + tooling modules in one repository).
 ---
 
 ## Change Log
+
+- 2026-08-24 - v0.1.1 - Added the internal v1.0 integrated runtime benchmark
+  and the remaining self-hosted temporal closure dependency
 
 - 2026-08-11 — v0.1.1 — Aligned implemented Runtime surfaces and GENESIS direction
 - 2026-08-11 — v0.1.1 — Added read-only Bootstrap Proposal Engine to system map
