@@ -199,6 +199,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-148 | governance | deferred | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | Context OS has no organization-approved active retention-policy profile, so ordinary repository dogfood safely withholds relevant memory unless controlled policies are supplied. | Do not block v0.8: missing policy is a governed unknown. Require accountable policy owners before activating routine organizational Retrieval. |
 | INBOX-149 | evidence | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | Exact prospective Context Versions coexist with partial and unknown historical bindings; v0.3/v0.4 release context remains unrecoverable exactly. | Preserve gaps, continue meaningful-event capture, and never backfill exact versions from Git chronology or narrative evidence. |
 | INBOX-150 | product | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | v0.8 satisfies governed continuity, bounded prior art, retention resolution, policy-before-exposure, and exact historical binding without semantic reasoning or destructive memory operations. | Require explicit release-cut authority; then re-anchor on v0.9 Contextual Reasoning without importing deferred storage or Graph capabilities automatically. |
+| INBOX-151 | release | accepted | V08-RELEASE-CUT-001 | v0.8.0 Organizational Memory was published and tagged at the exact accepted release-verification commit. | Preserve all v0.8 deferrals and re-anchor the active release on v0.9 Contextual Reasoning. |
+| INBOX-152 | product | accepted | V08-RELEASE-CUT-001 | The first v0.9 dependency is a canonical reasoning boundary and smallest useful governed reasoning capability, not GraphRAG or generic chat. | Promote V09-CONTEXTUAL-REASONING-PLAN-001 under the accepted Goal Loop. |
 
 ---
 
@@ -269,3 +271,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-23 - v0.1.0 - Recorded v0.8 release readiness, explicit-artifact
   persistence sufficiency, policy-profile deferral, historical gaps, and the
   relevance-versus-eligibility report correction.
+- 2026-08-24 - v0.1.0 - Recorded the v0.8 release cut, preserved intentional
+  deferrals, and promoted the first governed v0.9 reasoning Mission.

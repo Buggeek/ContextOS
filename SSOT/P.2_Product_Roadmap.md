@@ -2,7 +2,7 @@
 
 Version: 1.0
 
-Last Updated: 2026-08-21
+Last Updated: 2026-08-24
 
 Owner: Context OS Core Team
 
@@ -87,14 +87,16 @@ execution.
 
 # Current Version
 
-v0.8 — Organizational Memory
+v0.9 — Contextual Reasoning
 
 Status: Active
 
 Primary Goal:
 
-Make context durable across decisions, changes, and teams so prior decisions,
-historical rationale, and reusable context can be retrieved with provenance.
+Interpret current organizational context, governed memory, historical context,
+evidence, outcomes, Health, and prior decisions to produce explainable,
+evidence-backed assessments, hypotheses, recommendations, and required human
+decisions without creating autonomous truth or authority.
 
 Governing Context:
 
@@ -108,7 +110,9 @@ Governing Context:
 
 Self-Hosting Execution:
 
-- Latest closed v0.8 mission:
+- Latest closed release mission:
+  [`E.4 Mission V08-RELEASE-CUT-001`](E.4_Mission_V08-RELEASE-CUT-001_Organizational_Memory_Release_Cut.md)
+- Closed v0.8 release verification mission:
   [`E.4 Mission V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001`](E.4_Mission_V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001_Organizational_Memory_Release_Verification.md)
 - Previous closed v0.8 mission:
   [`E.4 Mission V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001`](E.4_Mission_V08-MEMORY-CONTEXT-VERSION-INTEGRATION-001_Context_Version_Memory_Integration.md)
@@ -257,12 +261,11 @@ Knowledge Engine
 
 Status: Active
 
-Primary release slice: v0.8 Organizational Memory, building on the v0.7
-Context Health & Learning evidence foundation. The Theory of the AI-Native
-Organization now governs the v0.8 planning boundary: memory must preserve
-Mission history, decisions, evidence, outcomes, learning, temporal state,
-supersession, retention, prior art, and pattern candidates without replacing
-SSOT authority.
+Primary release slice: v0.9 Contextual Reasoning, building on released v0.8
+Organizational Memory. Reasoning must preserve evidence, interpretation,
+hypothesis, recommendation, Decision, authority, temporal applicability, and
+truth boundaries. GraphRAG remains optional until a controlled comparison
+demonstrates material value over bounded structured Retrieval.
 
 ---
 
@@ -404,3 +407,5 @@ governable, and reusable across humans, agents, and systems.
 - 2026-08-23 - v1.0 - Verified v0.8 Organizational Memory release readiness,
   retained explicit artifact persistence, and deferred automatic registry and
   destructive retention capabilities.
+- 2026-08-24 - v1.0 - Closed v0.8 Organizational Memory and re-anchored the
+  current release on v0.9 Contextual Reasoning.
