@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 SCHEMA = "contextos.reasoning.assessment/1"
+BENCHMARK_SCHEMA = "contextos.reasoning.benchmark/1"
 
 
 def generated_timestamp() -> str:
@@ -16,6 +17,45 @@ def build_report(root: Path, report: dict, generated_at: str | None = None) -> d
     report["generated_at"] = generated_at or generated_timestamp()
     report["root"] = str(root.resolve())
     return report
+
+
+def build_benchmark_report(report: dict, generated_at: str | None = None) -> dict:
+    report["schema"] = BENCHMARK_SCHEMA
+    report["generated_at"] = generated_at or generated_timestamp()
+    return report
+
+
+def render_benchmark_human(report: dict) -> str:
+    lines = [
+        "# Context OS Reasoning Benchmark",
+        "",
+        f"- Benchmark: `{report['id']}`",
+        f"- Status: `{report['summary']['status']}`",
+        f"- Cases: {report['summary']['case_count']}",
+        f"- Passed: {report['summary']['passed_count']}",
+        f"- Release gaps: {report['summary']['release_gap_count']}",
+        "",
+        "## Reasoning Classes",
+    ]
+    for case in report["cases"]:
+        status = "PASS" if case["passed"] else "GAP"
+        lines.append(f"- [{status}] `{case['reasoning_class']}`: {case['question']}")
+        for check in case["checks"]:
+            if not check["passed"]:
+                lines.append(f"  Failed: `{check['id']}`")
+    lines.extend(
+        [
+            "",
+            "## GraphRAG Decision",
+            f"- Decision: `{report['graphrag']['decision']}`",
+            f"- {report['graphrag']['rationale']}",
+            "",
+            "## Boundary",
+            "- Benchmark failure is evidence of a gap, not authority to add infrastructure.",
+            "- The benchmark cannot decide, execute, or mutate canonical context.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
 
 
 def render_human(report: dict) -> str:

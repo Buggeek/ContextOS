@@ -205,6 +205,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-154 | governance | decision-needed | V09-CONTEXTUAL-REASONING-PLAN-001 | Context OS dogfood found relevant Organizational Memory but no organization-approved policy/metadata context permitting exposure. | Preserve unknown and required-decision state; do not invent policy or treat controlled fixture authorization as organizational permission. |
 | INBOX-155 | evidence | accepted | V09-CONTEXTUAL-REASONING-PLAN-001 | GraphRAG necessity is unproven; current structured Retrieval must be measured across current-state, history, contradiction, impact, hypothesis, recommendation, missing-evidence, prior-art, policy, and multi-hop classes. | Promote V09-CONTEXTUAL-REASONING-BENCHMARK-001 and record an adopt/defer decision from controlled evidence. |
 | INBOX-156 | process | accepted | V09-CONTEXTUAL-REASONING-PLAN-001 | The human Goal Loop constituted the accepted Mission contract, but the repository Mission Packet was materialized after Mission-start Context Version capture. | Preserve the ordering gap; materialize future Mission Packets before their explicit Mission-start Context Version capture. |
+| INBOX-157 | evidence | accepted | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | The controlled benchmark passed seven of ten classes and exposed contradiction, impact, and multi-hop as release gaps rather than hiding expected failures. | Promote one bounded structured-evidence Mission before self-hosted reasoning use or release verification. |
+| INBOX-158 | architecture | accepted | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | The multi-hop failure occurs before a graph-retrieval comparison because Contextual Assessment has no explicit claim/relationship evidence input. | Defer GraphRAG; first implement universal structured claim/relationship evidence and bounded traversal, then rerun the same benchmark. |
+| INBOX-159 | product | deferred | V09-CONTEXTUAL-REASONING-BENCHMARK-001 | A public Reasoning CLI would expose incomplete contradiction, impact, and multi-hop behavior. | Keep the Engine/report surface internal until the benchmark gaps close and a self-hosted Mission proves coherent user value. |
 
 ---
 
@@ -280,3 +283,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-24 - v0.1.0 - Recorded the first Contextual Assessment boundary,
   missing policy authority, benchmark/GraphRAG dependency, and Mission Packet
   ordering learning.
+- 2026-08-24 - v0.1.0 - Recorded the controlled reasoning baseline, three
+  explicit release gaps, and evidence-backed GraphRAG deferral.

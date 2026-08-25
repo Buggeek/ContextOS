@@ -41,4 +41,9 @@ contextos.reasoning.assessment/1
 
 ```bash
 python3 tools/reasoning/test_contextual_assessment.py
+python3 tools/reasoning/test_reasoning_benchmark.py
 ```
+
+The controlled benchmark uses `contextos.reasoning.benchmark/1` to measure all
+required v0.9 reasoning classes. Expected gaps remain failed cases; the
+benchmark never repairs an Assessment or grants authority to add infrastructure.
