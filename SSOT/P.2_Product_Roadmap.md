@@ -87,16 +87,17 @@ execution.
 
 # Current Version
 
-v0.9 — Contextual Reasoning
+v1.0 — Organizational Context Runtime
 
 Status: Active
 
 Primary Goal:
 
-Interpret current organizational context, governed memory, historical context,
-evidence, outcomes, Health, and prior decisions to produce explainable,
-evidence-backed assessments, hypotheses, recommendations, and required human
-decisions without creating autonomous truth or authority.
+Integrate and prove the complete governed Organizational Context Runtime from
+organizational intent through assessment, construction, activation, execution,
+evidence, learning, memory, reasoning, governed change, validation, and
+re-anchoring without weakening authority, provenance, uncertainty, or
+canonical truth.
 
 Governing Context:
 
@@ -110,6 +111,10 @@ Governing Context:
 
 Self-Hosting Execution:
 
+- Latest closed release mission:
+  [`E.4 Mission V09-RELEASE-CUT-001`](E.4_Mission_V09-RELEASE-CUT-001_Contextual_Reasoning_Release_Cut.md)
+- Closed v0.9 release verification mission:
+  [`E.4 Mission V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001`](E.4_Mission_V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001_Release_Verification.md)
 - Latest closed release mission:
   [`E.4 Mission V08-RELEASE-CUT-001`](E.4_Mission_V08-RELEASE-CUT-001_Organizational_Memory_Release_Cut.md)
 - Closed v0.8 release verification mission:
@@ -261,11 +266,10 @@ Knowledge Engine
 
 Status: Active
 
-Primary release slice: v0.9 Contextual Reasoning, building on released v0.8
-Organizational Memory. Reasoning must preserve evidence, interpretation,
-hypothesis, recommendation, Decision, authority, temporal applicability, and
-truth boundaries. GraphRAG remains optional until a controlled comparison
-demonstrates material value over bounded structured Retrieval.
+Released in v0.9 Contextual Reasoning, building on v0.8 Organizational Memory.
+The active v1.0 dependency is integration and end-to-end proof of the released
+reasoning boundary inside one Organizational Context Runtime. GraphRAG remains
+deferred unless a concrete integration failure demonstrates material value.
 
 The first active v0.9 slice is a read-only governed Contextual Assessment over
 Activation, Health, policy-aware Memory, and exact Context Versions. The next
@@ -287,10 +291,11 @@ active dependency is v0.9 release verification; no additional reasoning,
 retrieval, UI, Graph, or agent capability is required unless verification
 finds a release blocker.
 
-Release verification is complete. v0.9 is `RELEASE_READY` with a 10/10
-controlled benchmark, assessment-first self-hosting, human/machine product
-surface, saved invalidation, and no known in-scope debt. Publication and the
-v1.0 re-anchor require explicit human release authority.
+Release verification and publication are complete. v0.9 is formally closed at
+`v0.9.0-contextual-reasoning`. The active dependency is
+`V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001`, which must classify integration,
+surface, evidence, governance, documentation, release-blocking, and post-v1.0
+gaps before any new capability is added.
 
 ---
 
@@ -445,3 +450,5 @@ governable, and reusable across humans, agents, and systems.
   and the v0.9 release-verification dependency.
 - 2026-08-24 - v1.0 - Recorded v0.9 Contextual Reasoning release readiness and
   the explicit release-cut authority boundary.
+- 2026-08-24 - v1.0 - Closed v0.9 Contextual Reasoning at the exact accepted
+  tag and re-anchored the active release on v1.0 Organizational Context Runtime.

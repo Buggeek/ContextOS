@@ -225,6 +225,8 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-174 | governance | decision-needed | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | Ordinary Context OS dogfood still lacks an accountable organization-approved Memory policy profile. | Preserve policy-limited unknowns; resolve through governance only when an accountable policy owner is ready, not as release remediation. |
 | INBOX-175 | product | deferred | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | External consumer adapters, generic chat, automatic claim extraction, agents, and semantic historical reasoning are not required for the demonstrated v0.9 promise. | Preserve as future evidence-backed opportunities; do not import them into release cut or automatic v1.0 scope. |
 | INBOX-176 | product | accepted | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | The next product question is whether released Assess through Reason capabilities operate coherently as one production-critical Organizational Context Runtime. | After release cut, promote V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 without assuming agent orchestration or Graph infrastructure. |
+| INBOX-177 | release | accepted | V09-RELEASE-CUT-001 | v0.9.0 Contextual Reasoning was published and tagged at the exact accepted release-verification commit before release-cut evidence was interrupted. | Preserve the exact tag, record the post-tag evidence, close v0.9, and re-anchor v1.0 without reopening reasoning scope. |
+| INBOX-178 | product | accepted | V09-RELEASE-CUT-001 | v1.0 is an integration, closure, productization, and proof release over shipped primitives rather than a subsystem expansion. | Promote V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 and classify every apparent gap before implementing anything. |
 
 ---
 
@@ -312,3 +314,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-24 - v0.1.0 - Recorded v0.9 release readiness, GraphRAG deferral,
   policy governance boundary, intentional deferrals, and the first v1.0
   planning dependency.
+- 2026-08-24 - v0.1.0 - Recorded the exact v0.9 release cut, preserved all
+  intentional deferrals, and promoted the governed v1.0 integration audit.
