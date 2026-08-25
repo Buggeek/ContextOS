@@ -227,6 +227,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-176 | product | accepted | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | The next product question is whether released Assess through Reason capabilities operate coherently as one production-critical Organizational Context Runtime. | After release cut, promote V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 without assuming agent orchestration or Graph infrastructure. |
 | INBOX-177 | release | accepted | V09-RELEASE-CUT-001 | v0.9.0 Contextual Reasoning was published and tagged at the exact accepted release-verification commit before release-cut evidence was interrupted. | Preserve the exact tag, record the post-tag evidence, close v0.9, and re-anchor v1.0 without reopening reasoning scope. |
 | INBOX-178 | product | accepted | V09-RELEASE-CUT-001 | v1.0 is an integration, closure, productization, and proof release over shipped primitives rather than a subsystem expansion. | Promote V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 and classify every apparent gap before implementing anything. |
+| INBOX-179 | product | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | The shipped product surfaces are sufficient for v1.0; a mega-command would hide intentional authority transitions without proven user value. | Prove coherence through an integrated benchmark and journey guidance; revisit orchestration only after observed user failure. |
+| INBOX-180 | evidence | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | The only release-blocking gap found is integrated continuity evidence across released object identities, authority, provenance, invalidation, and learning. | Promote V10-RUNTIME-INTEGRATION-BENCHMARK-001. |
+| INBOX-181 | governance | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | Context OS repository Memory policy authority remains unknown, so self-hosted Retrieval exposes no protected prior art. | Preserve policy-unknown; an accountable policy owner may establish policy in a separately authorized Mission. |
+| INBOX-182 | architecture | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 | GraphRAG, agents, adapters, durable registries, automatic capture, and hosted infrastructure do not block the v1.0 product promise. | Retain as evidence-triggered post-v1.0 opportunities. |
 
 ---
 
@@ -316,3 +320,5 @@ quarantine and triage surface for context that may deserve future action.
   planning dependency.
 - 2026-08-24 - v0.1.0 - Recorded the exact v0.9 release cut, preserved all
   intentional deferrals, and promoted the governed v1.0 integration audit.
+- 2026-08-24 - v0.1.0 - Classified v1.0 gaps, deferred unproven orchestration
+  and infrastructure, and promoted the integrated runtime benchmark.

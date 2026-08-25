@@ -111,6 +111,8 @@ Governing Context:
 
 Self-Hosting Execution:
 
+- Closed v1.0 integration assessment mission:
+  [`E.4 Mission V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001`](E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001_Integrated_Runtime_Assessment.md)
 - Latest closed release mission:
   [`E.4 Mission V09-RELEASE-CUT-001`](E.4_Mission_V09-RELEASE-CUT-001_Contextual_Reasoning_Release_Cut.md)
 - Closed v0.9 release verification mission:
@@ -297,6 +299,12 @@ Release verification and publication are complete. v0.9 is formally closed at
 surface, evidence, governance, documentation, release-blocking, and post-v1.0
 gaps before any new capability is added.
 
+The v1.0 assessment found no missing product engine or contract contradiction.
+The active dependency is `V10-RUNTIME-INTEGRATION-BENCHMARK-001`: one integrated
+proof of exact identity, authority, provenance, invalidation, and self-hosted
+evolution across the released runtime. A mega-command, GraphRAG, agents, and
+hosted infrastructure remain deferred.
+
 ---
 
 ## EPIC-006
@@ -452,3 +460,5 @@ governable, and reusable across humans, agents, and systems.
   the explicit release-cut authority boundary.
 - 2026-08-24 - v1.0 - Closed v0.9 Contextual Reasoning at the exact accepted
   tag and re-anchored the active release on v1.0 Organizational Context Runtime.
+- 2026-08-24 - v1.0 - Classified v1.0 integration gaps and selected an
+  integrated runtime benchmark instead of a new subsystem or mega-command.
