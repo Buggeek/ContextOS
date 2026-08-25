@@ -246,6 +246,15 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-195 | evidence | accepted | V10-RELEASE-CUT-001 | v1.0.0 Organizational Context Runtime was published at the exact accepted SHA with repository-bound Buggeek authority and an immutable annotated tag. | Preserve as the canonical v1.0 release boundary. |
 | INBOX-196 | product | decision-needed | V10-RELEASE-CUT-001 | `PILOT-LUKSPEED-001` is the recommended external reference implementation for testing universality beyond Context OS dogfooding. | Require a separate human authority decision and a clean Lukspeed execution lane before activation. |
 | INBOX-197 | hypothesis | accepted | V10-RELEASE-CUT-001 | External reference evidence is now more valuable than adding another internal subsystem, but Lukspeed cannot by itself prove cross-domain universality. | Use the pilot to test adoption and runtime coherence; retain non-Technology evidence as a separate future requirement. |
+| INBOX-198 | evidence | accepted | PILOT-LUKSPEED-001 | Lukspeed maps intent, capability, governance, authority, Mission, evidence, closure, memory, and evolution to the universal Context OS model without using Context OS filenames. | Treat conceptual universality as partially supported; do not claim runtime or cross-domain universality. |
+| INBOX-199 | architecture | accepted | PILOT-LUKSPEED-001 | Validator, Readiness, inventory, and Activation treat Context OS-native paths and taxonomy as universal, producing an R1 classification and selecting only a stale root README for a mature external organization. | Promote `POST-V1-EXTERNAL-ADOPTION-PROFILE-001`; make semantic source roles and rule applicability profile-aware without prescribing target structure. |
+| INBOX-200 | bug | accepted | PILOT-LUKSPEED-001 | External Health evidence cited Context OS self-hosting Construction paths that do not exist in the target organization, and an invalid one-source Handoff marked Governing Context sufficient for orientation. | Prohibit host-self evidence in external reports and bind sufficiency to a valid package plus required mapped roles. |
+| INBOX-201 | product | accepted | PILOT-LUKSPEED-001 | A first-run Adoption Profile must distinguish missing context from differently structured context before recommending Bootstrap, SSOT, manifest, or governance creation. | Add a human-reviewable mapping experience and applicability label before any external write-capable adoption flow. |
+| INBOX-202 | evidence | accepted | PILOT-LUKSPEED-001 | Context Version planning deterministically fingerprinted ten manually supplied Lukspeed canonical sources and exact Git evidence without copying content, but capture remained blocked by the non-portable Validator gate. | Preserve the universal Context Version model; make its gate consume target-applicable validation rather than bypassing validation. |
+| INBOX-203 | product | decision-needed | PILOT-LUKSPEED-001 | Context OS v1.0 is safe but currently increases cognitive burden for Lukspeed because the founder must manually reconstruct canon and discount false remediation. | Do not govern a real Lukspeed Mission until profile-aware Shadow Mode recognizes its canon and produces a valid package/handoff. |
+| INBOX-204 | Lukspeed | deferred | PILOT-LUKSPEED-001 | Lukspeed's read-first active backlog contains closed/merged rows and a potentially stale active status relative to current main history. | After Context OS hardening and separate Lukspeed docs authority, run `LUKSPEED-ACTIVE-EXECUTION-INDEX-RECONCILIATION-001` in an isolated lane. |
+| INBOX-205 | security | accepted | PILOT-LUKSPEED-001 | Policy-before-exposure, read-only execution, explicit non-zero failures, repository-bound authority, and no-inferred-authority behavior held under external Shadow Mode. | Preserve these v1.0 safety properties while hardening external adoption. |
+| INBOX-206 | architecture | deferred | PILOT-LUKSPEED-001 | Repository authority preflight is bound to canonical local roots and does not directly recognize an isolated analysis clone. | Preserve canonical-root verification now; evaluate a signed/explicit isolated-lane binding only from a future real workflow need. |
 
 ---
 
@@ -347,3 +356,7 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-25 - v0.1.0 - Recorded the exact v1.0 release cut, formal closure,
   preserved deferrals, and the separately authorized Lukspeed pilot
   recommendation.
+- 2026-08-25 - v0.1.0 - Recorded the first external Lukspeed adoption
+  evidence, profile-aware runtime dependency, target-evidence defect, safety
+  evidence, non-synthetic baseline, and held real Mission execution at the
+  required human/product boundary.
