@@ -235,6 +235,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-184 | governance | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | Context OS has relevant self-hosted Memory but no organization-approved Retrieval policy; all 117 relevant candidates remained hidden. | Treat policy-unknown as a correct governed outcome, not a release defect or implicit permission. |
 | INBOX-185 | evidence | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | Health attention and unknown usefulness can coexist with release integrity when observability limits and authority boundaries are explicit. | Do not force a health score or usefulness claim to make v1.0 appear complete. |
 | INBOX-186 | process | accepted | V10-RUNTIME-INTEGRATION-BENCHMARK-001 | The implementation commit must exist before the same case can prove a post-change Context Version and re-anchor. | Promote V10-SELF-HOSTED-EVOLUTION-CASE-001 after committing the green benchmark. |
+| INBOX-187 | evidence | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | One real v1.0 signal now traverses governed context, Memory, Reasoning, Decision, multi-Mission execution, validation, Health, learning, temporal lineage, and re-anchor. | Use the case as the required end-to-end self-hosting evidence in release verification. |
+| INBOX-188 | process | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | A Context Version captured while a source was uncommitted retains valid identity but may become only partially resolvable after source drift. | Preserve the continuity gap; favor source-system retention or a committed checkpoint when stronger future historical resolution is required. |
+| INBOX-189 | evidence | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | Superseded context remained historically valid, current context remained authoritative, and Reasoning detected the difference without restoring old authority. | Treat temporal coexistence as proven for the v1.0 self-hosted case. |
 
 ---
 
@@ -328,3 +331,5 @@ quarantine and triage surface for context that may deserve future action.
   and infrastructure, and promoted the integrated runtime benchmark.
 - 2026-08-24 - v0.1.0 - Recorded the passing integrated benchmark, honest
   policy/usefulness boundaries, and post-change self-hosting dependency.
+- 2026-08-24 - v0.1.0 - Recorded complete self-hosted evolution, honest partial
+  historical resolution, and safe prior/current Context Version coexistence.

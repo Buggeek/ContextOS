@@ -112,8 +112,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
   exists yet
 - Template coverage does not yet span every possible taxonomy doc type
 - The integrated runtime benchmark passes, but the first self-hosted v1.0 case
-  still requires post-change Context Version, fresh Activation, re-reasoning,
-  and formal re-anchor evidence before release verification
+  now has post-change Context Version, fresh Activation, re-reasoning, and
+  formal re-anchor evidence; final release verification remains pending
 
 ---
 
@@ -131,6 +131,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 
 - 2026-08-24 - v0.1.1 - Added the internal v1.0 integrated runtime benchmark
   and the remaining self-hosted temporal closure dependency
+- 2026-08-24 - v0.1.1 - Recorded temporal closure and re-anchor of the first
+  complete v1.0 self-hosted evolution case
 
 - 2026-08-11 — v0.1.1 — Aligned implemented Runtime surfaces and GENESIS direction
 - 2026-08-11 — v0.1.1 — Added read-only Bootstrap Proposal Engine to system map

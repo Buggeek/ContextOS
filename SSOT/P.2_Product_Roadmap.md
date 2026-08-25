@@ -115,6 +115,8 @@ Self-Hosting Execution:
   [`E.4 Mission V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001`](E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001_Integrated_Runtime_Assessment.md)
 - Closed v1.0 integrated benchmark mission:
   [`E.4 Mission V10-RUNTIME-INTEGRATION-BENCHMARK-001`](E.4_Mission_V10-RUNTIME-INTEGRATION-BENCHMARK-001_Integrated_Runtime_Benchmark.md)
+- Closed v1.0 self-hosted evolution case:
+  [`E.4 Mission V10-SELF-HOSTED-EVOLUTION-CASE-001`](E.4_Mission_V10-SELF-HOSTED-EVOLUTION-CASE-001_Temporal_Continuity_and_Reanchor.md)
 - Latest closed release mission:
   [`E.4 Mission V09-RELEASE-CUT-001`](E.4_Mission_V09-RELEASE-CUT-001_Contextual_Reasoning_Release_Cut.md)
 - Closed v0.9 release verification mission:
@@ -313,6 +315,11 @@ exact accepted write-stage evidence. The active dependency is
 Version, fresh Activation, re-reasoning, and re-anchor for one complete
 self-hosted evolution case before final release verification.
 
+The first v1.0 self-hosted case now preserves prior/current Context Version
+lineage, refreshes Activation, detects supersession through Memory and
+Reasoning, and re-anchors on the committed benchmark state. The active
+dependency is `V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001`.
+
 ---
 
 ## EPIC-006
@@ -472,3 +479,5 @@ governable, and reusable across humans, agents, and systems.
   integrated runtime benchmark instead of a new subsystem or mega-command.
 - 2026-08-24 - v1.0 - Passed the integrated runtime benchmark and promoted
   post-change temporal closure of the first self-hosted v1.0 evolution case.
+- 2026-08-24 - v1.0 - Closed the first complete self-hosted evolution case and
+  promoted final Organizational Context Runtime release verification.
