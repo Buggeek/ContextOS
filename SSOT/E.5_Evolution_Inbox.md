@@ -1,6 +1,6 @@
 # E.5 Evolution Inbox
 ## Version: 0.1.0
-Last Updated: 2026-08-21
+Last Updated: 2026-08-25
 Owner: Context OS Maintainers
 Status: Active
 
@@ -243,6 +243,9 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-192 | hypothesis | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | Universal primitives are domain-neutral, but implementation and dogfood evidence remain repository-first. | Require real non-Technology evidence before claiming universal organizational validation. |
 | INBOX-193 | architecture | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | GraphRAG remained unnecessary across the v0.9 10/10 reasoning benchmark and v1.0 23/23 integration benchmark. | Keep optional and require a concrete bounded failure before promotion. |
 | INBOX-194 | governance | decision-needed | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | Context OS has no organization-approved Memory Retrieval policy, so relevant self-hosted Memory remains correctly unexposed. | Establish policy through accountable human governance after v1.0; do not treat missing policy as allow. |
+| INBOX-195 | evidence | accepted | V10-RELEASE-CUT-001 | v1.0.0 Organizational Context Runtime was published at the exact accepted SHA with repository-bound Buggeek authority and an immutable annotated tag. | Preserve as the canonical v1.0 release boundary. |
+| INBOX-196 | product | decision-needed | V10-RELEASE-CUT-001 | `PILOT-LUKSPEED-001` is the recommended external reference implementation for testing universality beyond Context OS dogfooding. | Require a separate human authority decision and a clean Lukspeed execution lane before activation. |
+| INBOX-197 | hypothesis | accepted | V10-RELEASE-CUT-001 | External reference evidence is now more valuable than adding another internal subsystem, but Lukspeed cannot by itself prove cross-domain universality. | Use the pilot to test adoption and runtime coherence; retain non-Technology evidence as a separate future requirement. |
 
 ---
 
@@ -341,3 +344,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-24 - v0.1.0 - Recorded v1.0 release readiness, bounded documentation
   corrections, repository-first universality limits, GraphRAG deferral, and the
   unresolved organizational Memory-policy decision.
+- 2026-08-25 - v0.1.0 - Recorded the exact v1.0 release cut, formal closure,
+  preserved deferrals, and the separately authorized Lukspeed pilot
+  recommendation.
