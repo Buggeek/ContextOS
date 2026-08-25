@@ -287,6 +287,11 @@ active dependency is v0.9 release verification; no additional reasoning,
 retrieval, UI, Graph, or agent capability is required unless verification
 finds a release blocker.
 
+Release verification is complete. v0.9 is `RELEASE_READY` with a 10/10
+controlled benchmark, assessment-first self-hosting, human/machine product
+surface, saved invalidation, and no known in-scope debt. Publication and the
+v1.0 re-anchor require explicit human release authority.
+
 ---
 
 ## EPIC-006
@@ -438,3 +443,5 @@ governable, and reusable across humans, agents, and systems.
   bounded Reasoning surface plus saved-result check dependency.
 - 2026-08-24 - v1.0 - Added `contextos reason`, saved-Assessment validation,
   and the v0.9 release-verification dependency.
+- 2026-08-24 - v1.0 - Recorded v0.9 Contextual Reasoning release readiness and
+  the explicit release-cut authority boundary.

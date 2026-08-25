@@ -220,6 +220,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-169 | architecture | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Saved Assessment reuse requires exact identity plus regeneration from preserved Mission-use, Context Version, structured evidence, temporal, policy, and current-state inputs. | Keep `assessment_check/1` mandatory for saved reuse; never treat a parseable old report as fresh. |
 | INBOX-170 | evidence | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Fresh Assessments without explicit evaluation time may have different identities because policy-aware Memory binds invocation time. | Document exact temporal basis as part of determinism and use the saved basis during checks. |
 | INBOX-171 | product | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Contextual Assessment, structured evidence, 10/10 benchmark, self-hosted use, human/JSON CLI, and saved checks now form the minimum v0.9 product journey. | Promote V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001; add no new capability before release evidence identifies a blocker. |
+| INBOX-172 | release | accepted | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | v0.9 satisfies governed Assessment, exact structured evidence, ten reasoning classes, self-hosted use, human/machine surface, saved invalidation, and truth/authority boundaries. | Require explicit release-cut authority for main publication and `v0.9.0-contextual-reasoning`; then re-anchor on v1.0. |
+| INBOX-173 | architecture | deferred | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | Controlled bounded traversal passes multi-hop reasoning with full provenance; no GraphRAG advantage is demonstrated. | Keep GraphRAG deferred until a real-corpus authorized evidence-recovery failure and controlled comparison justify it. |
+| INBOX-174 | governance | decision-needed | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | Ordinary Context OS dogfood still lacks an accountable organization-approved Memory policy profile. | Preserve policy-limited unknowns; resolve through governance only when an accountable policy owner is ready, not as release remediation. |
+| INBOX-175 | product | deferred | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | External consumer adapters, generic chat, automatic claim extraction, agents, and semantic historical reasoning are not required for the demonstrated v0.9 promise. | Preserve as future evidence-backed opportunities; do not import them into release cut or automatic v1.0 scope. |
+| INBOX-176 | product | accepted | V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001 | The next product question is whether released Assess through Reason capabilities operate coherently as one production-critical Organizational Context Runtime. | After release cut, promote V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001 without assuming agent orchestration or Graph infrastructure. |
 
 ---
 
@@ -304,3 +309,6 @@ quarantine and triage surface for context that may deserve future action.
   uncertainty.
 - 2026-08-24 - v0.1.0 - Recorded the bounded Reasoning CLI, saved-result
   validation, temporal determinism, and release-verification dependency.
+- 2026-08-24 - v0.1.0 - Recorded v0.9 release readiness, GraphRAG deferral,
+  policy governance boundary, intentional deferrals, and the first v1.0
+  planning dependency.
