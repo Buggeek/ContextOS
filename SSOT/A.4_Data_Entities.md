@@ -32,6 +32,7 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 | MemoryRetentionDecision | A memory-specific immutable Decision Record resolving exact policies and constraints for exact memory items | governance decision evidence | id, item_ids, source_hashes, policy_resolution, states, holds, authority, evidence, reversibility, lineage | Context-dependent | Does not authorize execution unless a separate transition contract explicitly does so |
 | MemoryRetentionResolution | A deterministic read-only derived evaluation of explicit policies against exact memory metadata | tools/memory retention-resolution output | id, input_fingerprint, policy_hashes, operation_results, holds, conflicts, unknowns, authority, invalidation | Context-dependent | Grants no authority and performs no transition, deletion, forgetting, or canonical mutation |
 | ContextVersion | An immutable, content-free identity and provenance record for governed context at a meaningful event | tools/memory Context Version output / future governed version store | id, identity_hash, scope, capture, source_manifest, source_fingerprint, bindings, lineage, truth_summary, retention, continuity_gaps | Context-dependent | Identifies historical source state; it is not copied context, an Activation Package, a Git commit, or authority |
+| ContextualAssessment | A deterministic read-only advisory view derived from governed Runtime evidence for an exact Goal/Mission and consumer | tools/reasoning Contextual Assessment output | id, identity_hash, query, bindings, observations, prior_art, context_changes, contradictions, interpretations, hypotheses, recommendations, unknowns, required_decisions, evidence, authority, invalidation | Context-dependent | Derived working view; never a Decision, authority, canonical truth, or second SSOT |
 
 ---
 
@@ -62,6 +63,10 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   partial historical evidence, or an explicit unknown without reconstruction
 - Memory Retrieval → may expose ContextVersion identity and lineage only after
   independent policy resolution; Retrieval grants no historical authority
+- ContextualAssessment → consumes Activation, Health, policy-aware Memory, and
+  ContextVersion evidence without changing their authority
+- ContextualAssessment → may propose a Decision or Mission candidate only
+  through existing human authority and governance lifecycles
 
 ---
 
@@ -116,3 +121,5 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
   Mission, Activation, Memory, supersession, and retention boundaries.
 - 2026-08-23 — v0.1.0 — Added exact/partial/unknown Memory bindings and
   policy-before-exposure ContextVersion Retrieval relationships.
+- 2026-08-24 — v0.1.0 — Added ContextualAssessment as a deterministic,
+  non-canonical, non-decisional derived reasoning entity.

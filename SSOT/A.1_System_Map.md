@@ -47,6 +47,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
 | tools/memory | Module | Read-only Organizational Memory continuity, policy-aware Retrieval, retention-policy resolution, immutable Context Version capture/checks, and exact/partial/unknown historical-context bindings | Maintainers | v0.8 continuity/retrieval/resolution/version component; no semantic comparison, restored historical authority, retention transition, or destructive behavior
+| tools/reasoning | Module | Read-only governed Contextual Assessment over Activation, Health, policy-aware Memory, and Context Version evidence | Maintainers | v0.9 advisory reasoning component; no Decision, execution, canonical mutation, or GraphRAG
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory
 | SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
@@ -90,13 +91,15 @@ Modular monolith (documentation modules + tooling modules in one repository).
 17. Applicable retention policies + exact memory identity + consumer/authority/holds/time -> deterministic read-only policy resolution -> independent Retrieval/Activation eligibility or explicit blocked conflict
 18. Governed source state + meaningful event + optional Activation evidence -> read-only Context Version capture plan -> immutable content-free Context Version -> historical verification and Memory lineage
 19. Exact Context Version + governed Mission records -> Continuity binding -> independent version-metadata policy gate -> bounded historical Retrieval with no current authority
+20. Goal/Mission + Activation + Health + policy-authorized Memory + Context Versions -> Contextual Assessment -> evidence-backed observations, hypotheses, recommendations, unknowns, and required human decisions
 
 ---
 
 ## Known Gaps / Drift
 
-- No Knowledge Engine, Context Graph runtime, activation adapters, or agent
-  runtime exists yet
+- No semantic Knowledge Engine, Context Graph runtime, activation adapters, or
+  agent runtime exists yet; Contextual Assessment is bounded structured
+  reasoning rather than free-form truth generation
 - Organizational Memory provides continuity, policy-aware bounded retrieval,
   canonical retention-governance semantics, read-only policy resolution, and
   explicit Context Version capture/checks, and policy-safe historical bindings;
@@ -152,4 +155,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   planning, deterministic identity, source fingerprints, and historical checks
 - 2026-08-23 — v0.1.1 — Integrated exact Context Version evidence into Memory
   Continuity and policy-aware Retrieval with partial/unknown gap preservation
+- 2026-08-24 — v0.1.1 — Added the first read-only governed Contextual
+  Assessment component and its explicit reasoning/authority boundaries
 - 2026-02-19 — v0.1.0 — Initial creation

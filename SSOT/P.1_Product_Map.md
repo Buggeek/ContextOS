@@ -30,6 +30,7 @@ usable Organizational Context Runtime repository.
 - Organizational Memory retention-governance, read-only policy resolution, and
   policy-before-exposure Retrieval tooling
 - Immutable Context Version capture planning and historical verification
+- Governed Contextual Assessment tooling (`tools/reasoning/`)
 - Runtime CLI tooling (`tools/cli/`, `contextos`)
 
 ---
@@ -97,6 +98,9 @@ usable Organizational Context Runtime repository.
 28. Actor retrieves a prior Decision with exact, partial, or unknown historical
     context evidence and sees whether the old context is superseded without
     receiving semantic conclusions or present authority
+29. Actor requests a Contextual Assessment and receives evidence-backed
+    observations, bounded interpretations, hypotheses, recommendations,
+    unknowns, and required human decisions without automatic execution
 
 ---
 
@@ -153,6 +157,9 @@ usable Organizational Context Runtime repository.
 - Bind Memory Continuity and policy-aware Retrieval to exact Context Versions
   while preserving partial/unknown history and independently governing version
   metadata exposure
+- Provide a read-only Contextual Assessment that composes Activation, Health,
+  authorized Memory, and Context Version evidence while preserving reasoning,
+  Decision, authority, and truth boundaries
 
 ---
 
@@ -197,6 +204,8 @@ usable Organizational Context Runtime repository.
   narratives are mistaken for universal or complete historical context
 - Historical Retrieval risk if version lineage leaks restricted source metadata
   or if supersession is presented as semantic invalidity
+- Reasoning risk if interpretation, hypothesis, or recommendation is mistaken
+  for evidence, Decision authority, or canonical organizational truth
 
 ---
 
@@ -238,6 +247,8 @@ usable Organizational Context Runtime repository.
   explicit historical continuity-gap handling
 - 2026-08-23 — v0.1.1 — Integrated exact Context Version evidence into Memory
   Continuity and policy-aware Retrieval without semantic comparison
+- 2026-08-24 — v0.1.1 — Added the first read-only governed Contextual
+  Assessment product capability
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

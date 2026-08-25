@@ -267,6 +267,11 @@ hypothesis, recommendation, Decision, authority, temporal applicability, and
 truth boundaries. GraphRAG remains optional until a controlled comparison
 demonstrates material value over bounded structured Retrieval.
 
+The first active v0.9 slice is a read-only governed Contextual Assessment over
+Activation, Health, policy-aware Memory, and exact Context Versions. The next
+release dependency is a controlled multi-class benchmark and evidence-backed
+GraphRAG decision.
+
 ---
 
 ## EPIC-006
@@ -409,3 +414,5 @@ governable, and reusable across humans, agents, and systems.
   destructive retention capabilities.
 - 2026-08-24 - v1.0 - Closed v0.8 Organizational Memory and re-anchored the
   current release on v0.9 Contextual Reasoning.
+- 2026-08-24 - v1.0 - Linked the first governed Contextual Assessment Mission
+  and the controlled reasoning benchmark dependency.

@@ -201,6 +201,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-150 | product | accepted | V08-ORGANIZATIONAL-MEMORY-RELEASE-VERIFY-001 | v0.8 satisfies governed continuity, bounded prior art, retention resolution, policy-before-exposure, and exact historical binding without semantic reasoning or destructive memory operations. | Require explicit release-cut authority; then re-anchor on v0.9 Contextual Reasoning without importing deferred storage or Graph capabilities automatically. |
 | INBOX-151 | release | accepted | V08-RELEASE-CUT-001 | v0.8.0 Organizational Memory was published and tagged at the exact accepted release-verification commit. | Preserve all v0.8 deferrals and re-anchor the active release on v0.9 Contextual Reasoning. |
 | INBOX-152 | product | accepted | V08-RELEASE-CUT-001 | The first v0.9 dependency is a canonical reasoning boundary and smallest useful governed reasoning capability, not GraphRAG or generic chat. | Promote V09-CONTEXTUAL-REASONING-PLAN-001 under the accepted Goal Loop. |
+| INBOX-153 | architecture | accepted | V09-CONTEXTUAL-REASONING-PLAN-001 | Existing Activation, Health, policy-aware Memory, and Context Version outputs are sufficient for a useful deterministic Contextual Assessment without a new semantic store. | Preserve the composition model and test its limits through the required benchmark before introducing new retrieval infrastructure. |
+| INBOX-154 | governance | decision-needed | V09-CONTEXTUAL-REASONING-PLAN-001 | Context OS dogfood found relevant Organizational Memory but no organization-approved policy/metadata context permitting exposure. | Preserve unknown and required-decision state; do not invent policy or treat controlled fixture authorization as organizational permission. |
+| INBOX-155 | evidence | accepted | V09-CONTEXTUAL-REASONING-PLAN-001 | GraphRAG necessity is unproven; current structured Retrieval must be measured across current-state, history, contradiction, impact, hypothesis, recommendation, missing-evidence, prior-art, policy, and multi-hop classes. | Promote V09-CONTEXTUAL-REASONING-BENCHMARK-001 and record an adopt/defer decision from controlled evidence. |
+| INBOX-156 | process | accepted | V09-CONTEXTUAL-REASONING-PLAN-001 | The human Goal Loop constituted the accepted Mission contract, but the repository Mission Packet was materialized after Mission-start Context Version capture. | Preserve the ordering gap; materialize future Mission Packets before their explicit Mission-start Context Version capture. |
 
 ---
 
@@ -273,3 +277,6 @@ quarantine and triage surface for context that may deserve future action.
   relevance-versus-eligibility report correction.
 - 2026-08-24 - v0.1.0 - Recorded the v0.8 release cut, preserved intentional
   deferrals, and promoted the first governed v0.9 reasoning Mission.
+- 2026-08-24 - v0.1.0 - Recorded the first Contextual Assessment boundary,
+  missing policy authority, benchmark/GraphRAG dependency, and Mission Packet
+  ordering learning.

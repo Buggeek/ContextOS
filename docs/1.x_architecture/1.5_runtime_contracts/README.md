@@ -21,6 +21,7 @@ expected to build against.
 | [Organizational Memory Retrieval Contract](1.5.12_Organizational_Memory_Retrieval_Contract.md) | Bounded, Activation-bound, explainable prior-art retrieval and deterministic invalidation checks | Organizational Memory Engine + EPIC-008 |
 | [Organizational Memory Retention Governance Contract](1.5.13_Organizational_Memory_Retention_Governance_Contract.md) | Retention states, policy resolution, sensitivity/access, holds, authority, forgetting, recovery, and future validation boundaries | Governance Layer + Organizational Memory |
 | [Context Version Contract](1.5.14_Context_Version_Contract.md) | Immutable governed-context identity, capture planning, source fingerprints, historical verification, and supersession | Organizational Memory Engine |
+| [Contextual Assessment Contract](1.5.15_Contextual_Assessment_Contract.md) | Evidence-backed observations, interpretations, hypotheses, recommendations, unknowns, authority boundaries, and deterministic identity | Contextual Reasoning Engine + EPIC-005 |
 
 ## Rules
 
