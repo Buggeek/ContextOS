@@ -13,7 +13,8 @@ BOOTSTRAP_ROOT = REPO_ROOT / "tools" / "bootstrap"
 ACTIVATION_ROOT = REPO_ROOT / "tools" / "activation"
 HEALTH_ROOT = REPO_ROOT / "tools" / "health"
 MEMORY_ROOT = REPO_ROOT / "tools" / "memory"
-for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT, MEMORY_ROOT):
+REASONING_ROOT = REPO_ROOT / "tools" / "reasoning"
+for runtime_path in (VALIDATORS_ROOT, READINESS_ROOT, BOOTSTRAP_ROOT, ACTIVATION_ROOT, HEALTH_ROOT, MEMORY_ROOT, REASONING_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
@@ -51,9 +52,13 @@ from memory_engine.retrieval_report_builder import write_json_report as write_me
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
 from readiness_engine.report_builder import render_human as render_readiness_human  # noqa: E402
 from readiness_engine.report_builder import write_json_report as write_readiness_json_report  # noqa: E402
+from reasoning_engine import ContextualAssessmentEngine  # noqa: E402
+from reasoning_engine.report_builder import render_check_human as render_reasoning_check_human  # noqa: E402
+from reasoning_engine.report_builder import render_human as render_reasoning_human  # noqa: E402
+from reasoning_engine.report_builder import write_json_report as write_reasoning_json_report  # noqa: E402
 
 
-VERSION = "0.7.0-cli-v0"
+VERSION = "0.9.0-cli-v0"
 FORMAT_CHOICES = ("text", "human", "json")
 
 
@@ -165,6 +170,33 @@ def build_parser() -> argparse.ArgumentParser:
     memory.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
     memory.add_argument("--json-out", default=None, help="Write the machine Memory retrieval report JSON to this path.")
     memory.set_defaults(handler=run_memory)
+
+    reason = subparsers.add_parser(
+        "reason",
+        help="Create or check a governed Contextual Assessment.",
+        description="Create or check a read-only evidence-backed Contextual Assessment.",
+    )
+    reason.add_argument("--root", default=".", help="Repository root to assess contextually.")
+    reason.add_argument("--goal", default=None, help="Goal that bounds contextual reasoning.")
+    reason.add_argument("--mission-id", default=None, help="Mission id to bind to the Assessment.")
+    reason.add_argument("--question", default=None, help="Optional bounded organizational question.")
+    reason.add_argument("--consumer", default="human", help="Consumer receiving the Assessment.")
+    reason.add_argument("--purpose", default=None, help="Exact purpose for the Assessment.")
+    reason.add_argument("--organizational-mode", default="local", choices=("local", "project", "organization", "embedded"), help="Organizational authority mode.")
+    reason.add_argument("--actor-role", action="append", default=[], help="Actor role considered by policy resolution. May be repeated.")
+    reason.add_argument("--authority-scope", default=None, help="Exact authority scope; this does not grant authority.")
+    reason.add_argument("--retention-policy", action="append", default=[], help="Authorized retention-policy JSON. May be repeated.")
+    reason.add_argument("--memory-metadata", default=None, help="Authorized per-memory metadata JSON.")
+    reason.add_argument("--context-version", action="append", default=[], help="Exact contextos.context.version/1 JSON. May be repeated.")
+    reason.add_argument("--mission-use-evidence", default=None, help="Optional contextos.mission.context_use_evidence/1 JSON.")
+    reason.add_argument("--reasoning-evidence", default=None, help="Optional contextos.reasoning.evidence_set/1 JSON.")
+    reason.add_argument("--focus-entity", action="append", default=[], help="Entity from which bounded relationship traversal begins. May be repeated.")
+    reason.add_argument("--evaluation-time", default=None, help="Explicit temporal basis for policy evaluation.")
+    reason.add_argument("--memory-limit", type=int, default=12, help="Maximum policy-authorized Memory candidates (1-50).")
+    reason.add_argument("--check-assessment", default=None, help="Check a saved contextos.reasoning.assessment/1 JSON report.")
+    reason.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")
+    reason.add_argument("--json-out", default=None, help="Write the full machine report JSON to this path.")
+    reason.set_defaults(handler=run_reason)
     return parser
 
 
@@ -617,6 +649,100 @@ def run_memory(args: argparse.Namespace) -> int:
     if report.get("schema") == "contextos.memory.retrieval_check/1":
         return 0 if report["result"]["valid"] else 7
     validator = report["activation_package"]["validator"]["summary"]
+    if validator["fatal"]:
+        return 8
+    if validator["error"]:
+        return 7
+    return 0
+
+
+def run_reason(args: argparse.Namespace) -> int:
+    root = Path(args.root)
+    if not root.exists() or not root.is_dir():
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Repository root does not exist or is not a directory.",
+            {"root": str(root)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    try:
+        policies = []
+        for policy_path in args.retention_policy:
+            policy_payload = load_bootstrap_json(policy_path)
+            if isinstance(policy_payload, list):
+                policies.extend(policy_payload)
+            elif isinstance(policy_payload, dict) and policy_payload.get("schema") == "contextos.memory.retention_policy/1":
+                policies.append(policy_payload)
+            elif isinstance(policy_payload, dict) and isinstance(policy_payload.get("policies"), list):
+                policies.extend(policy_payload["policies"])
+            else:
+                raise ValueError(f"Retention policy file has no supported policy shape: {policy_path}")
+        metadata = load_bootstrap_json(args.memory_metadata) if args.memory_metadata else {}
+        if not isinstance(metadata, dict):
+            raise ValueError("Memory metadata input must be a JSON object.")
+
+        engine = ContextualAssessmentEngine(root)
+        if args.check_assessment:
+            saved = load_bootstrap_json(args.check_assessment)
+            report = engine.check_assessment(
+                saved,
+                retention_policies=policies,
+                memory_metadata_by_id=metadata,
+            )
+        else:
+            if not args.goal:
+                raise ValueError("Contextual Assessment requires --goal unless --check-assessment is used.")
+            context_versions = []
+            for version_path in args.context_version:
+                version = load_bootstrap_json(version_path)
+                if not isinstance(version, dict) or version.get("schema") != "contextos.context.version/1":
+                    raise ValueError(f"Context Version file must use contextos.context.version/1: {version_path}")
+                context_versions.append(version)
+            mission_use = load_bootstrap_json(args.mission_use_evidence) if args.mission_use_evidence else None
+            reasoning_evidence = load_bootstrap_json(args.reasoning_evidence) if args.reasoning_evidence else None
+            report = engine.run(
+                goal=args.goal,
+                mission_id=args.mission_id,
+                consumer=args.consumer,
+                question=args.question,
+                purpose=args.purpose,
+                organizational_mode=args.organizational_mode,
+                actor_roles=args.actor_role,
+                authority_scope=args.authority_scope,
+                retention_policies=policies,
+                memory_metadata_by_id=metadata,
+                context_versions=context_versions,
+                mission_use_evidence=mission_use,
+                reasoning_evidence=reasoning_evidence,
+                focus_entities=args.focus_entity,
+                memory_limit=args.memory_limit,
+                evaluation_time=args.evaluation_time,
+            )
+    except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
+        payload = error_payload(
+            9,
+            "misconfiguration",
+            "Could not create or check Contextual Assessment.",
+            {"assessment": args.check_assessment, "error": str(exc)},
+        )
+        emit_error(payload, args.format)
+        return 9
+
+    if args.json_out:
+        write_reasoning_json_report(args.json_out, report)
+    if args.format == "json":
+        print(json.dumps(report, indent=2, sort_keys=True))
+    elif report["schema"] == "contextos.reasoning.assessment_check/1":
+        print(render_reasoning_check_human(report), end="")
+    else:
+        print(render_reasoning_human(report), end="")
+
+    if report["schema"] == "contextos.reasoning.assessment_check/1":
+        return 0 if report["result"]["valid"] else 7
+    validator = report["evidence"]["memory_retrieval"]["activation_package"]["validator"]["summary"]
     if validator["fatal"]:
         return 8
     if validator["error"]:

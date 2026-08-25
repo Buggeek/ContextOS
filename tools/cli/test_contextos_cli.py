@@ -102,6 +102,131 @@ class ContextOSCliTestCase(unittest.TestCase):
         self.assertIn("activate", stdout)
         self.assertIn("health", stdout)
         self.assertIn("memory", stdout)
+        self.assertIn("reason", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_reason_human_surface_is_read_only_and_authority_safe(self) -> None:
+        with self.make_repo() as temp:
+            root = Path(temp)
+            before = tree_snapshot(root)
+            code, stdout, stderr = self.invoke([
+                "reason", "--root", temp, "--goal", "Determine what context requires attention"
+            ])
+            after = tree_snapshot(root)
+
+        self.assertEqual(code, 0)
+        self.assertEqual(before, after)
+        self.assertIn("# Context OS Contextual Assessment", stdout)
+        self.assertIn("## Observed Facts", stdout)
+        self.assertIn("## Interpretations", stdout)
+        self.assertIn("## Recommendations", stdout)
+        self.assertIn("## Required Human Decisions", stdout)
+        self.assertIn("cannot decide, approve, execute", stdout)
+        self.assertEqual(stderr, "")
+
+    def test_reason_json_is_pure_and_accepts_structured_evidence(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            evidence_path = Path(output_temp) / "evidence.json"
+            evidence_path.write_text(
+                json.dumps(
+                    {
+                        "schema": "contextos.reasoning.evidence_set/1",
+                        "claims": [
+                            {
+                                "id": "claim.test.status",
+                                "subject": "mission.test",
+                                "predicate": "status",
+                                "value": "active",
+                                "source_refs": ["test.evidence"],
+                                "epistemic_support": "observed",
+                            }
+                        ],
+                        "relationships": [],
+                    }
+                ),
+                encoding="utf-8",
+            )
+            code, stdout, stderr = self.invoke([
+                "reason",
+                "--root",
+                temp,
+                "--goal",
+                "Assess exact Mission evidence",
+                "--reasoning-evidence",
+                str(evidence_path),
+                "--format",
+                "json",
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(report["schema"], "contextos.reasoning.assessment/1")
+        self.assertEqual(report["bindings"]["reasoning_evidence"]["claim_count"], 1)
+        self.assertTrue(report["read_only"])
+        self.assertFalse(report["authority"]["may_decide"])
+        self.assertEqual(stderr, "")
+
+    def test_reason_json_out_and_saved_check_are_valid(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            assessment_path = Path(output_temp) / "assessment.json"
+            code, stdout, stderr = self.invoke([
+                "reason",
+                "--root",
+                temp,
+                "--goal",
+                "Create a reusable governed assessment",
+                "--json-out",
+                str(assessment_path),
+                "--format",
+                "json",
+            ])
+            saved = json.loads(assessment_path.read_text(encoding="utf-8"))
+            check_code, check_stdout, check_stderr = self.invoke([
+                "reason",
+                "--root",
+                temp,
+                "--check-assessment",
+                str(assessment_path),
+                "--format",
+                "json",
+            ])
+
+        check = json.loads(check_stdout)
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(stdout)["identity_hash"], saved["identity_hash"])
+        self.assertEqual(check_code, 0)
+        self.assertEqual(check["schema"], "contextos.reasoning.assessment_check/1")
+        self.assertTrue(check["result"]["valid"])
+        self.assertEqual(stderr, "")
+        self.assertEqual(check_stderr, "")
+
+    def test_reason_saved_check_detects_source_drift(self) -> None:
+        with self.make_repo() as temp, tempfile.TemporaryDirectory() as output_temp:
+            assessment_path = Path(output_temp) / "assessment.json"
+            create_code, _, _ = self.invoke([
+                "reason", "--root", temp, "--goal", "Detect stale reasoning", "--json-out", str(assessment_path)
+            ])
+            product_map = Path(temp) / "SSOT/P.1_Product_Map.md"
+            product_map.write_text(product_map.read_text(encoding="utf-8") + "\nDrift.\n", encoding="utf-8")
+            code, stdout, stderr = self.invoke([
+                "reason", "--root", temp, "--check-assessment", str(assessment_path), "--format", "json"
+            ])
+
+        report = json.loads(stdout)
+        self.assertEqual(create_code, 0)
+        self.assertEqual(code, 7)
+        self.assertTrue(report["result"]["invalidated"])
+        self.assertIn("reasoning.assessment_check.current_state_changed", report["result"]["failed_checks"])
+        self.assertEqual(stderr, "")
+
+    def test_reason_requires_goal_or_check(self) -> None:
+        with self.make_repo() as temp:
+            code, stdout, stderr = self.invoke(["reason", "--root", temp, "--format", "json"])
+
+        payload = json.loads(stdout)
+        self.assertEqual(code, 9)
+        self.assertEqual(payload["error"]["category"], "misconfiguration")
+        self.assertIn("requires --goal", payload["error"]["evidence"]["error"])
         self.assertEqual(stderr, "")
 
     def test_version_exits_zero(self) -> None:

@@ -282,6 +282,11 @@ Decision authority. A narrow read-only human/machine product surface and exact
 saved-assessment validation are the active dependencies before release
 verification.
 
+`contextos reason` now provides that surface and saved-result validation. The
+active dependency is v0.9 release verification; no additional reasoning,
+retrieval, UI, Graph, or agent capability is required unless verification
+finds a release blocker.
+
 ---
 
 ## EPIC-006
@@ -431,3 +436,5 @@ governable, and reusable across humans, agents, and systems.
   dependency.
 - 2026-08-24 - v1.0 - Recorded assessment-first self-hosting and promoted the
   bounded Reasoning surface plus saved-result check dependency.
+- 2026-08-24 - v1.0 - Added `contextos reason`, saved-Assessment validation,
+  and the v0.9 release-verification dependency.

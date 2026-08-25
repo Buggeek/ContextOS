@@ -101,6 +101,8 @@ usable Organizational Context Runtime repository.
 29. Actor requests a Contextual Assessment and receives evidence-backed
     observations, bounded interpretations, hypotheses, recommendations,
     unknowns, and required human decisions without automatic execution
+30. Actor saves or reuses an Assessment only after Context OS verifies its
+    exact identity, evidence, policy inputs, temporal basis, and current state
 
 ---
 
@@ -160,6 +162,8 @@ usable Organizational Context Runtime repository.
 - Provide a read-only Contextual Assessment that composes Activation, Health,
   authorized Memory, and Context Version evidence while preserving reasoning,
   Decision, authority, and truth boundaries
+- Provide `contextos reason` human/JSON output and exact saved-Assessment
+  validation without adding Decision, execution, or mutation authority
 
 ---
 
@@ -206,6 +210,8 @@ usable Organizational Context Runtime repository.
   or if supersession is presented as semantic invalidity
 - Reasoning risk if interpretation, hypothesis, or recommendation is mistaken
   for evidence, Decision authority, or canonical organizational truth
+- Saved-reasoning risk if a prior Assessment is reused after source, policy,
+  authority, evidence, or temporal drift without an exact check
 
 ---
 
@@ -249,6 +255,8 @@ usable Organizational Context Runtime repository.
   Continuity and policy-aware Retrieval without semantic comparison
 - 2026-08-24 — v0.1.1 — Added the first read-only governed Contextual
   Assessment product capability
+- 2026-08-24 — v0.1.1 — Added the `contextos reason` human/machine surface and
+  saved-Assessment check
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product

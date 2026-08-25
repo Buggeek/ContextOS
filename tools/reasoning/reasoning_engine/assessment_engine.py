@@ -6,7 +6,7 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from .report_builder import build_report
+from .report_builder import build_check_report, build_report
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
@@ -150,6 +150,8 @@ class ContextualAssessmentEngine:
             "actor_roles": sorted(set(actor_roles)),
             "authority_scope": authority_scope,
             "focus_entities": focus,
+            "memory_limit": memory_limit,
+            "evaluation_time": evaluation_time,
         }
         bindings = {
             "activation_package": self._ref(memory["activation_package"]),
@@ -177,12 +179,7 @@ class ContextualAssessmentEngine:
                 "relationship_count": len(evidence_set["relationships"]),
             },
         }
-        identity_payload = {
-            "query": query,
-            "bindings": bindings,
-            "reasoning": reasoning,
-            "authority": self._authority(),
-        }
+        identity_payload = self._identity_payload(query, bindings, reasoning)
         identity_hash = stable_hash(identity_payload)
         report = {
             "id": f"reasoning.assessment.{identity_hash[:16]}",
@@ -204,8 +201,10 @@ class ContextualAssessmentEngine:
             "evidence": {
                 "health": health,
                 "memory_retrieval": memory,
+                "context_versions": versions,
                 "context_version_checks": version_checks,
                 "reasoning_evidence": evidence_set,
+                "mission_use_evidence": mission_use_evidence,
             },
             "authority": self._authority(),
             "truth_boundary": {
@@ -234,6 +233,85 @@ class ContextualAssessmentEngine:
             ],
         }
         return build_report(self.root, report, generated_at)
+
+    def check_assessment(
+        self,
+        saved: dict,
+        *,
+        retention_policies: list[dict] | None = None,
+        memory_metadata_by_id: dict | None = None,
+        generated_at: str | None = None,
+    ) -> dict:
+        if not isinstance(saved, dict) or saved.get("schema") != "contextos.reasoning.assessment/1":
+            raise ValueError("Saved Assessment must use contextos.reasoning.assessment/1.")
+
+        expected_hash = stable_hash(self._identity_payload(saved["query"], saved["bindings"], saved["reasoning"]))
+        identity_valid = saved.get("identity_hash") == expected_hash and saved.get("id") == f"reasoning.assessment.{expected_hash[:16]}"
+        failed = [] if identity_valid else ["reasoning.assessment_check.immutable_identity"]
+        current = None
+        error = None
+        try:
+            query = saved["query"]
+            versions = saved["evidence"].get("context_versions", [])
+            current = self.run(
+                goal=query["goal"],
+                mission_id=query["mission_id"],
+                consumer=query["consumer"],
+                question=query["question"],
+                purpose=query["purpose"],
+                organizational_mode=query["organizational_mode"],
+                actor_roles=query["actor_roles"],
+                authority_scope=query["authority_scope"],
+                retention_policies=retention_policies,
+                memory_metadata_by_id=memory_metadata_by_id,
+                context_versions=versions,
+                mission_use_evidence=saved["evidence"].get("mission_use_evidence"),
+                reasoning_evidence=saved["evidence"]["reasoning_evidence"],
+                focus_entities=query.get("focus_entities", []),
+                memory_limit=query.get("memory_limit", 12),
+                evaluation_time=query.get("evaluation_time"),
+                generated_at=saved.get("generated_at"),
+            )
+            current_matches = current["identity_hash"] == saved.get("identity_hash")
+        except (KeyError, TypeError, ValueError) as exc:
+            current_matches = False
+            error = str(exc)
+        if not current_matches:
+            failed.append("reasoning.assessment_check.current_state_changed")
+
+        result_payload = {
+            "assessment_id": saved.get("id"),
+            "assessment_hash": saved.get("identity_hash"),
+            "current_hash": current.get("identity_hash") if current else None,
+            "failed_checks": sorted(set(failed)),
+        }
+        result_hash = stable_hash(result_payload)
+        report = {
+            "id": f"reasoning.assessment_check.{result_hash[:16]}",
+            "identity_hash": result_hash,
+            "read_only": True,
+            "assessment": {
+                "id": saved.get("id"),
+                "identity_hash": saved.get("identity_hash"),
+            },
+            "current_assessment": self._ref(current) if current else None,
+            "checks": {
+                "immutable_identity": "valid" if identity_valid else "tampered",
+                "current_state": "exact_match" if current_matches else "drifted_or_unverifiable",
+            },
+            "result": {
+                "valid": not failed,
+                "invalidated": bool(failed),
+                "failed_checks": sorted(set(failed)),
+                "error": error,
+            },
+            "authority": self._authority(),
+            "limitations": [
+                "The check validates exact reproducibility; it does not approve Assessment conclusions.",
+                "Policies and metadata used by the saved Assessment must be supplied again exactly.",
+            ],
+        }
+        return build_check_report(self.root, report, generated_at)
 
     def _check_versions(self, versions: list[dict], generated_at: str | None) -> list[dict]:
         engine = ContextVersionEngine(self.root)
@@ -461,4 +539,13 @@ class ContextualAssessmentEngine:
             "may_execute": False,
             "may_mutate_canonical_context": False,
             "human_decision_required_for_consequential_transition": True,
+        }
+
+    @classmethod
+    def _identity_payload(cls, query: dict, bindings: dict, reasoning: dict) -> dict:
+        return {
+            "query": query,
+            "bindings": bindings,
+            "reasoning": reasoning,
+            "authority": cls._authority(),
         }

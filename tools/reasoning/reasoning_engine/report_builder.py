@@ -1,11 +1,13 @@
 from __future__ import annotations
 
 import datetime as _dt
+import json
 from pathlib import Path
 
 
 SCHEMA = "contextos.reasoning.assessment/1"
 BENCHMARK_SCHEMA = "contextos.reasoning.benchmark/1"
+CHECK_SCHEMA = "contextos.reasoning.assessment_check/1"
 
 
 def generated_timestamp() -> str:
@@ -23,6 +25,19 @@ def build_benchmark_report(report: dict, generated_at: str | None = None) -> dic
     report["schema"] = BENCHMARK_SCHEMA
     report["generated_at"] = generated_at or generated_timestamp()
     return report
+
+
+def build_check_report(root: Path, report: dict, generated_at: str | None = None) -> dict:
+    report["schema"] = CHECK_SCHEMA
+    report["generated_at"] = generated_at or generated_timestamp()
+    report["root"] = str(root.resolve())
+    return report
+
+
+def write_json_report(path: str | Path, report: dict) -> None:
+    output = Path(path)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
 
 def render_benchmark_human(report: dict) -> str:
@@ -53,6 +68,33 @@ def render_benchmark_human(report: dict) -> str:
             "## Boundary",
             "- Benchmark failure is evidence of a gap, not authority to add infrastructure.",
             "- The benchmark cannot decide, execute, or mutate canonical context.",
+        ]
+    )
+    return "\n".join(lines) + "\n"
+
+
+def render_check_human(report: dict) -> str:
+    lines = [
+        "# Context OS Contextual Assessment Check",
+        "",
+        f"- Assessment: `{report['assessment']['id']}`",
+        f"- Immutable identity: `{report['checks']['immutable_identity']}`",
+        f"- Current state: `{report['checks']['current_state']}`",
+        f"- Valid: {'yes' if report['result']['valid'] else 'no'}",
+        f"- Invalidated: {'yes' if report['result']['invalidated'] else 'no'}",
+        "",
+        "## Failed Checks",
+    ]
+    if report["result"]["failed_checks"]:
+        lines.extend(f"- `{item}`" for item in report["result"]["failed_checks"])
+    else:
+        lines.append("- None.")
+    lines.extend(
+        [
+            "",
+            "## Boundary",
+            "- A valid check permits reuse of the exact read-only Assessment only.",
+            "- It grants no Decision, execution, policy, or canonical mutation authority.",
         ]
     )
     return "\n".join(lines) + "\n"

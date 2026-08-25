@@ -216,6 +216,10 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-165 | implementation | accepted | V09-CONTEXTUAL-REASONING-USE-001 | A saved Assessment has documented invalidation semantics but no deterministic check surface, so reuse could rely on stale working reasoning. | Include exact saved-assessment validation in V09-CONTEXTUAL-REASONING-SURFACE-001 before release verification. |
 | INBOX-166 | bug | resolved | V09-CONTEXTUAL-REASONING-USE-001 | Assessment requested exact claim-level evidence even when explicit comparable claims were supplied and simply did not conflict. | Fixed the condition and added regression evidence; no additional evidence is requested merely because explicit claims agree. |
 | INBOX-167 | governance | deferred | V09-CONTEXTUAL-REASONING-USE-001 | Organization-approved Memory policy remains absent, so repository self-hosting cannot expose relevant prior art under ordinary authority. | Keep the unknown/required-decision result; do not block bounded reasoning or fabricate an organizational policy for v0.9. |
+| INBOX-168 | product | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Benchmark and assessment-first use justified a narrow `contextos reason` surface; CLI exposure before those proofs would have been infrastructure-led. | Preserve the thin adapter and proceed to release verification rather than add chat, UI, or automation. |
+| INBOX-169 | architecture | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Saved Assessment reuse requires exact identity plus regeneration from preserved Mission-use, Context Version, structured evidence, temporal, policy, and current-state inputs. | Keep `assessment_check/1` mandatory for saved reuse; never treat a parseable old report as fresh. |
+| INBOX-170 | evidence | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Fresh Assessments without explicit evaluation time may have different identities because policy-aware Memory binds invocation time. | Document exact temporal basis as part of determinism and use the saved basis during checks. |
+| INBOX-171 | product | accepted | V09-CONTEXTUAL-REASONING-SURFACE-001 | Contextual Assessment, structured evidence, 10/10 benchmark, self-hosted use, human/JSON CLI, and saved checks now form the minimum v0.9 product journey. | Promote V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001; add no new capability before release evidence identifies a blocker. |
 
 ---
 
@@ -298,3 +302,5 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-24 - v0.1.0 - Recorded assessment-first self-hosting, saved-result
   validation dependency, one resolved evidence-gap bug, and continuing policy
   uncertainty.
+- 2026-08-24 - v0.1.0 - Recorded the bounded Reasoning CLI, saved-result
+  validation, temporal determinism, and release-verification dependency.

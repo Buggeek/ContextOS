@@ -108,6 +108,35 @@ class ContextualAssessmentTestCase(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "tampered Context Version"):
             ContextualAssessmentEngine(root).run(goal=GOAL, context_versions=[tampered], generated_at=FIXED_TIME)
 
+    def test_saved_assessment_check_is_valid_until_bound_state_drifts(self) -> None:
+        temp, root, version = self.make_fixture()
+        self.addCleanup(temp.cleanup)
+        engine = ContextualAssessmentEngine(root)
+        report = engine.run(goal=GOAL, context_versions=[version], generated_at=FIXED_TIME)
+        valid = engine.check_assessment(report, generated_at=FIXED_TIME)
+        source = root / "SSOT/P.1_Product_Map.md"
+        source.write_text(source.read_text(encoding="utf-8") + "\nDrift.\n", encoding="utf-8")
+        drifted = engine.check_assessment(report, generated_at=FIXED_TIME)
+
+        self.assertEqual(valid["schema"], "contextos.reasoning.assessment_check/1")
+        self.assertTrue(valid["result"]["valid"])
+        self.assertFalse(valid["result"]["invalidated"])
+        self.assertFalse(drifted["result"]["valid"])
+        self.assertIn("reasoning.assessment_check.current_state_changed", drifted["result"]["failed_checks"])
+
+    def test_saved_assessment_check_rejects_tampering(self) -> None:
+        temp, root, version = self.make_fixture()
+        self.addCleanup(temp.cleanup)
+        engine = ContextualAssessmentEngine(root)
+        report = engine.run(goal=GOAL, context_versions=[version], generated_at=FIXED_TIME)
+        tampered = copy.deepcopy(report)
+        tampered["reasoning"]["recommendations"][0]["statement"] = "Approve automatically."
+        check = engine.check_assessment(tampered, generated_at=FIXED_TIME)
+
+        self.assertEqual(check["checks"]["immutable_identity"], "tampered")
+        self.assertFalse(check["result"]["valid"])
+        self.assertIn("reasoning.assessment_check.immutable_identity", check["result"]["failed_checks"])
+
     def test_human_report_makes_epistemic_and_authority_states_visible(self) -> None:
         temp, root, version = self.make_fixture()
         self.addCleanup(temp.cleanup)
