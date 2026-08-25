@@ -1,0 +1,237 @@
+{
+  "schema": "contextos.mission.packet/1",
+  "id": "external.mission_handoff.4677296e6d63bc20",
+  "identity_hash": "4677296e6d63bc206777cff5b185e8b4b123540857d22f2ccdad89362fc47439",
+  "identity_basis": "sha256 of canonical JSON excluding id, identity_hash, and generated_at",
+  "version": "1.0.0",
+  "generated_at": "2026-08-25T02:30:40-05:00",
+  "status": "accepted_pending_receiver_preflight",
+  "title": "Active Execution Index Reconciliation",
+  "goal": "Make the read-first Lukspeed active-work surface match current merged and governed reality without changing product direction or opening implementation.",
+  "initiating_lifecycle": "external_adoption",
+  "owner": "Lukspeed Product Owner",
+  "orchestrator": "Codex in the Lukspeed repository",
+  "source_authority": {
+    "preparing_organization": "Context OS",
+    "repository": "Buggeek/ContextOS",
+    "published_sha": "db0a74ecbb54bfd841cd8b733280adae061fe060",
+    "evidence_ref": "SSOT/E.4_Mission_POST-V1-EXTERNAL-ADOPTION-PROFILE-001_External_Adoption_Portability.md",
+    "decision": "GO_FOR_SEPARATELY_AUTHORIZED_READ_ONLY_OR_DOCS_ONLY_TARGET_MISSION",
+    "target_authority_preserved": true
+  },
+  "external_adoption_binding": {
+    "schema": "contextos.adoption.profile/1",
+    "id": "adoption.profile.lukspeed.v1",
+    "version": "1.0.0",
+    "identity_hash": "7903beb239f2fc3bc26dd19732ab9aad1f877b2d87c63a5669cb9cf4a23ae75d",
+    "source": "Buggeek/ContextOS@db0a74ecbb54bfd841cd8b733280adae061fe060:examples/adoption_profiles/lukspeed.json",
+    "target_ssot": false,
+    "historical_reports_reinterpreted": false
+  },
+  "target": {
+    "organization": "Lukspeed",
+    "repository": "LKSPDEV/lukspeed",
+    "expected_owner": "LKSPDEV",
+    "mission_id": "LUKSPEED-ACTIVE-EXECUTION-INDEX-RECONCILIATION-001",
+    "organizational_mode": "project"
+  },
+  "scope": {
+    "permitted_target_surface": [
+      "docs/BACKLOG_PRIORIZADO.md"
+    ],
+    "permitted_operations": [
+      "read target-native governing sources and exact Git evidence required by this Mission",
+      "create or use a clean isolated target-repository lane after repository preflight",
+      "edit only docs/BACKLOG_PRIORIZADO.md",
+      "run read-only Context OS diagnostics using the exact published runtime and profile",
+      "validate and create one local docs-only commit in the isolated lane"
+    ],
+    "prohibited_surfaces": [
+      "all target paths except docs/BACKLOG_PRIORIZADO.md",
+      "product runtime",
+      "web, backend, database, or data-plane implementation",
+      "workflows or CI configuration",
+      "providers, credentials, secrets, or environment configuration",
+      "staging or production systems",
+      "customer or rider data",
+      "roadmap or product-priority changes",
+      "the pre-existing active Lukspeed worktree"
+    ],
+    "prohibited_operations": [
+      "modify, clean, stash, reset, rebase, or reuse the pre-existing active worktree",
+      "change product direction or invent a new priority",
+      "reopen closed work without exact current authority",
+      "edit runtime or product code",
+      "access production, providers, secrets, or customer/rider records",
+      "overwrite or discard existing user work",
+      "push, create a PR, or perform another GitHub mutation without separate target-repository publication authority",
+      "merge under this Handoff",
+      "use the Context OS repository identity for target operations"
+    ]
+  },
+  "authority_grants": [
+    {
+      "role": "Lukspeed docs-only execution agent",
+      "capability": "active_execution_index_reconciliation",
+      "level": "L3",
+      "status": "AUTHORIZED_FOR_DOCS_ONLY",
+      "bounds": {
+        "read": [
+          "target-native canonical sources selected by the valid Activation Package",
+          "Git commit and merged-PR evidence required to verify active-state labels"
+        ],
+        "write": [
+          "docs/BACKLOG_PRIORIZADO.md in a clean isolated lane only"
+        ],
+        "side_effects": [
+          "one local docs-only commit may be prepared",
+          "no remote publication or merge without separate target authority"
+        ]
+      }
+    }
+  ],
+  "target_authority_mappings": [
+    {
+      "purpose": "active work source of record",
+      "source": "docs/BACKLOG_PRIORIZADO.md",
+      "authority_owner": "Lukspeed Product Owner",
+      "authority_tier": "target_execution_canon"
+    },
+    {
+      "purpose": "product truth boundary",
+      "source": "docs/strategy/Lukspeed_Current_Product_Capabilities.md",
+      "authority_owner": "Lukspeed Product Owner",
+      "authority_tier": "target_product_canon"
+    },
+    {
+      "purpose": "roadmap orientation; active backlog wins on active-state conflict",
+      "source": "docs/strategy/Lukspeed_Roadmap_v3.md",
+      "authority_owner": "Lukspeed Product Owner",
+      "authority_tier": "target_strategy_canon"
+    },
+    {
+      "purpose": "canonical documentation classification",
+      "source": "docs/DOCUMENTATION_GUIDE.md",
+      "authority_owner": "Lukspeed Documentation Authority",
+      "authority_tier": "target_canon_governance"
+    },
+    {
+      "purpose": "human-agent build authority",
+      "source": "docs/delivery-ops/CODEX_BUILD_AUTHORIZATION_MODEL.md",
+      "authority_owner": "Lukspeed Human Authority",
+      "authority_tier": "target_authority_canon"
+    },
+    {
+      "purpose": "goal-driven execution and Mission structure",
+      "source": "docs/delivery-ops/WAY_OF_WORK_V2_GOAL_DRIVEN_AUTONOMOUS_EXECUTION.md",
+      "authority_owner": "Lukspeed Delivery Authority",
+      "authority_tier": "target_execution_canon"
+    },
+    {
+      "purpose": "evidence closure",
+      "source": "docs/delivery-ops/Lukspeed_Closure_Model.md",
+      "authority_owner": "Lukspeed Delivery Authority",
+      "authority_tier": "target_evidence_canon"
+    }
+  ],
+  "repository_preflight": {
+    "required": true,
+    "command": "repo-authority-preflight LKSPDEV/lukspeed",
+    "checks": [
+      "current repository is exactly LKSPDEV/lukspeed",
+      "canonical origin belongs to LKSPDEV/lukspeed",
+      "repository-bound Git identity resolves to LKSPDEV",
+      "current origin/main SHA is recorded before analysis",
+      "the execution lane is isolated and clean",
+      "the pre-existing active worktree is neither used nor modified"
+    ],
+    "on_mismatch": "STOP with AUTHORITY_MISMATCH; do not switch identities automatically"
+  },
+  "context_version_requirements": {
+    "required_before_execution": true,
+    "schema": "contextos.context.version/1",
+    "capture_event": "mission_start",
+    "must_bind": [
+      "exact LKSPDEV/lukspeed repository state and origin/main SHA",
+      "exact Adoption Profile id, version, identity hash, and source",
+      "exact target-native canonical source fingerprints",
+      "Mission id and Goal",
+      "authority and governance sources",
+      "the exact fresh Activation Package and Handoff"
+    ],
+    "continuity_rule": "Missing or unresolved source evidence remains an explicit gap and is never reconstructed from current assumptions."
+  },
+  "activation_requirements": {
+    "runtime": "Buggeek/ContextOS@db0a74ecbb54bfd841cd8b733280adae061fe060",
+    "profile_source": "examples/adoption_profiles/lukspeed.json",
+    "consumer": "codex",
+    "goal": "Make the read-first Lukspeed active-work surface match current merged and governed reality without changing product direction or opening implementation.",
+    "mission_id": "LUKSPEED-ACTIVE-EXECUTION-INDEX-RECONCILIATION-001",
+    "required_outputs": [
+      "contextos.activation.package/1",
+      "contextos.activation.package_check/1 with valid=true",
+      "contextos.activation.handoff/1",
+      "contextos.activation.handoff_check/1 with valid=true"
+    ],
+    "selection_rule": "Context OS selects bounded target-native governing context from the Goal, Mission, profile, and current target state; the operator does not manually nominate the governing file set.",
+    "invalidation_rule": "Any material target source, profile, repository identity, authority, package, Handoff, or Validator drift requires fresh generation before work continues."
+  },
+  "constraints": [
+    "Target canon remains authoritative; the Adoption Profile and Handoff are not target SSOT.",
+    "The Mission must run in a clean isolated Lukspeed lane created by the receiving project.",
+    "The active target worktree and all pre-existing user changes must be preserved exactly.",
+    "Only evidence-backed status reconciliation is allowed.",
+    "Unknown or conflicting active state must remain explicit and route to the Lukspeed Product Owner.",
+    "No Context OS or target repository identity may be reused across repository boundaries.",
+    "Stop before remote publication or merge unless separately authorized by Lukspeed authority."
+  ],
+  "success_criteria": [
+    "The active index contains only open, queued, or ready work supported by current evidence.",
+    "Temporal drivetrain and recent catalog work have evidence-backed current status or are explicitly unresolved.",
+    "No closed work is reopened.",
+    "No new product priority is invented.",
+    "Historical sections remain historical.",
+    "One next active execution lane is explicit or honestly unknown.",
+    "Only docs/BACKLOG_PRIORIZADO.md differs from the target base SHA.",
+    "The pre-existing active Lukspeed worktree remains untouched.",
+    "Context Version, Activation Package, and Handoff remain valid at verification.",
+    "Execution stops before merge."
+  ],
+  "kill_criteria": [
+    "Repository or identity preflight mismatch.",
+    "The required isolated clean lane cannot be established without touching active work.",
+    "Evidence conflicts require a product-owner decision.",
+    "Any path outside the permitted surface must change.",
+    "Any runtime, provider, production, secret, customer, or rider-data access is required.",
+    "The profile, Context Version, Activation Package, Handoff, or Validator gate is invalid.",
+    "The requested operation reaches remote publication or merge without separate target authority."
+  ],
+  "evidence_plan": [
+    "Record exact target origin/main SHA and successful repository authority preflight.",
+    "Record isolated-lane creation and prove the pre-existing worktree was not used or modified.",
+    "Record exact Context OS runtime SHA and Adoption Profile binding.",
+    "Persist machine-readable Context Version, Activation Package, Package Check, Handoff, and Handoff Check evidence in the receiving Mission evidence surface.",
+    "Inventory active-index entries before and after reconciliation.",
+    "For every changed status, cite exact merged PR, commit, closure, or current canonical evidence.",
+    "Record unknown, contradictory, or owner-dependent states without resolving them by inference.",
+    "Record before/after hash for docs/BACKLOG_PRIORIZADO.md and prove zero diff outside that path.",
+    "Run applicable documentation validation and Context OS Validator gate under the target profile.",
+    "Record the local docs-only commit and stop state before publication or merge."
+  ],
+  "rollback_boundary": {
+    "before_commit": "Restore only the isolated lane copy of docs/BACKLOG_PRIORIZADO.md to the recorded base; do not touch any shared worktree.",
+    "after_local_commit": "Revert the exact single docs-only commit or discard the isolated lane after preserving evidence.",
+    "after_remote_publication": "Not authorized by this Handoff; requires separate target governance.",
+    "guarantee": "Rollback must never remove or rewrite pre-existing user content."
+  },
+  "handoff_boundary": {
+    "prepared_by_contextos": true,
+    "target_mission_executed": false,
+    "receiver_preflight_required": true,
+    "execution_eligible_now": false,
+    "eligibility_condition": "The Lukspeed Codex project must independently pass repository preflight and produce valid fresh target-bound Context Version, Activation Package, and Handoff evidence.",
+    "remote_publication_authorized": false,
+    "merge_authorized": false,
+    "stop_before_merge": true
+  }
+}
