@@ -58,14 +58,14 @@ from reasoning_engine.report_builder import render_human as render_reasoning_hum
 from reasoning_engine.report_builder import write_json_report as write_reasoning_json_report  # noqa: E402
 
 
-VERSION = "0.9.0-cli-v0"
+VERSION = "1.0.0"
 FORMAT_CHOICES = ("text", "human", "json")
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="contextos",
-        description="Context OS Runtime CLI v0.",
+        description="Context OS Organizational Context Runtime CLI.",
     )
     parser.add_argument("--version", action="version", version=f"contextos {VERSION}")
 

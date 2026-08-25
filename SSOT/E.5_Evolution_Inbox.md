@@ -238,6 +238,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-187 | evidence | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | One real v1.0 signal now traverses governed context, Memory, Reasoning, Decision, multi-Mission execution, validation, Health, learning, temporal lineage, and re-anchor. | Use the case as the required end-to-end self-hosting evidence in release verification. |
 | INBOX-188 | process | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | A Context Version captured while a source was uncommitted retains valid identity but may become only partially resolvable after source drift. | Preserve the continuity gap; favor source-system retention or a committed checkpoint when stronger future historical resolution is required. |
 | INBOX-189 | evidence | accepted | V10-SELF-HOSTED-EVOLUTION-CASE-001 | Superseded context remained historically valid, current context remained authoritative, and Reasoning detected the difference without restoring old authority. | Treat temporal coexistence as proven for the v1.0 self-hosted case. |
+| INBOX-190 | evidence | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | The integrated runtime passed 23/23 checks and all release regressions while preserving independent truth, Memory, working-context, Reasoning, and authority objects. | Accept as v1.0 release evidence; do not collapse the lifecycle into a mega-command. |
+| INBOX-191 | documentation | superseded | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | The public version, README journey, CLI Contract, and v1.0 strategy still contained pre-v1 or forward-looking language. | Corrected as bounded v1.0 release blockers during verification. |
+| INBOX-192 | hypothesis | accepted | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | Universal primitives are domain-neutral, but implementation and dogfood evidence remain repository-first. | Require real non-Technology evidence before claiming universal organizational validation. |
+| INBOX-193 | architecture | deferred | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | GraphRAG remained unnecessary across the v0.9 10/10 reasoning benchmark and v1.0 23/23 integration benchmark. | Keep optional and require a concrete bounded failure before promotion. |
+| INBOX-194 | governance | decision-needed | V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001 | Context OS has no organization-approved Memory Retrieval policy, so relevant self-hosted Memory remains correctly unexposed. | Establish policy through accountable human governance after v1.0; do not treat missing policy as allow. |
 
 ---
 
@@ -333,3 +338,6 @@ quarantine and triage surface for context that may deserve future action.
   policy/usefulness boundaries, and post-change self-hosting dependency.
 - 2026-08-24 - v0.1.0 - Recorded complete self-hosted evolution, honest partial
   historical resolution, and safe prior/current Context Version coexistence.
+- 2026-08-24 - v0.1.0 - Recorded v1.0 release readiness, bounded documentation
+  corrections, repository-first universality limits, GraphRAG deferral, and the
+  unresolved organizational Memory-policy decision.

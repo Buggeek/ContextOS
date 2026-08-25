@@ -187,7 +187,8 @@ This repository contains:
 - document taxonomies,
 - operational templates,
 - runtime contracts,
-- validator and CLI tooling,
+- validator, readiness, bootstrap, construction, activation, health, memory,
+  reasoning, and integrated-runtime tooling,
 - and example implementations.
 
 ---
@@ -215,21 +216,21 @@ Everything in this repository flows from those principles.
 
 ---
 
-## Where this goes next
+## Runtime Journey
 
-Context OS is still early.
+Context OS v1.0 implements a local, governed product journey:
 
-Future work includes:
-- Context Readiness Assessment implementation,
-- guided bootstrap,
-- context construction,
-- activation surfaces,
-- context memory,
-- and governed human-agent workflows.
+```text
+Assess -> Bootstrap -> Construct -> Activate -> Learn -> Remember -> Reason
+```
 
-But none of that matters if the foundation is wrong.
+The stages remain distinct because they carry different truth and authority
+boundaries. Activation does not create a second SSOT. Memory does not regain
+current authority. Reasoning may recommend but cannot decide or execute.
 
-This project starts at the root.
+Context Graph, GraphRAG, autonomous agents, external connectors, hosted
+infrastructure, and domain-specific adapters are intentionally not required by
+the v1.0 runtime.
 
 ---
 
@@ -243,14 +244,26 @@ It’s infrastructure.
 
 ## Getting Started
 
-1. Read the foundational documents in `/docs/0.x_foundations/`
-   - Start with `0.8_COS_GENESIS.md` for the canonical model
-   - Continue with `0.9_COS_Theory_of_the_AI_Native_Organization.md` for the
-     organizational outcome and falsifiable theory
-2. Review the architecture in `/docs/1.x_architecture/`
-3. Understand taxonomy in `/docs/2.x_taxonomy/`
-4. Build your Minimum Operational Map using `/docs/3.x_operation/`
-5. Follow the Adoption Playbook in `/docs/4.x_adoption/`
+```bash
+./contextos --version
+./contextos assess --root .
+./contextos init --root .
+./contextos activate --root . --goal "Describe the work to perform"
+./contextos health --root .
+./contextos memory --root . --goal "Find governed prior art"
+./contextos reason --root . --goal "Identify what requires attention"
+```
+
+`assess`, bare `init`, `activate`, `health`, `memory`, and `reason` are
+read-only. Write-capable Guided Bootstrap requires the complete proposal,
+approval, accepted-decision, fresh-preflight, and explicit-confirmation chain.
+
+For the model behind the commands:
+
+1. Start with `/docs/0.x_foundations/0.8_COS_GENESIS.md`.
+2. Read `/docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md`.
+3. Review Runtime contracts in `/docs/1.x_architecture/1.5_runtime_contracts/`.
+4. Follow the Adoption Playbook in `/docs/4.x_adoption/`.
 
 Start simple.
 

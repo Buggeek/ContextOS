@@ -233,7 +233,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         code, stdout, stderr = self.invoke(["--version"])
 
         self.assertEqual(code, 0)
-        self.assertIn("contextos", stdout)
+        self.assertEqual(stdout, "contextos 1.0.0\n")
         self.assertEqual(stderr, "")
 
     def test_health_default_is_read_only_and_explains_attention(self) -> None:

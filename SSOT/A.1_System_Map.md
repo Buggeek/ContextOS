@@ -111,9 +111,10 @@ Modular monolith (documentation modules + tooling modules in one repository).
   forgetting, semantic historical comparison, Graph runtime, or learned ranking
   exists yet
 - Template coverage does not yet span every possible taxonomy doc type
-- The integrated runtime benchmark passes, but the first self-hosted v1.0 case
-  now has post-change Context Version, fresh Activation, re-reasoning, and
-  formal re-anchor evidence; final release verification remains pending
+- The integrated runtime benchmark and first self-hosted v1.0 evolution case
+  pass; release verification found no remaining in-scope runtime debt
+- Non-Technology universality remains an untested product hypothesis; the
+  current implementation and dogfood evidence are repository-first
 
 ---
 
@@ -133,6 +134,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
   and the remaining self-hosted temporal closure dependency
 - 2026-08-24 - v0.1.1 - Recorded temporal closure and re-anchor of the first
   complete v1.0 self-hosted evolution case
+- 2026-08-24 - v0.1.1 - Recorded passing v1.0 release verification and the
+  honest repository-first boundary of the current runtime
 
 - 2026-08-11 — v0.1.1 — Aligned implemented Runtime surfaces and GENESIS direction
 - 2026-08-11 — v0.1.1 — Added read-only Bootstrap Proposal Engine to system map

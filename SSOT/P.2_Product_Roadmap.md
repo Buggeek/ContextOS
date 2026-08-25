@@ -6,7 +6,7 @@ Last Updated: 2026-08-24
 
 Owner: Context OS Core Team
 
-Status: Active
+Status: Release Ready
 
 ---
 
@@ -111,6 +111,8 @@ Governing Context:
 
 Self-Hosting Execution:
 
+- Closed v1.0 release verification mission:
+  [`E.4 Mission V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001`](E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001_Release_Verification.md)
 - Closed v1.0 integration assessment mission:
   [`E.4 Mission V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001`](E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-PLAN-001_Integrated_Runtime_Assessment.md)
 - Closed v1.0 integrated benchmark mission:
@@ -315,10 +317,11 @@ exact accepted write-stage evidence. The active dependency is
 Version, fresh Activation, re-reasoning, and re-anchor for one complete
 self-hosted evolution case before final release verification.
 
-The first v1.0 self-hosted case now preserves prior/current Context Version
-lineage, refreshes Activation, detects supersession through Memory and
-Reasoning, and re-anchors on the committed benchmark state. The active
-dependency is `V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001`.
+The first v1.0 self-hosted case preserves prior/current Context Version lineage,
+refreshes Activation, detects supersession through Memory and Reasoning, and
+re-anchors on the committed benchmark state. Final release verification passed.
+v1.0 is `RELEASE_READY`; the only active dependency is explicit human release
+authority to publish the accepted commit and annotated release tag.
 
 ---
 
@@ -481,3 +484,5 @@ governable, and reusable across humans, agents, and systems.
   post-change temporal closure of the first self-hosted v1.0 evolution case.
 - 2026-08-24 - v1.0 - Closed the first complete self-hosted evolution case and
   promoted final Organizational Context Runtime release verification.
+- 2026-08-24 - v1.0 - Passed final Organizational Context Runtime release
+  verification and stopped at the explicit release-cut authority boundary.
