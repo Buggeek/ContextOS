@@ -4,17 +4,20 @@ from __future__ import annotations
 import copy
 import json
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
 
 HEALTH_ROOT = Path(__file__).resolve().parent
 ACTIVATION_ROOT = HEALTH_ROOT.parent / "activation"
-for runtime_path in (HEALTH_ROOT, ACTIVATION_ROOT):
+ADOPTION_ROOT = HEALTH_ROOT.parent / "adoption"
+for runtime_path in (HEALTH_ROOT, ACTIVATION_ROOT, ADOPTION_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
 from activation_engine.package_engine import ContextActivationPackageEngine  # noqa: E402
+from adoption_engine import AdoptionProfile  # noqa: E402
 from health_engine.health_engine import ContextHealthEngine  # noqa: E402
 from health_engine.mission_use_evidence import (  # noqa: E402
     SCHEMA,
@@ -24,6 +27,7 @@ from health_engine.mission_use_evidence import (  # noqa: E402
 
 
 FIXED_TIME = "2026-08-16T00:00:00Z"
+PROFILE_PATH = Path(__file__).resolve().parents[2] / "examples" / "adoption_profiles" / "lukspeed.json"
 
 
 class MissionContextUseEvidenceTestCase(unittest.TestCase):
@@ -186,6 +190,135 @@ class MissionContextUseEvidenceTestCase(unittest.TestCase):
         self.assertIn("Selected does not imply retrieved", human)
         self.assertIn("Used does not imply useful", human)
         self.assertIn("unknown, not unused", human)
+
+    def external_evidence(self, **overrides: object) -> tuple[tempfile.TemporaryDirectory, dict]:
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        root = Path(temp.name)
+        profile = AdoptionProfile(PROFILE_PATH)
+        for record in profile.source_records(root):
+            path = root / record["locator"]
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(f"# {record['concept']}\n\nExternal governed evidence.\n", encoding="utf-8")
+        activation = ContextActivationPackageEngine(root, profile)
+        package = activation.run(
+            goal="Reconcile external active execution evidence",
+            mission_id="EXTERNAL-MISSION-USE-001",
+            consumer="codex",
+            generated_at=FIXED_TIME,
+        )
+        handoff = activation.build_handoff(package, generated_at=FIXED_TIME)
+        inputs = {
+            "package": package,
+            "handoff": handoff,
+            "target_identity": {
+                "organization": "Lukspeed",
+                "repository": "LKSPDEV/lukspeed",
+                "evidence_semantics": "declared",
+                "evidence_refs": ["mission.repository_preflight"],
+            },
+            "context_sufficiency": {
+                "status": "partial",
+                "statement": "The package oriented execution; one additional evidence source was required.",
+                "evidence_semantics": "declared",
+                "evidence_refs": ["mission.closure"],
+            },
+            "prior_art_reuse": [
+                {
+                    "statement": "Prior closure evidence was reused.",
+                    "evidence_semantics": "observed",
+                    "evidence_refs": ["mission.evidence.prior_art"],
+                }
+            ],
+            "rejected_recommendations": [
+                {
+                    "statement": "A non-canonical recommendation was rejected.",
+                    "evidence_semantics": "observed",
+                    "evidence_refs": ["mission.decision.rejected"],
+                }
+            ],
+            "authority_escalations": [
+                {
+                    "statement": "Remote publication required separate authority.",
+                    "evidence_semantics": "observed",
+                    "evidence_refs": ["mission.authority.escalation"],
+                }
+            ],
+            "human_interventions": [
+                {
+                    "intervention_type": "procedural",
+                    "actor": "Mission Owner",
+                    "reason": "Confirm the isolated execution procedure.",
+                    "evidence_semantics": "declared",
+                    "evidence_refs": ["mission.intervention.procedural"],
+                },
+                {
+                    "intervention_type": "strategic",
+                    "actor": "Product Owner",
+                    "reason": "Resolve one active-priority ambiguity.",
+                    "evidence_semantics": "declared",
+                    "evidence_refs": ["mission.intervention.strategic"],
+                },
+            ],
+            "automatic_consequences": [
+                {
+                    "trigger_action_ref": "mission.action.pull_request_created",
+                    "consequence": "preview_deployment_started",
+                    "platform": "repository_platform",
+                    "execution_mode": "platform_automatic",
+                    "manual_authority_granted": False,
+                    "downstream_manual_operations_authorized": False,
+                    "evidence_semantics": "observed",
+                    "evidence_refs": ["mission.platform.check"],
+                }
+            ],
+            "mission_outcome": {
+                "status": "completed",
+                "statement": "External docs-only Mission completed.",
+                "evidence_semantics": "observed",
+                "evidence_refs": ["mission.closure"],
+            },
+            "generated_at": FIXED_TIME,
+        }
+        inputs.update(overrides)
+        return temp, MissionContextUseEvidenceEngine(root, profile).run(**inputs)
+
+    def test_external_mission_use_binds_profile_target_and_learning_evidence(self) -> None:
+        temp, report = self.external_evidence()
+
+        self.assertEqual(report["bindings"]["adoption_profile"]["id"], "adoption.profile.lukspeed.v1")
+        self.assertEqual(report["bindings"]["target"]["repository"], "LKSPDEV/lukspeed")
+        self.assertTrue(report["validity"]["adoption_profile_valid_at_capture"])
+        self.assertEqual(report["summary"]["context_sufficiency"], "partial")
+        self.assertEqual(report["summary"]["prior_art_reuse_count"], 1)
+        self.assertEqual(report["summary"]["rejected_recommendation_count"], 1)
+        self.assertEqual(report["summary"]["authority_escalation_count"], 1)
+        self.assertEqual(report["summary"]["human_procedural_intervention_count"], 1)
+        self.assertEqual(report["summary"]["human_strategic_intervention_count"], 1)
+
+    def test_automatic_consequence_records_no_manual_authority(self) -> None:
+        temp, report = self.external_evidence()
+        consequence = report["context_participation"]["automatic_consequences"][0]
+
+        self.assertFalse(consequence["manual_authority_granted"])
+        self.assertFalse(consequence["downstream_manual_operations_authorized"])
+        self.assertFalse(report["epistemic_boundaries"]["automatic_consequence_implies_manual_authority"])
+        self.assertIn("does not imply delegated manual authority", render_human(report))
+
+    def test_automatic_consequence_cannot_smuggle_manual_authority(self) -> None:
+        consequence = {
+            "trigger_action_ref": "mission.action.pull_request_created",
+            "consequence": "preview_deployment_started",
+            "platform": "repository_platform",
+            "execution_mode": "platform_automatic",
+            "manual_authority_granted": True,
+            "downstream_manual_operations_authorized": False,
+            "evidence_semantics": "observed",
+            "evidence_refs": [],
+        }
+        with self.assertRaisesRegex(ValueError, "grant no manual authority"):
+            temp, _report = self.external_evidence(automatic_consequences=[consequence])
+            temp.cleanup()
 
 
 if __name__ == "__main__":

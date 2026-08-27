@@ -164,8 +164,36 @@ class ContextVersionTestCase(unittest.TestCase):
         self.assertEqual(check["result"]["immutable_identity"], "valid")
         self.assertEqual(check["result"]["historical_verification"], "verified")
         self.assertEqual(check["result"]["current_applicability"], "superseded_or_drifted")
+        self.assertTrue(check["result"]["material_drift"])
+        self.assertEqual(check["result"]["selected_source_content_currentness"], "material_drift")
         drifted = next(item for item in check["source_checks"] if item["locator"] == "SSOT/P.1_Product_Map.md")
         self.assertEqual(drifted["resolution"], "historical_implementation_evidence")
+
+    def test_unrelated_repository_advancement_does_not_make_selected_context_stale(self) -> None:
+        temp, root, package, handoff = self.make_fixture(git=True)
+        self.addCleanup(temp.cleanup)
+        engine = ContextVersionEngine(root)
+        plan = plan_for(root, package, handoff)
+        version = engine.capture(plan, activation_package=package, activation_handoff=handoff, generated_at=FIXED_TIME)
+        captured_ref = version["implementation_evidence"]["implementation_ref"]
+        write(root / "unrelated.txt", "Unrelated implementation evidence.\n")
+        subprocess.run(["git", "add", "unrelated.txt"], cwd=root, check=True)
+        subprocess.run(
+            ["git", "-c", "user.name=Context OS Tests", "-c", "user.email=tests@contextos.local", "commit", "-qm", "unrelated"],
+            cwd=root,
+            check=True,
+        )
+        current_ref = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip()
+        check = engine.check_version(version, generated_at=FIXED_TIME)
+
+        self.assertNotEqual(captured_ref, current_ref)
+        self.assertEqual(check["result"]["repository_tip_state"], "advanced")
+        self.assertEqual(check["result"]["repository_tip_relevance"], "irrelevant_to_selected_context")
+        self.assertTrue(check["result"]["irrelevant_repository_advancement"])
+        self.assertFalse(check["result"]["material_drift"])
+        self.assertEqual(check["result"]["selected_source_content_currentness"], "current")
+        self.assertEqual(check["result"]["target_canonical_currentness"], "current")
+        self.assertEqual(check["result"]["current_applicability"], "exact_current_match")
 
     def test_unavailable_historical_source_is_a_gap_not_reconstructed_truth(self) -> None:
         temp, root, package, handoff = self.make_fixture()

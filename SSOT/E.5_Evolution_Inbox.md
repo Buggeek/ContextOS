@@ -1,6 +1,6 @@
 # E.5 Evolution Inbox
 ## Version: 0.1.0
-Last Updated: 2026-08-25
+Last Updated: 2026-08-26
 Owner: Context OS Maintainers
 Status: Active
 
@@ -262,6 +262,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-211 | governance | decision-needed | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Lukspeed Memory candidates are now recognized, but no target Retention Policy is mapped; no-policy correctly exposes nothing. | Require Lukspeed policy authority before normal Memory visibility outside controlled fixtures. |
 | INBOX-212 | architecture | deferred | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | Filesystem profiles prove repository-local portability but not non-filesystem source-of-record systems or non-Technology domains. | Add adapters and cross-domain claims only from external evidence; do not generalize from filenames. |
 | INBOX-213 | evidence | accepted | POST-V1-EXTERNAL-ADOPTION-PROFILE-001 | The active Lukspeed worktree had already changed from the prior 152-entry record to 78 entries before rerun, while tracked/staged fingerprints remained bounded during this Mission. | Treat external worktree state as a fresh per-Mission observation and never claim stale continuity. |
+| INBOX-214 | architecture | accepted | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | External Mission-use evidence lacked an exact Adoption Profile and target identity, preventing governed external learning from preserving its source boundary. | Bind profile, target, sufficiency, retrieval burden, prior-art, rejection, escalation, and human-intervention evidence without granting authority or SSOT status. |
+| INBOX-215 | architecture | accepted | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | A repository tip can advance while every selected governed source and profile remains current. | Report implementation tip, selected-source currentness, profile currentness, target-canonical currentness, historical exactness, and material drift independently. |
+| INBOX-216 | governance | accepted | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | Authorized repository actions can trigger platform automation, but the consequence does not delegate manual authority over downstream environments or providers. | Record automatic consequences explicitly and require a separate grant for every downstream manual operation. |
+| INBOX-217 | security | deferred | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | Canonical-root repository preflight does not naturally authorize temporary isolated clones even when remote and identity appear equivalent. One workflow confirms friction but not a safe universal derived-lane trust mechanism. | Keep repository-bound guarantees unchanged; evaluate explicit derived-lane registration or verified-clone mode in a separate authority-tooling Mission with adversarial tests. |
+| INBOX-218 | hypothesis | deferred | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | One docs-only external Mission supports target-native canon preservation and traceable governed mutation, but cannot establish cross-domain universality, cycle-time improvement, value delivery, or causal cognitive-burden reduction. | Gather comparable external Product/Engineering and non-Technology Missions before promoting outcome or universality claims. |
 
 ---
 
@@ -370,3 +375,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-25 - v0.1.0 - Recorded external Adoption Profile portability,
   target-only Health evidence, profile-aware Runtime proof, machine-report
   presentation debt, retention authority, and fresh external-worktree evidence.
+- 2026-08-26 - v0.1.0 - Recorded external Mission-use bindings, independent
+  context/repository freshness, automatic-consequence authority semantics,
+  isolated-lane tooling deferral, and bounded external outcome claims.

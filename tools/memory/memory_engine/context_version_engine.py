@@ -76,6 +76,18 @@ def _git(root: Path, *args: str, text: bool = True) -> str | bytes | None:
     return result.stdout.strip() if text else result.stdout
 
 
+def _git_is_ancestor(root: Path, ancestor: str, descendant: str) -> bool:
+    return (
+        subprocess.run(
+            ["git", "-C", str(root), "merge-base", "--is-ancestor", ancestor, descendant],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            check=False,
+        ).returncode
+        == 0
+    )
+
+
 def _title_and_version(path: Path) -> tuple[str | None, str | None]:
     try:
         content = path.read_text(encoding="utf-8")
@@ -451,12 +463,57 @@ class ContextVersionEngine:
             if self.adoption_profile
             else {"valid": profile_binding is None, "checks": {"profile_absent": profile_binding is None}}
         )
-        if total and len(current_known) == total and all(item["current_match"] for item in source_checks) and profile_check["valid"]:
+        selected_sources_current = total > 0 and len(current_known) == total and all(item["current_match"] for item in source_checks)
+        selected_source_currentness = "current" if selected_sources_current else "material_drift" if source_checks else "unknown"
+        profile_currentness = (
+            "current"
+            if profile_binding and profile_check["valid"]
+            else "material_drift"
+            if profile_binding
+            else "not_applicable"
+        )
+        target_canonical_currentness = (
+            "current"
+            if selected_sources_current and profile_check["valid"]
+            else "material_drift"
+            if source_checks or profile_binding
+            else "unknown"
+        )
+        material_drift = target_canonical_currentness == "material_drift"
+        if target_canonical_currentness == "current":
             current_applicability = "exact_current_match"
         elif source_checks:
             current_applicability = "superseded_or_drifted"
         else:
             current_applicability = "unknown"
+        captured_repository = version.get("implementation_evidence", {})
+        current_repository = self._repository_evidence()
+        captured_ref = captured_repository.get("implementation_ref")
+        current_ref = current_repository.get("implementation_ref")
+        if not captured_ref or not current_ref:
+            repository_tip_state = "unknown"
+        elif captured_ref == current_ref:
+            repository_tip_state = "exact_capture_tip"
+        elif _git_is_ancestor(self.root, captured_ref, current_ref):
+            repository_tip_state = "advanced"
+        else:
+            repository_tip_state = "different_or_divergent"
+        irrelevant_repository_advancement = repository_tip_state == "advanced" and not material_drift
+        repository_tip_relevance = (
+            "irrelevant_to_selected_context"
+            if irrelevant_repository_advancement
+            else "material_context_drift"
+            if material_drift
+            else "same_implementation_tip"
+            if repository_tip_state == "exact_capture_tip"
+            else "unknown"
+        )
+        historical_exactness = {
+            "verified": "exact",
+            "partial": "partial",
+            "unverifiable": "unverifiable",
+            "tampered": "tampered",
+        }[historical_verification]
         gaps = [
             {
                 "id": f"context.version.gap.source_unavailable.{stable_hash(item['source_id'])[:12]}",
@@ -479,12 +536,37 @@ class ContextVersionEngine:
                     "adoption_profile_valid": profile_check["valid"],
                     "adoption_profile_checks": profile_check["checks"],
                 },
+                "repository_state": {
+                    "implementation_ref_at_capture": captured_ref,
+                    "tree_ref_at_capture": captured_repository.get("tree_ref"),
+                    "current_repository_tip": current_ref,
+                    "current_tree_ref": current_repository.get("tree_ref"),
+                    "current_working_state_clean": current_repository.get("working_state_clean"),
+                    "tip_state": repository_tip_state,
+                    "tip_relevance": repository_tip_relevance,
+                    "implementation_identity_is_context_identity": False,
+                },
+                "freshness": {
+                    "selected_source_content": selected_source_currentness,
+                    "adoption_profile": profile_currentness,
+                    "target_canonical_context": target_canonical_currentness,
+                    "historical_exactness": historical_exactness,
+                    "material_drift": material_drift,
+                    "irrelevant_repository_advancement": irrelevant_repository_advancement,
+                },
                 "source_checks": source_checks,
                 "continuity_gaps": gaps,
                 "result": {
                     "immutable_identity": "valid" if identity_valid else "tampered",
                     "historical_verification": historical_verification,
                     "current_applicability": current_applicability,
+                    "selected_source_content_currentness": selected_source_currentness,
+                    "profile_currentness": profile_currentness,
+                    "target_canonical_currentness": target_canonical_currentness,
+                    "repository_tip_state": repository_tip_state,
+                    "repository_tip_relevance": repository_tip_relevance,
+                    "material_drift": material_drift,
+                    "irrelevant_repository_advancement": irrelevant_repository_advancement,
                     "historically_valid_identity": identity_valid,
                     "all_historical_sources_resolvable": bool(total) and resolved == total,
                 },

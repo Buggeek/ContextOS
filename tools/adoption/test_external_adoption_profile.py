@@ -19,6 +19,7 @@ from adoption_engine import AdoptionProfile  # noqa: E402
 from activation_engine.package_engine import ContextActivationPackageEngine  # noqa: E402
 from engine.validator_engine import ValidatorEngine  # noqa: E402
 from health_engine.health_engine import ContextHealthEngine  # noqa: E402
+from health_engine.mission_use_evidence import MissionContextUseEvidenceEngine  # noqa: E402
 from memory_engine import ContextVersionEngine, MemoryRetrievalEngine  # noqa: E402
 from readiness_engine.readiness_scoring import ReadinessScoringEngine  # noqa: E402
 from reasoning_engine import ContextualAssessmentEngine  # noqa: E402
@@ -166,6 +167,66 @@ class ExternalAdoptionProfileTestCase(unittest.TestCase):
         changed_check = ContextVersionEngine(root, changed).check_version(version, generated_at=FIXED_TIME)
         self.assertEqual(changed_check["result"]["immutable_identity"], "valid")
         self.assertEqual(changed_check["result"]["current_applicability"], "superseded_or_drifted")
+
+    def test_external_mission_use_and_health_preserve_profile_target_binding(self) -> None:
+        temp, root, profile = self.make_target()
+        self.addCleanup(temp.cleanup)
+        activation = ContextActivationPackageEngine(root, profile)
+        package = activation.run(goal=GOAL, mission_id=MISSION, consumer="codex", generated_at=FIXED_TIME)
+        handoff = activation.build_handoff(package, generated_at=FIXED_TIME)
+        evidence = MissionContextUseEvidenceEngine(root, profile).run(
+            package=package,
+            handoff=handoff,
+            target_identity={
+                "organization": "Lukspeed",
+                "repository": "LKSPDEV/lukspeed",
+                "evidence_semantics": "declared",
+                "evidence_refs": ["test.repository_preflight"],
+            },
+            context_sufficiency={
+                "status": "sufficient",
+                "statement": "The external package was sufficient for orientation.",
+                "evidence_semantics": "declared",
+                "evidence_refs": ["test.mission_closure"],
+            },
+            generated_at=FIXED_TIME,
+        )
+        health = ContextHealthEngine(root, profile).run(mission_use_evidence=evidence, generated_at=FIXED_TIME)
+
+        self.assertEqual(health["evidence_sources"]["mission_use"]["adoption_profile"]["identity_hash"], profile.identity_hash)
+        self.assertEqual(health["evidence_sources"]["mission_use"]["target"]["repository"], "LKSPDEV/lukspeed")
+        changed_data = copy.deepcopy(profile.data)
+        changed_data["version"] = "1.0.1"
+        with self.assertRaisesRegex(ValueError, "does not match"):
+            ContextHealthEngine(root, AdoptionProfile(changed_data)).run(
+                mission_use_evidence=evidence,
+                generated_at=FIXED_TIME,
+            )
+
+        with tempfile.TemporaryDirectory() as output_temp:
+            evidence_path = Path(output_temp) / "mission-use.json"
+            evidence_path.write_text(json.dumps(evidence), encoding="utf-8")
+            completed = subprocess.run(
+                [
+                    str(Path(__file__).resolve().parents[2] / "contextos"),
+                    "health",
+                    "--root",
+                    str(root),
+                    "--mission-use-evidence",
+                    str(evidence_path),
+                    "--format",
+                    "json",
+                    "--adoption-profile",
+                    str(PROFILE_PATH),
+                ],
+                text=True,
+                capture_output=True,
+                check=False,
+            )
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        cli_report = json.loads(completed.stdout)
+        self.assertEqual(cli_report["schema"], "contextos.health.report/1")
+        self.assertEqual(cli_report["evidence_sources"]["mission_use"]["id"], evidence["id"])
 
     def test_cli_profile_surfaces_emit_pure_target_bound_json(self) -> None:
         temp, root, _profile = self.make_target()

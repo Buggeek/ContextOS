@@ -482,6 +482,12 @@ class ContextHealthEngine:
             evidence_root = mission_use_evidence.get("root")
             if not evidence_root or Path(evidence_root).resolve() != root:
                 raise ValueError("Mission-use evidence root does not match the Health target root.")
+            evidence_profile = mission_use_evidence.get("bindings", {}).get("adoption_profile")
+            if self.adoption_profile:
+                if not self.adoption_profile.check_binding(evidence_profile or {})["valid"]:
+                    raise ValueError("Mission-use evidence Adoption Profile does not match the Health target profile.")
+            elif evidence_profile is not None:
+                raise ValueError("Profile-bound Mission-use evidence requires the same Health Adoption Profile.")
         validator = validator_report or ValidatorEngine(root, self.adoption_profile).run(mode="full")
         readiness = readiness_report or ReadinessScoringEngine(
             root, validator_mode="full", adoption_profile=self.adoption_profile
@@ -551,6 +557,8 @@ class ContextHealthEngine:
                         "id": mission_use_evidence["id"],
                         "summary": mission_use_evidence["summary"],
                         "validity": mission_use_evidence["validity"],
+                        "adoption_profile": mission_use_evidence.get("bindings", {}).get("adoption_profile"),
+                        "target": mission_use_evidence.get("bindings", {}).get("target"),
                     }
                     if mission_use_evidence
                     else None

@@ -152,6 +152,13 @@ def render_version_check_human(report: dict) -> str:
         f"- Immutable identity: `{report['result']['immutable_identity']}`",
         f"- Historical verification: `{report['result']['historical_verification']}`",
         f"- Current applicability: `{report['result']['current_applicability']}`",
+        f"- Selected-source content: `{report['result']['selected_source_content_currentness']}`",
+        f"- Adoption Profile: `{report['result']['profile_currentness']}`",
+        f"- Target canonical context: `{report['result']['target_canonical_currentness']}`",
+        f"- Repository tip: `{report['result']['repository_tip_state']}` "
+        f"(`{report['result']['repository_tip_relevance']}`)",
+        f"- Material drift: {'yes' if report['result']['material_drift'] else 'no'}",
+        f"- Irrelevant repository advancement: {'yes' if report['result']['irrelevant_repository_advancement'] else 'no'}",
         f"- Historically valid identity: {'yes' if report['result']['historically_valid_identity'] else 'no'}",
         f"- All historical sources resolvable: {'yes' if report['result']['all_historical_sources_resolvable'] else 'no'}",
         "",

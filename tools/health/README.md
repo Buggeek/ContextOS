@@ -59,6 +59,13 @@ limits, and why no automatic mutation occurred. JSON stdout is the pure
 The object binds an exact package, handoff, Mission, and consumer to explicit
 observed, declared, derived, or unknown evidence. It never treats selection as
 retrieval, retrieval as consumption, consumption as use, or use as usefulness.
+
+External Missions pass the exact Adoption Profile to the engine and bind an
+explicit target organization/repository. The same report can record context
+sufficiency, prior-art reuse, rejected recommendations, authority escalations,
+human procedural/strategic interventions, and platform-automatic consequences.
+Those records remain evidence; they grant no authority and do not make the
+profile target SSOT.
 Missing access evidence remains unknown rather than becoming an `unused` claim.
 
 The report combines existing Validator, Readiness, Mission, Activation, and
