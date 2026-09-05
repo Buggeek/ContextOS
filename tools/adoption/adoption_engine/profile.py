@@ -9,6 +9,18 @@ SCHEMA = "contextos.adoption.profile/1"
 MAPPING_STATES = {"observed", "declared", "derived", "suggested", "unknown"}
 APPLICABILITY_STATES = {"universal", "target_native", "mapped_equivalent", "not_applicable", "unknown"}
 ENFORCEMENT_STATES = {"blocking", "advisory", "none"}
+WORK_OWNERSHIP_STATES = {
+    "active",
+    "awaiting_evidence",
+    "awaiting_human_decision",
+    "blocked",
+    "deferred",
+    "completed",
+    "closed",
+    "superseded",
+    "historical",
+    "unknown",
+}
 REQUIRED_CONCEPTS = (
     "organizational_intent",
     "product_value_model",
@@ -111,6 +123,22 @@ class AdoptionProfile:
         isolation = data.get("evidence_isolation", {})
         if isolation.get("target_only") is not True or isolation.get("host_context_is_evidence") is not False:
             raise ValueError("Adoption Profile must enforce target-only evidence isolation.")
+        work_ownership = data.get("work_ownership")
+        if work_ownership is not None:
+            if not isinstance(work_ownership, dict):
+                raise ValueError("Adoption Profile work_ownership must be an object.")
+            source_concepts = work_ownership.get("source_concepts")
+            if not isinstance(source_concepts, list) or not source_concepts:
+                raise ValueError("Adoption Profile work_ownership requires source_concepts.")
+            unknown_concepts = sorted(set(source_concepts) - seen)
+            if unknown_concepts:
+                raise ValueError(f"Work ownership cites unmapped concepts: {', '.join(unknown_concepts)}.")
+            semantics = work_ownership.get("lifecycle_semantics")
+            if not isinstance(semantics, dict) or not semantics:
+                raise ValueError("Adoption Profile work_ownership requires lifecycle_semantics.")
+            unsupported = sorted({value for value in semantics.values() if value not in WORK_OWNERSHIP_STATES})
+            if unsupported:
+                raise ValueError(f"Unsupported work ownership semantic states: {', '.join(unsupported)}.")
         return data
 
     def binding(self) -> dict:
@@ -194,6 +222,21 @@ class AdoptionProfile:
             "target_matches": binding.get("target") == self.data["target"],
         }
         return {"valid": all(checks.values()), "checks": checks}
+
+    def normalize_work_state(self, target_state: str) -> str:
+        work_ownership = self.data.get("work_ownership", {})
+        return work_ownership.get("lifecycle_semantics", {}).get(target_state, "unknown")
+
+    def work_ownership_binding(self) -> dict | None:
+        work_ownership = self.data.get("work_ownership")
+        if work_ownership is None:
+            return None
+        return {
+            "source_concepts": sorted(set(work_ownership["source_concepts"])),
+            "lifecycle_semantics": dict(sorted(work_ownership["lifecycle_semantics"].items())),
+            "identity_hash": stable_hash(work_ownership),
+            "target_authority_preserved": True,
+        }
 
 
 def load_adoption_profile(value: AdoptionProfile | dict | str | Path | None) -> AdoptionProfile | None:

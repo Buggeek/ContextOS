@@ -23,6 +23,7 @@ expected to build against.
 | [Context Version Contract](1.5.14_Context_Version_Contract.md) | Immutable governed-context identity, capture planning, source fingerprints, historical verification, and supersession | Organizational Memory Engine |
 | [Contextual Assessment Contract](1.5.15_Contextual_Assessment_Contract.md) | Evidence-backed observations, interpretations, hypotheses, recommendations, unknowns, authority boundaries, and deterministic identity | Contextual Reasoning Engine + EPIC-005 |
 | [External Adoption Profile Contract](1.5.16_External_Adoption_Profile_Contract.md) | Semantic target-canon mapping, validation applicability, evidence isolation, profile-aware selection, and invalidation | External Adoption Runtime + existing engines |
+| [Work Ownership Resolution Contract](1.5.17_Work_Ownership_Resolution_Contract.md) | Derived current-work ownership, duplicate-work prevention, target-native lifecycle mapping, and material-currentness checks | Contextual Reasoning + External Adoption Runtime |
 
 ## Rules
 

@@ -12,7 +12,8 @@ from pathlib import Path
 HEALTH_ROOT = Path(__file__).resolve().parent
 ACTIVATION_ROOT = HEALTH_ROOT.parent / "activation"
 ADOPTION_ROOT = HEALTH_ROOT.parent / "adoption"
-for runtime_path in (HEALTH_ROOT, ACTIVATION_ROOT, ADOPTION_ROOT):
+REASONING_ROOT = HEALTH_ROOT.parent / "reasoning"
+for runtime_path in (HEALTH_ROOT, ACTIVATION_ROOT, ADOPTION_ROOT, REASONING_ROOT):
     if str(runtime_path) not in sys.path:
         sys.path.insert(0, str(runtime_path))
 
@@ -24,6 +25,7 @@ from health_engine.mission_use_evidence import (  # noqa: E402
     MissionContextUseEvidenceEngine,
     render_human,
 )
+from reasoning_engine import WorkOwnershipResolver  # noqa: E402
 
 
 FIXED_TIME = "2026-08-16T00:00:00Z"
@@ -90,6 +92,9 @@ class MissionContextUseEvidenceTestCase(unittest.TestCase):
         self.assertEqual(selected["consumption_state"], "unknown")
         self.assertEqual(selected["use_state"], "unknown")
         self.assertEqual(selected["usefulness_state"], "unknown")
+        self.assertNotIn("work_ownership", report["bindings"])
+        self.assertNotIn("work_ownership_resolution", report["context_participation"])
+        self.assertNotIn("work_ownership_resolution_performed", report["summary"])
 
     def test_declared_usefulness_is_not_promoted_to_observed(self) -> None:
         report = self.build_evidence(
@@ -190,6 +195,49 @@ class MissionContextUseEvidenceTestCase(unittest.TestCase):
         self.assertIn("Selected does not imply retrieved", human)
         self.assertIn("Used does not imply useful", human)
         self.assertIn("unknown, not unused", human)
+
+    def test_work_ownership_evidence_records_duplicate_prevention_without_claiming_benefit(self) -> None:
+        source = "docs/1.x_architecture/1.5_runtime_contracts/1.5.4_Mission_Contract.md"
+        resolver = WorkOwnershipResolver(".")
+        resolution = resolver.run(
+            need={"id": "need.mission-contract", "statement": "Evolve governed Missions.", "scope": "runtime"},
+            work_items=[
+                {
+                    "id": "mission.current",
+                    "kind": "mission",
+                    "title": "Current governed Mission",
+                    "owner": "mission-owner",
+                    "lifecycle_state": "active",
+                    "currentness": "current",
+                    "need_refs": ["need.mission-contract"],
+                    "source_ids": ["source.mission-contract"],
+                    "authority_status": "authorized",
+                    "evidence_refs": ["source.mission-contract"],
+                }
+            ],
+            source_declarations=[
+                {"id": "source.mission-contract", "locator": source, "concept": "goals_missions"}
+            ],
+            coverage={
+                "status": "complete",
+                "scope": "runtime",
+                "source_ids": ["source.mission-contract"],
+                "authority_status": "governed_test_coverage",
+                "evidence_refs": ["source.mission-contract"],
+            },
+            generated_at=FIXED_TIME,
+        )
+        check = resolver.check_resolution(resolution, generated_at=FIXED_TIME)
+        report = self.build_evidence(
+            work_ownership_resolution=resolution,
+            work_ownership_check=check,
+        )
+
+        ownership = report["context_participation"]["work_ownership_resolution"]
+        self.assertTrue(ownership["duplicate_proposal_prevented"])
+        self.assertEqual(ownership["human_intervention_avoided"], "unknown")
+        self.assertTrue(report["summary"]["material_currentness_check_performed"])
+        self.assertFalse(report["epistemic_boundaries"]["duplicate_prevention_implies_burden_reduction"])
 
     def external_evidence(self, **overrides: object) -> tuple[tempfile.TemporaryDirectory, dict]:
         temp = tempfile.TemporaryDirectory()

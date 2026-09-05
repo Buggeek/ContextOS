@@ -92,6 +92,44 @@ def _normalize_automatic_consequence(item: dict) -> dict:
     return assertion
 
 
+def _normalize_work_ownership(resolution: dict | None, check: dict | None) -> dict | None:
+    if resolution is None and check is None:
+        return None
+    if resolution is None or check is None:
+        raise ValueError("Mission-use ownership evidence requires both Resolution and currentness check.")
+    if resolution.get("schema") != "contextos.reasoning.work_ownership_resolution/1":
+        raise ValueError("Mission-use ownership evidence requires a Work Ownership Resolution.")
+    if check.get("schema") != "contextos.reasoning.work_ownership_resolution_check/1":
+        raise ValueError("Mission-use ownership evidence requires a Work Ownership Resolution check.")
+    bound = check.get("resolution", {})
+    binding_matches = (
+        bound.get("id") == resolution.get("id")
+        and bound.get("identity_hash") == resolution.get("identity_hash")
+    )
+    result = resolution.get("result", {})
+    check_result = check.get("result", {})
+    disposition = result.get("disposition")
+    return {
+        "resolution": {"id": resolution.get("id"), "identity_hash": resolution.get("identity_hash")},
+        "currentness_check": {"id": check.get("id"), "identity_hash": check.get("identity_hash")},
+        "binding_matches": binding_matches,
+        "disposition": disposition,
+        "existing_work_found": bool(result.get("current_ownership_exists")),
+        "duplicate_proposal_prevented": bool(result.get("duplicate_work_prevented")),
+        "material_currentness_check_performed": True,
+        "materially_current": bool(check_result.get("materially_current")),
+        "reanchor_required": bool(check_result.get("reanchor_required")),
+        "recommendation_invalidated_by_current_work": bool(result.get("duplicate_work_prevented")),
+        "ownership_conflict": bool(result.get("ownership_conflict")),
+        "ownership_unknown": disposition == "OWNERSHIP_UNKNOWN",
+        "human_intervention_avoided": "unknown",
+        "evidence_semantics": "derived",
+        "evidence_refs": sorted(
+            ref for ref in (resolution.get("id"), check.get("id")) if ref
+        ),
+    }
+
+
 class MissionContextUseEvidenceEngine:
     """Build explicit, read-only evidence about context participation in a Mission."""
 
@@ -117,6 +155,8 @@ class MissionContextUseEvidenceEngine:
         authority_escalations: list[dict] | None = None,
         human_interventions: list[dict] | None = None,
         automatic_consequences: list[dict] | None = None,
+        work_ownership_resolution: dict | None = None,
+        work_ownership_check: dict | None = None,
         mission_outcome: dict | None = None,
         generated_at: str | None = None,
     ) -> dict:
@@ -188,6 +228,7 @@ class MissionContextUseEvidenceEngine:
         escalations = [_normalize_assertion(item) for item in authority_escalations or []]
         interventions = [_normalize_human_intervention(item) for item in human_interventions or []]
         consequences = [_normalize_automatic_consequence(item) for item in automatic_consequences or []]
+        ownership_evidence = _normalize_work_ownership(work_ownership_resolution, work_ownership_check)
         outcome = _normalize_assertion(mission_outcome or {
             "status": "unknown",
             "evidence_semantics": "unknown",
@@ -234,6 +275,7 @@ class MissionContextUseEvidenceEngine:
                 escalations,
                 interventions,
                 consequences,
+                [ownership_evidence] if ownership_evidence else [],
                 [target_binding] if target_binding else [],
                 [outcome],
             )
@@ -265,6 +307,8 @@ class MissionContextUseEvidenceEngine:
             "mission": handoff.get("mission", {}),
             "consumer": handoff.get("consumer", {}),
         }
+        if ownership_evidence:
+            bindings["work_ownership"] = ownership_evidence
         failed_checks = (
             package_check["result"]["failed_checks"]
             + handoff_check["result"]["failed_checks"]
@@ -272,6 +316,16 @@ class MissionContextUseEvidenceEngine:
             + ([] if profile_check["valid"] else ["mission_use.adoption_profile_binding_mismatch"])
             + ([] if handoff_profile_matches else ["mission_use.handoff_profile_binding_mismatch"])
             + ([] if target_matches_profile else ["mission_use.target_profile_mismatch"])
+            + (
+                []
+                if ownership_evidence is None or ownership_evidence["binding_matches"]
+                else ["mission_use.work_ownership_binding_mismatch"]
+            )
+            + (
+                []
+                if ownership_evidence is None or ownership_evidence["materially_current"]
+                else ["mission_use.work_ownership_requires_reanchor"]
+            )
         )
         body = {
             "bindings": bindings,
@@ -356,6 +410,20 @@ class MissionContextUseEvidenceEngine:
                 "adoption_profile_is_target_ssot": False,
             },
         }
+        if ownership_evidence:
+            body["context_participation"]["work_ownership_resolution"] = ownership_evidence
+            body["summary"].update(
+                {
+                    "work_ownership_resolution_performed": True,
+                    "duplicate_work_prevented": ownership_evidence["duplicate_proposal_prevented"],
+                    "material_currentness_check_performed": True,
+                    "work_ownership_reanchor_required": ownership_evidence["reanchor_required"],
+                }
+            )
+            body["epistemic_boundaries"]["duplicate_prevention_implies_burden_reduction"] = False
+            body["observability_limits"].append(
+                "Preventing one duplicate proposal does not prove reduced cognitive burden or organizational usefulness."
+            )
         identity_hash = stable_hash(body)
         return {
             "schema": SCHEMA,
@@ -403,6 +471,15 @@ def render_human(report: dict) -> str:
         f"- Human procedural interventions: {summary['human_procedural_intervention_count']}",
         f"- Human strategic interventions: {summary['human_strategic_intervention_count']}",
         f"- Platform-automatic consequences: {summary['automatic_consequence_count']}",
+        *(
+            [
+                "- Work Ownership Resolution performed: yes",
+                f"- Duplicate work proposal prevented: {'yes' if summary['duplicate_work_prevented'] else 'no'}",
+                f"- Material ownership re-anchor required: {'yes' if summary['work_ownership_reanchor_required'] else 'no'}",
+            ]
+            if summary.get("work_ownership_resolution_performed")
+            else []
+        ),
         f"- Context gaps: {summary['gap_count']}",
         f"- Stale or invalid context observations: {summary['stale_context_count']}",
         f"- Recorded contributions: {summary['contribution_count']}",
@@ -415,6 +492,11 @@ def render_human(report: dict) -> str:
         "- Missing access evidence means unknown, not unused.",
         "- Automatic consequence does not imply delegated manual authority.",
         "- Procedural intervention does not imply strategic authority.",
+        *(
+            ["- Duplicate prevention does not by itself prove reduced cognitive burden."]
+            if summary.get("work_ownership_resolution_performed")
+            else []
+        ),
         "",
         "## Mission Outcome",
         f"- `{report['mission_outcome'].get('status', 'unknown')}` "

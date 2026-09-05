@@ -11,7 +11,14 @@ Context OS's own canon.
 ## Public API
 
 ```python
-from reasoning_engine import ContextualAssessmentEngine
+from reasoning_engine import ContextualAssessmentEngine, WorkOwnershipResolver
+
+ownership = WorkOwnershipResolver(".").run(
+    need=need,
+    work_items=explicit_current_work,
+    source_declarations=material_work_sources,
+    coverage=governed_coverage,  # includes exact sources, authority, and evidence
+)
 
 report = ContextualAssessmentEngine(".").run(
     goal="Determine what organizational context requires attention and what should be considered next.",
@@ -22,6 +29,7 @@ report = ContextualAssessmentEngine(".").run(
     memory_metadata_by_id=authorized_metadata,
     reasoning_evidence=exact_claims_and_relationships,
     focus_entities=["mission.current"],
+    work_ownership_resolution=ownership,
 )
 ```
 
@@ -29,6 +37,8 @@ Machine schema:
 
 ```text
 contextos.reasoning.assessment/1
+contextos.reasoning.work_ownership_resolution/1
+contextos.reasoning.work_ownership_resolution_check/1
 ```
 
 ## Boundary
@@ -43,6 +53,11 @@ contextos.reasoning.assessment/1
 - The engine is deterministic for fixed inputs, read-only, and stdlib-only.
 - It does not use GraphRAG, embeddings, vectors, broad RAG, agents, external
   connectors, or autonomous execution.
+- Work Ownership Resolution uses exact relevance and target-native lifecycle
+  evidence to prevent parallel recommendations. It is derived context, not a
+  project-management system, owner assignment, or authority.
+- Consequential reuse rechecks only materially bound work sources. An unrelated
+  repository-tip advance is not material drift.
 - Explicit claims may be compared only across matching scope and temporal
   basis. Declared impact relationships may be traversed up to three hops with
   every edge cited; this is not an authoritative graph.
@@ -53,6 +68,7 @@ contextos.reasoning.assessment/1
 python3 tools/reasoning/test_contextual_assessment.py
 python3 tools/reasoning/test_reasoning_benchmark.py
 python3 tools/reasoning/test_structured_reasoning_evidence.py
+python3 tools/reasoning/test_work_ownership_resolution.py
 ```
 
 The controlled benchmark uses `contextos.reasoning.benchmark/1` to measure all

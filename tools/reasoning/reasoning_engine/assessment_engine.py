@@ -18,6 +18,7 @@ for runtime in ("activation", "health", "memory", "adoption"):
 from health_engine.health_engine import ContextHealthEngine  # noqa: E402
 from memory_engine import ContextVersionEngine, MemoryRetrievalEngine  # noqa: E402
 from adoption_engine import load_adoption_profile  # noqa: E402
+from .work_ownership import WorkOwnershipResolver
 
 
 ASSERTION_TYPES = {
@@ -95,6 +96,7 @@ class ContextualAssessmentEngine:
         context_versions: list[dict] | tuple[dict, ...] = (),
         mission_use_evidence: dict | None = None,
         reasoning_evidence: dict | None = None,
+        work_ownership_resolution: dict | None = None,
         focus_entities: list[str] | tuple[str, ...] = (),
         memory_limit: int = 12,
         evaluation_time: str | None = None,
@@ -112,6 +114,7 @@ class ContextualAssessmentEngine:
         focus = sorted(set(str(item) for item in focus_entities))
         structured_reasoning = derive_reasoning(evidence_set, focus)
         version_checks = self._check_versions(versions, generated_at)
+        ownership_check = self._check_work_ownership(work_ownership_resolution, generated_at)
         health = ContextHealthEngine(self.root, self.adoption_profile).run(
             mission_use_evidence=mission_use_evidence,
             generated_at=generated_at,
@@ -137,11 +140,14 @@ class ContextualAssessmentEngine:
             memory,
             version_checks,
             structured_reasoning,
+            work_ownership_resolution,
+            ownership_check,
             has_structured_claims=bool(evidence_set["claims"]),
         )
         all_assertions = [item for values in reasoning.values() for item in values]
         counts = Counter(item["type"] for item in all_assertions)
         status = self._status(health, reasoning)
+        consequential_gate = self._consequential_gate(work_ownership_resolution, ownership_check)
         query = {
             "goal": goal.strip(),
             "mission_id": mission_id,
@@ -182,7 +188,23 @@ class ContextualAssessmentEngine:
                 "relationship_count": len(evidence_set["relationships"]),
             },
         }
-        identity_payload = self._identity_payload(query, bindings, reasoning)
+        if work_ownership_resolution and ownership_check:
+            bindings["work_ownership"] = {
+                "resolution": self._ref(work_ownership_resolution) if work_ownership_resolution else None,
+                "check": {
+                    "materially_current": ownership_check["result"]["materially_current"],
+                    "reanchor_required": ownership_check["result"]["reanchor_required"],
+                    "failed_checks": ownership_check["result"]["failed_checks"],
+                }
+                if ownership_check
+                else None,
+            }
+        identity_payload = self._identity_payload(
+            query,
+            bindings,
+            reasoning,
+            consequential_gate if work_ownership_resolution else None,
+        )
         identity_hash = stable_hash(identity_payload)
         report = {
             "id": f"reasoning.assessment.{identity_hash[:16]}",
@@ -224,6 +246,7 @@ class ContextualAssessmentEngine:
                     "The Goal, Mission, consumer, purpose, roles, or authority scope changes.",
                     "The Activation Package, Health Report, Memory Retrieval, Context Version, or structured reasoning evidence changes.",
                     "A source, policy, retention state, temporal basis, or permission bound to an input changes.",
+                    "A material Goal, Mission, ownership, lifecycle, return-condition, or coverage source changes.",
                     "A saved assessment identity no longer matches its exact bound evidence.",
                 ],
             },
@@ -233,8 +256,14 @@ class ContextualAssessmentEngine:
                 "Missing or policy-withheld memory remains unknown and is not reconstructed.",
                 "No causal usefulness, semantic historical applicability, or decision authority is inferred.",
                 "GraphRAG, embeddings, vector search, broad RAG, and autonomous execution are not used.",
+                "Work Ownership Resolution uses explicit relevance and lifecycle evidence; semantic equivalence is not inferred from prose.",
             ],
         }
+        if work_ownership_resolution and ownership_check:
+            report["summary"]["work_ownership_disposition"] = work_ownership_resolution["result"]["disposition"]
+            report["consequential_recommendation_gate"] = consequential_gate
+            report["evidence"]["work_ownership_resolution"] = work_ownership_resolution
+            report["evidence"]["work_ownership_check"] = ownership_check
         if self.adoption_profile:
             report["adoption_profile"] = self.adoption_profile.binding()
             report["evidence_isolation"] = {
@@ -255,7 +284,14 @@ class ContextualAssessmentEngine:
         if not isinstance(saved, dict) or saved.get("schema") != "contextos.reasoning.assessment/1":
             raise ValueError("Saved Assessment must use contextos.reasoning.assessment/1.")
 
-        expected_hash = stable_hash(self._identity_payload(saved["query"], saved["bindings"], saved["reasoning"]))
+        expected_hash = stable_hash(
+            self._identity_payload(
+                saved["query"],
+                saved["bindings"],
+                saved["reasoning"],
+                saved.get("consequential_recommendation_gate"),
+            )
+        )
         identity_valid = saved.get("identity_hash") == expected_hash and saved.get("id") == f"reasoning.assessment.{expected_hash[:16]}"
         failed = [] if identity_valid else ["reasoning.assessment_check.immutable_identity"]
         current = None
@@ -277,6 +313,7 @@ class ContextualAssessmentEngine:
                 context_versions=versions,
                 mission_use_evidence=saved["evidence"].get("mission_use_evidence"),
                 reasoning_evidence=saved["evidence"]["reasoning_evidence"],
+                work_ownership_resolution=saved["evidence"].get("work_ownership_resolution"),
                 focus_entities=query.get("focus_entities", []),
                 memory_limit=query.get("memory_limit", 12),
                 evaluation_time=query.get("evaluation_time"),
@@ -333,12 +370,24 @@ class ContextualAssessmentEngine:
             checks.append(check)
         return checks
 
+    def _check_work_ownership(self, resolution: dict | None, generated_at: str | None) -> dict | None:
+        if resolution is None:
+            return None
+        check = WorkOwnershipResolver(self.root, self.adoption_profile).check_resolution(
+            resolution, generated_at=generated_at
+        )
+        if check["checks"]["immutable_identity"] != "valid":
+            raise ValueError("Contextual Assessment rejects a tampered Work Ownership Resolution.")
+        return check
+
     def _reason(
         self,
         health: dict,
         memory: dict,
         version_checks: list[dict],
         structured_reasoning: dict,
+        work_ownership_resolution: dict | None,
+        ownership_check: dict | None,
         *,
         has_structured_claims: bool,
     ) -> dict:
@@ -440,6 +489,92 @@ class ContextualAssessmentEngine:
                     )
                 )
 
+        if work_ownership_resolution and ownership_check:
+            ownership_ref = [work_ownership_resolution["id"]]
+            disposition = work_ownership_resolution["result"]["disposition"]
+            if ownership_check["result"]["reanchor_required"]:
+                context_changes.append(
+                    assertion(
+                        "context_change",
+                        "Material work-ownership context changed after resolution; consequential recommendation requires re-anchor.",
+                        ownership_ref + ownership_check["result"]["failed_checks"],
+                        epistemic_support="observed",
+                        support_state="reanchor_required",
+                    )
+                )
+                additional_evidence.append(
+                    assertion(
+                        "additional_evidence",
+                        "Refresh only the materially bound Goal, Mission, ownership, lifecycle, and coverage evidence before qualification.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="material_currentness_failed",
+                    )
+                )
+            elif disposition == "QUALIFY_NEW_WORK":
+                recommendations.append(
+                    assertion(
+                        "recommendation",
+                        "Complete materially current ownership coverage found no current owner; normal Goal qualification is eligible.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="eligible_not_authorized",
+                        authority_required="human_goal_qualification",
+                    )
+                )
+            elif disposition == "OWNERSHIP_CONFLICT":
+                required_decisions.append(
+                    assertion(
+                        "required_decision",
+                        "Current work ownership is conflicting; an accountable human must resolve ownership before parallel work is proposed.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="ownership_conflict",
+                        authority_required="work_owner_or_mission_owner",
+                    )
+                )
+            elif disposition == "OWNERSHIP_UNKNOWN":
+                additional_evidence.append(
+                    assertion(
+                        "additional_evidence",
+                        "Current ownership remains unknown; complete the governed ownership coverage before proposing new work.",
+                        ownership_ref,
+                        epistemic_support="unknown",
+                        support_state="ownership_unknown",
+                    )
+                )
+            elif disposition == "AWAIT_HUMAN_DECISION":
+                required_decisions.append(
+                    assertion(
+                        "required_decision",
+                        "Existing work owns this need and is awaiting a human decision; do not create parallel work.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="existing_work_awaits_human",
+                        authority_required="existing_work_decision_owner",
+                    )
+                )
+            elif disposition == "AWAIT_EVIDENCE":
+                additional_evidence.append(
+                    assertion(
+                        "additional_evidence",
+                        "Existing work owns this need and is awaiting evidence; reassess after its return condition is met.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="existing_work_awaits_evidence",
+                    )
+                )
+            else:
+                interpretations.append(
+                    assertion(
+                        "interpretation",
+                        f"Existing governed work owns this need with disposition {disposition}; no parallel Goal or Mission should be proposed.",
+                        ownership_ref,
+                        epistemic_support="derived",
+                        support_state="existing_work_owns_need",
+                    )
+                )
+
         for dimension in health["dimensions"].values():
             for signal in dimension["signals"]:
                 if signal["status"] in {"attention", "blocked"}:
@@ -530,6 +665,39 @@ class ContextualAssessmentEngine:
         return "ready"
 
     @staticmethod
+    def _consequential_gate(resolution: dict | None, check: dict | None) -> dict:
+        if resolution is None or check is None:
+            return {
+                "status": "not_evaluated",
+                "eligible_for_goal_qualification": False,
+                "parallel_goal_or_mission_authorized": False,
+                "reanchor_required": False,
+                "reason": "No Work Ownership Resolution was supplied; no ownership claim or new-work qualification is made.",
+            }
+        disposition = resolution["result"]["disposition"]
+        if check["result"]["reanchor_required"]:
+            status = "reanchor_required"
+        elif disposition == "QUALIFY_NEW_WORK":
+            status = "eligible_for_goal_qualification"
+        elif disposition == "OWNERSHIP_CONFLICT":
+            status = "withheld_ownership_conflict"
+        elif disposition == "OWNERSHIP_UNKNOWN":
+            status = "withheld_ownership_unknown"
+        else:
+            status = "withheld_existing_ownership"
+        return {
+            "status": status,
+            "resolution_id": resolution["id"],
+            "resolution_hash": resolution["identity_hash"],
+            "disposition": disposition,
+            "materially_current": check["result"]["materially_current"],
+            "eligible_for_goal_qualification": status == "eligible_for_goal_qualification",
+            "parallel_goal_or_mission_authorized": False,
+            "reanchor_required": check["result"]["reanchor_required"],
+            "failed_checks": check["result"]["failed_checks"],
+        }
+
+    @staticmethod
     def _ref(report: dict) -> dict:
         identity_payload = {key: value for key, value in report.items() if key not in {"generated_at", "root"}}
         identity_hash = report.get("identity_hash") or stable_hash(identity_payload)
@@ -552,10 +720,19 @@ class ContextualAssessmentEngine:
         }
 
     @classmethod
-    def _identity_payload(cls, query: dict, bindings: dict, reasoning: dict) -> dict:
-        return {
+    def _identity_payload(
+        cls,
+        query: dict,
+        bindings: dict,
+        reasoning: dict,
+        consequential_recommendation_gate: dict | None = None,
+    ) -> dict:
+        payload = {
             "query": query,
             "bindings": bindings,
             "reasoning": reasoning,
             "authority": cls._authority(),
         }
+        if consequential_recommendation_gate is not None:
+            payload["consequential_recommendation_gate"] = consequential_recommendation_gate
+        return payload

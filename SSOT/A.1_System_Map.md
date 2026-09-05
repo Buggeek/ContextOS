@@ -1,6 +1,6 @@
 # A.1 System Map
-## Version: 0.1.1
-Last Updated: 2026-08-21
+## Version: 0.1.2
+Last Updated: 2026-09-05
 Owner: Context OS Maintainers
 
 ---
@@ -47,7 +47,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/activation | Module | Read-only Context Activation Package, package check, handoff, and handoff check implementation and tests | Maintainers | v0.6 working-context package component
 | tools/health | Module | Read-only Context Health report and Mission-use evidence across integrity, usefulness, learning, and non-canonical update candidates | Maintainers | v0.7 evidence-first health component
 | tools/memory | Module | Read-only Organizational Memory continuity, policy-aware Retrieval, retention-policy resolution, immutable Context Version capture/checks, and exact/partial/unknown historical-context bindings | Maintainers | v0.8 continuity/retrieval/resolution/version component; no semantic comparison, restored historical authority, retention transition, or destructive behavior
-| tools/reasoning | Module | Read-only governed Contextual Assessment over Activation, Health, policy-aware Memory, and Context Version evidence | Maintainers | v0.9 advisory reasoning component; no Decision, execution, canonical mutation, or GraphRAG
+| tools/reasoning | Module | Read-only governed Contextual Assessment and derived Work Ownership Resolution over Activation, Health, policy-aware Memory, Context Version, and target-native current-work evidence | Maintainers | Advisory reasoning component; no Decision, execution, work mutation, canonical mutation, or GraphRAG
 | tools/runtime | Module | Internal integrated Organizational Context Runtime benchmark and proof report | Maintainers | v1.0 read-only integration evidence; not a product orchestration surface
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check, contextual reasoning/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory/reason
@@ -176,4 +176,6 @@ Modular monolith (documentation modules + tooling modules in one repository).
   relationship traversal without introducing GraphRAG or a Context Graph
 - 2026-08-24 — v0.1.1 — Added the read-only `contextos reason` surface and
   deterministic saved-Assessment validation
+- 2026-09-05 — v0.1.2 — Added derived Work Ownership Resolution and its
+  Contextual Reasoning boundary
 - 2026-02-19 — v0.1.0 — Initial creation

@@ -1,6 +1,6 @@
 # E.5 Evolution Inbox
 ## Version: 0.1.0
-Last Updated: 2026-08-26
+Last Updated: 2026-09-05
 Owner: Context OS Maintainers
 Status: Active
 
@@ -267,6 +267,11 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-216 | governance | accepted | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | Authorized repository actions can trigger platform automation, but the consequence does not delegate manual authority over downstream environments or providers. | Record automatic consequences explicitly and require a separate grant for every downstream manual operation. |
 | INBOX-217 | security | deferred | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | Canonical-root repository preflight does not naturally authorize temporary isolated clones even when remote and identity appear equivalent. One workflow confirms friction but not a safe universal derived-lane trust mechanism. | Keep repository-bound guarantees unchanged; evaluate explicit derived-lane registration or verified-clone mode in a separate authority-tooling Mission with adversarial tests. |
 | INBOX-218 | hypothesis | deferred | POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001 | One docs-only external Mission supports target-native canon preservation and traceable governed mutation, but cannot establish cross-domain universality, cycle-time improvement, value delivery, or causal cognitive-burden reduction. | Gather comparable external Product/Engineering and non-Technology Missions before promoting outcome or universality claims. |
+| INBOX-219 | architecture | accepted | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | Need detection and current work ownership are separate; consequential work qualification requires an exact derived ownership resolution rather than a new work SSOT. | Preserve `contextos.reasoning.work_ownership_resolution/1` as a read-only gate before parallel Goal or Mission recommendations. |
+| INBOX-220 | architecture | accepted | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | Repository advancement can be irrelevant while a small change to a materially bound Goal, Mission, owner, lifecycle, return condition, or coverage source invalidates a recommendation. | Recheck exact material ownership sources at decision time and re-anchor only affected context. |
+| INBOX-221 | external-adoption | decision-needed | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | Existing external profiles identify broad active-work sources but do not yet carry target-authorized detailed lifecycle translations or exact work-item extraction. | Require target authority and fresh target-native evidence before extending a concrete organization's profile; missing semantics remain unknown. |
+| INBOX-222 | architecture | deferred | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | Explicit `need_refs` safely prove ownership but do not detect semantically equivalent needs expressed in unrelated language or systems. | Defer semantic matching, connectors, learned ranking, scheduling, and orchestration until repeated false-negative evidence justifies a bounded capability. |
+| INBOX-223 | evidence | deferred | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | One prevented duplicate recommendation does not prove reduced cognitive burden, human intervention, cycle time, or organizational usefulness. | Collect repeated Mission-use evidence before promoting outcome claims. |
 
 ---
 
@@ -378,3 +383,6 @@ quarantine and triage surface for context that may deserve future action.
 - 2026-08-26 - v0.1.0 - Recorded external Mission-use bindings, independent
   context/repository freshness, automatic-consequence authority semantics,
   isolated-lane tooling deferral, and bounded external outcome claims.
+- 2026-09-05 - v0.1.0 - Recorded derived work-ownership resolution,
+  decision-time material currentness, target-profile authority boundaries,
+  semantic-matching deferral, and bounded outcome evidence.

@@ -101,6 +101,12 @@ def render_check_human(report: dict) -> str:
 
 
 def render_human(report: dict) -> str:
+    ownership_gate = report.get("consequential_recommendation_gate") or {
+        "status": "not_evaluated",
+        "eligible_for_goal_qualification": False,
+        "parallel_goal_or_mission_authorized": False,
+        "reanchor_required": False,
+    }
     lines = [
         "# Context OS Contextual Assessment",
         "",
@@ -117,6 +123,12 @@ def render_human(report: dict) -> str:
         "- Evidence, observation, interpretation, hypothesis, recommendation, Decision, authority, and canonical truth remain distinct.",
         "- Historical context and retrieved memory provide prior art; neither overrides current Governing Context.",
         "- This assessment may suggest. It cannot decide, approve, execute, or mutate canonical context.",
+        "",
+        "## Work Ownership Gate",
+        f"- Status: `{ownership_gate['status']}`",
+        f"- Goal qualification eligible: {'yes' if ownership_gate['eligible_for_goal_qualification'] else 'no'}",
+        f"- Parallel Goal or Mission authorized: {'yes' if ownership_gate['parallel_goal_or_mission_authorized'] else 'no'}",
+        f"- Re-anchor required: {'yes' if ownership_gate['reanchor_required'] else 'no'}",
     ]
     if report.get("adoption_profile"):
         profile = report["adoption_profile"]
@@ -157,6 +169,11 @@ def render_human(report: dict) -> str:
             f"- Context Version evidence supplied: {report['bindings']['context_versions']['supplied_count']}",
             f"- Structured claims: {report['bindings']['reasoning_evidence']['claim_count']}",
             f"- Structured relationships: {report['bindings']['reasoning_evidence']['relationship_count']}",
+            (
+                f"- Work Ownership Resolution: `{report['bindings']['work_ownership']['resolution']['id']}`"
+                if report["bindings"].get("work_ownership", {}).get("resolution")
+                else "- Work Ownership Resolution: `<not supplied>`"
+            ),
             "",
             "## Invalidation",
         ]

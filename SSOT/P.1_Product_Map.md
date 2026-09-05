@@ -1,6 +1,6 @@
 # P.1 Product Map
-## Version: 0.1.1
-Last Updated: 2026-08-21
+## Version: 0.1.2
+Last Updated: 2026-09-05
 Owner: Context OS Maintainers
 
 ---
@@ -137,6 +137,8 @@ usable Organizational Context Runtime repository.
   and non-canonical update candidates without an opaque score
 - Provide Mission-use evidence that binds context participation to an exact
   Activation Package, Handoff, Mission, and consumer
+- Resolve whether an explicit need is already owned by materially current work
+  before recommending parallel Goal or Mission qualification
 - Provide a read-only human and machine Health CLI without remediation or
   canonical mutation
 - Provide a read-only Memory Continuity report with source hashes, temporal
@@ -257,6 +259,8 @@ usable Organizational Context Runtime repository.
   Assessment product capability
 - 2026-08-24 — v0.1.1 — Added the `contextos reason` human/machine surface and
   saved-Assessment check
+- 2026-09-05 — v0.1.2 — Added ownership-aware work qualification before
+  parallel Goal or Mission recommendations
 - 2026-08-11 — v0.1.1 — Added Guided Bootstrap apply approval boundary
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Engine product capability
 - 2026-08-11 — v0.1.1 — Added Bootstrap Proposal Review Surface to product
