@@ -6,6 +6,14 @@ This folder is the **Single Source of Truth (SSOT)** for the Context OS project 
 
 It is a **dogfooding SSOT**: it intentionally goes beyond the Minimum Operational Map (MOM) to include execution artifacts that govern the framework's own evolution.
 
+## Current product baseline
+
+- [Product definition, users, value and reference gates](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
+- [Product Reality Audit and rebaseline Mission](E.4_Mission_POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001_Product_Reality_Rebaseline.md)
+
+This native dogfood structure is not a migration requirement for external
+organizations; see [Adoption Model v2](../docs/4.x_adoption/4.0_COS_Adoption_Playbook.md).
+
 ## Minimum Operational Map (MOM)
 
 - S.1 Vision
@@ -17,7 +25,7 @@ It is a **dogfooding SSOT**: it intentionally goes beyond the Minimum Operationa
 
 ## Execution Artifacts (Dogfooding)
 
-- P.2 Product Roadmap — versioned releases (v0.1 -> v1.0) toward the Organizational Context Runtime
+- [P.2 Product Roadmap](P.2_Product_Roadmap.md) — current post-v1 productization gates and preserved v0.x-v1.0 release history
 - P.5 Epic — Structural Integrity
 - E.1 User Story — US-001 Canonicalize Operational Docs Path
 - `epics/` — Epic backlog derived from the roadmap (see [`epics/README.md`](epics/README.md))

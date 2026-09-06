@@ -1,295 +1,73 @@
 # Context OS
 
-**Context OS is an Organizational Context Runtime for human-agent systems.**
+**An Organizational Context Runtime for human-agent work.**
 
-The canonical first-principles definition lives in
-[`docs/0.x_foundations/0.8_COS_GENESIS.md`](docs/0.x_foundations/0.8_COS_GENESIS.md).
+Teams and AI agents need current context, governing sources and clear action
+authority. Context OS makes those boundaries inspectable before work begins.
 
-The organizational outcome is defined by the
-[`Theory of the AI-Native Organization`](docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md).
+**Design-partner alpha:** a local Python CLI and engine APIs for technical
+maintainers, founders and small software teams. v1.0 is released; self-service
+adoption and measurable business value remain unproven.
 
-Not a tool.  
-Not a framework for writing specs.  
-Not a productivity hack.
+## What it does
 
-Context OS is an attempt to formalize a layer that always existed in organizations, but was never designed explicitly:  
-**the context in which intelligence operates.**
+- Checks context integrity and readiness, with evidence and explicit gaps.
+- Selects bounded governing context for a Mission and produces a working brief.
+- Checks saved context for source changes and preserves provenance.
+- Reports context health, policy-aware prior art and advisory reasoning.
+- Supports approved, create-only native bootstrap and construction.
 
-It does this by making context assessable, bootstrapable, constructable,
-activatable, learnable, and usable for governed reasoning.
+Humans own intent, authority, approval and outcomes. Context OS does not
+launch agents or execute the Mission.
 
----
+## How to try it
 
-## Why Context OS exists
-
-For a long time, intelligence was treated as an individual trait.
-
-Talent.  
-Experience.  
-Good judgment.
-
-But when working with teams, organizations, and now AI agents, a pattern becomes impossible to ignore:
-
-> The same intelligent actors behave very differently depending on the context they operate in.
-
-People, teams, and agents don’t “think” in isolation.  
-They think **inside an environment of constraints, narratives, rules, and implicit knowledge**.
-
-When that environment is unclear, fragmented, or implicit, intelligence degrades.  
-When it is well designed, intelligence compounds.
-
-Context OS starts from a simple premise:
-
-> **Context is not documentation.  
-> Context is infrastructure.**
-
----
-
-## Intelligence scales with context, not talent
-
-Organizations often rely on intuition, heroics, and institutional memory to function.
-
-This works at small scale.  
-It breaks as complexity grows.
-
-AI doesn’t create this problem — it **reveals it**.
-
-AI systems don’t compensate for missing context the way humans do.  
-They amplify whatever is already there: clarity or ambiguity.
-
-This is why many organizations experience more confusion after introducing AI, not less.
-
-Context OS addresses this root issue.
-
----
-
-## Context as an operating system
-
-An operating system doesn’t do the work for you.
-
-It defines:
-- what can run,
-- how components communicate,
-- what is valid,
-- and what is out of bounds.
-
-Context works the same way for intelligence.
-
-Context OS treats organizations as **distributed cognitive systems**, where humans and agents make decisions based on shared (or missing) context.
-
-Design the context well, and intelligence aligns.  
-Ignore it, and intelligence fragments.
-
----
-
-## The Minimum Operational Map (MOM)
-
-Context OS is intentionally minimal.
-
-It introduces the concept of a **Minimum Operational Map** — the smallest set of contextual artifacts required for coherent operation:
-
-- Vision
-- Product Map
-- System Map
-- Core Data Entities
-- Definition of Ready
-- Definition of Done
-
-If something doesn’t exist in the MOM, it does not exist operationally.
-
-This is not bureaucracy.  
-It’s cognitive alignment.
-
----
-
-## Governance in an agentic world
-
-When agents enter the picture, a critical shift happens.
-
-Reasoning quality is no longer the main risk.  
-**Verification is.**
-
-Agents can reason well and still act incorrectly if context is incomplete or implicit.
-
-This leads to a key principle of Context OS:
-
-> **Governance must be evidence-based, not trust-based.**
-
-Agents don’t “claim” correctness.  
-They demonstrate it.
-
-This is enforced through:
-- explicit boundaries,
-- proof-based execution,
-- diff-based changes,
-- and human review gates where necessary.
-
----
-
-## How Context OS relates to other approaches
-
-Context OS does not compete with existing specification frameworks.  
-It operates at a different level.
-
-### Spec-Driven Development
-Spec-driven approaches improve execution by clarifying intent before implementation.
-
-Context OS assumes this is valuable — but incomplete.
-
-Specs need a **contextual environment** to make sense.
-
-### OpenSpec
-OpenSpec standardizes how specifications are written.
-
-Context OS can *use* OpenSpec, but does not replace it.
-
-OpenSpec defines artifacts.  
-Context OS defines the system they live in.
-
-### Context.space
-Context.space recognizes the importance of context at a conceptual level.
-
-Context OS extends this into:
-- operational governance,
-- agent execution,
-- and evidence-based validation.
-
----
-
-## What Context OS is (and is not)
-
-Context OS **is**:
-- an Organizational Context Runtime,
-- a contextual operating system for intelligence,
-- a governance model for agentic systems,
-- a memory and activation layer for human-agent work,
-- and a way to design intelligence environments.
-
-Context OS **is not**:
-- a SaaS product,
-- a task manager,
-- or a replacement for engineering discipline.
-
-It is the layer above tools, specs, and agents.
-
----
-
-## Open by design
-
-Context OS is open source by intention.
-
-Context should be inspectable.  
-Governance should be auditable.  
-Intelligence should be composable.
-
-This repository contains:
-- foundational concepts,
-- document taxonomies,
-- operational templates,
-- runtime contracts,
-- validator, readiness, bootstrap, construction, activation, health, memory,
-  reasoning, and integrated-runtime tooling,
-- and example implementations.
-
----
-
-## Repo Structure (Framework vs SSOT)
-
-This repository contains **two distinct layers**:
-
-- **Framework (this repo’s design)**: the conceptual and operational model in `/docs/`.
-- **Implementation (an organization’s context)**: an `SSOT/` tree built using `/templates/`.
-
-If you are adopting Context OS for an organization, you should create an `SSOT/` folder in your own repo (or a dedicated repo) and treat it as the governable system of record.
-
----
-
-## The arc so far
-
-Context OS is built around three core insights:
-
-1. **Context is the operating system of intelligence.**
-2. **AI amplifies the context it operates in.**
-3. **Agents must be governed by evidence, not trust.**
-
-Everything in this repository flows from those principles.
-
----
-
-## Runtime Journey
-
-Context OS v1.0 implements a local, governed product journey:
-
-```text
-Assess -> Bootstrap -> Construct -> Activate -> Learn -> Remember -> Reason
-```
-
-The stages remain distinct because they carry different truth and authority
-boundaries. Activation does not create a second SSOT. Memory does not regain
-current authority. Reasoning may recommend but cannot decide or execute.
-
-Context Graph, GraphRAG, autonomous agents, external connectors, hosted
-infrastructure, and domain-specific adapters are intentionally not required by
-the v1.0 runtime.
-
----
-
-If you are exploring AI, agents, or complex organizations and feel that “something fundamental is missing,”  
-this repository is an invitation to design that missing layer.
-
-Context is no longer optional.  
-It’s infrastructure.
-
----
-
-## Getting Started
+Requires Git and Python 3.9+; no third-party Python packages. Checked on macOS
+with Python 3.9.6; broader platform support is unproven.
 
 ```bash
+git clone https://github.com/Buggeek/ContextOS.git
+cd ContextOS
 ./contextos --version
 ./contextos assess --root .
-./contextos init --root .
-./contextos activate --root . --goal "Describe the work to perform"
+./contextos activate --root . --goal "Orient one bounded Mission" --handoff
 ./contextos health --root .
-./contextos memory --root . --goal "Find governed prior art"
-./contextos reason --root . --goal "Identify what requires attention"
 ```
 
-For an external organization with an existing distributed canon, bind a
-governed Adoption Profile instead of imposing Context OS-native structure:
+This read-only demo assesses this repository. Inspect the brief's sources,
+bounds and gaps: exit 0 can coexist with warnings or unknowns. See
+[installation](docs/4.x_adoption/4.5_COS_Runtime_Installation.md) for target use,
+report checks and advanced APIs.
 
-```bash
-./contextos assess --root /path/to/target \
-  --adoption-profile examples/adoption_profiles/lukspeed.json
-./contextos activate --root /path/to/target \
-  --adoption-profile examples/adoption_profiles/lukspeed.json \
-  --goal "Describe the bounded Mission"
-```
+## Adoption journey
 
-The profile maps target authority; it is not the target SSOT and never grants
-write authority.
+Map one work need and its sources → assess gaps → prepare a checked brief →
+perform authorized work → record outcomes and recheck context before reuse.
 
-`assess`, bare `init`, `activate`, `health`, `memory`, and `reason` are
-read-only. Write-capable Guided Bootstrap requires the complete proposal,
-approval, accepted-decision, fresh-preflight, and explicit-confirmation chain.
+**Native bootstrap:** init plans setup with optional templates; writes need
+approval and a fresh preflight. **External Adoption:** a governed profile maps
+existing sources and controls without migration or a new SSOT directory.
+Mapping and policy preparation currently need technical help.
+See the [Adoption Playbook](docs/4.x_adoption/4.0_COS_Adoption_Playbook.md).
 
-For the model behind the commands:
+## Evidence and limits
 
-1. Start with `/docs/0.x_foundations/0.8_COS_GENESIS.md`.
-2. Read `/docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md`.
-3. Review Runtime contracts in `/docs/1.x_architecture/1.5_runtime_contracts/`.
-4. Follow the Adoption Playbook in `/docs/4.x_adoption/`.
+[Released integration and self-hosting](SSOT/E.4_Mission_V10-ORGANIZATIONAL-CONTEXT-RUNTIME-RELEASE-VERIFY-001_Release_Verification.md)
+prove a bounded, human-operated Runtime loop.
+[External Adoption evidence](SSOT/E.4_Mission_POST-V1-EXTERNAL-ADOPTION-PROFILE-001_External_Adoption_Portability.md)
+covers one software organization's distributed canon; later
+[Mission evidence](SSOT/E.4_Mission_POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001_External_Mission_Runtime_Hardening.md)
+records a bounded external documentation Mission.
 
-Start simple.
+Discovery, Builder, Context Versions and Work Ownership require Python APIs.
+Memory needs an applicable policy; reasoning is advisory. Connectors, hosting,
+orchestration and automatic canonical mutation are absent. Enterprise and
+cross-domain outcomes remain unproven.
 
-Make your system visible.
+Next: [current product and value gates](docs/5.x_strategy/5.6_COS_Current_Product_Definition.md),
+[post-v1 Productization Roadmap](SSOT/P.2_Product_Roadmap.md#post-v1-productization-roadmap),
+[architecture](docs/1.x_architecture/1.0_COS_Architecture.md).
 
-Then evolve.
-
----
-
-## Guiding Rule
-
-Do not automate confusion.
-
-Formalize context.
-Then enable intelligence.
+Long-term outcome: **Context OS enables AI-native organizations to govern
+their own evolution.** The [Theory](docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
+distinguishes ambition from current evidence.

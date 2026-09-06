@@ -1,6 +1,6 @@
 # P.1 Product Map
-## Version: 0.1.2
-Last Updated: 2026-09-05
+## Version: 0.1.3
+Last Updated: 2026-09-06
 Owner: Context OS Maintainers
 
 ---
@@ -23,7 +23,10 @@ usable Organizational Context Runtime repository.
 - Runtime contracts (`docs/1.x_architecture/1.5_runtime_contracts/`)
 - Validator Engine tooling (`tools/validators/`)
 - Context Readiness tooling (`tools/readiness/`)
-- Guided Bootstrap planning/proposal tooling (`tools/bootstrap/`)
+- Guided Bootstrap plan/approval/preflight/create-only apply (`tools/bootstrap/`)
+- Local Discovery, Construction and Builder Python APIs (`tools/discovery/`,
+  `tools/construction/`, `tools/builder/`)
+- Governed External Adoption Profiles (`tools/adoption/`)
 - Context Activation package tooling (`tools/activation/`)
 - Context Health & Learning tooling (`tools/health/`)
 - Organizational Memory continuity tooling (`tools/memory/`)
@@ -35,74 +38,33 @@ usable Organizational Context Runtime repository.
 
 ---
 
+## Current product and users
+
+Context OS is an Organizational Context Runtime, currently a **design-partner
+alpha** with developer access. The [current product definition](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
+owns user/organization fit, capability limits, experience boundaries and value
+gates. The [post-v1 roadmap](P.2_Product_Roadmap.md#post-v1-productization-roadmap)
+owns progression. Architecture and the historical v1.0 release do not establish
+independent self-service adoption.
+
 ## Core User Journeys (High-Level)
 
-1. New adopter reads foundations -> understands MOM -> creates their SSOT
-2. Adopter uses templates to build MOM artifacts
-3. Contributor proposes a framework change -> validated by governance rules
-4. Maintainers review diffs -> merge changes with evidence
-5. Operator runs Runtime tooling -> receives validation or readiness feedback
-6. Operator runs Guided Bootstrap planning -> receives a read-only bootstrap
-   plan before any repository mutation
-7. Future operator requests Guided Bootstrap apply -> reviews a preserved
-   Bootstrap Proposal before any approved repository mutation
-8. Operator preserves the proposal with JSON output before any future approval
-   or apply operation
-9. Operator generates a read-only approval record draft that binds the proposal
-   to human authority before apply exists
-10. Operator accepts the approval record with explicit human identity and role,
-    producing a read-only accepted decision before apply exists
-11. Operator runs apply preflight to verify accepted intent, drift, validator
-    gates, no-overwrite guarantees, rollback expectations, and the exact future
-    mutation set before apply exists
-12. Operator gives explicit apply confirmation bound to the preflight id and
-    hash, then Context OS performs create-only bootstrap apply with evidence,
-    validation, rollback metadata, and result state
-13. Actor requests mission-bound working context, and Context OS produces a
-    read-only Activation Package that preserves canonical source hashes,
-    provenance, permissions, and invalidation conditions
-14. Actor checks an Activation Package before use, and Context OS detects
-    source drift or Validator gate invalidation
-15. Actor generates a package-backed Activation Handoff, and Context OS provides
-    a compact working brief without copying canonical context into a second
-    SSOT
-16. Actor checks a saved Activation Handoff before use, and Context OS detects
-    handoff identity drift, selected source drift, package binding drift, or
-    Validator gate invalidation
-17. Actor distinguishes Governing Context from bounded Execution Context within
-    one Mission Context, so orientation and execution retrieval remain coherent
-18. Operator runs Context Health analysis and receives explainable integrity,
-    usefulness, and learning signals plus governed Context Update Candidates
-19. Mission executor records explicit selected, accessed, retrieved, used, and
-    unknown context evidence without inferring usefulness from access or outcome
-20. Operator runs `contextos health` and receives prioritized evidence-backed
-    attention, unknowns, learning, and governed next considerations
-21. Operator inspects prior Missions, decisions, evidence, outcomes,
-    learning, and superseded context through governed Organizational Memory
-    without treating a derived index as authority
-22. Actor requests Goal/Mission prior art through `contextos memory`, inspects
-    why each candidate was selected, and checks the saved result for current
-    Activation or Memory drift before reuse
-23. Governance defines why memory is preserved, restricted, archived, or
-    considered for deliberate forgetting before any retention transition can
-    exist
-24. Operator or Runtime consumer resolves explicit retention policies against
-    exact memory metadata and receives separate access, Retrieval, Activation,
-    transition, and destructive-action outcomes without mutation
-25. Actor requests relevant prior art, and Context OS evaluates exact retention
-    policy before exposing any candidate content or protected exclusion metadata
-26. Actor captures a meaningful governed event as an immutable Context Version,
-    preserving exact source identities and fingerprints without copying the SSOT
-27. Memory consumer checks a historical Context Version independently for
-    immutable identity, source availability, and current applicability
-28. Actor retrieves a prior Decision with exact, partial, or unknown historical
-    context evidence and sees whether the old context is superseded without
-    receiving semantic conclusions or present authority
-29. Actor requests a Contextual Assessment and receives evidence-backed
-    observations, bounded interpretations, hypotheses, recommendations,
-    unknowns, and required human decisions without automatic execution
-30. Actor saves or reuses an Assessment only after Context OS verifies its
-    exact identity, evidence, policy inputs, temporal basis, and current state
+1. Technical operator chooses a bounded need and authorized local source scope.
+2. Existing organizations map current canon with a governed External Adoption
+   Profile; native projects may choose templates and create-only bootstrap.
+3. Operator assesses context and interprets applicable findings and unknowns.
+4. Actor obtains a checked working brief with sources, gaps and action bounds.
+5. Human/agent performs separately authorized work and records additional
+   retrieval, actual use, outcome and human intervention.
+6. Operator reviews Health, policy-authorized Memory and advisory Reasoning,
+   rechecking materially changed context before consequential reuse.
+7. Contributor proposes changes; maintainers review diffs, evidence and
+   publication authority before merging.
+
+Discovery, Construction, Builder, Context Version capture, Mission-use
+production and Work Ownership currently require Python APIs and explicit
+inputs. Work Ownership is not an automatic CLI guard. These capabilities
+support the journey but remain advanced developer/operator surfaces.
 
 ---
 
@@ -115,13 +77,13 @@ usable Organizational Context Runtime repository.
 - Provide validator, CLI, and readiness contracts with scoped runtime tooling
 - Provide read-only bootstrap planning as the first Guided Bootstrap surface
 - Provide read-only bootstrap proposal generation as the preserved bridge from
-  plan to future apply approval
-- Provide read-only bootstrap approval record drafts before any apply behavior
-- Provide explicit read-only bootstrap approval acceptance before apply behavior
-- Provide read-only apply preflight before any apply behavior
+  plan to apply approval
+- Provide read-only bootstrap approval record drafts before apply
+- Provide explicit read-only bootstrap approval acceptance before apply
+- Provide read-only apply preflight before apply
 - Provide governed create-only bootstrap apply with explicit preflight-bound
   confirmation
-- Define proposal-approved apply as the only future write-capable Guided
+- Define proposal-approved apply as the only write-capable Guided
   Bootstrap path
 - Provide read-only Activation Packages that make canonical context consumable
   without creating a parallel SSOT
@@ -171,7 +133,7 @@ usable Organizational Context Runtime repository.
 
 ## Primary User Roles
 
-- Adopter (implements SSOT for an org/product)
+- Technical adopter/operator (maps existing canon or chooses native formation with assistance)
 - Contributor (improves framework, templates, examples)
 - Maintainer (governs evolution and coherence)
 
@@ -233,6 +195,8 @@ usable Organizational Context Runtime repository.
 ---
 
 ## Change Log
+
+- 2026-09-06 - v0.1.3 - Reconciled current adoption journeys, technical assistance, API surfaces and implemented bootstrap wording.
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
 - 2026-08-11 — v0.1.1 — Added Context Activation Package surface

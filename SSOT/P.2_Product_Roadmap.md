@@ -1,14 +1,84 @@
 # P.2 — Context OS Product Roadmap
 
-Version: 1.0
+Version: 1.1
 
-Last Updated: 2026-08-25
+Last Updated: 2026-09-06
 
 Owner: Context OS Core Team
 
 Status: Active
 
 ---
+
+# Post-v1 Productization Roadmap
+
+This is the current strategic progression authority. The
+[current product definition](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
+establishes a **design-partner alpha**, with released local Runtime
+capabilities and bounded external Technology evidence. v1.0 remains released;
+it does not certify self-service, L5 organization maturity or business value.
+
+The roadmap solves adoption and use problems through evidence gates. It is
+not a list of missing engines. No new semantic release versions are assigned.
+All phases after this rebaseline require a separately authorized Mission;
+listing a phase or an epic is not execution authority.
+
+| Phase / state | User problem | Product outcome | Evidence gate | Explicitly excluded | Why it precedes the next phase |
+|---|---|---|---|---|---|
+| 1. Product truth and rebaseline / local review candidate | A visitor cannot distinguish available behavior, assistance and aspiration | Coherent definition, capability evidence, adoption paths, real quick start and roadmap | Repository-grounded audit, command/link/Validator checks, bounded local commit and human acceptance of the resulting canon; publication separately authorized | Runtime changes, external work, UI, a new category or release | Independent adoption needs a truthful scope and testable promise |
+| 2. Independent first adoption / gated, not started | A new technical user needs maintainer knowledge to map context and get the first valid result | One narrow local adoption path from checkout and native/external choice to a useful checked Mission brief | At least two technical operators unfamiliar with Runtime internals independently complete the declared path on authorized local corpora; one native and one existing-canon case; log setup/mapping time, false blockers, help and outcome; no undocumented maintainer procedures | General connectors, enterprise rollout, SaaS, broad UI, automatic truth generation | Successful first use exposes which recurring operator steps actually need improvement |
+| 3. Repeatable operator experience / gated, not started | A successful first run still leaves evidence, policies and recovery spread across internals | Operator can repeat work, interpret unknown/blocked states and recover after material changes | Those operators complete a second bounded cycle, including one blocked result and material-source re-anchor, with preserved authority/evidence and no procedural rescue; human strategic decisions remain expected | Dashboard/chat mandate, Jarvis, a complete UI, orchestration, automatic mutation | Stable repeat use is needed to compare value without constant maintainer confounding |
+| 4. Reference adoption and value proof / gated, not started | Existing technical evidence does not show improved real work | Bounded accepted product/engineering work with measurable context/governance and, where observed, execution/user benefit | Reference #1 meets the separately authorized repeated-Mission protocol in the product definition; publish class-specific measurements, assistance costs, failures and attribution limits; do not claim benefits whose thresholds fail | General value claims from correctness alone, organization-wide autonomy, unapproved target access | Establishing within-reference value provides a concrete hypothesis for transfer |
+| 5. Second organization and transfer evidence / gated, not started | One founder/software reference may hide native assumptions | A different operator/organization tests authority, lifecycle and value under a meaningfully different work shape | Second-reference criteria in the product definition: independent owner/operator, contrasting domain or source system, governed mapping, repeat use, re-anchor, baseline/outcomes and failed assumptions; no forced native migration | Universality, enterprise readiness, product-market fit or connector ecosystem inferred from two cases | Only demonstrated transfer justifies evaluating broader systems and interaction investments |
+
+These sample sizes are proposed minimum product acceptance gates, not existing
+results, statistically representative evidence, or an automatic support claim.
+Choose evaluation corpora and outcome thresholds with their owners before a
+future Mission. Independent completion may still surface a need to narrow the
+supported path; record that limitation rather than expanding scope silently.
+
+**Measurement starts with the first adoption attempt.** Phase 4 qualifies a
+stronger value claim; it does not postpone baseline capture, failed-attempt
+logging or reference learning until then. Discovery and measurement can inform
+later phases while progression remains gated by completed outcomes.
+
+## Parallel evidence-driven Runtime hardening
+
+PRODUCT ROADMAP governs strategic progression. EVIDENCE-DRIVEN RUNTIME
+HARDENING is a parallel maintenance lane opened only by actual use exposing a
+blocker or generalizable limitation. Each hardening Mission must cite a
+reproducible failure, affected user outcome, smallest correction and regression
+proof, then return to the same product gate. It does not replace direction,
+activate another epic by implication or grant target authority.
+
+[External Adoption](E.4_Mission_POST-V1-EXTERNAL-ADOPTION-PROFILE-001_External_Adoption_Portability.md),
+[external Mission hardening](E.4_Mission_POST-V1-EXTERNAL-MISSION-RUNTIME-HARDENING-001_External_Mission_Runtime_Hardening.md)
+and [Work Ownership](E.4_Mission_POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001_External_Work_Ownership_Awareness.md)
+are completed historical examples of this lane. They demonstrate specific
+corrections, not independent adoption or quantified organizational value.
+
+## Investment gates after productization
+
+Connectors, richer interaction, multi-system Runtime, Capability Fabric,
+dynamic team assembly, higher autonomy and hosted Runtime require the
+[specific evidence/defer gates](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md#explicit-freeze-and-defer-decisions).
+A reference source blocker may justify one bounded adapter earlier under its
+own Mission; it cannot justify an ecosystem or broad infrastructure program.
+
+See [value proof and reference #1](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md#value-proof-framework),
+[second-reference criteria](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md#second-reference-organization-gate),
+and [maturity interpretation](../docs/5.x_strategy/5.5_COS_Runtime_Maturity_Model.md).
+
+# Historical v0.x-v1.0 release and capability record
+
+The remaining release goals, slice progression and epic narratives preserve
+historical planning and delivery evidence. Their old “active”, “next” and
+“planned” phrases are superseded as current work selection by the post-v1 gates
+above. They are not new assignments. The historical full journey was
+human-operated CLI/API composition and self-hosting; it was not independent
+self-service adoption. The initial pilot subsequently ran, then portability
+and external Mission hardening followed as linked above. No target is active
+under this rebaseline Mission.
 
 # Product Goal
 
@@ -28,7 +98,7 @@ Canonical architecture:
 
 ---
 
-# Canonical Product Journey
+# Historical Runtime Capability Journey
 
 ```text
 Assess -> Bootstrap -> Construct -> Activate -> Learn -> Reason
@@ -225,7 +295,7 @@ release intent; Mission Packets govern bounded execution.
 
 ---
 
-# Planned Releases
+# Historical Release Sequence
 
 | Version | Name |
 |----------|--------|
@@ -255,7 +325,7 @@ release intent; Mission Packets govern bounded execution.
 
 ---
 
-# Active Runtime Epics
+# Historical Runtime Epic Progression
 
 ## EPIC-004
 
@@ -407,6 +477,8 @@ governable, and reusable across humans, agents, and systems.
 ---
 
 # Change Log
+
+- 2026-09-06 - v1.1 - Established post-v1 productization gates, a parallel evidence-driven hardening lane and explicit historical scope for release/epic progression.
 
 - 2026-08-11 - v1.0 - Added self-hosting execution references for v0.4
   Guided Bootstrap.

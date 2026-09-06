@@ -1,6 +1,6 @@
 # E.5 Evolution Inbox
 ## Version: 0.1.0
-Last Updated: 2026-09-05
+Last Updated: 2026-09-06
 Owner: Context OS Maintainers
 Status: Active
 
@@ -273,9 +273,17 @@ quarantine and triage surface for context that may deserve future action.
 | INBOX-222 | architecture | deferred | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | Explicit `need_refs` safely prove ownership but do not detect semantically equivalent needs expressed in unrelated language or systems. | Defer semantic matching, connectors, learned ranking, scheduling, and orchestration until repeated false-negative evidence justifies a bounded capability. |
 | INBOX-223 | evidence | deferred | POST-V1-EXTERNAL-WORK-OWNERSHIP-AWARENESS-001 | One prevented duplicate recommendation does not prove reduced cognitive burden, human intervention, cycle time, or organizational usefulness. | Collect repeated Mission-use evidence before promoting outcome claims. |
 
+| INBOX-224 | product | linked-to-mission | POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001 | Product/adoption docs conflate native layout, future commands, Runtime integration and organizational maturity. | Rebaseline current truth through the [Mission audit](E.4_Mission_POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001_Product_Reality_Rebaseline.md); publication remains separately authorized. |
+| INBOX-225 | product | accepted | POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001 | Independent first adoption and repeated operator recovery remain unproven despite functional Runtime APIs. | Follow phases 2 and 3 in P.2; no new Mission or implementation authorized here. |
+| INBOX-226 | evidence | accepted | POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001 | Correctness/governance proof does not establish total cognitive burden, execution or business value. | Capture predeclared baselines and repeated reference outcomes using the value framework; preserve unknowns. |
+| INBOX-227 | evidence | deferred | POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001 | Context OS self-hosting and one software reference cannot establish organizational transfer. | Qualify a contrasting second reference only under the Productization Roadmap and target-specific authority. |
+| INBOX-228 | product | deferred | POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001 | Speculative graph, orchestration, hosted and interface concepts risk displacing adoption work. | Apply the explicit freeze/evidence gates in 5.6; maintenance discoveries do not replace product direction. |
+
 ---
 
 ## Change Log
+
+- 2026-09-06 - v0.1.0 - Recorded product truth reconciliation, independent adoption/operator gates, value measurement, second-reference criteria and deferred investment boundaries.
 
 - 2026-08-11 - v0.1.0 - Added Guided Bootstrap apply approval follow-up items.
 - 2026-08-11 - v0.1.0 - Added Bootstrap Proposal Engine follow-up items.
