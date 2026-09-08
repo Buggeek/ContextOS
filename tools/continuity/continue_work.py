@@ -26,6 +26,7 @@ from adoption_engine import AdoptionProfile
 from adoption_engine.profile import file_hash, safe_locator, stable_hash
 from memory_engine import ContextVersionEngine
 from reasoning_engine import WorkOwnershipResolver
+from review_evidence import citation_problem, evaluate_review, governing_constraints, same_restriction
 
 
 def read_json(path):
@@ -94,7 +95,7 @@ def snapshot(config, destination):
     denied = set(source.get("withheld_sources", []))
     if not allowed or allowed & denied:
         raise ValueError("Source visibility must be explicit and non-overlapping.")
-    manifest = {}
+    manifest, missing = {}, []
     for locator in sorted(allowed):
         safe_locator(locator)
         if not locator.endswith((".md", ".txt", ".yaml", ".yml")):
@@ -103,11 +104,18 @@ def snapshot(config, destination):
             if not locator.startswith("docs/"):
                 raise ValueError("Published read authority is limited to docs/.")
             tree = command(["git", "ls-tree", tip, "--", locator], root).decode()
+            if not tree:
+                missing.append(locator)
+                continue
             if not tree.startswith("100644 blob ") or tree.count("\n") != 1:
                 raise ValueError("Published source missing or not a regular document.")
             content = command(["git", "show", tip + ":" + locator], root)
         else:
-            content = plain_path(root, locator).read_bytes()
+            path = plain_path(root, locator)
+            if not path.exists():
+                missing.append(locator)
+                continue
+            content = path.read_bytes()
         content.decode("utf-8")
         path = destination / locator
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -115,51 +123,40 @@ def snapshot(config, destination):
         path.chmod(0o600)
         manifest[locator] = file_hash(path)
     provenance["source_hashes"] = manifest
+    provenance["missing_sources"] = missing
     provenance["memory"] = "not_retrieved; visibility is not evidence of absent work"
     return provenance
 
 
 def citations_valid(citations, corpus, allowed):
-    return bool(citations) and all(
-        item.get("path") in allowed and bool(item.get("quote", "").strip())
-        and item["quote"] in plain_path(corpus, item["path"]).read_text(encoding="utf-8")
-        for item in citations
-    )
+    return citation_problem(citations, corpus, allowed) is None
 
 
-def review_fit(review, corpus, allowed):
-    """Check declared review evidence, NOT semantic fit or authority authenticity."""
-    if not review:
-        return "no_proposal_submitted"
-    fit = review.get("fit", "unknown")
-    if not review.get("reviewed_by") or not citations_valid(review.get("constraint_refs", []), corpus, allowed):
-        return "unverified_constraints"
-    if fit == "conflict":
-        return "requires_product_architecture_decision"
-    if fit == "compatible":
-        return "operator_declares_compatible; product_acceptance_not_inferred"
-    if fit == "approved_exception" and review.get("human_approver") and citations_valid(
-            review.get("decision_refs", []), corpus, allowed):
-        # Document matching cannot establish the approver's authority. The named
-        # operator must verify it; candidate-authored prose alone does not qualify.
-        if review.get("authority_verified_by") and review.get("independent_of_candidate") is True:
-            return "human_declared_approved_exception; bounded_to_cited_decision"
-    return "unverified_constraints"
-
-
-def load_anchor(workspace, recover):
+def load_anchor(workspace, recover, visible=None):
     pointer = workspace / "anchor.json"
+    partial_pointer = False
     if not pointer.exists():
-        if (workspace / "runs").exists() and any((workspace / "runs").iterdir()) and not recover:
-            raise ValueError("Local evidence missing. Use --recover after review; prior history remains unknown.")
-        return None
+        if (workspace / "runs").exists() and any((workspace / "runs").iterdir()):
+            # A partial orientation deliberately never replaced/created a usable
+            # anchor. Its checked last record preserves that fact across processes.
+            if not (workspace / "last.json").exists() and recover:
+                return None
+            if not (workspace / "last.json").exists():
+                raise ValueError("Local evidence missing. Use --recover after review; prior history remains unknown.")
+            pointer, partial_pointer = workspace / "last.json", True
+        else:
+            return None
     try:
         reference = read_json(pointer)
         path = plain_path(workspace, reference["path"])
         record = read_json(path)
         if stable_hash(record) != reference["hash"]:
             raise ValueError("Local evidence integrity mismatch.")
+        if partial_pointer and not record.get("runtime_details"):
+            raise ValueError("A usable anchor was lost; explicit recovery required.")
         for locator, fingerprint in record["provenance"]["source_hashes"].items():
+            if visible is not None and locator not in visible:
+                continue  # revoked visibility never triggers a historical source read
             if file_hash(plain_path(path.parent / "corpus", locator)) != fingerprint:
                 raise ValueError("Local source evidence integrity mismatch.")
         return record
@@ -184,8 +181,9 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
     with (workspace / ".lock").open("a") as lock:
         os.chmod(workspace / ".lock", 0o600)
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-        anchor = load_anchor(workspace, recover)
-        if recover and anchor is not None:
+        visible = set(config["source"]["visible_sources"])
+        anchor = load_anchor(workspace, recover, visible)
+        if recover and anchor is not None and not anchor.get("runtime_details"):
             raise ValueError("The local anchor is intact. Use ordinary return or a reviewed re-anchor.")
         if anchor and (anchor["target_id"] != config["target_id"] or
                        anchor["provenance"]["root"] != str(target) or
@@ -203,13 +201,39 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
         provenance = snapshot(config, corpus)
         runtime_started = time.perf_counter()
         allowed = provenance["source_hashes"]
+        decisions = governing_constraints(config.get("governing_decisions", []), corpus, visible)
+        decision_ids = [d["id"] for d in decisions if d.get("id")]
+        if len(decision_ids) != len(set(decision_ids)):
+            for d in decisions:
+                d.update(status="unverifiable", missing_evidence="duplicate_restriction_identity",
+                         limitation="dependent_proposal_not_sufficient")
+        authority_sources = {s["locator"] for m in profile.data["mappings"]
+                             if m["concept"] in {"governance", "authority_boundaries"} and m.get("recognized_as_canonical")
+                             for s in m["sources"] if s.get("currentness") == "current" and s.get("lifecycle_state") == "canonical"} if profile else None
+        proposal_review = evaluate_review(config, corpus, visible, decisions, profile.identity_hash if profile else None, authority_sources)
+        # A removed restriction is still known from the anchor. Re-anchoring alone
+        # cannot erase it; a new folder is not a decision approving its removal.
+        previous_decisions = anchor.get("governing_decisions", []) if anchor else []
+        for old in previous_decisions:
+            if not old.get("id") and not old.get("text") and any(not d.get("id") and not d.get("text") for d in decisions):
+                continue  # preserve one opaque existence notice, never accumulate it
+            if not any(same_restriction(old, d) for d in decisions):
+                retained = governing_constraints([old], corpus, visible)[0]
+                retained.update(status="unverifiable", missing_evidence="previous_restriction_omitted",
+                                limitation="dependent_proposal_not_sufficient")
+                decisions.append(retained)
+        hidden_refs = [r for d in config.get("governing_decisions", []) for r in d.get("citations", []) if r.get("path") not in visible]
+        hidden_refs += [r for key in ("constraint_refs", "authority_refs", "decision_refs")
+                        for r in config.get("review", {}).get(key, []) if r.get("path") not in visible]
+        privacy_limited = bool(config["source"].get("withheld_sources") or hidden_refs or
+                               (anchor and set(anchor["provenance"]["source_hashes"]) - visible))
         # Empty directories carry no invented canon; native Validator needs roots.
         for folder in ("docs", "SSOT", "ops", "templates"):
             (corpus / folder).mkdir(exist_ok=True)
         activation = ContextActivationPackageEngine(corpus, profile)
         versions = ContextVersionEngine(corpus, profile)
         checks = {}
-        if anchor:
+        if anchor and not privacy_limited and anchor.get("package"):
             checks["package"] = activation.check_package(anchor["package"])
             if anchor.get("version"):
                 checks["version"] = versions.check_version(anchor["version"])
@@ -238,17 +262,24 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
                              event_type="explicit_human_checkpoint", reason=reason or "Assisted work orientation",
                              capture_at=datetime.now(timezone.utc).isoformat(), goal=goal,
                              activation_package=package, activation_handoff=handoff,
-                             parent_version=anchor.get("version") if anchor else None,
+                             parent_version=anchor.get("version") if anchor and not privacy_limited else None,
                              additional_source_paths=sorted(allowed))
         version = versions.capture(plan, activation_package=package, activation_handoff=handoff,
-                                   parent_version=anchor.get("version") if anchor else None) if plan["status"] == "ready" else None
+                                   parent_version=anchor.get("version") if anchor and not privacy_limited else None) if plan["status"] == "ready" else None
         ownership = None
         if config.get("ownership") and (not profile or profile.data.get("work_ownership")):
             ownership = WorkOwnershipResolver(corpus, profile).run(**config["ownership"])
         disposition = ownership["result"]["disposition"] if ownership else "OWNERSHIP_UNKNOWN"
         if not ownership:
             gaps.append("Ownership coverage/mapping not established; existing work may still exist.")
-        fit = review_fit(config.get("review", {}), corpus, allowed)
+        fit = proposal_review["fit"]
+        uncertain_constraints = any(d["status"] == "unverifiable" for d in decisions)
+        if uncertain_constraints:
+            gaps.append("Known governing restriction unverifiable; dependent proposal is not sufficient.")
+            fit = "unverified_constraints"
+            proposal_review["fit"] = fit
+        if fit == "unverified_constraints":
+            gaps.append("Proposal review requires evidence or a new attributed judgement; re-anchor is not approval.")
         continuation = "review_existing_work_brief"
         if disposition in {"OWNERSHIP_UNKNOWN", "OWNERSHIP_CONFLICT"}:
             continuation = "clarify_ownership; do_not_create_duplicate_work"
@@ -258,20 +289,21 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
             continuation = "await_explicit_product_architecture_decision"
         elif fit == "unverified_constraints":
             continuation = "review_constraints_before_presenting_proposal"
-        decisions = [item for item in config.get("governing_decisions", [])
-                     if citations_valid(item.get("citations", []), corpus, allowed)]
-        if material and not reanchor:
+        if privacy_limited:
+            status = "needs_clarification"
+        elif material and not reanchor:
             status = "reanchor_required"
             # Stale operator interpretation must not masquerade as a fresh brief.
             claims = {}
-        elif not version or any(key not in claims for key in ("objective", "state", "next")):
+        elif not version or uncertain_constraints or fit == "unverified_constraints" or privacy_limited or any(key not in claims for key in ("objective", "state", "next")):
             status = "needs_clarification"
         else:
             status = "brief_prepared_for_review"
         record = {"status": status, "intent": goal, "target_id": config["target_id"],
-                  "claims": claims, "gaps": gaps, "interpretations": config.get("interpretations", []) if status != "reanchor_required" else [],
+                  "claims": claims, "gaps": gaps, "interpretations": config.get("interpretations", []) if status != "reanchor_required" and fit != "unverified_constraints" else [],
                   "proposal_fit": fit if status != "reanchor_required" else "reanchor_required",
-                  "governing_decisions": decisions if status != "reanchor_required" else [],
+                  "governing_decisions": decisions,
+                  "proposal_review": proposal_review,
                   "ownership_disposition": disposition, "ownership": ownership,
                   "continuation": continuation if status != "reanchor_required" else "review_material_change",
                   "provenance": provenance, "input_hash": stable_hash(config),
@@ -279,19 +311,31 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
                   "package": package, "handoff": handoff, "plan": plan, "version": version,
                   "prior_checks": checks, "changed_sources": changed_sources,
                   "prior_reference": anchor["version"]["id"] if anchor and anchor.get("version") else None,
-                  "history": "recovery; prior history unknown" if recover else "checked prior local anchor" if anchor else "no prior reference",
+                  "history": "recovery; prior history unknown" if recover else "checked prior partial orientation; prior protected context unknown" if anchor and anchor.get("runtime_details") else "checked prior local anchor" if anchor else "no prior reference",
                   "operator_review_reason": reason, "authority": "prepare_only; no implementation or canonical mutation authorized",
                   "human_measurements": None,
                   "source_acquisition_seconds": round(runtime_started - started, 4),
                   "runtime_seconds": round(time.perf_counter() - runtime_started, 4),
                   "total_seconds": round(time.perf_counter() - started, 4)}
+        if privacy_limited:
+            # Runtime artifacts may contain profile metadata or historical refs.
+            # Expose a safe partial brief, never those unsanitized structures.
+            for key in ("package", "handoff", "plan", "version", "ownership", "prior_reference", "profile_hash", "input_hash"):
+                record[key] = None
+            record.update(prior_checks={}, changed_sources=[p for p in changed_sources if p in visible],
+                          interpretations=[], runtime_details="withheld; scoped evidence review required")
+            record["gaps"].append("Runtime detail withheld to preserve visibility; orientation is partial.")
+            if hidden_refs:
+                record["proposal_review"] = {"fit": "unverified_constraints", "issues": ["evidence_not_visible"],
+                                             "execution_authorized": False}
+                record["proposal_fit"] = "unverified_constraints"
         if config["source"]["kind"] == "local_corpus":
             if any(file_hash(plain_path(target, p)) != h for p, h in allowed.items()):
                 raise ValueError("Local sources changed during the run; retry after stabilizing the corpus.")
         write_json(run_dir / "record.json", record)
         pointer = {"path": str((run_dir / "record.json").relative_to(workspace)), "hash": stable_hash(record)}
         write_json(workspace / "last.json", pointer)
-        if status != "reanchor_required" and (anchor is None or reanchor):
+        if not privacy_limited and status != "reanchor_required" and (anchor is None or reanchor):
             write_json(workspace / "anchor.json", pointer)
         return record
 
@@ -301,6 +345,7 @@ def render(record):
               "needs_clarification": "Orientación limitada: falta completar la evidencia.",
               "reanchor_required": "Hay un cambio material: revisar antes de continuar."}
     history = {"no prior reference": "Sin referencia anterior.", "checked prior local anchor": "Referencia local anterior comprobada.",
+               "checked prior partial orientation; prior protected context unknown": "Orientación parcial anterior comprobada; contexto protegido anterior desconocido.",
                "recovery; prior history unknown": "Nueva referencia tras pérdida de evidencia; historia anterior desconocida."}
     lines = [record["intent"], states[record["status"]], history[record["history"]]]
     if record["status"] == "reanchor_required":
@@ -316,8 +361,12 @@ def render(record):
                 shown.add(claim["text"])
         for item in record["interpretations"]:
             lines.append("Interpretación del operador, no verdad validada: " + item)
-        for item in record["governing_decisions"]:
-            review = "revisión declarada por " + item["checked_by"] if item.get("checked_by") else "leída; restricción no comprobada"
+    for item in record["governing_decisions"]:
+        if item.get("status") == "unverifiable":
+            lines.append("Restricción conocida, NO VERIFICABLE: " + item.get("text", "existencia conservada; detalle no disponible") +
+                         ". Falta: " + item["missing_evidence"] + ". La propuesta dependiente no es suficiente para continuar.")
+        else:
+            review = "cita comprobada; revisión semántica declarada por " + item["checked_by"] if item.get("checked_by") else "leída; restricción no comprobada"
             lines.append("Decisión rectora (" + review + "): " + item["text"])
     ownership = {"OWNERSHIP_UNKNOWN": "Responsable no resuelto; no inferir ausencia de trabajo.",
                  "OWNERSHIP_CONFLICT": "Hay responsables en conflicto; resolver antes de abrir trabajo.",
@@ -329,12 +378,27 @@ def render(record):
     fits = {"unverified_constraints": "Encaje no comprobado: revisar restricciones antes de presentar una propuesta.",
             "requires_product_architecture_decision": "La propuesta requiere una decisión explícita de producto/arquitectura.",
             "operator_declares_compatible; product_acceptance_not_inferred": "El operador declara encaje; aceptación de producto pendiente.",
-            "human_declared_approved_exception; bounded_to_cited_decision": "Excepción declarada aprobada por una persona, limitada a la decisión citada."}
+            "documented_human_exception; authenticity_not_verified": "Excepción humana documentada y vinculada al alcance; autenticidad no verificada. No autoriza ejecución."}
     if record["proposal_fit"] in fits:
         lines.append(fits[record["proposal_fit"]])
+    review = record.get("proposal_review", {})
+    proposal = review.get("proposal")
+    if isinstance(proposal, dict):
+        lines.append("Propuesta " + proposal.get("version", "sin versión") + ": " + proposal.get("content", "desconocida"))
+        lines.append("Alcance: " + proposal.get("scope", "desconocido") + "; autor declarado: " + proposal.get("author", "desconocido"))
+    if review.get("judgement"):
+        lines.append("Juicio semántico de " + review["judgement"].get("reviewed_by", "actor desconocido") + ": " +
+                     review["judgement"].get("rationale", "sin justificación; no comprobado"))
+    if review.get("review_relationship") == "self_review":
+        lines.append("Autoevaluación del autor; no es una revisión independiente.")
+    if review.get("decision"):
+        d = review["decision"]
+        lines.append("Decisión documental de " + d["human_owner"] + "; alcance " + d["scope"] + "; vigente hasta " + d["valid_until"] + ".")
+    for issue in review.get("issues", []):
+        lines.append("Revisión pendiente: " + issue)
     if record["changed_sources"]:
         lines.append("Fuentes con cambios: " + str(len(record["changed_sources"])) + "; ver detalle.")
-    elif record["history"] == "checked prior local anchor":
+    elif record["history"] == "checked prior local anchor" and not record.get("runtime_details"):
         lines.append("Sin cambios materiales en las fuentes permitidas respecto a la referencia.")
     required = {"objective": "objetivo", "state": "estado", "next": "siguiente decisión/condición"}
     missing = [label for key, label in required.items() if key not in record["claims"]]

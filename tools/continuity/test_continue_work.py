@@ -10,7 +10,7 @@ import unittest
 from unittest.mock import patch
 
 from continue_work import ROOT, read_json, run, write_json
-from synthetic_example import create
+from synthetic_example import accept_synthetic_exception, bind_review, create
 
 
 class ContinuityTest(unittest.TestCase):
@@ -73,6 +73,7 @@ class ContinuityTest(unittest.TestCase):
         self.config["source"]["root"] = str(native_root)
         self.config["source"]["visible_sources"] = sorted(str(p.relative_to(native_root)) for p in native_root.rglob("*") if p.is_file())
         del self.config["profile"]
+        bind_review(self.config)
         self.save()
         self.assertEqual(run(self.workspace)["status"], "brief_prepared_for_review")
 
@@ -111,7 +112,8 @@ class ContinuityTest(unittest.TestCase):
         self.assertEqual(report["status"], "reanchor_required")
         self.assertEqual(report["claims"], {})
         code, report = self.process("--reanchor", "--reason", "Synthetic operator reviewed added constraint")
-        self.assertEqual(code, 0)
+        self.assertEqual(code, 2)  # a re-anchor is not a fresh review of changed constraints
+        self.assertEqual(report["proposal_fit"], "unverified_constraints")
         self.assertEqual(report["changed_sources"], ["docs/work.md"])
 
     def test_withheld_evidence_never_read_or_exposed(self):
@@ -183,7 +185,9 @@ class ContinuityTest(unittest.TestCase):
 
     def test_semantic_fit_is_operator_declared_and_different(self):
         self.assertEqual(run(self.workspace)["proposal_fit"], self.oracle["proposal_A"])
-        self.config["review"].update(proposal="B: dominant summary demotes feed", fit="conflict")
+        self.config["proposal"].update(content="B: dominant summary demotes feed", version="B.1")
+        self.config["review"].update(fit="conflict", rationale="Synthetic reviewer identifies the inversion of primary surface.")
+        bind_review(self.config)
         self.save()
         self.assertEqual(run(self.workspace, reanchor=True, reason="Synthetic reviewed proposal B")["proposal_fit"], self.oracle["proposal_B"])
 
@@ -194,9 +198,7 @@ class ContinuityTest(unittest.TestCase):
         self.assertEqual(run(self.workspace)["proposal_fit"], "unverified_constraints")
 
     def test_explicit_architectural_exception_permits_governed_evolution(self):
-        self.config["review"].update(proposal="B: dominant summary", fit="approved_exception", human_approver="synthetic product steward",
-                                    authority_verified_by="synthetic human reviewer", independent_of_candidate=True,
-                                    decision_refs=[{"path": "docs/decision.md", "quote": "Product steward explicitly accepts proposal B"}])
+        accept_synthetic_exception(self.config)
         self.save()
         self.assertEqual(run(self.workspace)["proposal_fit"], self.oracle["proposal_B_accepted_exception"])
 

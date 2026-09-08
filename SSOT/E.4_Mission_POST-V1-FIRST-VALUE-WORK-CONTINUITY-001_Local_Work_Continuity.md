@@ -1,8 +1,8 @@
 # E.4 Mission POST-V1-FIRST-VALUE-WORK-CONTINUITY-001 — Local Work Continuity
-## Version: 0.1.0
+## Version: 0.2.0
 Last Updated: 2026-09-08
 Owner: Context OS Maintainers
-Status: RECORRIDO_LISTO_PARA_PRUEBA_CON_USUARIO; local, unpublished
+Status: CORRECCION_LOCAL_BLOQUEADA_TRAS_3_CICLOS_QA; local, unpublished
 
 ## Mission Packet
 
@@ -13,12 +13,12 @@ mission_packet:
   goal: POST-V1-FIRST-VALUE-WORK-CONTINUITY
   owner: Context OS Maintainers
   orchestrator: Codex
-  status: implementation_ready_for_user_trial
-  authority: bounded_contextos_implementation_tests_docs_and_one_local_commit
+  status: bounded_correction_blocked_after_three_qa_cycles
+  authority: bounded_correction_tests_docs_and_one_descendant_local_commit
   base_sha: 890df808761ec4e82be1e237d0d2a6009e2a1a99
   constraints:
     - no_push_pr_merge_tag_release_or_next_mission
-    - separately_authorized_external_documentary_read_only
+    - no_new_external_target_access_in_correction
     - no_target_code_execution_mutation_or_customer_data
     - no_private_target_content_in_public_fixtures_or_docs
     - no_implicit_architecture_approval_or_new_work
@@ -73,17 +73,19 @@ progress. Source-specific private details are excluded here.
 The synthetic oracle fixes a card feed as the main surface, an existing Mission
 and a product steward. Proposal A preserves the feed; proposal B introduces a
 dominant summary. A declared constraint review separates their fit. An explicit
-independently verified human exception can permit proposal B's bounded evolution.
+human exception can permit proposal B's bounded evolution under actual policy.
 Unreviewed proposals and a candidate's own documentation do not count as accepted.
 The Runtime checks quote/source bindings and declared review evidence; it does
 not understand architectural hierarchy or verify a human's identity. Codex or
 a person must interpret the conflict and verify the actual decision authority.
 
-This requirement is implemented within the same slice as attributed review
-inputs and acceptance tests. No roadmap phase or target feature changed because
-of the retrospective. Tests do not certify the quality of that interpretation.
+The first implementation used attributed review inputs but acceptance review
+found that unverifiable restrictions disappeared and self-declared exceptions
+could appear approved. The correction below supersedes that sufficiency claim.
+No roadmap phase or target feature changed because of the retrospective. Tests
+do not certify semantic judgement or human authority authenticity.
 
-## Verification and demonstration
+## Original candidate verification and demonstration (historical)
 
 The fixture oracle is defined before execution, independently of generated
 output. Cases include
@@ -103,13 +105,16 @@ missing/altered local evidence, source symlinks, target separation and zero writ
 | Machine/guide route | Pure JSON for success and blocked states; separate processes, re-anchor, missing-evidence recovery and documented example commands exercised | These are technical demonstrations, not simulated user measurements |
 | Authority and no-write boundary | Implementation and reference repository-bound preflights passed; reference published SHA and complete status fingerprint unchanged | Status fingerprint is not a full content audit of unrelated dirty work |
 
-The first benchmark invocation without a fixed timestamp returned 22/23,
+The original candidate's first benchmark invocation without a fixed timestamp returned 22/23,
 with the advisory reasoning recheck failing. A diagnostic repeat without a
 fixed timestamp and the controlled invocation both returned 23/23. The original
 intermittent mismatch is retained in local evidence; its root cause is not
-established here. The repeatable benchmark protocol uses
-`--generated-at 2026-09-08T18:00:00Z`. No existing reasoning engine was changed or
-claimed universally repeatable on the strength of the passing run. An initial
+established at delivery. The later acceptance review reproduced a pre-existing
+temporal consistency defect on both baseline and candidate: memory evaluates
+at T, the enclosing assessment can finish at T+1, and its recheck changes the
+memory binding despite unchanged sources. A fixed `--generated-at` is a
+diagnostic control, not a normal-use workaround or a repair. No existing
+reasoning engine was changed. An initial
 documentation selector typo was corrected to the registered selectors above.
 
 The authorized external demonstration reads six governing documents at freshly
@@ -146,13 +151,112 @@ not pass Gate 2, advance another phase or start a target Mission. Product
 acceptance and outcome claims remain pending. Publication requires separate
 human acceptance and exact repository-bound commit authorization.
 
-Delivered status: **RECORRIDO_LISTO_PARA_PRUEBA_CON_USUARIO**. The authorized
+Original delivered status was **RECORRIDO_LISTO_PARA_PRUEBA_CON_USUARIO**. The authorized
 implementation, controlled verification, limited external demonstration and
 trial preparation are complete locally. Human product acceptance, measured
 benefit and independent Gate 2 adoption remain unperformed. The changed surfaces
 are the composition script, synthetic setup/oracle, continuity tests, this
 Mission, the adoption guide, the README entry and the roadmap work-status link.
 
+## Bounded correction after acceptance review
+
+The original candidate is `9a49a0f3b64c79ff865b42f67f7cd87dad246112`, a direct
+descendant of published `890df808761ec4e82be1e237d0d2a6009e2a1a99`.
+The repository-bound preflight returned Buggeek for Buggeek/ContextOS; branch
+`codex/first-value-work-continuity`, remote base and clean tree matched before
+edits. The user authorized one new local corrective commit, preserving the
+original and its separate acceptance-review report. Publication and new target
+access remain unauthorized. No Memory/Reasoning engine or target profile changes
+belong to this correction.
+
+Criteria were fixed before implementation in the private correction evidence;
+its SHA-256 is `7d048563abe5a6f68f0e076d70137f52bd1f4d3fc2fcc8e8d21f7b37a8d77282`.
+They preserve the original task and the supplied retrospective scenario:
+
+| Reproduced failure / required counterexample | Fixed corrective criterion | Negative evidence required |
+|---|---|---|
+| Invalid quote silently removes a governing restriction | Preserve existence and permitted provenance, show unverifiable support and dependent limitation | Invalid quote, absent/changed document, omitted known restriction |
+| Protected evidence exposed while explaining gaps | Generic existence only; no protected content or metadata in human/JSON | Withheld references and revoked visibility, including historical Runtime detail |
+| Changed proposal inherits compatible label | Bind exact proposal/version/scope, governing context and attributed judgement | Retained fit after proposal/context/review change; re-anchor cannot repair review |
+| Self-declaration becomes human exception | Separate exact decision, documentary authority, scope and live validity | Agent self-approval, candidate role, missing/invalid/out-of-scope decision, rule used as its own exception |
+| Self-review called independent | Show self-review; distinct names are not authenticated independence | Same author and reviewer with independence flag |
+| Governed evolution frozen | Permit documentary evidence of a bounded human exception under existing policy | Founder may author/approve if policy permits; expired or changed grants/decisions cannot be reused |
+| Green tests substitute for fit/acceptance | Keep structural evidence separate from semantic and human acceptance | Synthetic A preserves card feed; B changes hierarchy; Codex/human judgement remains explicit |
+
+The patch reuses source quotes, stable hashes, the approved Adoption Profile,
+existing authority boundaries and the local derived record. Exact review
+bindings follow the repository's existing draft-review/decision invalidation
+pattern, without invoking draft promotion or adding a Runtime schema. The
+small presentation adapter corroborates documentary declarations; it cannot
+authenticate who created a document or judge whether prose was interpreted
+correctly. An operator must recognize the actual authority source and record a
+new review after material changes. Re-anchoring cannot grant that approval.
+
+Exception evidence is conservative: structured documentary quotations and a
+separate decision source are required by this adapter. Pure prose or co-located
+evidence remains a clarification need. This limitation does not change actual
+organizational authority or forbid a human founder's policy-permitted approval.
+Fixture approvals are synthetic and confer no real authority.
+
+Separate read-only QA is bounded to three cycles against the unchanged criteria.
+Its actor is distinct from the patch author but is still an AI reviewer, not a
+human acceptance decision or an independent Gate 2 operator. Results and final
+verification are recorded below at correction closeout.
+
+### Correction closeout: criterion still unmet
+
+Three separate AI review cycles were completed. Cycle 1 found mixed-citation
+privacy leakage and a false permanent restriction omission after legitimate
+review. Cycle 2 confirmed those fixes and found loss of a usable anchor during
+visibility withdrawal. Cycle 3 confirmed those fixes but reproduced a **P1**:
+a new, visible, identified restriction observed in a later partial orientation
+is stored only in the last record. A subsequent return reads the older anchor;
+if the input omits the new restriction, it disappears without a gap, even though
+its literal rule remains in the permitted source. Rebinding the reduced input
+is not a decision authorizing that removal. This violates the fixed criterion.
+
+No fourth patch or QA cycle was performed. The local corrective commit preserves
+the verified improvements and the failure evidence; it is **not ready for the
+human sufficiency trial**. The next corrective authorization must cover retaining
+the newest known restrictions alongside the usable anchor, using existing local
+artifacts and integrity/visibility checks. This is pending work in this Mission,
+not a new Mission, a roadmap change or authorization to implement now.
+
+| Final evidence class | Result | Limit |
+|---|---|---|
+| Specific tests | 54/54 | Separate QA still found an uncovered P1; green tests are not conformity |
+| Full regression | 433/433 across 43 programs | 379 existing plus 54 continuity cases; no human acceptance |
+| Separate QA | Three cycles, final FAIL | Exact implementation hashes checked; AI review is not human authority |
+| Benchmark default | Final 23/23; earlier correction cycles 22/23 | Timing-dependent defect remains |
+| Benchmark controlled time | 23/23 | Diagnostic control, not a repair |
+| Benchmark forced second crossing | 22/23, one release blocker | Pre-existing Memory/Reasoning consistency defect reproduced |
+| Validator and documentation | Gate: 0 errors/fatals, 38 warnings and 1 info; docs: 0 errors/fatals, 84 warnings; links: 0 errors/fatals, 78 warnings | Existing advisories retained |
+| Machine output and diff | JSON success/clarification/error parsing and git diff --check pass | Output validity does not prove product fit |
+
+No criteria were weakened. Later documentation changes record this failed
+closeout only; implementation remained frozen after cycle 3 review. The separate
+review also records that a folder born with an anonymous protected restriction
+offers partial orientation only: full identity reconciliation is not delivered.
+This limitation does not excuse the P1 affecting a visible, known restriction.
+
+The corrected documentary brief is derived only from the six previously saved
+source copies. It retains the thirteen missing profile documents, unknown
+normalized ownership, blocked full Context Version and historical provenance.
+It offers limited orientation, without refreshed target currentness or new
+target access. It is not evidence of complete external adoption.
+
+The temporal defect remains outside this authority: the normal continuity route
+does not call ContextualAssessmentEngine and checks exception expiry against
+the current clock. Default benchmark failures remain release blockers; any
+engine fix needs separate bounded authorization before publication can claim
+the integrated gate passes. Freezing a timestamp does not satisfy that gate.
+
+Human acceptance, publication and Gate 2 remain pending; the proposed 5/2/5
+minute thresholds are neither agreed nor measured. No savings, independent
+adoption or business value are claimed. No next Mission or roadmap change is
+authorized by this correction.
+
 ## Change Log
 
 - 2026-09-08 — v0.1.0 — Local assisted continuity implementation and bounded acceptance scenarios.
+- 2026-09-08 — v0.2.0 — Bounded correction of restriction retention and exact proposal/exception review after separate acceptance findings; prior candidate/report preserved.

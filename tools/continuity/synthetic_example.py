@@ -4,9 +4,13 @@
 This is test/demo setup, not an organization generator or target mapping approval.
 """
 import argparse
+import json
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from continue_work import write_json
-from adoption_engine.profile import REQUIRED_CONCEPTS
+from adoption_engine import AdoptionProfile
+from adoption_engine.profile import REQUIRED_CONCEPTS, file_hash
+from review_evidence import review_binding
 
 DOCUMENT = """# Synthetic community support work
 Owner: Product steward
@@ -25,6 +29,32 @@ summary surface, replacing feed primacy for the pilot. Review before broadening.
 """
 
 
+def bind_review(config):
+    """Fixture/operator helper AFTER an explicit review; never used by return."""
+    config["review"]["binding"] = review_binding(config, Path(config["source"]["root"]),
+        set(config["source"]["visible_sources"]), AdoptionProfile(config["profile"]).identity_hash if config.get("profile") else None)
+
+
+def accept_synthetic_exception(config, *, founder_authors=False):
+    """Predetermined fixture decision only; this cannot approve real architecture."""
+    proposal = config["proposal"]
+    proposal.update(id="B", version="B.1", content="B: dominant summary demotes the feed for the support pilot")
+    if founder_authors:
+        proposal["author"] = "synthetic-product-steward"
+    review = config["review"]
+    review.update(fit="approved_exception", rationale="Synthetic human decision accepts this exact hierarchy exception for the pilot.")
+    binding = review_binding(config, Path(config["source"]["root"]), set(config["source"]["visible_sources"]),
+                             AdoptionProfile(config["profile"]).identity_hash)
+    now = datetime.now(timezone.utc)
+    decision = {"human_owner": "synthetic-product-steward", "outcome": "accepted", "scope": proposal["scope"],
+                "proposal_hash": binding["proposal_hash"], "governing_context_hash": binding["governing_context_hash"],
+                "valid_from": (now - timedelta(days=1)).isoformat(), "valid_until": (now + timedelta(days=1)).isoformat()}
+    quote = json.dumps(decision, sort_keys=True)
+    (Path(config["source"]["root"]) / "docs/decision.md").write_text(DECISION + "\n" + quote + "\n")
+    review["decision_refs"] = [{"path": "docs/decision.md", "quote": quote}]
+    bind_review(config)
+
+
 def create(base):
     base = Path(base).resolve()
     base.mkdir(parents=True, exist_ok=False)
@@ -33,12 +63,18 @@ def create(base):
     workspace.mkdir(mode=0o700)
     (corpus / "docs/work.md").write_text(DOCUMENT)
     (corpus / "docs/decision.md").write_text(DECISION)
+    now = datetime.now(timezone.utc)
+    authority = {"actor": "synthetic-product-steward", "actor_kind": "human", "role": "Product steward",
+                 "capability": "architecture_exception", "scope": "support/pilot", "allow_self_approval": True,
+                 "valid_from": (now - timedelta(days=1)).isoformat(), "valid_until": (now + timedelta(days=2)).isoformat()}
+    authority_quote = json.dumps(authority, sort_keys=True)
+    (corpus / "docs/authority.md").write_text("# Synthetic existing human authority\n" + authority_quote + "\n")
     profile = {"schema": "contextos.adoption.profile/1", "id": "profile.synthetic-support",
                "version": "1.0", "target": {"id": "synthetic-support", "scope": "repository"},
                "lifecycle": {"state": "approved", "target_ssot": False},
                "authority": {"owner": "synthetic-product-steward"},
                "mappings": [{"concept": c, "support": "declared", "recognized_as_canonical": True,
-                             "sources": [{"locator": "docs/work.md", "authority_owner": "synthetic-product-steward",
+                             "sources": [{"locator": "docs/authority.md" if c in {"governance", "authority_boundaries"} else "docs/work.md", "authority_owner": "synthetic-product-steward",
                                           "lifecycle_state": "canonical", "currentness": "current",
                                           "applicable_operations": ["activation", "context_version"]}]} for c in REQUIRED_CONCEPTS],
                "validation": {"rules": {"structure.synthetic": {"applicability": "unknown", "enforcement": "none",
@@ -50,7 +86,7 @@ def create(base):
         return {"text": text, "citations": [{"path": "docs/work.md", "quote": text}]}
     config = {"target_id": "synthetic-support", "intent": "Retomar continuidad de voluntarios (sintético)",
               "profile": str(base / "profile.json"),
-              "source": {"kind": "local_corpus", "root": str(corpus), "visible_sources": ["docs/work.md", "docs/decision.md"]},
+              "source": {"kind": "local_corpus", "root": str(corpus), "visible_sources": ["docs/work.md", "docs/decision.md", "docs/authority.md"]},
               "claims": {"objective": claim("Help returning volunteers understand their next support decision."),
                          "audience": claim("Help returning volunteers understand their next support decision."),
                          "state": claim("Mission M-7 is active; owner is the support team."),
@@ -59,10 +95,13 @@ def create(base):
                          "value": claim("Help returning volunteers understand their next support decision."),
                          "indicator": claim("Candidate indicator: correct understanding in an observed return session.")},
               "interpretations": ["In-card continuity appears compatible; this is an operator interpretation, not automatic semantic validation. Baseline and causal contribution unknown."],
-              "governing_decisions": [{"text": "Preserve the card feed as the main surface; changing its hierarchy needs an explicit product decision.",
+              "governing_decisions": [{"id": "primary-card-feed", "text": "Preserve the card feed as the main surface; changing its hierarchy needs an explicit product decision.",
                                        "checked_by": "synthetic operator", "check_scope": "proposal A compared against the cited integration boundary",
                                        "citations": [{"path": "docs/work.md", "quote": "Add continuity within existing cards; do not demote the feed."}]}],
-              "review": {"proposal": "A: add continuity to existing cards", "fit": "compatible", "reviewed_by": "synthetic-Codex-reviewer",
+              "proposal": {"id": "A", "version": "A.1", "content": "A: add continuity to existing cards", "author": "synthetic-Codex-author", "scope": "support/pilot"},
+              "review": {"fit": "compatible", "reviewed_by": "synthetic-Codex-reviewer",
+                         "rationale": "The in-card proposal preserves the primary feed; this is a synthetic operator judgement, not Runtime semantics.",
+                         "authority_refs": [{"path": "docs/authority.md", "quote": authority_quote}],
                          "constraint_refs": [{"path": "docs/work.md", "quote": "The principal experience is a feed of cards. Preserve its primacy."}]},
               "ownership": {"need": {"id": "need.return", "statement": "Returning volunteer continuity", "scope": "support", "evidence_refs": ["source.work"]},
                             "work_items": [{"id": "M-7", "kind": "mission", "title": "Returning volunteer continuity", "owner": "support team",
@@ -72,12 +111,16 @@ def create(base):
                             "source_declarations": [{"id": "source.work", "locator": "docs/work.md", "concept": "active_work"}],
                             "coverage": {"status": "complete", "scope": "support", "source_ids": ["source.work"],
                                          "authority_status": "governed_test_coverage", "evidence_refs": ["source.work"]}}}
+    for item in config["governing_decisions"]:
+        for ref in item["citations"]:
+            ref["source_hash"] = file_hash(corpus / ref["path"])
+    bind_review(config)
     write_json(workspace / "work.json", config)
     # Defined before execution; assertions are not generated from the result.
     write_json(base / "oracle.json", {"synthetic": True, "expected_owner": "M-7", "existing_work": True,
                                      "proposal_A": "operator_declares_compatible; product_acceptance_not_inferred",
                                      "proposal_B": "requires_product_architecture_decision",
-                                     "proposal_B_accepted_exception": "human_declared_approved_exception; bounded_to_cited_decision",
+                                     "proposal_B_accepted_exception": "documented_human_exception; authenticity_not_verified",
                                      "business_value_measured": False, "execution_authorized": False})
     return workspace
 
