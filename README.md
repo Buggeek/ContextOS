@@ -39,6 +39,11 @@ bounds and gaps: exit 0 can coexist with warnings or unknowns. See
 [installation](docs/4.x_adoption/4.5_COS_Runtime_Installation.md) for target use,
 report checks and advanced APIs.
 
+To resume one bounded front across processes, see the assisted
+[local work continuity route](docs/4.x_adoption/4.7_COS_Local_Work_Continuity.md).
+It prepares a sourced brief and rechecks saved context; technical setup and
+human interpretation remain explicit, and the user trial is pending.
+
 ## Adoption journey
 
 Map one work need and its sources → assess gaps → prepare a checked brief →
