@@ -26,7 +26,8 @@ from adoption_engine import AdoptionProfile
 from adoption_engine.profile import file_hash, safe_locator, stable_hash
 from memory_engine import ContextVersionEngine
 from reasoning_engine import WorkOwnershipResolver
-from review_evidence import citation_problem, evaluate_review, governing_constraints, same_restriction
+from review_evidence import citation_problem, evaluate_review, governing_constraints
+from observations import reconcile, work_binding
 
 
 def read_json(path):
@@ -152,7 +153,8 @@ def load_anchor(workspace, recover, visible=None):
         record = read_json(path)
         if stable_hash(record) != reference["hash"]:
             raise ValueError("Local evidence integrity mismatch.")
-        if partial_pointer and not record.get("runtime_details"):
+        if partial_pointer and not record.get("runtime_details") and (
+                record.get("anchor_eligible", True) or record.get("usable_anchor_expected", False)):
             raise ValueError("A usable anchor was lost; explicit recovery required.")
         for locator, fingerprint in record["provenance"]["source_hashes"].items():
             if visible is not None and locator not in visible:
@@ -164,6 +166,26 @@ def load_anchor(workspace, recover, visible=None):
         if recover:
             return None
         raise ValueError("Local evidence missing or altered. Explicit --recover required; do not invent history.") from exc
+
+
+def load_observation(workspace, visible, recover):
+    """The last observation is independent of the accepted Runtime anchor."""
+    if not any((workspace / name).exists() for name in ("runs", "last.json", "anchor.json")):
+        return None, False
+    try:
+        pointer = read_json(workspace / "last.json")
+        path = plain_path(workspace, pointer["path"])
+        record = read_json(path)
+        if stable_hash(record) != pointer["hash"]:
+            raise ValueError("Observation integrity mismatch")
+        for locator, fingerprint in record["provenance"]["source_hashes"].items():
+            if locator in visible and file_hash(plain_path(path.parent / "corpus", locator)) != fingerprint:
+                raise ValueError("Observation source integrity mismatch")
+        return record, bool(record.get("observation_history_gap"))
+    except (ValueError, OSError, KeyError, TypeError) as exc:
+        if recover:
+            return None, True
+        raise ValueError("Later observation evidence missing or altered; restore permitted evidence or explicitly recover with uncertainty.") from exc
 
 
 def run(workspace, *, reanchor=False, reason=None, recover=False):
@@ -182,8 +204,12 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
         os.chmod(workspace / ".lock", 0o600)
         fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
         visible = set(config["source"]["visible_sources"])
+        latest, history_gap = load_observation(workspace, visible, recover)
         anchor = load_anchor(workspace, recover, visible)
-        if recover and anchor is not None and not anchor.get("runtime_details"):
+        if recover and anchor is None and latest is not None:
+            history_gap = True
+        usable_anchor = anchor is not None and (workspace / "anchor.json").is_file()
+        if recover and usable_anchor and not history_gap:
             raise ValueError("The local anchor is intact. Use ordinary return or a reviewed re-anchor.")
         if anchor and (anchor["target_id"] != config["target_id"] or
                        anchor["provenance"]["root"] != str(target) or
@@ -195,6 +221,17 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
             raise ValueError("Adoption Profile is not approved for this target.")
         if config["source"]["kind"] == "published_git_docs" and not profile:
             raise ValueError("Published external sources require an approved Adoption Profile.")
+        binding = work_binding(config, profile.identity_hash if profile else None)
+        for previous in (anchor, latest):
+            if previous and previous.get("work_binding") and previous["work_binding"] != binding:
+                raise ValueError("Saved observations belong to a different target, profile, front or scope; use a separate continuity folder.")
+            if previous and not previous.get("work_binding"):
+                if (previous.get("target_id") != config["target_id"] or previous.get("intent") != config["intent"]
+                        or previous.get("provenance", {}).get("root") != str(target)
+                        or previous.get("provenance", {}).get("repository") != config["source"].get("repository")
+                        or previous.get("profile_hash") != (profile.identity_hash if profile else None)
+                        or previous.get("proposal_review", {}).get("proposal", {}).get("scope") != config.get("proposal", {}).get("scope")):
+                    raise ValueError("Legacy observation scope differs or cannot be verified; use a separate continuity folder.")
         run_dir = workspace / "runs" / uuid4().hex
         corpus = run_dir / "corpus"
         corpus.mkdir(parents=True, mode=0o700)
@@ -211,21 +248,19 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
                              if m["concept"] in {"governance", "authority_boundaries"} and m.get("recognized_as_canonical")
                              for s in m["sources"] if s.get("currentness") == "current" and s.get("lifecycle_state") == "canonical"} if profile else None
         proposal_review = evaluate_review(config, corpus, visible, decisions, profile.identity_hash if profile else None, authority_sources)
-        # A removed restriction is still known from the anchor. Re-anchoring alone
-        # cannot erase it; a new folder is not a decision approving its removal.
-        previous_decisions = anchor.get("governing_decisions", []) if anchor else []
-        for old in previous_decisions:
-            if not old.get("id") and not old.get("text") and any(not d.get("id") and not d.get("text") for d in decisions):
-                continue  # preserve one opaque existence notice, never accumulate it
-            if not any(same_restriction(old, d) for d in decisions):
-                retained = governing_constraints([old], corpus, visible)[0]
-                retained.update(status="unverifiable", missing_evidence="previous_restriction_omitted",
-                                limitation="dependent_proposal_not_sufficient")
-                decisions.append(retained)
+        anchor_items = anchor.get("observations", anchor.get("governing_decisions", [])) if anchor else []
+        latest_items = latest.get("observations", latest.get("governing_decisions", [])) if latest else []
+        if anchor and latest and latest.get("protected_observations_covered_by_anchor"):
+            # This notice represents only exact observations still held by the
+            # preserved anchor. Re-evaluate that anchor under today's visibility.
+            latest_items = [d for d in latest_items if d.get("missing_evidence") != "evidence_not_visible"]
+        observations, decisions, protected_observations, covered_by_anchor = reconcile(
+            config.get("governing_decisions", []), [*anchor_items, *latest_items],
+            proposal_review, corpus, visible, history_gap, anchor_items)
         hidden_refs = [r for d in config.get("governing_decisions", []) for r in d.get("citations", []) if r.get("path") not in visible]
-        hidden_refs += [r for key in ("constraint_refs", "authority_refs", "decision_refs")
+        hidden_refs += [r for key in ("constraint_refs", "authority_refs", "decision_refs", "observation_refs")
                         for r in config.get("review", {}).get(key, []) if r.get("path") not in visible]
-        privacy_limited = bool(config["source"].get("withheld_sources") or hidden_refs or
+        privacy_limited = bool(config["source"].get("withheld_sources") or hidden_refs or protected_observations or
                                (anchor and set(anchor["provenance"]["source_hashes"]) - visible))
         # Empty directories carry no invented canon; native Validator needs roots.
         for folder in ("docs", "SSOT", "ops", "templates"):
@@ -303,6 +338,11 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
                   "claims": claims, "gaps": gaps, "interpretations": config.get("interpretations", []) if status != "reanchor_required" and fit != "unverified_constraints" else [],
                   "proposal_fit": fit if status != "reanchor_required" else "reanchor_required",
                   "governing_decisions": decisions,
+                  "observations": observations, "observation_history_gap": history_gap,
+                  "protected_observations_covered_by_anchor": covered_by_anchor,
+                  "work_binding": binding,
+                  "anchor_eligible": not privacy_limited and not uncertain_constraints and status != "reanchor_required",
+                  "usable_anchor_expected": usable_anchor,
                   "proposal_review": proposal_review,
                   "ownership_disposition": disposition, "ownership": ownership,
                   "continuation": continuation if status != "reanchor_required" else "review_material_change",
@@ -311,7 +351,7 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
                   "package": package, "handoff": handoff, "plan": plan, "version": version,
                   "prior_checks": checks, "changed_sources": changed_sources,
                   "prior_reference": anchor["version"]["id"] if anchor and anchor.get("version") else None,
-                  "history": "recovery; prior history unknown" if recover else "checked prior partial orientation; prior protected context unknown" if anchor and anchor.get("runtime_details") else "checked prior local anchor" if anchor else "no prior reference",
+                  "history": "recovery; prior history unknown" if recover else "checked prior partial orientation; prior protected context unknown" if anchor and anchor.get("runtime_details") else "checked prior limited observation; no accepted anchor" if anchor and not usable_anchor else "checked prior local anchor" if anchor else "no prior reference",
                   "operator_review_reason": reason, "authority": "prepare_only; no implementation or canonical mutation authorized",
                   "human_measurements": None,
                   "source_acquisition_seconds": round(runtime_started - started, 4),
@@ -325,7 +365,7 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
             record.update(prior_checks={}, changed_sources=[p for p in changed_sources if p in visible],
                           interpretations=[], runtime_details="withheld; scoped evidence review required")
             record["gaps"].append("Runtime detail withheld to preserve visibility; orientation is partial.")
-            if hidden_refs:
+            if hidden_refs or protected_observations:
                 record["proposal_review"] = {"fit": "unverified_constraints", "issues": ["evidence_not_visible"],
                                              "execution_authorized": False}
                 record["proposal_fit"] = "unverified_constraints"
@@ -335,7 +375,7 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
         write_json(run_dir / "record.json", record)
         pointer = {"path": str((run_dir / "record.json").relative_to(workspace)), "hash": stable_hash(record)}
         write_json(workspace / "last.json", pointer)
-        if not privacy_limited and status != "reanchor_required" and (anchor is None or reanchor):
+        if not privacy_limited and not uncertain_constraints and status != "reanchor_required" and (anchor is None or reanchor):
             write_json(workspace / "anchor.json", pointer)
         return record
 
@@ -345,6 +385,7 @@ def render(record):
               "needs_clarification": "Orientación limitada: falta completar la evidencia.",
               "reanchor_required": "Hay un cambio material: revisar antes de continuar."}
     history = {"no prior reference": "Sin referencia anterior.", "checked prior local anchor": "Referencia local anterior comprobada.",
+               "checked prior limited observation; no accepted anchor": "Observación limitada anterior comprobada; sin referencia rectora aceptada.",
                "checked prior partial orientation; prior protected context unknown": "Orientación parcial anterior comprobada; contexto protegido anterior desconocido.",
                "recovery; prior history unknown": "Nueva referencia tras pérdida de evidencia; historia anterior desconocida."}
     lines = [record["intent"], states[record["status"]], history[record["history"]]]
@@ -368,6 +409,10 @@ def render(record):
         else:
             review = "cita comprobada; revisión semántica declarada por " + item["checked_by"] if item.get("checked_by") else "leída; restricción no comprobada"
             lines.append("Decisión rectora (" + review + "): " + item["text"])
+    for item in record.get("observations", []):
+        if item.get("disposition") in {"rejected", "not_applicable", "superseded"}:
+            lines.append("Observación resuelta (" + item["disposition"] + "): " + item["text"] +
+                         "; disposición documental, autenticidad no verificada.")
     ownership = {"OWNERSHIP_UNKNOWN": "Responsable no resuelto; no inferir ausencia de trabajo.",
                  "OWNERSHIP_CONFLICT": "Hay responsables en conflicto; resolver antes de abrir trabajo.",
                  "OBSERVE_EXISTING_WORK": "Continuar dentro del trabajo existente; no duplicarlo.",

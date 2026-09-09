@@ -1,8 +1,8 @@
 # E.4 Mission POST-V1-FIRST-VALUE-WORK-CONTINUITY-001 — Local Work Continuity
-## Version: 0.2.0
+## Version: 0.3.0
 Last Updated: 2026-09-08
 Owner: Context OS Maintainers
-Status: CORRECCION_LOCAL_BLOQUEADA_TRAS_3_CICLOS_QA; local, unpublished
+Status: CORRECCION_LOCAL_VERIFICADA_EN_ESCENARIOS_ACOTADOS; local, unpublished; human trial pending
 
 ## Mission Packet
 
@@ -13,7 +13,7 @@ mission_packet:
   goal: POST-V1-FIRST-VALUE-WORK-CONTINUITY
   owner: Context OS Maintainers
   orchestrator: Codex
-  status: bounded_correction_blocked_after_three_qa_cycles
+  status: verifying
   authority: bounded_correction_tests_docs_and_one_descendant_local_commit
   base_sha: 890df808761ec4e82be1e237d0d2a6009e2a1a99
   constraints:
@@ -256,7 +256,80 @@ minute thresholds are neither agreed nor measured. No savings, independent
 adoption or business value are claimed. No next Mission or roadmap change is
 authorized by this correction.
 
+## New bounded A/B corrective window
+
+After the preceding failed closeout, the human owner explicitly authorized a
+new window of at most three shared correction/review cycles. Its base is
+`68443c741fb05a577bc126a2227789696225d8e1`; all prior commits and FAIL reports
+remain historical evidence. Work A repairs the known observation loss in this
+Mission. Work B has separate temporal-hardening authority and a [separate packet](E.4_Mission_POST-V1-WORK-CONTINUITY-TEMPORAL-HARDENING-001_Temporal_Consistency.md)
+under the same `POST-V1-FIRST-VALUE-WORK-CONTINUITY` Goal; no roadmap change.
+
+The P1 was reproduced before patching with three distinct CLI processes. The
+later partial record contained the new permitted rule, but return read only the
+older accepted anchor. The correction folds anchor and last-record observations,
+keeps unresolved observations visible and limiting, and verifies documentary
+dispositions without turning later observations into canon. Exact scope and
+current visibility are required; unknown history never grants sufficiency.
+
+The fixed criteria, before/after logs, exact candidate manifests and separate
+AI review are retained as derived evidence outside canon. The existing partial
+documentary case remains historical: six saved sources, thirteen missing mapped
+sources, unknown normalized ownership and no new target access. Technical repair
+does not establish human acceptance, publication, measured savings or Gate 2.
+
+The criteria were fixed before the patch (SHA-256
+`38181dcec244c41e6264dac3cff64c0074a0c2502226841b2179ff4b4b22a11d`).
+New-window cycle 1 failed separate QA: same-id substitution could remove a
+known revision, legacy scope isolation was incomplete, and partial-return/recovery
+regressions remained. Full regression recorded 446 passes and two errors across
+448 tests/45 programs. All failures remain preserved. Cycle 2 tightens literal
+revision preservation, legacy scope proof and intentional partial-record handling;
+it does not change criteria or introduce semantic interpretation by the Runtime.
+
+Cycle 2 passed 453/453 tests across 45 programs and all bounded benchmarks, but
+separate QA found one further P1: a legitimate terminal disposition could not
+settle an old observation after current source evolution. The third and final
+patch distinguishes disposition of exact recorded history from confirmation as
+current truth. Current decision, authority, scope, visibility and local integrity
+remain required. No fourth implementation patch is authorized in this window.
+
+### Final verification of the new window
+
+Separate AI review cycle 3 passed A's repaired bounded scenarios and B's temporal
+repair. All five earlier blocking findings were retested. The reviewer checked
+all 322 manifested candidate files; final implementation manifest SHA-256:
+`ea69141d1530d42d2bc811431a238a7aa5281d4c8034238f781da64c3a05accd`.
+Only evidence/status documentation changed after this review; no fourth code patch.
+
+| Evidence class | Final result | Practical limit |
+|---|---|---|
+| A continuity tests | 70/70, including distinct-process returns | Structural evidence and attributed review, not semantic automation |
+| B controlled temporal tests | 6/6 | Historical reproduction is separate from current eligibility |
+| Full regression | 455/455 across 45 programs | Local technical regression only |
+| Integrated Runtime benchmark | Three predefined default runs, fixed control and forced crossing: 23/23 each | Does not prove complete target coverage or product acceptance |
+| Validator/docs/links | Zero errors/fatals; gate 38 warnings/1 info, docs 84 warnings, links 78 warnings | Existing advisories retained |
+| JSON and diff | Valid output parsing and git diff --check | Neither establishes product value |
+| Separate QA | A PASS for bounded supported cases; B PASS | AI review, not human acceptance or an independent adoption operator |
+
+One scenario remains **pending and safely limited**: a later visible observation
+saved only in a partial result is subsequently redacted before entering the
+accepted anchor. Restoring visibility and reintroducing the rule cannot reconcile
+that anonymous notice automatically. This is broader than a folder born anonymous.
+No content, identity, hash or count is exposed to reconstruct it. Restoration
+from a preserved accepted anchor remains supported. No unconditional sufficiency
+or complete integrated readiness is claimed for the unsupported case.
+
+The supported synthetic complete-corpus scenarios can proceed to an explicitly
+bounded human trial. The historical documentary case remains partial with thirteen
+missing sources and unknown ownership; no target was accessed again. Human trial
+acceptance, agreement on the proposed 5/2/5-minute thresholds, publication,
+independent adoption, savings, business value and Gate 2 remain pending. A further
+implementation window would require new authority; this three-cycle budget is
+exhausted. The Mission remains verifying rather than human-accepted closed.
+
 ## Change Log
 
 - 2026-09-08 — v0.1.0 — Local assisted continuity implementation and bounded acceptance scenarios.
 - 2026-09-08 — v0.2.0 — Bounded correction of restriction retention and exact proposal/exception review after separate acceptance findings; prior candidate/report preserved.
+- 2026-09-08 — v0.3.0 — New authorized window: retain later observations alongside the accepted anchor and require bounded resolutions.

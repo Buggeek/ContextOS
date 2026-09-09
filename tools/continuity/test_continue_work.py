@@ -149,7 +149,9 @@ class ContinuityTest(unittest.TestCase):
         (self.workspace / read_json(self.workspace / "anchor.json")["path"]).unlink()
         self.assertEqual(self.process()[0], 2)
         code, report = self.process("--recover", "--reason", "Lost local evidence; start new reference")
-        self.assertEqual(code, 0)
+        self.assertEqual(code, 2)
+        self.assertEqual(report["status"], "needs_clarification")
+        self.assertEqual(report["proposal_fit"], "unverified_constraints")
         self.assertIn("prior history unknown", report["history"])
         self.assertIsNone(report["prior_reference"])
 
@@ -169,12 +171,13 @@ class ContinuityTest(unittest.TestCase):
         from continue_work import render
         self.assertIn("leída; restricción no comprobada", render(run(self.workspace)))
 
-    def test_profile_change_requires_reanchor(self):
+    def test_profile_change_requires_separate_folder(self):
         run(self.workspace)
         profile = read_json(self.base / "profile.json")
         profile["version"] = "1.1"
         write_json(self.base / "profile.json", profile)
-        self.assertEqual(run(self.workspace)["status"], "reanchor_required")
+        with self.assertRaisesRegex(ValueError, "different target, profile, front or scope"):
+            run(self.workspace)
 
     def test_no_target_mutation(self):
         before = {str(p.relative_to(self.target)): p.read_bytes() for p in self.target.rglob("*") if p.is_file()}

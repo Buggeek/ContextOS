@@ -81,7 +81,11 @@ class ReviewEvidenceTest(unittest.TestCase):
             with self.subTest(key=key):
                 original = copy.deepcopy(self.config)
                 self.config[section][key] += " changed"
-                self.assert_limited(self.report(reanchor=True, reason="Synthetic change"))
+                if key == "scope" and (self.workspace / "anchor.json").exists():
+                    with self.assertRaisesRegex(ValueError, "different target, profile, front or scope"):
+                        self.report(reanchor=True, reason="Synthetic change")
+                else:
+                    self.assert_limited(self.report(reanchor=True, reason="Synthetic change"))
                 self.config = original
 
     def test_same_author_cannot_claim_independent_review(self):

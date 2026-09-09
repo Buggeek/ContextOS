@@ -59,7 +59,7 @@ def review_binding(config, corpus, allowed, profile_hash=None):
     """Operator calls only AFTER reviewing; run() never refreshes a verdict."""
     review = {k: v for k, v in config.get("review", {}).items() if k != "binding"}
     context_refs = [r for item in config.get("governing_decisions", []) for r in item.get("citations", [])]
-    context_refs += review.get("constraint_refs", []) + review.get("authority_refs", [])
+    context_refs += review.get("constraint_refs", []) + review.get("authority_refs", []) + review.get("observation_refs", [])
     def hashes(refs):
         return {r["path"]: file_hash(corpus / safe_locator(r["path"]))
                 if r.get("path") in allowed and (corpus / safe_locator(r["path"])).is_file() else None
@@ -101,7 +101,7 @@ def evaluate_review(config, corpus, allowed, constraints, profile_hash=None, aut
     if not proposal and not review:
         return result
     result["fit"] = "unverified_constraints"
-    refs = [r for key in ("constraint_refs", "authority_refs", "decision_refs") for r in review.get(key, [])]
+    refs = [r for key in ("constraint_refs", "authority_refs", "decision_refs", "observation_refs") for r in review.get(key, [])]
     if any(r.get("path") not in allowed for r in refs):
         result["issues"] = ["review_evidence_not_visible; proposal_and_actor_details_withheld"]
         return result
