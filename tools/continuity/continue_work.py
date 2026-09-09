@@ -28,6 +28,7 @@ from memory_engine import ContextVersionEngine
 from reasoning_engine import WorkOwnershipResolver
 from review_evidence import citation_problem, evaluate_review, governing_constraints
 from observations import reconcile, work_binding
+from reader_brief import render_reader
 
 
 def read_json(path):
@@ -461,18 +462,30 @@ def render(record):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("workspace", type=Path)
-    parser.add_argument("--format", choices=("human", "json"), default="human")
+    parser.add_argument("--format", choices=("human", "detail", "json"), default="human")
     parser.add_argument("--reanchor", action="store_true")
     parser.add_argument("--recover", action="store_true")
     parser.add_argument("--reason")
     args = parser.parse_args()
     try:
         record = run(args.workspace, reanchor=args.reanchor, reason=args.reason, recover=args.recover)
-        print(json.dumps(record, ensure_ascii=False) if args.format == "json" else render(record))
+        if args.format == "json":
+            print(json.dumps(record, ensure_ascii=False))
+        elif args.format == "detail":
+            print(render(record))
+        else:
+            wording_path = args.workspace / "brief.es.json"
+            try:
+                wording = read_json(wording_path) if wording_path.is_file() else None
+            except (ValueError, OSError):
+                wording = None
+            print(render_reader(record, wording))
         return 2 if record["status"] in {"reanchor_required", "needs_clarification"} else 0
     except (ValueError, OSError, KeyError, TypeError, subprocess.SubprocessError) as exc:
         error = {"status": "blocked", "message": str(exc), "execution_authorized": False}
-        print(json.dumps(error, ensure_ascii=False) if args.format == "json" else "Bloqueado: " + str(exc))
+        print(json.dumps(error, ensure_ascii=False) if args.format == "json" else
+              "Bloqueado: " + str(exc) if args.format == "detail" else
+              "No pude preparar un resumen fiable de este trabajo. El siguiente paso es revisar la información disponible antes de continuar.")
         return 2
 
 
