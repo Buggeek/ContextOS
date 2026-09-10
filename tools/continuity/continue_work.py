@@ -310,21 +310,38 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
             gaps.append("Ownership coverage/mapping not established; existing work may still exist.")
         fit = proposal_review["fit"]
         uncertain_constraints = any(d["status"] == "unverifiable" for d in decisions)
+        proposal_requested = bool(config.get("proposal"))
+        orphan_review = bool(config.get("review")) and not proposal_requested
         if uncertain_constraints:
-            gaps.append("Known governing restriction unverifiable; dependent proposal is not sufficient.")
-            fit = "unverified_constraints"
-            proposal_review["fit"] = fit
-        if fit == "unverified_constraints":
+            gaps.append("Known governing restriction unverifiable; dependent proposal is not sufficient." if proposal_requested else
+                        "Known governing restriction unverifiable; current work conditions require clarification.")
+            if proposal_requested:
+                fit = "unverified_constraints"
+                proposal_review["fit"] = fit
+        if fit == "unverified_constraints" and proposal_requested:
             gaps.append("Proposal review requires evidence or a new attributed judgement; re-anchor is not approval.")
-        continuation = "review_existing_work_brief"
+        if orphan_review:
+            gaps.append("Review evidence has no corresponding work item to review; clarify the incomplete input.")
+        existing_work = bool(claims.get("existing_work"))
+        continuation = "resume_existing_work_under_current_conditions" if existing_work else "clarify_work_situation"
         if disposition in {"OWNERSHIP_UNKNOWN", "OWNERSHIP_CONFLICT"}:
             continuation = "clarify_ownership; do_not_create_duplicate_work"
         if disposition in {"AWAIT_HUMAN_DECISION", "AWAIT_EVIDENCE"}:
             continuation = disposition
-        if fit == "requires_product_architecture_decision":
-            continuation = "await_explicit_product_architecture_decision"
-        elif fit == "unverified_constraints":
-            continuation = "review_constraints_before_presenting_proposal"
+        if disposition in {"BLOCKED_BY_CURRENT_OWNER", "WAIT_FOR_EXISTING_WORK"}:
+            continuation = "wait_for_existing_work_condition"
+        if uncertain_constraints:
+            continuation = "clarify_current_work_constraints"
+        if orphan_review:
+            continuation += "; clarify_incomplete_review_evidence"
+        if proposal_requested:
+            proposal_continuation = "prepare_proposal_for_review"
+            if fit == "requires_product_architecture_decision":
+                proposal_continuation = "await_explicit_product_architecture_decision"
+            elif fit == "unverified_constraints":
+                proposal_continuation = "review_constraints_before_presenting_proposal"
+            # A proposal never replaces an ownership/wait/constraint condition.
+            continuation = proposal_continuation if continuation == "clarify_work_situation" else continuation + "; " + proposal_continuation
         if privacy_limited:
             status = "needs_clarification"
         elif material and not reanchor:
@@ -382,6 +399,7 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
 
 
 def render(record):
+    has_proposal = bool(record.get("proposal_review", {}).get("proposal"))
     states = {"brief_prepared_for_review": "Brief preparado para revisión.",
               "needs_clarification": "Orientación limitada: falta completar la evidencia.",
               "reanchor_required": "Hay un cambio material: revisar antes de continuar."}
@@ -406,7 +424,8 @@ def render(record):
     for item in record["governing_decisions"]:
         if item.get("status") == "unverifiable":
             lines.append("Restricción conocida, NO VERIFICABLE: " + item.get("text", "existencia conservada; detalle no disponible") +
-                         ". Falta: " + item["missing_evidence"] + ". La propuesta dependiente no es suficiente para continuar.")
+                         ". Falta: " + item["missing_evidence"] + (". La propuesta dependiente no es suficiente para continuar." if has_proposal else
+                                                                    ". La continuidad depende de aclarar esta restricción."))
         else:
             review = "cita comprobada; revisión semántica declarada por " + item["checked_by"] if item.get("checked_by") else "leída; restricción no comprobada"
             lines.append("Decisión rectora (" + review + "): " + item["text"])
@@ -425,8 +444,10 @@ def render(record):
             "requires_product_architecture_decision": "La propuesta requiere una decisión explícita de producto/arquitectura.",
             "operator_declares_compatible; product_acceptance_not_inferred": "El operador declara encaje; aceptación de producto pendiente.",
             "documented_human_exception; authenticity_not_verified": "Excepción humana documentada y vinculada al alcance; autenticidad no verificada. No autoriza ejecución."}
-    if record["proposal_fit"] in fits:
+    if record["proposal_fit"] in fits and has_proposal:
         lines.append(fits[record["proposal_fit"]])
+    elif record["proposal_fit"] == "unverified_constraints":
+        lines.append("Encaje no comprobado: la evidencia disponible de revisión necesita aclaración.")
     review = record.get("proposal_review", {})
     proposal = review.get("proposal")
     if isinstance(proposal, dict):
