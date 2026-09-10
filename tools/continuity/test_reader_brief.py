@@ -51,8 +51,8 @@ class ReaderBriefTest(unittest.TestCase):
         self.assertLess(text.index("Los beneficiarios"), text.index("responsable de producto"))
         self.assertIn("Esa responsabilidad no se te atribuye", text)
         self.assertIn("Falta concretar", text)
-        self.assertEqual(text.count("Lo que puedes hacer ahora"), 1)
-        self.assertIn("preparar", text)
+        self.assertEqual(text.count("La continuación recomendada"), 1)
+        self.assertIn("La continuación recomendada es: " + spanish_copy(record)["decision_owner"], text)
         self.assertIn("no significa que la propuesta esté aceptada", text)
         self.assertIn("Caso ficticio", text)
         self.assertIn("No se ha demostrado un beneficio", text)
@@ -67,7 +67,7 @@ class ReaderBriefTest(unittest.TestCase):
         self.assertIn("Falta una explicación en español", text)
         self.assertIn("Hay restricciones", text)
         self.assertNotIn("Help returning", text)
-        self.assertNotIn("Lo que puedes hacer ahora", text)
+        self.assertNotIn("La continuación recomendada", text)
         self.assertIn("no autoriza", text)
 
     def test_stale_wording_cannot_reuse_old_proposal_after_source_change(self):
@@ -87,7 +87,7 @@ class ReaderBriefTest(unittest.TestCase):
         self.assertTrue(wording_issues(record, wording))
         text = render_reader(record, wording)
         self.assertIn("Hay restricciones", text)
-        self.assertNotIn("Lo que puedes hacer ahora", text)
+        self.assertNotIn("La continuación recomendada", text)
         self.assertEqual(len(record["governing_decisions"]), 1)
 
     def test_unverifiable_restriction_keeps_its_meaning_and_limits_continuation(self):
@@ -141,7 +141,7 @@ class ReaderBriefTest(unittest.TestCase):
         self.assertIn("excepción documentada", text)
         self.assertIn("no se ha autenticado", text)
         self.assertIn("No autoriza su ejecución", text)
-        self.assertEqual(text.count("Lo que puedes hacer ahora"), 1)
+        self.assertEqual(text.count("La continuación recomendada"), 1)
         self.assertFalse(exception["proposal_review"]["execution_authorized"])
 
     def test_unrelated_domain_uses_same_renderer_without_fixture_dictionary(self):
@@ -172,7 +172,7 @@ class ReaderBriefTest(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout)
             self.assertEqual(result.stderr, "")
             outputs[mode] = result.stdout
-        self.assertIn("Lo que puedes hacer ahora", outputs["human"])
+        self.assertIn("La continuación recomendada", outputs["human"])
         self.assertNotIn("--format json", outputs["human"])
         self.assertIn("--format json", outputs["detail"])
         checked = json.loads(outputs["json"])

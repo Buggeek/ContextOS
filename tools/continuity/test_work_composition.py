@@ -64,7 +64,7 @@ class WorkCompositionTest(unittest.TestCase):
                 "case_kind": "synthetic", "case": "Una persona voluntaria retoma el turno de soporte.",
                 "work": record["claims"].get("existing_work", {}).get("text", "Falta establecer qué trabajo se retoma."),
                 "objective": self.config["claims"]["objective"]["text"], "beneficiaries": self.config["claims"]["audience"]["text"],
-                "decision_owner": self.config["claims"]["next"]["text"],
+                "decision_owner": self.config["claims"].get("next", {}).get("text", "Falta explicar el siguiente paso."),
                 "proposal": "Se propone cambiar el formato de respuestas.", "proposal_detail": "described",
                 "restrictions": [{"binding": stable_hash(d), "text": d["text"]} for d in record["governing_decisions"]],
                 "unknowns": [{"binding": stable_hash(g), "text": "La información indicada como pendiente sigue sin aclararse."} for g in record["gaps"]]}
@@ -83,16 +83,20 @@ class WorkCompositionTest(unittest.TestCase):
         self.assertNotIn("proposal", record["continuation"])
         self.assertNotIn("propuesta", text)
         self.assertNotIn("revisión", text.replace(self.config["claims"]["existing_work"]["text"], ""))
-        self.assertIn("siguiente paso documentado", text)
+        self.assertIn(self.config["claims"]["next"]["text"], text)
         self.assertFalse(record["proposal_review"]["execution_authorized"])
 
     def test_real_proposal_without_existing_operation_keeps_review(self):
         del self.config["claims"]["existing_work"]
         self.config["ownership"]["work_items"] = []
+        next_step = "Prepara para la persona responsable del formato la revisión de la propuesta; cambiarlo requiere su aprobación."
+        self.source.write_text(self.source.read_text() + next_step + "\n")
+        self.config["claims"]["next"] = {"text": next_step, "citations": [{"path": "docs/turno.md", "quote": next_step}]}
+        self.config["governing_decisions"][0]["citations"][0]["source_hash"] = file_hash(self.source)
         self.add_proposal()
         record = self.record(); text = render_reader(record, self.wording(record))
         self.assertEqual(record["continuation"], "prepare_proposal_for_review")
-        self.assertIn("preparar la propuesta para su revisión", text)
+        self.assertIn(next_step, text)
         self.assertIn("no significa que la propuesta esté aceptada", text)
 
     def test_associated_change_does_not_replace_operational_continuity(self):
@@ -100,7 +104,7 @@ class WorkCompositionTest(unittest.TestCase):
         record = self.record(); text = render_reader(record, self.wording(record))
         self.assertIn("resume_existing_work", record["continuation"])
         self.assertIn("await_explicit_product_architecture_decision", record["continuation"])
-        self.assertIn("continuación documentada del trabajo", text)
+        self.assertIn(self.config["claims"]["next"]["text"], text)
         self.assertIn("decisión pendiente sobre el cambio propuesto", text)
         self.assertFalse(record["proposal_review"]["execution_authorized"])
 
@@ -109,7 +113,8 @@ class WorkCompositionTest(unittest.TestCase):
         record = self.record(); text = render_reader(record, self.wording(record))
         self.assertEqual(record["continuation"], "AWAIT_EVIDENCE")
         self.assertIn("confirm", text)
-        self.assertIn("evidencia que está pendiente", text)
+        self.assertIn(self.config["claims"]["next"]["text"], text)
+        self.assertIn("sigue a la espera de evidencia", text)
         self.assertNotIn("propuesta", text)
 
     def test_unknown_work_does_not_default_to_a_product_proposal(self):
@@ -147,7 +152,7 @@ class WorkCompositionTest(unittest.TestCase):
         self.assertEqual(record["status"], "needs_clarification")
         self.assertEqual(record["proposal_fit"], "unverified_constraints")
         self.assertIn("resume_existing_work", record["continuation"])
-        self.assertIn("continuación documentada del trabajo", text)
+        self.assertIn(self.config["claims"]["next"]["text"], text)
         self.assertIn("cambio asociado", text)
         self.assertFalse(record["proposal_review"]["execution_authorized"])
 
@@ -157,7 +162,8 @@ class WorkCompositionTest(unittest.TestCase):
         self.config["ownership"]["work_items"][0]["lifecycle_state"] = "awaiting_evidence"
         record = self.record(); text = render_reader(record, self.wording(record))
         self.assertIn("AWAIT_EVIDENCE", record["continuation"])
-        self.assertIn("evidencia que está pendiente", text)
+        self.assertIn(self.config["claims"]["next"]["text"], text)
+        self.assertIn("sigue a la espera de evidencia", text)
         self.assertEqual(record["status"], "needs_clarification")
 
     def test_proposal_only_keeps_unknown_and_conflicting_owner_conditions(self):
@@ -200,7 +206,7 @@ class WorkCompositionTest(unittest.TestCase):
         self.assertEqual(record["status"], "needs_clarification")
         self.assertIn("clarify_current_work_constraints", record["continuation"])
         self.assertIn("No se ha podido comprobar esta restricción", text)
-        self.assertNotIn("continuación documentada del trabajo", text)
+        self.assertNotIn("La continuación recomendada es: " + self.config["claims"]["next"]["text"], text)
 
     def test_material_change_never_reuses_old_operational_wording(self):
         record = self.record(); wording = self.wording(record)

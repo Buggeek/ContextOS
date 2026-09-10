@@ -89,17 +89,17 @@ def render_reader(record, wording=None):
 
     lines = []
     kind = wording["case_kind"]
-    prefix = {"synthetic": "Caso ficticio para este ensayo. ",
+    prefix = {"synthetic": "Caso ficticio. ",
               "documentary": "Caso basado en las fuentes disponibles. ",
               "unknown": "El origen del caso necesita aclaración. "}[kind]
     lines.append(prefix + wording["case"])
-    lines.append(wording["work"] + " " + wording["objective"])
-    lines.append(wording["beneficiaries"])
+    lines.append(wording["objective"] + " " + wording["beneficiaries"])
+    lines.append(wording["work"])
     owner_known = bool(record.get("claims", {}).get("next") and wording.get("decision_owner"))
-    if owner_known:
-        lines.append(wording["decision_owner"] + (" Esa responsabilidad no se te atribuye por estar leyendo este resumen." if has_proposal else ""))
-    else:
-        lines.append("No está identificado con suficiente claridad quién debe realizar la siguiente revisión o decisión.")
+    if not owner_known:
+        lines.append("Falta explicar quién interviene en el siguiente paso y bajo qué condición.")
+    elif has_proposal:
+        lines.append("Esa responsabilidad no se te atribuye por estar leyendo este resumen.")
     if has_proposal and wording.get("proposal"):
         if existing_work:
             lines.append("El trabajo existente conserva sus condiciones. La revisión del cambio asociado se trata por separado y no lo aprueba.")
@@ -138,24 +138,42 @@ def render_reader(record, wording=None):
         lines.append("La referencia anterior sigue siendo histórica y no puede reutilizarse como vigente ante este cambio.")
         action = "revisar las fuentes y las restricciones para establecer una nueva referencia"
     elif (status != "brief_prepared_for_review" or fit == "unverified_constraints") and not operation_context_available:
-        action = "reunir la información pendiente para poder " + ("revisar la propuesta" if has_proposal else "retomar el trabajo")
+        # Use the already bound explanation of the actual gap. A missing
+        # benefit/indicator alone is not a material continuation condition.
+        material_gaps = [g for g in record.get("gaps", [])
+                         if not g.startswith(("value:", "indicator:"))]
+        details = [e["text"] for g in material_gaps for e in wording["unknowns"]
+                   if e["binding"] == stable_hash(g)]
+        action = "reunir la información pendiente: " + " ".join(dict.fromkeys(details)) if details else (
+            "comprobar la referencia de contexto y las restricciones pendientes antes de continuar")
     elif ownership in {"OWNERSHIP_UNKNOWN", "OWNERSHIP_CONFLICT"} or not owner_known:
         action = "aclarar quién tiene a cargo este trabajo y su próxima revisión"
-    elif ownership in {"AWAIT_HUMAN_DECISION", "AWAIT_EVIDENCE"}:
-        action = "solicitar a la persona responsable la decisión o evidencia que está pendiente"
-    elif ownership in {"BLOCKED_BY_CURRENT_OWNER", "WAIT_FOR_EXISTING_WORK"}:
-        action = "atender con la persona responsable la condición pendiente del trabajo existente"
-    elif not has_proposal:
-        action = "retomar el siguiente paso documentado dentro de sus condiciones" if existing_work else "aclarar qué trabajo se retoma y en qué situación está"
-    elif existing_work:
-        action = "preparar la continuación documentada del trabajo bajo sus condiciones vigentes; el cambio asociado mantiene su revisión pendiente"
-    elif fit == "requires_product_architecture_decision":
-        action = "preparar para la persona responsable la decisión pendiente sobre el cambio propuesto"
-    elif wording.get("proposal_detail") == "insufficient":
-        action = "preparar para la persona responsable de la revisión esta consulta: «" + wording["clarification_question"] + "»"
+        if ownership == "OWNERSHIP_CONFLICT":
+            action += "; las responsabilidades declaradas están en conflicto"
+    elif not existing_work and not has_proposal:
+        action = "aclarar qué trabajo se retoma y en qué situación está"
     else:
-        action = "preparar la propuesta para su revisión por la persona responsable"
-    lines.append(("Lo que puedes hacer ahora es " if has_proposal else "La continuación recomendada es ") + action + ".")
+        # Existing attributed field: explain the sourced next step, its actor
+        # and condition. Do not replace known specifics with a generic action.
+        # The binding proves provenance/coverage, not this wording's semantics.
+        action = wording["decision_owner"]
+        if has_proposal and not existing_work:
+            if fit == "requires_product_architecture_decision":
+                action += " El cambio requiere una decisión explícita de producto o arquitectura."
+            if wording.get("proposal_detail") == "insufficient":
+                action += " Antes de esa revisión falta aclarar: «" + wording["clarification_question"] + "»"
+    # A sourced next step does not resolve a separate structured wait. Keep
+    # that state visible even if the attributed action wording omits it.
+    wait_limit = {
+        "AWAIT_EVIDENCE": "El trabajo sigue a la espera de evidencia; esta recomendación no da esa condición por resuelta.",
+        "AWAIT_HUMAN_DECISION": "El trabajo sigue a la espera de una decisión humana; esta recomendación no sustituye esa decisión.",
+        "BLOCKED_BY_CURRENT_OWNER": "El trabajo sigue bloqueado por su responsable actual; esta recomendación no levanta ese bloqueo.",
+        "WAIT_FOR_EXISTING_WORK": "El trabajo permanece aplazado; esta recomendación no da su condición de retorno por cumplida.",
+    }.get(ownership)
+    recommendation = "La continuación recomendada es: " + action.rstrip(".") + "."
+    if wait_limit:
+        recommendation += " " + wait_limit
+    lines.insert(2, recommendation)
     if has_proposal and fit == "documented_human_exception; authenticity_not_verified":
         lines.append("Hay una excepción documentada para este alcance, pero no se ha autenticado quién la aprobó. No autoriza su ejecución.")
     elif has_proposal:
