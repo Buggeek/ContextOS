@@ -41,8 +41,12 @@ report checks and advanced APIs.
 
 To resume one bounded front across processes, see the assisted
 [local work continuity route](docs/4.x_adoption/4.7_COS_Local_Work_Continuity.md).
-It prepares a sourced brief and rechecks saved context; technical setup and
-human interpretation remain explicit, and the user trial is pending.
+The standard reproducible path uses authorized local documentary sources;
+the hardened repository-bound path needs an external authority provider,
+as described in the guide. Technical setup and human interpretation remain
+explicit. The local technical capability is retained and the founder's synthetic
+comprehension trial has ended. The complete experience is not accepted; human
+utility, savings and business value remain unproven. Gate 2 remains open.
 
 ## Adoption journey
 

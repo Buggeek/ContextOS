@@ -1,8 +1,8 @@
 # E.4 Mission POST-V1-FIRST-VALUE-WORK-CONTINUITY-001 — Local Work Continuity
-## Version: 0.3.0
-Last Updated: 2026-09-08
+## Version: 0.4.0
+Last Updated: 2026-09-10
 Owner: Context OS Maintainers
-Status: CORRECCION_LOCAL_VERIFICADA_EN_ESCENARIOS_ACOTADOS; local, unpublished; human trial pending
+Status: local technical capability retained, unpublished; synthetic founder trial ended; complete experience unaccepted; Gate 2 open
 
 ## Mission Packet
 
@@ -31,6 +31,28 @@ mission_packet:
     - technical_integrated_and_human_evidence_classes_remain_separate
     - complete_regression_benchmark_validator_links_and_json_checks
 ```
+
+## Current status after the founder trial
+
+The founder accepts retaining the local technical work and has ended the
+synthetic comprehension trial. The rejected experience was the exam-like
+interaction and its added burden for this founder. This does not establish that
+continuity as a whole lacks utility, and technical tests do not establish human
+utility. The complete experience remains unaccepted; savings, business value and
+independent adoption remain unproven. Gate 2 remains open.
+
+All earlier episodes, responses, assistance, results, failures and limitations
+are preserved without regrading or a retrospective PASS. Earlier statements of
+trial readiness below record their historical delivery windows; they do not
+authorize another fictional episode or comprehension question. The Mission
+remains verifying. Retaining the technical candidate does not authorize a
+commit, integration or publication.
+
+The [guide](../docs/4.x_adoption/4.7_COS_Local_Work_Continuity.md#prepare-an-existing-front-once)
+delimits the standard reproducible local-corpus route and the hardened
+repository-bound path, whose authority provider is supplied by the environment,
+not this checkout. This documentary update changes neither implementation nor
+the historical packet, criteria, product phases or gates.
 
 ## Friction and design decision
 
@@ -139,6 +161,10 @@ human product acceptance. In particular, no actual user time, procedural burden,
 brief acceptance, organizational value or independent adoption has been measured.
 
 ## Human trial and completion boundary
+
+This section preserves the original delivery boundary. The current closure
+above governs the ended founder trial; the research design is not an active
+instruction to resume it.
 
 The guide defines manual baseline collection, predetermined correctness keys,
 candidate time/help/error thresholds and three episodes: first orientation,
@@ -320,9 +346,11 @@ No content, identity, hash or count is exposed to reconstruct it. Restoration
 from a preserved accepted anchor remains supported. No unconditional sufficiency
 or complete integrated readiness is claimed for the unsupported case.
 
-The supported synthetic complete-corpus scenarios can proceed to an explicitly
-bounded human trial. The historical documentary case remains partial with thirteen
-missing sources and unknown ownership; no target was accessed again. Human trial
+At the close of that correction window, the supported synthetic complete-corpus
+scenarios were considered ready for an explicitly bounded human trial. That
+trial has since ended, as recorded in the current status above. The historical
+documentary case remains partial with thirteen missing sources and unknown
+ownership; no target was accessed again. Human trial
 acceptance, agreement on the proposed 5/2/5-minute thresholds, publication,
 independent adoption, savings, business value and Gate 2 remain pending. A further
 implementation window would require new authority; this three-cycle budget is
@@ -333,3 +361,4 @@ exhausted. The Mission remains verifying rather than human-accepted closed.
 - 2026-09-08 — v0.1.0 — Local assisted continuity implementation and bounded acceptance scenarios.
 - 2026-09-08 — v0.2.0 — Bounded correction of restriction retention and exact proposal/exception review after separate acceptance findings; prior candidate/report preserved.
 - 2026-09-08 — v0.3.0 — New authorized window: retain later observations alongside the accepted anchor and require bounded resolutions.
+- 2026-09-10 — v0.4.0 — Record retained local technical capability, ended synthetic founder trial and open product acceptance/utility/Gate 2; distinguish current status from unchanged historical criteria and delivery windows.
