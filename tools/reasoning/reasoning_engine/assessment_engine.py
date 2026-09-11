@@ -7,6 +7,7 @@ from collections import Counter
 from pathlib import Path
 
 from .report_builder import build_check_report, build_report
+from . import report_builder
 
 
 TOOLS_ROOT = Path(__file__).resolve().parents[2]
@@ -106,6 +107,10 @@ class ContextualAssessmentEngine:
             raise ValueError("Contextual Assessment requires a goal.")
         if not consumer or not consumer.strip():
             raise ValueError("Contextual Assessment requires a consumer.")
+
+        # One effective policy clock for this evaluation, including its nested
+        # Memory resolutions. Completion timestamps remain display metadata.
+        evaluation_time = evaluation_time or generated_at or report_builder.generated_timestamp()
 
         from .structured_evidence import derive_reasoning, normalize_evidence_set
 
@@ -295,11 +300,23 @@ class ContextualAssessmentEngine:
         identity_valid = saved.get("identity_hash") == expected_hash and saved.get("id") == f"reasoning.assessment.{expected_hash[:16]}"
         failed = [] if identity_valid else ["reasoning.assessment_check.immutable_identity"]
         current = None
+        historical_matches = False
+        eligibility_matches = False
+        checked_at = generated_at or report_builder.generated_timestamp()
         error = None
         try:
             query = saved["query"]
             versions = saved["evidence"].get("context_versions", [])
-            current = self.run(
+            saved_memory = saved["evidence"]["memory_retrieval"]
+            # Legacy /1 reports left query.evaluation_time null. Recover only
+            # from the Memory report actually bound into the immutable identity.
+            from memory_engine.retrieval_engine import stable_hash as memory_hash
+            memory_identity = memory_hash(MemoryRetrievalEngine._identity_payload(saved_memory))
+            if (saved_memory.get("identity_hash") != memory_identity
+                    or self._ref(saved_memory) != saved["bindings"]["memory_retrieval"]):
+                raise ValueError("Bound historical Memory identity is invalid.")
+            effective_time = query.get("evaluation_time") or saved_memory["query"]["evaluation_time"]
+            arguments = dict(
                 goal=query["goal"],
                 mission_id=query["mission_id"],
                 consumer=query["consumer"],
@@ -316,20 +333,30 @@ class ContextualAssessmentEngine:
                 work_ownership_resolution=saved["evidence"].get("work_ownership_resolution"),
                 focus_entities=query.get("focus_entities", []),
                 memory_limit=query.get("memory_limit", 12),
-                evaluation_time=query.get("evaluation_time"),
-                generated_at=saved.get("generated_at"),
             )
-            current_matches = current["identity_hash"] == saved.get("identity_hash")
+            current = self.run(**arguments, evaluation_time=effective_time, generated_at=saved.get("generated_at"))
+            # Preserve the legacy query encoding, without altering saved evidence.
+            historical_hash = stable_hash(self._identity_payload(
+                query, current["bindings"], current["reasoning"], current.get("consequential_recommendation_gate")))
+            historical_matches = identity_valid and historical_hash == saved.get("identity_hash")
+            fresh = self.run(**arguments, evaluation_time=checked_at, generated_at=checked_at)
+            eligibility_matches = self._eligibility_view(current["evidence"]["memory_retrieval"]) == self._eligibility_view(fresh["evidence"]["memory_retrieval"])
+            current_matches = historical_matches and eligibility_matches
         except (KeyError, TypeError, ValueError) as exc:
             current_matches = False
             error = str(exc)
         if not current_matches:
             failed.append("reasoning.assessment_check.current_state_changed")
+        if not eligibility_matches:
+            failed.append("reasoning.assessment_check.current_eligibility_changed_or_unverifiable")
 
         result_payload = {
             "assessment_id": saved.get("id"),
             "assessment_hash": saved.get("identity_hash"),
             "current_hash": current.get("identity_hash") if current else None,
+            "eligibility_checked_at": checked_at,
+            "historical_reproducibility": historical_matches,
+            "current_eligibility": eligibility_matches,
             "failed_checks": sorted(set(failed)),
         }
         result_hash = stable_hash(result_payload)
@@ -345,6 +372,9 @@ class ContextualAssessmentEngine:
             "checks": {
                 "immutable_identity": "valid" if identity_valid else "tampered",
                 "current_state": "exact_match" if current_matches else "drifted_or_unverifiable",
+                "historical_reproducibility": "exact_match" if historical_matches else "drifted_or_unverifiable",
+                "current_eligibility": "unchanged" if eligibility_matches else "changed_or_unverifiable",
+                "eligibility_checked_at": checked_at,
             },
             "result": {
                 "valid": not failed,
@@ -354,11 +384,30 @@ class ContextualAssessmentEngine:
             },
             "authority": self._authority(),
             "limitations": [
-                "The check validates exact reproducibility; it does not approve Assessment conclusions.",
+                "Historical reproduction and current eligibility are separate; neither approves Assessment conclusions.",
                 "Policies and metadata used by the saved Assessment must be supplied again exactly.",
             ],
         }
         return build_check_report(self.root, report, generated_at)
+
+    @staticmethod
+    def _eligibility_view(memory: dict) -> dict:
+        """Compare complete outcomes, selection and exclusions, not clock hashes.
+
+        Retention resolution_ref hashes bind evaluation_time and necessarily
+        differ across seconds. All actual policy/authority outcomes (including
+        expirations), visible payloads, reasons and temporal source fields stay.
+        Policy/profile/source fingerprints are checked by historical reproduction
+        against today's supplied inputs, before any eligibility reuse is valid.
+        """
+        def outcomes(value):
+            if isinstance(value, list):
+                return [outcomes(item) for item in value]
+            if isinstance(value, dict):
+                is_evaluation = {"access_outcome", "retrieval_outcome", "resolution_ref"} <= value.keys()
+                return {k: outcomes(v) for k, v in value.items() if not (is_evaluation and k == "resolution_ref")}
+            return value
+        return outcomes({key: memory[key] for key in ("items", "policy_evaluations", "exclusions")})
 
     def _check_versions(self, versions: list[dict], generated_at: str | None) -> list[dict]:
         engine = ContextVersionEngine(self.root, self.adoption_profile)

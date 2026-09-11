@@ -1,8 +1,8 @@
 # P.2 — Context OS Product Roadmap
 
-Version: 1.1
+Version: 1.3
 
-Last Updated: 2026-09-06
+Last Updated: 2026-09-10
 
 Owner: Context OS Core Team
 
@@ -41,6 +41,16 @@ supported path; record that limitation rather than expanding scope silently.
 stronger value claim; it does not postpone baseline capture, failed-attempt
 logging or reference learning until then. Discovery and measurement can inform
 later phases while progression remains gated by completed outcomes.
+
+Bounded work at Product Gate 2:
+[POST-V1-FIRST-VALUE-WORK-CONTINUITY-001](E.4_Mission_POST-V1-FIRST-VALUE-WORK-CONTINUITY-001_Local_Work_Continuity.md)
+provides an assisted local continuation route whose technical contribution the
+founder has accepted retaining. The synthetic comprehension trial has ended;
+the complete experience is not accepted and human utility, savings, business
+value and independent adoption remain unproven. Gate 2 remains open. This status
+does not schedule another fictional trial or authorize integration/publication.
+The phase order and evidence thresholds above remain unchanged; no later phase
+or external Mission is started by this contribution.
 
 ## Parallel evidence-driven Runtime hardening
 
@@ -477,6 +487,10 @@ governable, and reusable across humans, agents, and systems.
 ---
 
 # Change Log
+
+- 2026-09-10 - v1.3 - Updated only the continuity contribution status: local technical capability retained, synthetic trial ended, complete experience unaccepted and human utility/Gate 2 unproven; phases and gate criteria unchanged.
+
+- 2026-09-08 - v1.2 - Linked the bounded first-value continuity contribution and pending user trial without changing product phases or gates.
 
 - 2026-09-06 - v1.1 - Established post-v1 productization gates, a parallel evidence-driven hardening lane and explicit historical scope for release/epic progression.
 
