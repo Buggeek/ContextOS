@@ -1,6 +1,6 @@
-# Context OS Epic Backlog
+# COERNC Epic Backlog
 
-This folder is the **epic backlog** for the Context OS project.
+This folder is the **epic backlog** for the COERNC project.
 
 Epics are **execution artifacts** derived from
 [`../P.2_Product_Roadmap.md`](../P.2_Product_Roadmap.md) and the narrative

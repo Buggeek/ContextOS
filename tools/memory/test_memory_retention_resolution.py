@@ -32,7 +32,7 @@ def memory_item(**updates: object) -> dict:
         "organization": "contextos",
         "operation": "product",
         "tier": "organizational",
-        "owner": "Context OS Maintainers",
+        "owner": "COERNC Maintainers",
         "sensitivity": "internal",
         "retention_state": "historical",
         "metadata_visibility": "full",

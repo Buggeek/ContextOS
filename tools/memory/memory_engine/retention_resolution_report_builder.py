@@ -30,7 +30,7 @@ def render_human(report: dict) -> str:
 
     memory = report["memory"]
     lines = [
-        "# Context OS Memory Retention Resolution",
+        "# COERNC Memory Retention Resolution",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Resolution: `{report['id']}`",
@@ -119,7 +119,7 @@ def render_human(report: dict) -> str:
 
 def render_check_human(report: dict) -> str:
     lines = [
-        "# Context OS Memory Retention Resolution Check",
+        "# COERNC Memory Retention Resolution Check",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Resolution: `{report['resolution']['id']}`",

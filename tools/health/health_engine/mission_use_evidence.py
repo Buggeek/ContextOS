@@ -439,7 +439,7 @@ def render_human(report: dict) -> str:
     summary = report["summary"]
     mission = report["bindings"]["mission"]
     lines = [
-        "# Context OS Mission-Use Evidence",
+        "# COERNC Mission-Use Evidence",
         "",
         f"- Mission: `{mission.get('mission_id')}`",
         f"- Consumer: `{report['bindings']['consumer'].get('type')}`",
@@ -449,7 +449,7 @@ def render_human(report: dict) -> str:
             f"- Adoption Profile: `{report['bindings']['adoption_profile']['id']}` "
             f"v{report['bindings']['adoption_profile']['version']}"
             if report["bindings"].get("adoption_profile")
-            else "- Adoption Profile: `<native Context OS mode>`"
+            else "- Adoption Profile: `<native COERNC mode>`"
         ),
         (
             f"- Target: `{report['bindings']['target']['organization']}` / "

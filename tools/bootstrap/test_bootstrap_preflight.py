@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Bootstrap Apply Preflight."""
+"""Tests for COERNC Bootstrap Apply Preflight."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ class BootstrapApplyPreflightTestCase(unittest.TestCase):
         for directory in ("docs", "SSOT", "ops", "templates"):
             (root / directory).mkdir(parents=True, exist_ok=True)
         write(root / "README.md", "# Test Repo\n")
-        write(root / "ops" / "AGENT_RULES.md", "# Context OS Agent Rules\n")
+        write(root / "ops" / "AGENT_RULES.md", "# COERNC Agent Rules\n")
         write(root / "docs" / "3.x_operation" / "3.6_COS_Human_Agent_Authority_Model.md", "# 3.6 Authority\n\nL0 L1 L2 L3 L4 L5\n")
         write(root / "SSOT" / "README.md", "# SSOT\n\nCompliance profile: `strict`\n")
         write(root / "SSOT" / "S.1_Vision.md", ssot_doc("S.1 Vision"))

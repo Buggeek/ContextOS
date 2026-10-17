@@ -1,4 +1,4 @@
-# Context OS Bootstrap Tools
+# COERNC Bootstrap Tools
 
 This folder contains read-only bootstrap planning components for Release v0.4
 Guided Bootstrap.
@@ -13,26 +13,26 @@ Slice 1 implements **Bootstrap Planning** only:
 Slice 2 exposes that plan through the Runtime CLI:
 
 ```bash
-./contextos init --root .
-./contextos init --root . --format json
-./contextos init --root . --json-out /tmp/contextos-bootstrap-plan.json
-./contextos init --root . --proposal
-./contextos init --root . --proposal --format json
-./contextos init --root . --proposal --json-out /tmp/contextos-bootstrap-proposal.json
-./contextos init --root . --approval-record /tmp/contextos-bootstrap-proposal.json
-./contextos init --root . --approval-record /tmp/contextos-bootstrap-proposal.json --format json
-./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner"
-./contextos init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner" --format json
-./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json
-./contextos init --root . --preflight /tmp/contextos-bootstrap-accepted.json --format json
-./contextos init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>"
-./contextos init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>" --format json
+./coernc init --root .
+./coernc init --root . --format json
+./coernc init --root . --json-out /tmp/contextos-bootstrap-plan.json
+./coernc init --root . --proposal
+./coernc init --root . --proposal --format json
+./coernc init --root . --proposal --json-out /tmp/contextos-bootstrap-proposal.json
+./coernc init --root . --approval-record /tmp/contextos-bootstrap-proposal.json
+./coernc init --root . --approval-record /tmp/contextos-bootstrap-proposal.json --format json
+./coernc init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner"
+./coernc init --root . --accept-approval /tmp/contextos-bootstrap-approval.json --accepted-by "Human Name" --accepted-role "Mission Owner" --format json
+./coernc init --root . --preflight /tmp/contextos-bootstrap-accepted.json
+./coernc init --root . --preflight /tmp/contextos-bootstrap-accepted.json --format json
+./coernc init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>"
+./coernc init --root <target> --apply /tmp/contextos-bootstrap-preflight.json --confirm-apply --confirmed-by "Human Name" --confirmed-role "Mission Owner" --confirmed-preflight-id "<preflight-id>" --confirmed-preflight-hash "<preflight-hash>" --format json
 ```
 
-`contextos init` is read-only unless `--apply` is supplied with explicit apply
-confirmation bound to a fresh eligible preflight. Bare `contextos init`,
+`coernc init` is read-only unless `--apply` is supplied with explicit apply
+confirmation bound to a fresh eligible preflight. Bare `coernc init`,
 proposal, approval-record, acceptance, and preflight modes do not create
-manifests, directories, templates, or Context OS artifacts.
+manifests, directories, templates, or COERNC artifacts.
 
 Public API:
 

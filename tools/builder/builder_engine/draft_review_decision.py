@@ -358,7 +358,7 @@ def render_human(decision: dict) -> str:
     outcome = decision["outcome"]
     evidence = decision["evidence"]
     lines = [
-        "# Context OS Draft Review Decision",
+        "# COERNC Draft Review Decision",
         "",
         f"- Schema: `{decision['schema']}`",
         f"- Decision: `{decision['id']}`",

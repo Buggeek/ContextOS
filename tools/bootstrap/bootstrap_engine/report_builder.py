@@ -76,7 +76,7 @@ def render_human(report: dict) -> str:
     readiness = report["readiness"]
     validator = report["validator"]
     lines = [
-        "# Context OS Bootstrap Plan",
+        "# COERNC Bootstrap Plan",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",

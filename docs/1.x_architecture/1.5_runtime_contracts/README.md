@@ -1,6 +1,6 @@
 # 1.5 — Runtime Contracts
 
-This folder contains the **architecture-level contracts** that the Context OS
+This folder contains the **architecture-level contracts** that the COERNC
 Runtime must satisfy. These contracts are **specifications**, not
 implementations. They define the surface area Codex (or any implementer) is
 expected to build against.

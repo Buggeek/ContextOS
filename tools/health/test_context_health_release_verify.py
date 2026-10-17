@@ -54,7 +54,7 @@ def make_repo() -> tempfile.TemporaryDirectory[str]:
     for directory in ("docs", "SSOT", "ops", "templates"):
         (root / directory).mkdir(parents=True, exist_ok=True)
     write(root / "README.md", "# Health Fixture\n")
-    write(root / "ops" / "AGENT_RULES.md", "# Context OS Agent Rules\n")
+    write(root / "ops" / "AGENT_RULES.md", "# COERNC Agent Rules\n")
     write(root / "docs" / "3.x_operation" / "3.6_COS_Human_Agent_Authority_Model.md", "# Authority\n\nL0 L1 L2 L3 L4 L5\n")
     write(root / "SSOT" / "README.md", "# SSOT\n\nCompliance profile: `strict`\n")
     for name, title in (

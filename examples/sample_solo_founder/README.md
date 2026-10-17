@@ -3,7 +3,7 @@
 
 Compliance profile: `minimal`
 
-This example demonstrates Context OS applied to a solo founder
+This example demonstrates COERNC applied to a solo founder
 building a small digital product.
 
 There is no team.
@@ -29,7 +29,7 @@ This example includes only the Minimum Operational Map (MOM).
 
 ---
 
-## Why Context OS Here
+## Why COERNC Here
 
 Typical solo-founder problems:
 
@@ -39,7 +39,7 @@ Typical solo-founder problems:
 - Adding a collaborator creates friction
 - Returning to the project after weeks is costly
 
-Context OS acts as an externalized memory.
+COERNC acts as an externalized memory.
 
 ---
 
@@ -58,4 +58,4 @@ Excluded:
 - Automation
 - Tooling
 
-This is the smallest viable Context OS implementation.
+This is the smallest viable COERNC implementation.

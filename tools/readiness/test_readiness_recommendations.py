@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Readiness recommendations and human report rendering."""
+"""Tests for COERNC Readiness recommendations and human report rendering."""
 
 from __future__ import annotations
 

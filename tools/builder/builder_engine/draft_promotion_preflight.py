@@ -344,7 +344,7 @@ def render_human(preflight: dict) -> str:
     eligibility = preflight["eligibility"]
     write_item = preflight["canonical_write_set"]["items"][0]
     lines = [
-        "# Context OS Draft Promotion Preflight",
+        "# COERNC Draft Promotion Preflight",
         "",
         f"- Schema: `{preflight['schema']}`",
         f"- Preflight: `{preflight['id']}`",

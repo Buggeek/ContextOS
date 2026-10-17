@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Bootstrap Approval Record Drafts."""
+"""Tests for COERNC Bootstrap Approval Record Drafts."""
 
 from __future__ import annotations
 
@@ -62,7 +62,7 @@ class BootstrapApprovalRecordTestCase(unittest.TestCase):
         proposal = self.proposal_for(Path("."))
         record = BootstrapApprovalRecordEngine(".").run(
             proposal,
-            approver_candidates=["Context OS Maintainers"],
+            approver_candidates=["COERNC Maintainers"],
             rationale="Review exact proposal before apply.",
         )
 
@@ -78,12 +78,12 @@ class BootstrapApprovalRecordTestCase(unittest.TestCase):
         first = BootstrapApprovalRecordEngine(".").run(
             proposal,
             generated_at="2026-08-11T00:00:02Z",
-            approver_candidates=["Context OS Maintainers"],
+            approver_candidates=["COERNC Maintainers"],
         )
         second = BootstrapApprovalRecordEngine(".").run(
             proposal,
             generated_at="2026-08-11T00:00:03Z",
-            approver_candidates=["Context OS Maintainers"],
+            approver_candidates=["COERNC Maintainers"],
         )
 
         self.assertEqual(first["id"], second["id"])

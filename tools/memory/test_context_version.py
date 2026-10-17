@@ -52,7 +52,7 @@ def git_commit(root: Path, message: str = "fixture") -> str:
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(
-        ["git", "-c", "user.name=Context OS Tests", "-c", "user.email=tests@contextos.local", "commit", "-qm", message],
+        ["git", "-c", "user.name=COERNC Tests", "-c", "user.email=tests@contextos.local", "commit", "-qm", message],
         cwd=root,
         check=True,
     )
@@ -179,7 +179,7 @@ class ContextVersionTestCase(unittest.TestCase):
         write(root / "unrelated.txt", "Unrelated implementation evidence.\n")
         subprocess.run(["git", "add", "unrelated.txt"], cwd=root, check=True)
         subprocess.run(
-            ["git", "-c", "user.name=Context OS Tests", "-c", "user.email=tests@contextos.local", "commit", "-qm", "unrelated"],
+            ["git", "-c", "user.name=COERNC Tests", "-c", "user.email=tests@contextos.local", "commit", "-qm", "unrelated"],
             cwd=root,
             check=True,
         )

@@ -1,6 +1,14 @@
 # Changelog
 
-All notable changes to Context OS will be documented here.
+All notable changes to COERNC will be documented here.
+
+## [Unreleased] - 2026-10-16
+
+### Changed
+- Unified the project identity as COERNC across the current documentation and human-facing Runtime output.
+- Clarified that the thesis, operating model and implementation belong to one project.
+- Added the `coernc` CLI entry point while preserving the existing launcher and machine contracts for compatibility.
+- Historical release and Mission evidence below retains its original attribution.
 
 ---
 

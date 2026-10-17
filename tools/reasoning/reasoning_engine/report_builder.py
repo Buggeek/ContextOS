@@ -42,7 +42,7 @@ def write_json_report(path: str | Path, report: dict) -> None:
 
 def render_benchmark_human(report: dict) -> str:
     lines = [
-        "# Context OS Reasoning Benchmark",
+        "# COERNC Reasoning Benchmark",
         "",
         f"- Benchmark: `{report['id']}`",
         f"- Status: `{report['summary']['status']}`",
@@ -75,7 +75,7 @@ def render_benchmark_human(report: dict) -> str:
 
 def render_check_human(report: dict) -> str:
     lines = [
-        "# Context OS Contextual Assessment Check",
+        "# COERNC Contextual Assessment Check",
         "",
         f"- Assessment: `{report['assessment']['id']}`",
         f"- Immutable identity: `{report['checks']['immutable_identity']}`",
@@ -111,7 +111,7 @@ def render_human(report: dict) -> str:
         "reanchor_required": False,
     }
     lines = [
-        "# Context OS Contextual Assessment",
+        "# COERNC Contextual Assessment",
         "",
         f"- Assessment: `{report['id']}`",
         f"- Goal: {report['query']['goal']}",

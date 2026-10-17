@@ -37,7 +37,7 @@ def render_human(report: dict) -> str:
 
 def render_plan_human(report: dict) -> str:
     lines = [
-        "# Context OS Context Version Capture Plan",
+        "# COERNC Context Version Capture Plan",
         "",
         f"- Plan: `{report['id']}`",
         f"- Status: `{report['status']}`",
@@ -89,7 +89,7 @@ def render_plan_human(report: dict) -> str:
 
 def render_plan_check_human(report: dict) -> str:
     lines = [
-        "# Context OS Context Version Capture Plan Check",
+        "# COERNC Context Version Capture Plan Check",
         "",
         f"- Plan: `{report['plan']['id']}`",
         f"- Valid: {'yes' if report['result']['valid'] else 'no'}",
@@ -105,7 +105,7 @@ def render_plan_check_human(report: dict) -> str:
 
 def render_version_human(report: dict) -> str:
     lines = [
-        "# Context OS Context Version",
+        "# COERNC Context Version",
         "",
         f"- Version: `{report['id']}`",
         f"- Identity hash: `{report['identity_hash']}`",
@@ -146,7 +146,7 @@ def render_version_human(report: dict) -> str:
 
 def render_version_check_human(report: dict) -> str:
     lines = [
-        "# Context OS Context Version Check",
+        "# COERNC Context Version Check",
         "",
         f"- Version: `{report['version']['id']}`",
         f"- Immutable identity: `{report['result']['immutable_identity']}`",

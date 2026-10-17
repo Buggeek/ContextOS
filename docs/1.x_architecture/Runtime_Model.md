@@ -1,7 +1,7 @@
-# 1.1 — Context OS Runtime Model
+# 1.1 — COERNC Runtime Model
 
 > Status: historical operational-flow artifact. The canonical architecture is
-> [`1.0 Context OS Architecture`](1.0_COS_Architecture.md), and the canonical
+> [`1.0 COERNC Architecture`](1.0_COS_Architecture.md), and the canonical
 > Runtime component view is
 > [`1.4 Context Runtime Architecture`](1.4_COS_Context_Runtime_Architecture.md).
 > This document is retained for traceability of the original repository
@@ -9,11 +9,11 @@
 
 ## Purpose
 
-This document explains how **Context OS operates when installed inside a real project repository**. While the core framework defines the philosophy, architecture, and operational components of Context OS, the **Runtime Model** describes how those elements activate and interact with a live codebase.
+This document explains how **COERNC operates when installed inside a real project repository**. While the core framework defines the philosophy, architecture, and operational components of COERNC, the **Runtime Model** describes how those elements activate and interact with a live codebase.
 
 In simple terms:
 
-> The Runtime Model explains how Context OS moves from *framework* to *operational system*.
+> The Runtime Model explains how COERNC moves from *framework* to *operational system*.
 
 It defines how a repository is scanned, how context is constructed, how the Minimum Operational Map is established, and how agents operate on top of that structured context.
 
@@ -21,7 +21,7 @@ It defines how a repository is scanned, how context is constructed, how the Mini
 
 # Conceptual Runtime Flow
 
-When Context OS is installed inside a project repository, the system follows a structured operational flow:
+When COERNC is installed inside a project repository, the system follows a structured operational flow:
 
 1. Context Discovery
 2. Context Normalization
@@ -64,7 +64,7 @@ Governed Execution
 
 The first stage of runtime execution is **repository discovery**.
 
-Context OS scans the repository to identify relevant sources of context such as:
+COERNC scans the repository to identify relevant sources of context such as:
 
 - Documentation
 - Architecture files
@@ -90,7 +90,7 @@ This stage does **not attempt to interpret the project yet** — it simply disco
 
 # 2. Context Normalization
 
-Once the repository has been scanned, the discovered artifacts must be mapped into the **Context OS taxonomy**.
+Once the repository has been scanned, the discovered artifacts must be mapped into the **COERNC taxonomy**.
 
 Examples of normalization include:
 
@@ -101,7 +101,7 @@ DataModel.md            → A.4_Data_Entities
 Roadmap.md              → P.1_Product_Map
 ```
 
-If a required artifact is missing, Context OS identifies the gap and may request input from the user.
+If a required artifact is missing, COERNC identifies the gap and may request input from the user.
 
 Example:
 
@@ -116,7 +116,7 @@ Normalization ensures that context is transformed from **unstructured documentat
 
 # 3. Context Graph Construction
 
-After normalization, Context OS constructs the **Context Graph**.
+After normalization, COERNC constructs the **Context Graph**.
 
 The Context Graph represents the relationships between core system elements such as:
 
@@ -157,7 +157,7 @@ Agents use this structure to reason about dependencies, relationships, and syste
 
 Before agents can operate safely, the project must reach a **bootable context state**.
 
-Context OS defines this minimal state as the **Minimum Operational Map (MOM)**.
+COERNC defines this minimal state as the **Minimum Operational Map (MOM)**.
 
 The MOM requires the following artifacts:
 
@@ -176,7 +176,7 @@ This ensures that the project reaches a **minimum level of contextual coherence*
 
 # 5. SSOT Initialization
 
-Once the MOM exists, Context OS establishes the **Single Source of Truth (SSOT)**.
+Once the MOM exists, COERNC establishes the **Single Source of Truth (SSOT)**.
 
 The SSOT represents the **authoritative state of project context**.
 
@@ -238,7 +238,7 @@ Together, these agents create a **structured reasoning loop**.
 
 # 7. Governed Execution
 
-With the runtime fully active, Context OS can safely process change requests.
+With the runtime fully active, COERNC can safely process change requests.
 
 Example workflow:
 
@@ -274,7 +274,7 @@ This ensures that execution remains **context-aware and governed**.
 
 # Runtime Design Principles
 
-The Context OS Runtime Model follows several principles:
+The COERNC Runtime Model follows several principles:
 
 ### Context First
 
@@ -327,7 +327,7 @@ Executes those rules inside a real project repository.
 
 In this sense:
 
-> Context OS is both a framework and a runtime system.
+> COERNC is both a framework and a runtime system.
 
 The framework defines how context should work.
 
@@ -337,7 +337,7 @@ The runtime ensures that context **actually governs execution**.
 
 # Runtime CLI and Activation Layer
 
-Context OS now has a Runtime CLI entry surface and a canonical Activation
+COERNC now has a Runtime CLI entry surface and a canonical Activation
 Layer. The CLI begins with validation and expands through the product journey
 as readiness, bootstrap, construction, activation, learning, and reasoning
 slices mature.
@@ -345,21 +345,21 @@ slices mature.
 Example commands:
 
 ```
-contextos init
+coernc init
 contextos scan
 contextos build-mom
 contextos build-ssot
-contextos validate
+coernc validate
 ```
 
-This layer allows Context OS capabilities to become invokable inside a
+This layer allows COERNC capabilities to become invokable inside a
 repository while preserving governance and validation gates.
 
 ---
 
 # Summary
 
-The Runtime Model explains how Context OS moves from theory to operation.
+The Runtime Model explains how COERNC moves from theory to operation.
 
 The system activates through a sequence of steps:
 
@@ -371,5 +371,5 @@ The system activates through a sequence of steps:
 6. Activate the Agentic Operating Model
 7. Execute changes under governance
 
-This structure allows Context OS to function as an **Organizational Context
+This structure allows COERNC to function as an **Organizational Context
 Runtime** for complex projects and human-agent systems.

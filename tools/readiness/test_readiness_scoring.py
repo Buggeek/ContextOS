@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Readiness Scoring."""
+"""Tests for COERNC Readiness Scoring."""
 
 from __future__ import annotations
 

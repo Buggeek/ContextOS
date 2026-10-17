@@ -160,7 +160,7 @@ def draft_document(preflight: dict, target: dict, authorization: dict, generated
     }
     return "\n".join(
         [
-            "# Context OS Draft Artifact",
+            "# COERNC Draft Artifact",
             "",
             "> Non-canonical draft. This file is not reviewed, approved, or verified organizational truth.",
             "",

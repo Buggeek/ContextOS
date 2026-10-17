@@ -13,7 +13,7 @@ def render_human(decision: dict) -> str:
     authority = decision["authority"]
     accepted = decision["decision"]
     lines = [
-        "# Context OS Bootstrap Accepted Decision",
+        "# COERNC Bootstrap Accepted Decision",
         "",
         f"- Schema: `{decision['schema']}`",
         f"- Accepted decision ID: `{decision['id']}`",

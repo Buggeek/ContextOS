@@ -13,7 +13,7 @@ def render_human(record: dict) -> str:
     decision = record["decision"]
     authority = record["authority"]
     lines = [
-        "# Context OS Bootstrap Approval Record Draft",
+        "# COERNC Bootstrap Approval Record Draft",
         "",
         f"- Schema: `{record['schema']}`",
         f"- Approval record ID: `{record['id']}`",

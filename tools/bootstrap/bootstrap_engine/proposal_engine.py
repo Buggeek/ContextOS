@@ -13,7 +13,7 @@ from bootstrap_engine.plan_engine import BootstrapPlanEngine, TOOLS_ROOT
 
 SCHEMA = "contextos.bootstrap.proposal/1"
 DEFAULT_RELEASE = "v0.4 - Guided Bootstrap"
-DEFAULT_GOAL = "Create a governed minimum Context OS bootstrap change set."
+DEFAULT_GOAL = "Create a governed minimum COERNC bootstrap change set."
 DEFAULT_MISSION_ID = "V04-BOOTSTRAP-PROPOSAL-001"
 
 APPROVING_ROLES_BY_MODE = {

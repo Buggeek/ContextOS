@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Bootstrap Proposals."""
+"""Tests for COERNC Bootstrap Proposals."""
 
 from __future__ import annotations
 
@@ -104,7 +104,7 @@ class BootstrapProposalTestCase(unittest.TestCase):
         proposal = BootstrapProposalEngine(".").run(
             BootstrapPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z"),
             mode="project",
-            requested_by="Context OS Maintainers",
+            requested_by="COERNC Maintainers",
             generated_at="2026-08-11T00:00:01Z",
         )
         actions = {action["id"]: action for action in proposal["actions"]}

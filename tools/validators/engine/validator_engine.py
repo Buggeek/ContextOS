@@ -105,7 +105,7 @@ def run_rules(ctx: ValidationContext, selected_rules: set[str]) -> tuple[list, i
                     "rule": rule.id,
                     "status": result_status,
                     "enforcement": decision["enforcement"] if decision else rule.severity,
-                    "rationale": decision["rationale"] if decision else "Context OS native validation behavior.",
+                    "rationale": decision["rationale"] if decision else "COERNC native validation behavior.",
                     "equivalent_control_refs": decision.get("equivalent_control_refs", []) if decision else [],
                     "gap": bool(produced),
                     "finding_count": len(produced),

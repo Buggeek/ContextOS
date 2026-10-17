@@ -40,7 +40,7 @@ Its role is to detect:
 
 ## Inputs
 
-- Context OS artifacts
+- COERNC artifacts
 - Outputs and logs
 - Operational signals (when available)
 

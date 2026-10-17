@@ -186,7 +186,7 @@ class BuilderDraftPromotionPreflightTestCase(unittest.TestCase):
             )
             human = render_human(preflight)
 
-        self.assertIn("# Context OS Draft Promotion Preflight", human)
+        self.assertIn("# COERNC Draft Promotion Preflight", human)
         self.assertIn("Approved is not promoted.", human)
         self.assertIn("This preflight performs no promotion, SSOT write, or canonical mutation.", human)
         self.assertIn("Promotion authorized: no", human)

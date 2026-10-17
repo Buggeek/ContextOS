@@ -301,7 +301,7 @@ def yes_no(value: bool) -> str:
 def render_human(review: dict) -> str:
     summary = review["summary"]
     lines = [
-        "# Context OS Draft Review",
+        "# COERNC Draft Review",
         "",
         f"- Schema: `{review['schema']}`",
         f"- Root: `{review['root']}`",

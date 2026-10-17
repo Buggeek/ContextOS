@@ -1,4 +1,4 @@
-# Context OS Readiness Tools
+# COERNC Readiness Tools
 
 This folder contains small runtime components that support Release v0.3
 Context Readiness.
@@ -81,12 +81,12 @@ The Slice 2 report contains:
 CLI surface:
 
 ```bash
-./contextos assess --root .
-./contextos assess --root . --format json
-./contextos assess --root . --json-out /tmp/contextos-readiness-report.json
+./coernc assess --root .
+./coernc assess --root . --format json
+./coernc assess --root . --json-out /tmp/contextos-readiness-report.json
 ```
 
-`contextos assess` is read-only and emits `contextos.readiness.report/1`.
+`coernc assess` is read-only and emits `contextos.readiness.report/1`.
 
 `--adoption-profile <profile.json>` evaluates mapped organizational capability
-equivalence rather than requiring Context OS-native directories or filenames.
+equivalence rather than requiring COERNC-native directories or filenames.

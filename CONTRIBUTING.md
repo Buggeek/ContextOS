@@ -1,8 +1,9 @@
-# Contributing to Context OS
+# Contributing to COERNC
 
-Thank you for your interest in contributing to Context OS.
+Thank you for your interest in contributing to COERNC.
 
-Context OS is a structural framework. 
+COERNC combines a working organizational theory, an operating model and a local
+software implementation under one project identity.
 Clarity and coherence are more important than speed.
 
 ---

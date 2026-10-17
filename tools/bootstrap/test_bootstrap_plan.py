@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Bootstrap Planning."""
+"""Tests for COERNC Bootstrap Planning."""
 
 from __future__ import annotations
 
@@ -68,7 +68,7 @@ class BootstrapPlanTestCase(unittest.TestCase):
         report = BootstrapPlanEngine(".").run()
         human = render_human(report)
 
-        self.assertIn("# Context OS Bootstrap Plan", human)
+        self.assertIn("# COERNC Bootstrap Plan", human)
         self.assertIn("Ready for bootstrap:", human)
         self.assertIn("## Required Actions", human)
         self.assertIn("## Skipped Existing Targets", human)

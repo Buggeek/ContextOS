@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Context OS Validator Engine v0 CLI wrapper."""
+"""COERNC Validator Engine v0 CLI wrapper."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ VALID_FORMATS = ("human", "json")
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Context OS Validator Engine v0")
+    parser = argparse.ArgumentParser(description="COERNC Validator Engine v0")
     parser.add_argument("--root", default=".", help="Repository root to validate.")
     parser.add_argument("--mode", default="full", choices=VALID_MODES, help="Validation mode.")
     parser.add_argument("--format", default="human", choices=VALID_FORMATS, help="Output format.")

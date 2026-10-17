@@ -130,7 +130,7 @@ def check(check_id: str, passed: bool, message: str, evidence_refs: list[str]) -
 
 
 class OrganizationalContextRuntimeBenchmarkEngine:
-    """Read-only integration proof over released Context OS runtime APIs."""
+    """Read-only integration proof over released COERNC runtime APIs."""
 
     def __init__(self, root: str | Path = ".") -> None:
         self.root = Path(root).resolve()
@@ -231,7 +231,7 @@ class OrganizationalContextRuntimeBenchmarkEngine:
         version_engine = ContextVersionEngine(self.root)
         version_plan = version_engine.plan(
             scope={
-                "organization": "Context OS",
+                "organization": "COERNC",
                 "domain": "product-runtime",
                 "tier": "organizational",
                 "context_root": ".",

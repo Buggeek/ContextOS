@@ -228,7 +228,7 @@ class BuilderDraftApprovalDecisionTestCase(unittest.TestCase):
             )
             human = render_human(approval)
 
-        self.assertIn("# Context OS Draft Approval Decision", human)
+        self.assertIn("# COERNC Draft Approval Decision", human)
         self.assertIn("Approval Decision is not promotion.", human)
         self.assertIn("Draft remains non-canonical organizational context.", human)
         self.assertIn("Promotion authorized: no", human)

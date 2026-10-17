@@ -36,7 +36,7 @@ def build_report(root: Path, detected: dict, generated_at: str | None = None) ->
 def render_human(report: dict, machine_report_path: str | None = None) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Repository Inventory",
+        "# COERNC Repository Inventory",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",

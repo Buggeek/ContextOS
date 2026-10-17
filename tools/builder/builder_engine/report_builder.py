@@ -89,7 +89,7 @@ def yes_no(value: bool) -> str:
 def render_human(report: dict) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Builder Draft Plan",
+        "# COERNC Builder Draft Plan",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",

@@ -1,4 +1,4 @@
-# Context OS Contextual Reasoning
+# COERNC Contextual Reasoning
 
 `tools/reasoning` provides the first governed, read-only Contextual Reasoning
 runtime primitive.
@@ -6,7 +6,7 @@ runtime primitive.
 External assessments may use `--adoption-profile <profile.json>`. Activation,
 Health, Memory, Context Version, and Reasoning then remain bound to target-only
 evidence and the exact profile identity; target truth is never inferred from
-Context OS's own canon.
+COERNC's own canon.
 
 ## Public API
 

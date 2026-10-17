@@ -29,7 +29,7 @@ def format_evidence_refs(refs: list[str], limit: int = 3) -> str:
 def render_human(report: dict) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Health Report",
+        "# COERNC Health Report",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",
@@ -56,7 +56,7 @@ def render_human(report: dict) -> str:
     if report.get("adoption_profile"):
         profile = report["adoption_profile"]
         lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
-        lines.insert(5, "- Evidence isolation: target evidence only; host Context OS artifacts are not target Health evidence")
+        lines.insert(5, "- Evidence isolation: target evidence only; host COERNC artifacts are not target Health evidence")
     for dimension in report["dimensions"].values():
         counts = dimension["counts"]
         lines.append(

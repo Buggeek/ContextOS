@@ -1,6 +1,6 @@
 # Security Policy
 
-Context OS is a documentation-first framework.
+COERNC is a documentation-first framework.
 
 If future tooling layers introduce:
 
@@ -16,5 +16,5 @@ For now:
 - Do not expose private organizational data in examples.
 - Ensure anonymization in sample implementations.
 
-Context OS promotes governance and structural safety.
+COERNC promotes governance and structural safety.
 Security is part of that governance.

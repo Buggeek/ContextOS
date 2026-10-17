@@ -1,13 +1,13 @@
 # P.1 Product Map
-## Version: 0.1.3
-Last Updated: 2026-09-06
-Owner: Context OS Maintainers
+## Version: 0.1.4
+Last Updated: 2026-10-16
+Owner: COERNC Maintainers
 
 ---
 
 ## Purpose
 
-Define the product surfaces and user journeys of the Context OS project as a
+Define the product surfaces and user journeys of the COERNC project as a
 usable Organizational Context Runtime repository.
 
 ---
@@ -34,14 +34,15 @@ usable Organizational Context Runtime repository.
   policy-before-exposure Retrieval tooling
 - Immutable Context Version capture planning and historical verification
 - Governed Contextual Assessment tooling (`tools/reasoning/`)
-- Runtime CLI tooling (`tools/cli/`, `contextos`)
+- Runtime CLI tooling (`tools/cli/`, `coernc`; existing launcher retained for compatibility)
 
 ---
 
 ## Current product and users
 
-Context OS is an Organizational Context Runtime, currently a **design-partner
-alpha** with developer access. The [current product definition](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
+COERNC is one project spanning theory, organizational model and software. Its
+local Organizational Context Runtime is currently a **design-partner alpha**
+with developer access. The [current product definition](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
 owns user/organization fit, capability limits, experience boundaries and value
 gates. The [post-v1 roadmap](P.2_Product_Roadmap.md#post-v1-productization-roadmap)
 owns progression. Architecture and the historical v1.0 release do not establish
@@ -87,7 +88,7 @@ support the journey but remain advanced developer/operator surfaces.
   Bootstrap path
 - Provide read-only Activation Packages that make canonical context consumable
   without creating a parallel SSOT
-- Provide a read-only `contextos activate` surface for generating and checking
+- Provide a read-only `coernc activate` surface for generating and checking
   mission-bound working context packages
 - Provide package-backed Activation Handoffs for humans, Codex, Claude Code,
   IDE assistants, and future consumers
@@ -126,7 +127,7 @@ support the journey but remain advanced developer/operator surfaces.
 - Provide a read-only Contextual Assessment that composes Activation, Health,
   authorized Memory, and Context Version evidence while preserving reasoning,
   Decision, authority, and truth boundaries
-- Provide `contextos reason` human/JSON output and exact saved-Assessment
+- Provide `coernc reason` human/JSON output and exact saved-Assessment
   validation without adding Decision, execution, or mutation authority
 
 ---
@@ -196,6 +197,8 @@ support the journey but remain advanced developer/operator surfaces.
 
 ## Change Log
 
+- 2026-10-16 — Editorial identity alignment to COERNC; technical contracts and recorded evidence retain their compatibility identifiers.
+
 - 2026-09-06 - v0.1.3 - Reconciled current adoption journeys, technical assistance, API surfaces and implemented bootstrap wording.
 
 - 2026-08-11 — v0.1.1 — Added readiness/bootstrap planning surfaces and GENESIS alignment
@@ -221,7 +224,7 @@ support the journey but remain advanced developer/operator surfaces.
   Continuity and policy-aware Retrieval without semantic comparison
 - 2026-08-24 — v0.1.1 — Added the first read-only governed Contextual
   Assessment product capability
-- 2026-08-24 — v0.1.1 — Added the `contextos reason` human/machine surface and
+- 2026-08-24 — v0.1.1 — Added the `coernc reason` human/machine surface and
   saved-Assessment check
 - 2026-09-05 — v0.1.2 — Added ownership-aware work qualification before
   parallel Goal or Mission recommendations

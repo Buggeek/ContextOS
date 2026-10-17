@@ -27,7 +27,7 @@ def required_roots(ctx: ValidationContext) -> list:
                     "error",
                     f"Required repository root '{rel}/' is missing.",
                     rel,
-                    suggested_fix=f"Create the '{rel}/' directory or run Context OS initialization.",
+                    suggested_fix=f"Create the '{rel}/' directory or run COERNC initialization.",
                 )
             )
     return findings

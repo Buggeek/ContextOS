@@ -22,11 +22,11 @@ def contextos_convention(ctx: ValidationContext) -> list:
                 make_finding(
                     "naming.contextos_convention",
                     "warn",
-                    f"Suspicious Context OS naming form '{token}'.",
+                    f"Legacy project naming form '{token}'.",
                     doc.rel_path,
                     line_no,
                     evidence={"token": token},
-                    suggested_fix="Use 'Context OS' in prose, 'ContextOS' for identifiers, and 'contextos' for CLI/schema forms.",
+                    suggested_fix="Use 'COERNC' for the project and 'coernc' for the public CLI; retain existing schema, path and module identifiers for compatibility.",
                 )
             )
     return findings

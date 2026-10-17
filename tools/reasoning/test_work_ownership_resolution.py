@@ -37,7 +37,7 @@ def write(path: Path, content: str) -> None:
 
 def init_git(root: Path) -> None:
     subprocess.run(["git", "init", "-q"], cwd=root, check=True)
-    subprocess.run(["git", "config", "user.name", "Context OS Tests"], cwd=root, check=True)
+    subprocess.run(["git", "config", "user.name", "COERNC Tests"], cwd=root, check=True)
     subprocess.run(["git", "config", "user.email", "tests@contextos.local"], cwd=root, check=True)
     subprocess.run(["git", "add", "."], cwd=root, check=True)
     subprocess.run(["git", "commit", "-qm", "fixture"], cwd=root, check=True)

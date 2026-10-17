@@ -36,7 +36,7 @@ def render_human(report: dict) -> str:
     activation = report["bindings"]["activation_package"]
     continuity = report["bindings"]["memory_continuity"]
     lines = [
-        "# Context OS Memory Retrieval",
+        "# COERNC Memory Retrieval",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Retrieval: `{report['id']}`",
@@ -179,7 +179,7 @@ def render_human(report: dict) -> str:
 
 def render_check_human(report: dict) -> str:
     lines = [
-        "# Context OS Memory Retrieval Check",
+        "# COERNC Memory Retrieval Check",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Retrieval: `{report['retrieval']['id']}`",

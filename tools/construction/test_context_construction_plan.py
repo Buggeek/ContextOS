@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Context Construction planning."""
+"""Tests for COERNC Context Construction planning."""
 
 from __future__ import annotations
 
@@ -85,7 +85,7 @@ class ContextConstructionPlanTestCase(unittest.TestCase):
         report = ContextConstructionPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z")
         human = render_human(report)
 
-        self.assertIn("# Context OS Construction Plan", human)
+        self.assertIn("# COERNC Construction Plan", human)
         self.assertIn("observed -> inferred -> suggested -> draft -> reviewed -> approved -> canonical/verified", human)
         self.assertIn("## Constructable Candidates", human)
         self.assertIn("## Truth Boundary", human)

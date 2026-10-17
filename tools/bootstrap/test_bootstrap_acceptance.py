@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for explicit Context OS Bootstrap Approval Acceptance."""
+"""Tests for explicit COERNC Bootstrap Approval Acceptance."""
 
 from __future__ import annotations
 

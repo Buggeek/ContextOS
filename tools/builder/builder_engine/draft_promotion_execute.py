@@ -470,7 +470,7 @@ def yes_no(value: bool) -> str:
 
 def render_human(result: dict) -> str:
     lines = [
-        "# Context OS Draft Promotion Result",
+        "# COERNC Draft Promotion Result",
         "",
         f"- Schema: `{result['schema']}`",
         f"- Result: `{result['id']}`",

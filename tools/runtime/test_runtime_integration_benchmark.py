@@ -109,7 +109,7 @@ class RuntimeIntegrationBenchmarkTestCase(unittest.TestCase):
         )
         human = render_human(report)
 
-        self.assertIn("# Context OS Organizational Context Runtime Benchmark", human)
+        self.assertIn("# COERNC Organizational Context Runtime Benchmark", human)
         self.assertIn("## Integrated Journey", human)
         self.assertIn("## Runtime Boundaries", human)
         self.assertIn("Reasoning remains advisory", human)

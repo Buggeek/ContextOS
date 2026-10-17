@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Draft Workspace runtime preflight."""
+"""Tests for COERNC Draft Workspace runtime preflight."""
 
 from __future__ import annotations
 

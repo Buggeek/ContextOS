@@ -1,9 +1,22 @@
-# Context OS
+# COERNC
 
-**An Organizational Context Runtime for human-agent work.**
+**Shared understanding for people and AI.**
+
+COERNC is a personal research and open-source project by Juan Carlos exploring
+how people and AI can work through shared context, durable memory, clear
+authority and learning from evidence. The working hypothesis is that intelligence
+can compound when an organization preserves understanding across its work.
+
+The theory, operating model and software are three aspects of the same project.
+The current technical implementation is a local **Organizational Context
+Runtime**; the broader direction is still being explored.
+
+[Explore COERNC](https://coernc.com) ·
+[Read the theory](docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md) ·
+[See what exists today](docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
 
 Teams and AI agents need current context, governing sources and clear action
-authority. Context OS makes those boundaries inspectable before work begins.
+authority. COERNC makes those boundaries inspectable before work begins.
 
 **Design-partner alpha:** a local Python CLI and engine APIs for technical
 maintainers, founders and small software teams. v1.0 is released; self-service
@@ -17,8 +30,16 @@ adoption and measurable business value remain unproven.
 - Reports context health, policy-aware prior art and advisory reasoning.
 - Supports approved, create-only native bootstrap and construction.
 
-Humans own intent, authority, approval and outcomes. Context OS does not
+Humans own intent, authority, approval and outcomes. COERNC does not
 launch agents or execute the Mission.
+
+## Project identity and technical compatibility
+
+COERNC is the single project name across its theory, documentation and software.
+Existing repository URLs, `COS` document paths, `contextos.*` data schemas,
+internal module names and the older command remain compatibility identifiers
+for this same project. New instructions use `./coernc`. Historical Mission
+evidence and release records retain their original names and bytes.
 
 ## How to try it
 
@@ -26,12 +47,12 @@ Requires Git and Python 3.9+; no third-party Python packages. Checked on macOS
 with Python 3.9.6; broader platform support is unproven.
 
 ```bash
-git clone https://github.com/Buggeek/ContextOS.git
-cd ContextOS
-./contextos --version
-./contextos assess --root .
-./contextos activate --root . --goal "Orient one bounded Mission" --handoff
-./contextos health --root .
+git clone https://github.com/Buggeek/ContextOS.git coernc
+cd COERNC
+./coernc --version
+./coernc assess --root .
+./coernc activate --root . --goal "Orient one bounded Mission" --handoff
+./coernc health --root .
 ```
 
 This read-only demo assesses this repository. Inspect the brief's sources,
@@ -77,6 +98,6 @@ Next: [current product and value gates](docs/5.x_strategy/5.6_COS_Current_Produc
 [post-v1 Productization Roadmap](SSOT/P.2_Product_Roadmap.md#post-v1-productization-roadmap),
 [architecture](docs/1.x_architecture/1.0_COS_Architecture.md).
 
-Long-term outcome: **Context OS enables AI-native organizations to govern
+Long-term outcome: **COERNC enables AI-native organizations to govern
 their own evolution.** The [Theory](docs/0.x_foundations/0.9_COS_Theory_of_the_AI_Native_Organization.md)
 distinguishes ambition from current evidence.
