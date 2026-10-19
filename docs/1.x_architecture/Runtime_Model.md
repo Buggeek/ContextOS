@@ -346,9 +346,9 @@ Example commands:
 
 ```
 coernc init
-contextos scan
-contextos build-mom
-contextos build-ssot
+coernc scan
+coernc build-mom
+coernc build-ssot
 coernc validate
 ```
 
