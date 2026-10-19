@@ -48,7 +48,7 @@ with Python 3.9.6; broader platform support is unproven.
 
 ```bash
 git clone https://github.com/Buggeek/ContextOS.git coernc
-cd COERNC
+cd coernc
 ./coernc --version
 ./coernc assess --root .
 ./coernc activate --root . --goal "Orient one bounded Mission" --handoff
