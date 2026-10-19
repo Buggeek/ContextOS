@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Local Discovery Bundle."""
+"""Tests for COERNC Local Discovery Bundle."""
 
 from __future__ import annotations
 
@@ -91,7 +91,7 @@ class LocalDiscoveryBundleTestCase(unittest.TestCase):
             bundle = LocalDiscoveryBundleEngine(temp).run(generated_at="2026-08-11T00:00:00Z")
         human = render_human(bundle)
 
-        self.assertIn("# Context OS Local Discovery Bundle", human)
+        self.assertIn("# COERNC Local Discovery Bundle", human)
         self.assertIn("## Ownership Evidence", human)
         self.assertIn("## Boundaries", human)
         self.assertIn("semantic meaning", human)

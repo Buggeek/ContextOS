@@ -1,15 +1,15 @@
 # P.5 Epic — Structural Integrity (Paths, Profiles, Validators)
 ## ID: EPIC-001
-Version: 0.1.0  
-Last Updated: 2026-02-19  
-Owner: Context OS Maintainers  
+Version: 0.1.1  
+Last Updated: 2026-10-16  
+Owner: COERNC Maintainers  
 Status: In Progress  
 
 ---
 
 ## 1. Objective
 
-Ensure the Context OS framework repository is structurally coherent and self-consistent so adoption and governance are reliable.
+Ensure the COERNC framework repository is structurally coherent and self-consistent so adoption and governance are reliable.
 
 - Linked Vision: S.1
 - Linked Product Map: P.1

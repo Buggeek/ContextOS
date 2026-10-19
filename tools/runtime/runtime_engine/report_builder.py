@@ -28,7 +28,7 @@ def write_json_report(path: str | Path, report: dict) -> None:
 def render_human(report: dict) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Organizational Context Runtime Benchmark",
+        "# COERNC Organizational Context Runtime Benchmark",
         "",
         f"- Benchmark: `{report['id']}`",
         f"- Mission: `{report['mission']['id']}`",

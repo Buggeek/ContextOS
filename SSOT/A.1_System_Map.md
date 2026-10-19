@@ -1,19 +1,19 @@
 # A.1 System Map
-## Version: 0.1.2
-Last Updated: 2026-09-05
-Owner: Context OS Maintainers
+## Version: 0.1.3
+Last Updated: 2026-10-16
+Owner: COERNC Maintainers
 
 ---
 
 ## Purpose
 
-Make the Context OS repository “system” visible: its modules, boundaries, and how they evolve under governance.
+Make the COERNC repository “system” visible: its modules, boundaries, and how they evolve under governance.
 
 ---
 
 ## System Overview
 
-Context OS is a repository-first Organizational Context Runtime with
+COERNC is a repository-first Organizational Context Runtime with
 framework documents, SSOT artifacts, runtime contracts, validator tooling,
 CLI tooling, templates, examples, and operational rules.
 
@@ -51,7 +51,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 | tools/runtime | Module | Internal integrated Organizational Context Runtime benchmark and proof report | Maintainers | v1.0 read-only integration evidence; not a product orchestration surface
 | tools/cli | Module | Runtime CLI implementation and tests | Maintainers | Current surfaces: validate, assess, init plan/proposal/approval/preflight/apply, activate package/check/handoff, health report, memory retrieval/check, contextual reasoning/check
 | contextos | Executable | Root Runtime CLI entry point | Maintainers | Current surfaces: help/version/validate/assess/init/activate/health/memory/reason
-| SSOT | Module | Dogfooding SSOT for the Context OS project | Maintainers | Minimal MOM only
+| SSOT | Module | Dogfooding SSOT for the COERNC project | Maintainers | Minimal MOM only
 
 ---
 
@@ -86,7 +86,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 11. Mission Context -> Governing Context orientation -> bounded Execution Context retrieval only when execution requires it
 12. Execution evidence -> Context Health signals -> non-canonical Context Update Candidate -> existing governed Construction lifecycle
 13. Activation Package + Handoff + explicit Mission records -> Mission-use evidence -> explainable Context Usefulness signals
-14. Validator + Readiness + Mission-use evidence -> `contextos health` -> human or machine Health report -> governed consideration
+14. Validator + Readiness + Mission-use evidence -> `coernc health` -> human or machine Health report -> governed consideration
 15. Mission + decision + evidence + outcome + learning + Inbox records -> Memory Continuity report -> explainable prior art and governed pattern candidates
 16. Goal/Mission + current Activation Package + Memory Continuity -> private relevance candidates -> exact Retention Resolution -> metadata-safe bounded prior art -> retrieval validity check
 17. Applicable retention policies + exact memory identity + consumer/authority/holds/time -> deterministic read-only policy resolution -> independent Retrieval/Activation eligibility or explicit blocked conflict
@@ -94,7 +94,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
 19. Exact Context Version + governed Mission records -> Continuity binding -> independent version-metadata policy gate -> bounded historical Retrieval with no current authority
 20. Goal/Mission + Activation + Health + policy-authorized Memory + Context Versions -> Contextual Assessment -> evidence-backed observations, hypotheses, recommendations, unknowns, and required human decisions
 21. Exact structured claims + declared relationships + focus entities -> bounded comparison/traversal -> cited contradiction and impact assertions without graph authority
-22. Goal/Mission + exact reasoning inputs -> `contextos reason` -> human or machine Assessment -> saved Assessment check before reuse
+22. Goal/Mission + exact reasoning inputs -> `coernc reason` -> human or machine Assessment -> saved Assessment check before reuse
 23. Released runtime APIs + exact accepted write-stage evidence -> integrated runtime benchmark -> explicit release blockers or coherent end-to-end proof
 
 ---
@@ -129,6 +129,8 @@ Modular monolith (documentation modules + tooling modules in one repository).
 ---
 
 ## Change Log
+
+- 2026-10-16 — Editorial identity alignment to COERNC; technical contracts and recorded evidence retain their compatibility identifiers.
 
 - 2026-08-24 - v0.1.1 - Added the internal v1.0 integrated runtime benchmark
   and the remaining self-hosted temporal closure dependency
@@ -174,7 +176,7 @@ Modular monolith (documentation modules + tooling modules in one repository).
   Assessment component and its explicit reasoning/authority boundaries
 - 2026-08-24 — v0.1.1 — Added universal structured claims and bounded
   relationship traversal without introducing GraphRAG or a Context Graph
-- 2026-08-24 — v0.1.1 — Added the read-only `contextos reason` surface and
+- 2026-08-24 — v0.1.1 — Added the read-only `coernc reason` surface and
   deterministic saved-Assessment validation
 - 2026-09-05 — v0.1.2 — Added derived Work Ownership Resolution and its
   Contextual Reasoning boundary

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for the narrow Context OS Runtime CLI v0 surface."""
+"""Tests for the narrow COERNC Runtime CLI v0 surface."""
 
 from __future__ import annotations
 
@@ -71,7 +71,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             (root / directory).mkdir(parents=True, exist_ok=True)
 
         write(root / "README.md", "# Test Repo\n")
-        write(root / "ops" / "AGENT_RULES.md", "# Context OS Agent Rules\n")
+        write(root / "ops" / "AGENT_RULES.md", "# COERNC Agent Rules\n")
         write(root / "docs" / "3.x_operation" / "3.6_COS_Human_Agent_Authority_Model.md", "# 3.6 Authority\n\nL0 L1 L2 L3 L4 L5\n")
         write(root / "SSOT" / "README.md", "# SSOT\n\nCompliance profile: `strict`\n")
         write(root / "SSOT" / "S.1_Vision.md", ssot_doc("S.1 Vision"))
@@ -116,7 +116,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Contextual Assessment", stdout)
+        self.assertIn("# COERNC Contextual Assessment", stdout)
         self.assertIn("## Observed Facts", stdout)
         self.assertIn("## Interpretations", stdout)
         self.assertIn("## Recommendations", stdout)
@@ -233,7 +233,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         code, stdout, stderr = self.invoke(["--version"])
 
         self.assertEqual(code, 0)
-        self.assertEqual(stdout, "contextos 1.0.0\n")
+        self.assertEqual(stdout, "coernc 1.0.0\n")
         self.assertEqual(stderr, "")
 
     def test_health_default_is_read_only_and_explains_attention(self) -> None:
@@ -245,7 +245,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Health Report", stdout)
+        self.assertIn("# COERNC Health Report", stdout)
         self.assertIn("## Health Dimensions", stdout)
         self.assertIn("## What Needs Attention", stdout)
         self.assertIn("## Context Integrity", stdout)
@@ -323,7 +323,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(saved["schema"], "contextos.health.report/1")
-        self.assertIn("# Context OS Health Report", stdout)
+        self.assertIn("# COERNC Health Report", stdout)
         self.assertEqual(stderr, "")
 
     def test_health_rejects_wrong_schema_as_misconfiguration(self) -> None:
@@ -371,7 +371,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Memory Retrieval", stdout)
+        self.assertIn("# COERNC Memory Retrieval", stdout)
         self.assertIn("## Authority Boundary", stdout)
         self.assertIn("No retention policy was supplied", stdout)
         self.assertIn("Selected candidates: 0", stdout)
@@ -603,7 +603,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             ])
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Validator Report", stdout)
+        self.assertIn("# COERNC Validator Report", stdout)
         self.assertEqual(stderr, "")
 
     def test_validate_bad_rule_selector_returns_9(self) -> None:
@@ -629,7 +629,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             code, stdout, stderr = self.invoke(["assess", "--root", temp])
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Readiness Report", stdout)
+        self.assertIn("# COERNC Readiness Report", stdout)
         self.assertIn("Score:", stdout)
         self.assertIn("## Dimension Scores", stdout)
         self.assertIn("## Next Recommended Actions", stdout)
@@ -660,7 +660,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(output_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Readiness Report", stdout)
+        self.assertIn("# COERNC Readiness Report", stdout)
         self.assertEqual(report["schema"], "contextos.readiness.report/1")
         self.assertEqual(stderr, "")
 
@@ -683,7 +683,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Activation Package", stdout)
+        self.assertIn("# COERNC Activation Package", stdout)
         self.assertIn("Consumer: `codex`", stdout)
         self.assertIn("This package is derived working context, not SSOT.", stdout)
         self.assertEqual(stderr, "")
@@ -757,7 +757,7 @@ class ContextOSCliTestCase(unittest.TestCase):
         check_report = json.loads(check_stdout)
         drift_report = json.loads(drift_stdout)
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Activation Package", stdout)
+        self.assertIn("# COERNC Activation Package", stdout)
         self.assertEqual(package["schema"], "contextos.activation.package/1")
         self.assertEqual(check_code, 0)
         self.assertEqual(check_report["schema"], "contextos.activation.package_check/1")
@@ -799,7 +799,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Activation Handoff", stdout)
+        self.assertIn("# COERNC Activation Handoff", stdout)
         self.assertIn("Package valid now: yes", stdout)
         self.assertIn("This handoff is derived from an Activation Package and is not SSOT.", stdout)
         self.assertEqual(stderr, "")
@@ -965,7 +965,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Bootstrap Plan", stdout)
+        self.assertIn("# COERNC Bootstrap Plan", stdout)
         self.assertIn("Ready for bootstrap:", stdout)
         self.assertIn("## Required Actions", stdout)
         self.assertIn("## Skipped Existing Targets", stdout)
@@ -1001,7 +1001,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(output_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Plan", stdout)
+        self.assertIn("# COERNC Bootstrap Plan", stdout)
         self.assertEqual(report["schema"], "contextos.bootstrap.plan/1")
         self.assertIn("actions", report)
         self.assertEqual(stderr, "")
@@ -1015,7 +1015,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Bootstrap Proposal", stdout)
+        self.assertIn("# COERNC Bootstrap Proposal", stdout)
         self.assertIn("Proposal ID:", stdout)
         self.assertIn("Approval implied: no", stdout)
         self.assertIn("Apply authorized: no", stdout)
@@ -1062,7 +1062,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(output_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Proposal", stdout)
+        self.assertIn("# COERNC Bootstrap Proposal", stdout)
         self.assertEqual(report["schema"], "contextos.bootstrap.proposal/1")
         self.assertIn("identity_hash", report)
         self.assertEqual(stderr, "")
@@ -1118,7 +1118,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Bootstrap Approval Record Draft", stdout)
+        self.assertIn("# COERNC Bootstrap Approval Record Draft", stdout)
         self.assertIn("Apply authorized: no", stdout)
         self.assertIn("Human authority required: yes", stdout)
         self.assertIn("This approval record draft does not approve the proposal.", stdout)
@@ -1141,7 +1141,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(approval_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Approval Record Draft", stdout)
+        self.assertIn("# COERNC Bootstrap Approval Record Draft", stdout)
         self.assertEqual(report["schema"], "contextos.bootstrap.approval_record/1")
         self.assertIn("decision", report)
         self.assertEqual(stderr, "")
@@ -1234,7 +1234,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Bootstrap Accepted Decision", stdout)
+        self.assertIn("# COERNC Bootstrap Accepted Decision", stdout)
         self.assertIn("Accepted by: Jane Owner", stdout)
         self.assertIn("Apply authorized: no", stdout)
         self.assertIn("Repository mutation authorized: no", stdout)
@@ -1274,7 +1274,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(accepted_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Accepted Decision", stdout)
+        self.assertIn("# COERNC Bootstrap Accepted Decision", stdout)
         self.assertEqual(report["schema"], "contextos.bootstrap.accepted_decision/1")
         self.assertIn("decision_record", report["decision"])
         self.assertEqual(stderr, "")
@@ -1375,7 +1375,7 @@ class ContextOSCliTestCase(unittest.TestCase):
 
         self.assertEqual(code, 0)
         self.assertEqual(before, after)
-        self.assertIn("# Context OS Bootstrap Apply Preflight", stdout)
+        self.assertIn("# COERNC Bootstrap Apply Preflight", stdout)
         self.assertIn("Eligible for apply: yes", stdout)
         self.assertIn("Apply authorized: no", stdout)
         self.assertIn("Frozen Mutation Set", stdout)
@@ -1415,7 +1415,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             report = json.loads(preflight_path.read_text(encoding="utf-8"))
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Apply Preflight", stdout)
+        self.assertIn("# COERNC Bootstrap Apply Preflight", stdout)
         self.assertEqual(report["schema"], "contextos.bootstrap.apply_preflight/1")
         self.assertIn("frozen_mutation_set", report)
         self.assertEqual(stderr, "")
@@ -1514,7 +1514,7 @@ class ContextOSCliTestCase(unittest.TestCase):
             ])
 
         self.assertEqual(code, 0)
-        self.assertIn("# Context OS Bootstrap Apply Result", stdout)
+        self.assertIn("# COERNC Bootstrap Apply Result", stdout)
         self.assertIn("State: applied_validated", stdout)
         self.assertIn("Apply performed create-only actions.", stdout)
         self.assertEqual(stderr, "")

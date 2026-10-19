@@ -3,7 +3,7 @@
 
 Compliance profile: `strict`
 
-This example demonstrates how Context OS applies to a non-software-native organization.
+This example demonstrates how COERNC applies to a non-software-native organization.
 
 The organization is a mid-size restaurant chain with:
 - Physical locations
@@ -12,7 +12,7 @@ The organization is a mid-size restaurant chain with:
 - Delivery integrations
 - Inventory and supply workflows
 
-The goal is to show that Context OS scales beyond startups and pure software teams.
+The goal is to show that COERNC scales beyond startups and pure software teams.
 
 This example includes only the Minimum Operational Map (MOM).
 No automation. No agents. No SaaS.
@@ -30,7 +30,7 @@ No automation. No agents. No SaaS.
 
 ---
 
-## Why Context OS Here
+## Why COERNC Here
 
 Typical problems in this type of organization:
 
@@ -40,7 +40,7 @@ Typical problems in this type of organization:
 - Dependencies between POS, inventory, and delivery are implicit
 - AI initiatives amplify inconsistency instead of reducing it
 
-Context OS introduces structural visibility without disrupting operations.
+COERNC introduces structural visibility without disrupting operations.
 
 ---
 

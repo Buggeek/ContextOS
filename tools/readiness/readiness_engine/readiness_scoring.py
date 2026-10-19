@@ -150,9 +150,9 @@ def build_inventory_dimension(inventory_report: dict) -> dict:
     gaps = [f"Missing inventory class: {class_id}." for class_id in missing]
     artifact_count = inventory_report["summary"]["artifact_count"]
     if artifact_count:
-        signals.insert(0, f"{artifact_count} Context OS-relevant artifacts detected.")
+        signals.insert(0, f"{artifact_count} COERNC-relevant artifacts detected.")
     else:
-        gaps.insert(0, "No Context OS-relevant artifacts were detected.")
+        gaps.insert(0, "No COERNC-relevant artifacts were detected.")
     evidence = []
     for class_id in present:
         evidence.extend(paths_by_class[class_id])
@@ -438,7 +438,7 @@ def apply_score_caps(score: int, inventory_report: dict, validator_report: dict)
         reasons.append("Validator returned error findings; maximum readiness level is R2.")
     if inventory_report["summary"]["taxonomy_class_count"] == 0:
         capped = min(capped, 39)
-        reasons.append("No Context OS-relevant taxonomy classes were found; maximum readiness level is R1.")
+        reasons.append("No COERNC-relevant taxonomy classes were found; maximum readiness level is R1.")
     if ownership_absent(validator_report):
         capped = min(capped, 74)
         reasons.append("Framework ownership is not fully declared; maximum readiness level is R3.")
@@ -507,7 +507,7 @@ class ReadinessScoringEngine:
                         "category": "adoption",
                         "title": "Review unresolved target-canon mapping ambiguity.",
                         "rationale": f"{len(ambiguous)} mapped capability decision(s) preserve unresolved target authority or currentness questions.",
-                        "suggested_action": "Have the accountable target authority review the mapped precedence/currentness evidence; do not create Context OS-native replacement artifacts.",
+                        "suggested_action": "Have the accountable target authority review the mapped precedence/currentness evidence; do not create COERNC-native replacement artifacts.",
                         "suggested_next_action": "Review the profile ambiguity with target authority.",
                         "related_dimension": "inventory",
                         "evidence_refs": sorted(

@@ -65,16 +65,16 @@ FORMAT_CHOICES = ("text", "human", "json")
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="contextos",
-        description="Context OS Organizational Context Runtime CLI.",
+        prog="coernc",
+        description="COERNC Organizational Context Runtime CLI.",
     )
-    parser.add_argument("--version", action="version", version=f"contextos {VERSION}")
+    parser.add_argument("--version", action="version", version=f"coernc {VERSION}")
 
     subparsers = parser.add_subparsers(dest="command", metavar="<command>")
     validate = subparsers.add_parser(
         "validate",
-        help="Run the Context OS Validator.",
-        description="Run the Context OS Validator.",
+        help="Run the COERNC Validator.",
+        description="Run the COERNC Validator.",
     )
     validate.add_argument("--root", default=".", help="Repository root to validate.")
     validate.add_argument("--mode", default="full", choices=VALID_MODES, help="Validation mode.")
@@ -97,8 +97,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     init = subparsers.add_parser(
         "init",
-        help="Plan guided Context OS bootstrap.",
-        description="Plan guided Context OS bootstrap without modifying the repository.",
+        help="Plan guided COERNC bootstrap.",
+        description="Plan guided COERNC bootstrap without modifying the repository.",
     )
     init.add_argument("--root", default=".", help="Repository root to plan bootstrap for.")
     init.add_argument("--format", default="human", choices=FORMAT_CHOICES, help="Output format.")

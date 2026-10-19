@@ -56,7 +56,7 @@ def contradictions_for_ownership(ownership_items: list[dict]) -> list[dict]:
                     "type": "conflicting_ownership_evidence",
                     "field": field,
                     "values": sorted(values),
-                    "truth_boundary": "Multiple owner-like values were observed; Context OS does not choose between them.",
+                    "truth_boundary": "Multiple owner-like values were observed; COERNC does not choose between them.",
                 }
             )
     return contradictions

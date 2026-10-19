@@ -13,7 +13,7 @@ def render_human(result: dict) -> str:
     confirmation = result["confirmation"]
     post_validator = result["validation"]["post_apply_validator"]
     lines = [
-        "# Context OS Bootstrap Apply Result",
+        "# COERNC Bootstrap Apply Result",
         "",
         f"- Schema: `{result['schema']}`",
         f"- Apply result ID: `{result['id']}`",

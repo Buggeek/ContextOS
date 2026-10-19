@@ -16,7 +16,7 @@ def render_human(proposal: dict) -> str:
     authority = proposal["authority"]
     repo = proposal["repository_state"]
     lines = [
-        "# Context OS Bootstrap Proposal",
+        "# COERNC Bootstrap Proposal",
         "",
         f"- Schema: `{proposal['schema']}`",
         f"- Proposal ID: `{proposal['id']}`",

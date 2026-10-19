@@ -81,8 +81,8 @@ The read-only memory result remained non-canonical.
 def make_repo(root: Path) -> None:
     for directory in ("docs", "SSOT", "ops", "templates"):
         (root / directory).mkdir(parents=True, exist_ok=True)
-    write(root / "README.md", "# Test Context OS Repository\n")
-    write(root / "ops" / "AGENT_RULES.md", "# Context OS Agent Rules\n")
+    write(root / "README.md", "# Test COERNC Repository\n")
+    write(root / "ops" / "AGENT_RULES.md", "# COERNC Agent Rules\n")
     write(root / "docs" / "3.x_operation" / "3.6_COS_Human_Agent_Authority_Model.md", "# Authority\n\nL0 L1 L2 L3 L4 L5\n")
     write(root / "SSOT" / "README.md", "# SSOT\n\nCompliance profile: `strict`\n")
     write(root / "SSOT" / "S.1_Vision.md", ssot_doc("S.1 Vision", "Governed organizational continuity."))
@@ -263,7 +263,7 @@ class MemoryRetrievalTestCase(unittest.TestCase):
         report = MemoryRetrievalEngine(".").run(goal="memory prior art provenance", generated_at=FIXED_TIME, **policy_inputs())
         human = render_human(report)
 
-        self.assertIn("# Context OS Memory Retrieval", human)
+        self.assertIn("# COERNC Memory Retrieval", human)
         self.assertIn("## Authority Boundary", human)
         self.assertIn("## Retrieved Memory Candidates", human)
         self.assertIn("Why selected:", human)

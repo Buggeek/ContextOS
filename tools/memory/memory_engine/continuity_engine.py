@@ -373,7 +373,7 @@ def profile_memory_forms(root: Path, profile) -> dict[str, list[dict]]:
 
 
 class OrganizationalMemoryEngine:
-    """Build a governed, read-only continuity view over explicit Context OS records."""
+    """Build a governed, read-only continuity view over explicit COERNC records."""
 
     def __init__(self, root: str | Path = ".", adoption_profile=None) -> None:
         self.root = Path(root).resolve()

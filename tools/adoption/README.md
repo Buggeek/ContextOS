@@ -1,6 +1,6 @@
 # External Adoption Profile Runtime
 
-`contextos.adoption.profile/1` maps universal Context OS capabilities to an external organization's existing governed canon. It is a mapping and applicability artifact, not a copied SSOT and not authority over the target.
+`contextos.adoption.profile/1` maps universal COERNC capabilities to an external organization's existing governed canon. It is a mapping and applicability artifact, not a copied SSOT and not authority over the target.
 
 The profile preserves deterministic identity, target scope, mapping provenance, source authority/currentness, Validator applicability, selection semantics, evidence isolation, and invalidation rules. Suggested or unknown mappings never become canonical merely because they appear in a profile.
 

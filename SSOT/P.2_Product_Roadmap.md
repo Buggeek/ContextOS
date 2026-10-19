@@ -1,10 +1,10 @@
-# P.2 — Context OS Product Roadmap
+# P.2 — COERNC Product Roadmap
 
-Version: 1.3
+Version: 1.3.1
 
-Last Updated: 2026-09-10
+Last Updated: 2026-10-16
 
-Owner: Context OS Core Team
+Owner: COERNC Core Team
 
 Status: Active
 
@@ -92,10 +92,10 @@ under this rebaseline Mission.
 
 # Product Goal
 
-Build Context OS as the canonical Organizational Context Runtime for
+Build COERNC as the canonical Organizational Context Runtime for
 human-agent systems.
 
-Context OS enables humans, agents, and systems to operate using a shared
+COERNC enables humans, agents, and systems to operate using a shared
 contextual model that continuously evolves, validates itself, and supports
 intelligent execution.
 
@@ -325,7 +325,7 @@ release intent; Mission Packets govern bounded execution.
 | Release | Primary epic slices |
 |---|---|
 | v0.3 Context Readiness | Context Readiness Assessment contract, EPIC-007 Validator Engine, EPIC-008 Runtime CLI, EPIC-004 local inventory, EPIC-006 recommendation mapping |
-| v0.4 Guided Bootstrap | EPIC-008 `contextos init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
+| v0.4 Guided Bootstrap | EPIC-008 `coernc init`, EPIC-006 governed bootstrap proposal/approval/preflight/apply path, EPIC-007 pre-bootstrap/gate validation |
 | v0.5 Context Construction | Construction planning, local Discovery Bundle, Builder Draft Plan, Builder Draft Authority, Draft Workspace runtime, create-only draft writes, draft review surface, EPIC-007 gate integration |
 | v0.6 Context Activation | Context Activation Package, EPIC-008 activation surface, adapter epics, validated context delivery |
 | v0.7 Context Health & Learning | Health/drift slices, EPIC-007 full-mode expansion, EPIC-005 learning inputs |
@@ -376,7 +376,7 @@ Decision authority. A narrow read-only human/machine product surface and exact
 saved-assessment validation are the active dependencies before release
 verification.
 
-`contextos reason` now provides that surface and saved-result validation. The
+`coernc reason` now provides that surface and saved-result validation. The
 active dependency is v0.9 release verification; no additional reasoning,
 retrieval, UI, Graph, or agent capability is required unless verification
 finds a release blocker.
@@ -448,20 +448,20 @@ Status: Active
 
 Primary release slice: v0.3 Context Readiness and v0.4 Guided Bootstrap. The
 validate and assess surfaces have shipped; v0.4 now exposes read-only
-`contextos init` bootstrap planning. Later slices add bootstrap apply,
+`coernc init` bootstrap planning. Later slices add bootstrap apply,
 construction, activation, and mission-oriented commands as their releases
 require them.
 
 The first v0.6 activation slices provide `contextos.activation.package/1`,
 `contextos.activation.package_check/1`, and the read-only
-`contextos activate` CLI surface. Package-first Mission execution is now
-proven for a self-hosted Context OS Mission.
+`coernc activate` CLI surface. Package-first Mission execution is now
+proven for a self-hosted COERNC Mission.
 
 ---
 
 # Success Criteria
 
-Context OS successfully becomes:
+COERNC successfully becomes:
 
 - assessable
 - bootstrapable
@@ -481,12 +481,14 @@ while preserving contextual integrity.
 
 Context is infrastructure.
 
-The objective of Context OS is to make organizational context operational,
+The objective of COERNC is to make organizational context operational,
 governable, and reusable across humans, agents, and systems.
 
 ---
 
 # Change Log
+
+- 2026-10-16 — Editorial identity alignment to COERNC; technical contracts and recorded evidence retain their compatibility identifiers.
 
 - 2026-09-10 - v1.3 - Updated only the continuity contribution status: local technical capability retained, synthetic trial ended, complete experience unaccepted and human utility/Gate 2 unproven; phases and gate criteria unchanged.
 
@@ -563,7 +565,7 @@ governable, and reusable across humans, agents, and systems.
   dependency.
 - 2026-08-24 - v1.0 - Recorded assessment-first self-hosting and promoted the
   bounded Reasoning surface plus saved-result check dependency.
-- 2026-08-24 - v1.0 - Added `contextos reason`, saved-Assessment validation,
+- 2026-08-24 - v1.0 - Added `coernc reason`, saved-Assessment validation,
   and the v0.9 release-verification dependency.
 - 2026-08-24 - v1.0 - Recorded v0.9 Contextual Reasoning release readiness and
   the explicit release-cut authority boundary.

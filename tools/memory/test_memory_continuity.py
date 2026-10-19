@@ -120,7 +120,7 @@ class OrganizationalMemoryTestCase(unittest.TestCase):
         report = OrganizationalMemoryEngine(".").run(goal="memory continuity", generated_at=FIXED_TIME)
         human = render_human(report)
 
-        self.assertIn("# Context OS Memory Continuity Report", human)
+        self.assertIn("# COERNC Memory Continuity Report", human)
         self.assertIn("## Prior Art For This Mission", human)
         self.assertIn("## Supersession", human)
         self.assertIn("## Pattern Candidates", human)

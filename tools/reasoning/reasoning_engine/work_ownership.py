@@ -566,7 +566,7 @@ class WorkOwnershipResolver:
 def render_human(report: dict) -> str:
     result = report["result"]
     lines = [
-        "# Context OS Work Ownership Resolution",
+        "# COERNC Work Ownership Resolution",
         "",
         f"- Resolution: `{report['id']}`",
         f"- Need: {report['need']['statement']}",

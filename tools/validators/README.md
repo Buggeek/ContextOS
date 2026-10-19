@@ -1,6 +1,6 @@
-# Context OS Validator Engine v0
+# COERNC Validator Engine v0
 
-This folder contains the first implementation of the Context OS Validator
+This folder contains the first implementation of the COERNC Validator
 Engine for EPIC-007.
 
 The implementation is intentionally small:
@@ -11,7 +11,7 @@ The implementation is intentionally small:
 - no external connectors
 - no automatic fixes
 
-The Runtime CLI wraps this surface as `contextos validate`.
+The Runtime CLI wraps this surface as `coernc validate`.
 
 External targets may pass `--adoption-profile <contextos.adoption.profile/1>`.
 Profile-aware reports preserve stable rule IDs while distinguishing `passed`,
@@ -170,7 +170,7 @@ expected to change between invocations.
 | `structure.tracked_junk_absent` | error | install-check, pre-bootstrap, full, gate | Fails tracked OS/editor junk files |
 | `structure.markdown_h1_present` | error/warn | full, gate | Requires Markdown H1 headings; SSOT is blocking |
 | `structure.legacy_paths` | warn | full, gate | Detects legacy paths and identifiers, with explicit allowlists |
-| `naming.contextos_convention` | warn | full, gate | Detects suspicious `Context OS` naming convention drift |
+| `naming.contextos_convention` | warn | full, gate | Detects suspicious `COERNC` naming convention drift |
 | `naming.doctrine_terms` | error | full, gate | Blocks legacy `Agent Operating Model` prose outside explicit historical references |
 | `links.relative_paths_resolve` | error | full, gate | Blocks broken internal relative Markdown links |
 | `links.anchors_resolve` | error | full, gate | Blocks links to missing Markdown heading anchors |

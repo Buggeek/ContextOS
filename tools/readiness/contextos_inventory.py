@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Context OS Repository Inventory report generator."""
+"""COERNC Repository Inventory report generator."""
 
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ VALID_FORMATS = ("human", "json")
 
 
 def parse_args(argv: list[str]) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Context OS Repository Inventory")
+    parser = argparse.ArgumentParser(description="COERNC Repository Inventory")
     parser.add_argument("--root", default=".", help="Repository root to inventory.")
     parser.add_argument("--format", default="human", choices=VALID_FORMATS, help="Output format.")
     parser.add_argument("--json-out", default=None, help="Write the machine report JSON to this path.")

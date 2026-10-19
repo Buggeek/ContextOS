@@ -396,7 +396,7 @@ def yes_no(value: bool) -> str:
 
 def render_human(decision: dict) -> str:
     lines = [
-        "# Context OS Draft Approval Decision",
+        "# COERNC Draft Approval Decision",
         "",
         f"- Schema: `{decision['schema']}`",
         f"- Decision: `{decision['id']}`",

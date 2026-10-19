@@ -191,7 +191,7 @@ class MissionContextUseEvidenceTestCase(unittest.TestCase):
     def test_human_report_exposes_epistemic_boundary(self) -> None:
         human = render_human(self.build_evidence())
 
-        self.assertIn("# Context OS Mission-Use Evidence", human)
+        self.assertIn("# COERNC Mission-Use Evidence", human)
         self.assertIn("Selected does not imply retrieved", human)
         self.assertIn("Used does not imply useful", human)
         self.assertIn("unknown, not unused", human)

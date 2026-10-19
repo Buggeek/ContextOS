@@ -122,7 +122,7 @@ def render_human(report: dict) -> str:
     readiness = report["readiness"]
     validator = report["validator"]
     lines = [
-        "# Context OS Construction Plan",
+        "# COERNC Construction Plan",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",

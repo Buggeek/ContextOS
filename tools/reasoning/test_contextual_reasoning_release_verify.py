@@ -34,7 +34,7 @@ class ContextualReasoningReleaseVerifyTestCase(unittest.TestCase):
     def test_context_os_dogfood_is_read_only_and_explainable(self) -> None:
         before = subprocess.check_output(["git", "status", "--porcelain"], cwd=ROOT, text=True)
         report = ContextualAssessmentEngine(ROOT).run(
-            goal="Verify Context OS v0.9 reasoning readiness",
+            goal="Verify COERNC v0.9 reasoning readiness",
             mission_id="V09-CONTEXTUAL-REASONING-RELEASE-VERIFY-001",
             generated_at=FIXED_TIME,
         )
@@ -150,7 +150,7 @@ class ContextualReasoningReleaseVerifyTestCase(unittest.TestCase):
         )
 
         self.assertEqual(human.returncode, 0)
-        self.assertIn("# Context OS Contextual Assessment", human.stdout)
+        self.assertIn("# COERNC Contextual Assessment", human.stdout)
         self.assertEqual(human.stderr, "")
         report = json.loads(machine.stdout)
         self.assertEqual(machine.returncode, 0)

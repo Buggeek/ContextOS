@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Builder Draft Planning."""
+"""Tests for COERNC Builder Draft Planning."""
 
 from __future__ import annotations
 
@@ -93,7 +93,7 @@ class BuilderDraftPlanTestCase(unittest.TestCase):
         report = BuilderDraftPlanEngine(".").run(generated_at="2026-08-11T00:00:00Z")
         human = render_human(report)
 
-        self.assertIn("# Context OS Builder Draft Plan", human)
+        self.assertIn("# COERNC Builder Draft Plan", human)
         self.assertIn("## Truth Boundary", human)
         self.assertIn("Evidence does not become organizational truth.", human)
         self.assertIn("No draft files were written.", human)

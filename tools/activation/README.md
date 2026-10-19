@@ -1,4 +1,4 @@
-# Context OS Activation Tools
+# COERNC Activation Tools
 
 This folder contains the first Release v0.6 Context Activation capability.
 
@@ -41,7 +41,7 @@ Handoff check schema:
 contextos.activation.handoff_check/1
 ```
 
-The package turns canonical Context OS sources into mission-bound working
+The package turns canonical COERNC sources into mission-bound working
 context for a consumer. It preserves:
 
 - canonical source authority,
@@ -63,7 +63,7 @@ or consumer, but canonical source artifacts remain authoritative.
 
 This slice does not implement:
 
-- `contextos activate`,
+- `coernc activate`,
 - IDE adapters,
 - autonomous agents,
 - Context Graph runtime,
@@ -78,7 +78,7 @@ This slice does not implement:
 Slice `V06-ACTIVATION-PACKAGE-CLI-001` exposes the package through:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --goal "Plan the next mission" \
   --consumer codex \
@@ -88,13 +88,13 @@ Slice `V06-ACTIVATION-PACKAGE-CLI-001` exposes the package through:
 Machine output:
 
 ```bash
-./contextos activate --root . --goal "Plan the next mission" --format json
+./coernc activate --root . --goal "Plan the next mission" --format json
 ```
 
 Persist the machine package:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --goal "Plan the next mission" \
   --json-out /tmp/contextos-activation-package.json
@@ -103,7 +103,7 @@ Persist the machine package:
 Check a package for drift/invalidation:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --check-package /tmp/contextos-activation-package.json \
   --format json
@@ -118,7 +118,7 @@ contextos.activation.package_check/1
 Generate a compact package-backed handoff from a checked package:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --check-package /tmp/contextos-activation-package.json \
   --handoff
@@ -127,7 +127,7 @@ Generate a compact package-backed handoff from a checked package:
 Check a saved handoff before use:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --check-handoff /tmp/contextos-activation-handoff.json \
   --format json
@@ -140,7 +140,7 @@ It does not regenerate context selection.
 Generate a fresh package and immediately render its handoff:
 
 ```bash
-./contextos activate \
+./coernc activate \
   --root . \
   --goal "Plan the next mission" \
   --consumer codex \
@@ -178,7 +178,7 @@ A self-hosted Mission may begin from an Activation Package instead of a long
 manual source list when it follows this sequence:
 
 1. Generate or resolve the package for the exact Mission.
-2. Run `./contextos activate --check-package <package.json>`.
+2. Run `./coernc activate --check-package <package.json>`.
 3. Use the package's selected sources, constraints, gaps, exclusions, and
    provenance as working context.
 4. Fetch additional repository context only when the package identifies a gap or

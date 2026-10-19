@@ -76,7 +76,7 @@ class ContextHealthTestCase(unittest.TestCase):
         report = ContextHealthEngine(".").run(generated_at="2026-08-14T00:00:00Z")
         human = render_human(report)
 
-        self.assertIn("# Context OS Health Report", human)
+        self.assertIn("# COERNC Health Report", human)
         self.assertIn("## Executive Assessment", human)
         self.assertIn("Overall Health is", human)
         self.assertIn("## Context Integrity", human)

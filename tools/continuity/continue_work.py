@@ -197,7 +197,7 @@ def run(workspace, *, reanchor=False, reason=None, recover=False):
     config = read_json(workspace / "work.json")
     target = Path(config["source"]["root"]).resolve()
     if inside(workspace, target) or inside(target, workspace) or inside(workspace, ROOT):
-        raise ValueError("Evidence workspace must be separate from target and Context OS canon.")
+        raise ValueError("Evidence workspace must be separate from target and COERNC canon.")
     if (reanchor or recover) and not reason:
         raise ValueError("An explicit operator review/recovery reason is required.")
     workspace.chmod(0o700)

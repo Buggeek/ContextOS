@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS activation packages."""
+"""Tests for COERNC activation packages."""
 
 from __future__ import annotations
 
@@ -31,7 +31,7 @@ def ssot_doc(artifact_id: str, title: str, body: str) -> str:
     return f"""# {artifact_id} {title}
 ## Version: 0.1.0
 Last Updated: 2026-08-11
-Owner: Context OS Maintainers
+Owner: COERNC Maintainers
 
 ---
 
@@ -51,7 +51,7 @@ class ContextActivationPackageTestCase(unittest.TestCase):
         root = Path(temp.name)
         write(root / "README.md", "# Example Runtime\nOwner: Maintainers\n")
         (root / "templates").mkdir(parents=True, exist_ok=True)
-        write(root / "ops" / "AGENT_RULES.md", "# Context OS Agent Rules\n")
+        write(root / "ops" / "AGENT_RULES.md", "# COERNC Agent Rules\n")
         write(root / "docs" / "3.x_operation" / "3.6_COS_Human_Agent_Authority_Model.md", "# 3.6 Authority\n\nL0 L1 L2 L3 L4 L5\n")
         write(root / "SSOT" / "README.md", "# SSOT\n\nCompliance profile: `strict`\n")
         write(root / "SSOT" / "S.1_Vision.md", ssot_doc("S.1", "Vision", "Activation context."))
@@ -185,7 +185,7 @@ class ContextActivationPackageTestCase(unittest.TestCase):
             )
         human = render_human(report)
 
-        self.assertIn("# Context OS Activation Package", human)
+        self.assertIn("# COERNC Activation Package", human)
         self.assertIn("This package is derived working context, not SSOT.", human)
         self.assertIn("Canonical source artifacts remain authoritative.", human)
         self.assertIn("## Invalidation", human)
@@ -266,7 +266,7 @@ class ContextActivationPackageTestCase(unittest.TestCase):
             handoff = engine.build_handoff(package, generated_at="2026-08-11T00:00:00Z")
         human = render_human(handoff)
 
-        self.assertIn("# Context OS Activation Handoff", human)
+        self.assertIn("# COERNC Activation Handoff", human)
         self.assertIn("Handoff ready: yes", human)
         self.assertIn("## Governing Context", human)
         self.assertIn("## Mission Context Layers", human)
@@ -349,7 +349,7 @@ class ContextActivationPackageTestCase(unittest.TestCase):
             check = engine.check_handoff(handoff, generated_at="2026-08-11T00:00:00Z")
         human = render_human(check)
 
-        self.assertIn("# Context OS Activation Handoff Check", human)
+        self.assertIn("# COERNC Activation Handoff Check", human)
         self.assertIn("Valid: yes", human)
         self.assertIn("It performs no repository mutation.", human)
 

@@ -1,18 +1,23 @@
-# Context OS Project SSOT
+# COERNC Project SSOT
 
 Compliance profile: `strict`
 
-This folder is the **Single Source of Truth (SSOT)** for the Context OS project itself.
+This folder is the **Single Source of Truth (SSOT)** for the COERNC project itself.
 
 It is a **dogfooding SSOT**: it intentionally goes beyond the Minimum Operational Map (MOM) to include execution artifacts that govern the framework's own evolution.
 
 ## Current product baseline
 
+- [Single project identity and technical compatibility](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md#product-definition)
 - [Product definition, users, value and reference gates](../docs/5.x_strategy/5.6_COS_Current_Product_Definition.md)
 - [Product Reality Audit and rebaseline Mission](E.4_Mission_POST-V1-PRODUCT-REALITY-AND-ROADMAP-REBASELINE-001_Product_Reality_Rebaseline.md)
 
 This native dogfood structure is not a migration requirement for external
 organizations; see [Adoption Model v2](../docs/4.x_adoption/4.0_COS_Adoption_Playbook.md).
+
+Historical Mission and release artifacts preserve their original names and
+evidence. They describe earlier work on this same COERNC project; they do not
+introduce additional current products or brands.
 
 ## Minimum Operational Map (MOM)
 
@@ -30,7 +35,7 @@ organizations; see [Adoption Model v2](../docs/4.x_adoption/4.0_COS_Adoption_Pla
 - E.1 User Story — US-001 Canonicalize Operational Docs Path
 - `epics/` — Epic backlog derived from the roadmap (see [`epics/README.md`](epics/README.md))
 
-These artifacts demonstrate Context OS governing its own structural changes.
+These artifacts demonstrate COERNC governing its own structural changes.
 
 > Narrative strategy (Framework vs. Runtime, long-term vision) lives in
 > [`../docs/1.x_architecture/1.0_COS_Architecture.md`](../docs/1.x_architecture/1.0_COS_Architecture.md),
@@ -40,6 +45,6 @@ These artifacts demonstrate Context OS governing its own structural changes.
 
 > **SSOT taxonomy note.** In this dogfooding SSOT, `P.2` is used for **Product Roadmap**.
 > The framework taxonomy ([`../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md`](../docs/2.x_taxonomy/2.0_COS_Document_Taxonomy.md))
-> reserves `P.2` for Feature Catalog and `P.3` for Roadmap; Context OS does not yet
+> reserves `P.2` for Feature Catalog and `P.3` for Roadmap; COERNC does not yet
 > need a Feature Catalog, so the Product layer is collapsed to `P.1 Product Map`,
 > `P.2 Product Roadmap`, `P.5 Epic_[Name]`. A future taxonomy update may reconcile this.

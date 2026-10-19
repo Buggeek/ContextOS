@@ -1,6 +1,6 @@
 # Code of Conduct
 
-Context OS is a professional, structural framework project.
+COERNC is a professional, structural framework project.
 
 We value:
 
@@ -20,5 +20,5 @@ We do not tolerate:
 Debate ideas.
 Respect people.
 
-Context OS aims to build long-term coherence.
+COERNC aims to build long-term coherence.
 The community must reflect that.

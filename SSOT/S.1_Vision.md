@@ -1,13 +1,13 @@
 # S.1 Vision
-## Version: 0.1.0
-Last Updated: 2026-08-20
-Owner: Context OS Maintainers  
+## Version: 0.1.1
+Last Updated: 2026-10-16
+Owner: COERNC Maintainers  
 
 ---
 
 ## Purpose
 
-Build and evolve Context OS as an inspectable, governable Organizational
+Build and evolve COERNC as an inspectable, governable Organizational
 Context Runtime that enables AI-native organizations to govern their own
 evolution.
 
@@ -31,7 +31,7 @@ Out of scope:
 
 ## Vision Statement
 
-Context OS becomes a clear, minimal, and auditable runtime for context, memory,
+COERNC becomes a clear, minimal, and auditable runtime for context, memory,
 governance, and activation so humans and agents can execute with alignment.
 
 AI-native means humans, agents, systems, skills, tools, and workflows can
@@ -119,6 +119,8 @@ The project succeeds when:
 ---
 
 ## Change Log
+
+- 2026-10-16 — Editorial identity alignment to COERNC; technical contracts and recorded evidence retain their compatibility identifiers.
 
 - 2026-02-19 — v0.1.0 — Initial creation
 - 2026-08-20 — v0.1.0 — Aligned the Vision with the canonical Theory of the

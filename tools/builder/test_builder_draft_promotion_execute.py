@@ -224,7 +224,7 @@ class BuilderDraftPromotionExecuteTestCase(unittest.TestCase):
             )
             human = render_human(result)
 
-        self.assertIn("# Context OS Draft Promotion Result", human)
+        self.assertIn("# COERNC Draft Promotion Result", human)
         self.assertIn("Approved is not canonical until promotion executes and validation succeeds.", human)
         self.assertIn("Rollback", human)
 

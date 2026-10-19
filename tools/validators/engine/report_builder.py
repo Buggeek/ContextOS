@@ -61,7 +61,7 @@ def build_report(
 def render_human(report: dict, machine_report_path: str | None = None) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Validator Report",
+        "# COERNC Validator Report",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Mode: `{report['mode']}`",

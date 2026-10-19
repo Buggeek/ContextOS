@@ -18,7 +18,7 @@ It **orchestrates reasoning and execution**.
 
 - Single point of interaction with the user
 - Final owner of outputs delivered to the user
-- Consumer of Context OS (MOM, Context Graph, policies)
+- Consumer of COERNC (MOM, Context Graph, policies)
 - Coordinator of all specialized agents
 
 No other agent is allowed to interact directly with the user.
@@ -39,7 +39,7 @@ If intent is unclear, execution must pause.
 ---
 
 ### 2. Context Validation
-- Validate requests against Context OS:
+- Validate requests against COERNC:
   - vision
   - principles
   - non-negotiables
@@ -111,7 +111,7 @@ If unsure, the Orchestrator must say so.
 
 The Orchestrator consumes:
 - user intent (conversation)
-- Context OS artifacts (MOM documents)
+- COERNC artifacts (MOM documents)
 - Context Graph (when available)
 - outputs from specialized agents
 

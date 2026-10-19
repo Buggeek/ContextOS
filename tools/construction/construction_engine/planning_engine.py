@@ -138,7 +138,7 @@ def candidate_for(
         "truth_boundary": (
             "Artifact exists in the repository; content still requires review before update or canonical confidence changes."
             if present
-            else "Artifact is missing or incomplete; Context OS may only suggest a draft path, not invent canonical content."
+            else "Artifact is missing or incomplete; COERNC may only suggest a draft path, not invent canonical content."
         ),
         "source_signals": {
             "inventory": "present" if present else "missing",

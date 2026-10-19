@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Repository Inventory."""
+"""Tests for COERNC Repository Inventory."""
 
 from __future__ import annotations
 

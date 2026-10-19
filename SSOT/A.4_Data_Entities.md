@@ -1,13 +1,13 @@
 # A.4 Data Entities
-## Version: 0.1.0
-Last Updated: 2026-02-19  
-Owner: Context OS Maintainers  
+## Version: 0.1.1
+Last Updated: 2026-10-16  
+Owner: COERNC Maintainers  
 
 ---
 
 ## Purpose
 
-Define the core “entities” Context OS operates on so taxonomy, templates, examples, and validators stay aligned.
+Define the core “entities” COERNC operates on so taxonomy, templates, examples, and validators stay aligned.
 
 ---
 
@@ -106,6 +106,8 @@ Define the core “entities” Context OS operates on so taxonomy, templates, ex
 ---
 
 ## Change Log
+
+- 2026-10-16 — Editorial identity alignment to COERNC; technical contracts and recorded evidence retain their compatibility identifiers.
 
 - 2026-02-19 — v0.1.0 — Initial creation
 - 2026-08-11 — v0.1.0 — Added MissionPacket and EvolutionInboxItem entities

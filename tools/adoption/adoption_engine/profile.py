@@ -58,7 +58,7 @@ def safe_locator(value: str) -> str:
 
 
 class AdoptionProfile:
-    """Governed semantic mapping between universal Context OS concepts and target canon."""
+    """Governed semantic mapping between universal COERNC concepts and target canon."""
 
     def __init__(self, value: dict | str | Path) -> None:
         if isinstance(value, dict):

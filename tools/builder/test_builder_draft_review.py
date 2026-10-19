@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Tests for Context OS Builder draft review surface."""
+"""Tests for COERNC Builder draft review surface."""
 
 from __future__ import annotations
 
@@ -121,7 +121,7 @@ class BuilderDraftReviewTestCase(unittest.TestCase):
             result, _target = self.create_draft(root, Path(output_temp))
             human = render_human(BuilderDraftReviewEngine(root).run(result, generated_at="2026-08-11T00:00:02Z"))
 
-        self.assertIn("# Context OS Draft Review", human)
+        self.assertIn("# COERNC Draft Review", human)
         self.assertIn("## Truth Boundary", human)
         self.assertIn("Observed evidence, inferred classification, suggested context, draft content", human)
         self.assertIn("This review does not approve, promote, or persist a review decision.", human)

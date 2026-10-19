@@ -1,4 +1,4 @@
-# Context OS Discovery Tools
+# COERNC Discovery Tools
 
 This folder contains the first Release v0.5 Discovery capability.
 

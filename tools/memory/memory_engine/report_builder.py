@@ -28,7 +28,7 @@ def _preview(refs: list[str], limit: int = 3) -> str:
 def render_human(report: dict) -> str:
     summary = report["summary"]
     lines = [
-        "# Context OS Memory Continuity Report",
+        "# COERNC Memory Continuity Report",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Report: `{report['id']}`",

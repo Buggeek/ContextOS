@@ -67,7 +67,7 @@ def yes_no(value: bool) -> str:
 def render_human(bundle: dict) -> str:
     summary = bundle["summary"]
     lines = [
-        "# Context OS Local Discovery Bundle",
+        "# COERNC Local Discovery Bundle",
         "",
         f"- Schema: `{bundle['schema']}`",
         f"- Root: `{bundle['root']}`",

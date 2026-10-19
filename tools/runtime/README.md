@@ -1,7 +1,7 @@
-# Context OS Integrated Runtime Benchmark
+# COERNC Integrated Runtime Benchmark
 
 `tools/runtime` contains the internal v1.0 integration proof for the released
-Context OS runtime. It composes public engine APIs in read-only mode and checks
+COERNC runtime. It composes public engine APIs in read-only mode and checks
 cross-capability identity, provenance, authority, truth, and invalidation
 boundaries.
 

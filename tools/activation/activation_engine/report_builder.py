@@ -40,7 +40,7 @@ def render_human(report: dict) -> str:
     summary = report["summary"]
     validator = report["validator"]
     lines = [
-        "# Context OS Activation Package",
+        "# COERNC Activation Package",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Package: `{report['id']}`",
@@ -102,7 +102,7 @@ def render_human(report: dict) -> str:
 def render_check_human(report: dict) -> str:
     validator = report["validator"]["summary"]
     lines = [
-        "# Context OS Activation Package Check",
+        "# COERNC Activation Package Check",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Package: `{report['package']['id']}`",
@@ -141,7 +141,7 @@ def render_handoff_human(report: dict) -> str:
     mission = report["mission"]
     metrics = report["metrics"]
     lines = [
-        "# Context OS Activation Handoff",
+        "# COERNC Activation Handoff",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Handoff: `{report['id']}`",
@@ -245,7 +245,7 @@ def render_handoff_human(report: dict) -> str:
 def render_handoff_check_human(report: dict) -> str:
     validator = report["validator"]["summary"]
     lines = [
-        "# Context OS Activation Handoff Check",
+        "# COERNC Activation Handoff Check",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Handoff: `{report['handoff']['id']}`",

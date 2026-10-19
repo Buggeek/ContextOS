@@ -121,7 +121,7 @@ def render_human(report: dict) -> str:
     summary = report["summary"]
     validator_summary = report["validator"]["summary"]
     lines = [
-        "# Context OS Readiness Report",
+        "# COERNC Readiness Report",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Root: `{report['root']}`",
@@ -134,7 +134,7 @@ def render_human(report: dict) -> str:
     if report.get("adoption_profile"):
         profile = report["adoption_profile"]
         lines.insert(4, f"- Adoption Profile: `{profile['id']}` (`{profile['version']}`)")
-        lines.insert(5, "- Basis: functional capability equivalence, not Context OS native taxonomy conformity")
+        lines.insert(5, "- Basis: functional capability equivalence, not COERNC native taxonomy conformity")
 
     lines.extend(["", "## Score Caps"])
     if summary["cap_reasons"]:

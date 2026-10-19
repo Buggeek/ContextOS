@@ -1,1 +1,1 @@
-"""Context OS Organizational Memory tooling."""
+"""COERNC Organizational Memory tooling."""

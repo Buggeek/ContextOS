@@ -16,7 +16,7 @@ from runtime_engine.report_builder import render_human, write_json_report  # noq
 
 
 def parser() -> argparse.ArgumentParser:
-    result = argparse.ArgumentParser(description="Run the internal Context OS integrated runtime benchmark.")
+    result = argparse.ArgumentParser(description="Run the internal COERNC integrated runtime benchmark.")
     result.add_argument("--root", default=".")
     result.add_argument("--goal", required=True)
     result.add_argument("--mission-id", required=True)

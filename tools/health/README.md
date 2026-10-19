@@ -1,4 +1,4 @@
-# Context OS Health Tools
+# COERNC Health Tools
 
 This folder contains the first Release v0.7 Context Health & Learning
 capability.
@@ -40,14 +40,14 @@ report = ContextHealthEngine(".").run(mission_use_evidence=evidence)
 Runtime CLI:
 
 ```bash
-./contextos health --root .
-./contextos health --root . --format json
-./contextos health --root . --mission-use-evidence <mission-use.json>
-./contextos health --root . --json-out <health-report.json>
+./coernc health --root .
+./coernc health --root . --format json
+./coernc health --root . --mission-use-evidence <mission-use.json>
+./coernc health --root . --json-out <health-report.json>
 ```
 
 With `--adoption-profile`, Health enforces target-only evidence isolation and
-binds the profile/source fingerprint. Context OS host Missions and releases are
+binds the profile/source fingerprint. COERNC host Missions and releases are
 never evidence that an external target is healthy.
 
 The default human report starts with dimension status and prioritized

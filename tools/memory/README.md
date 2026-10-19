@@ -1,4 +1,4 @@
-# Context OS Organizational Memory
+# COERNC Organizational Memory
 
 `--adoption-profile` maps target-native Mission, closure, evidence, learning,
 and workstream-memory sources into continuity candidates. Mapping establishes
@@ -68,9 +68,9 @@ Machine schemas:
 ## CLI
 
 ```bash
-./contextos memory --goal "Retrieve relevant prior art" --mission-id MISSION-ID
-./contextos memory --goal "Retrieve relevant prior art" --format json
-./contextos memory --goal "Retrieve relevant prior art" \
+./coernc memory --goal "Retrieve relevant prior art" --mission-id MISSION-ID
+./coernc memory --goal "Retrieve relevant prior art" --format json
+./coernc memory --goal "Retrieve relevant prior art" \
   --purpose "Review prior Mission evidence" \
   --organizational-mode project \
   --actor-role project_owner \
@@ -78,7 +78,7 @@ Machine schemas:
   --retention-policy policy.json \
   --memory-metadata memory-metadata.json \
   --context-version preserved-version.json
-./contextos memory --check-retrieval retrieval.json \
+./coernc memory --check-retrieval retrieval.json \
   --retention-policy policy.json \
   --memory-metadata memory-metadata.json \
   --context-version preserved-version.json

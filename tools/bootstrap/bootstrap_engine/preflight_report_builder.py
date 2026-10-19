@@ -15,7 +15,7 @@ def render_human(report: dict) -> str:
     mutation = report["frozen_mutation_set"]
     validator = report["validation"]["validator"]["summary"]
     lines = [
-        "# Context OS Bootstrap Apply Preflight",
+        "# COERNC Bootstrap Apply Preflight",
         "",
         f"- Schema: `{report['schema']}`",
         f"- Preflight ID: `{report['id']}`",
